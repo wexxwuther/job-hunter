@@ -143,13 +143,13 @@ def test_scan_stale_returns_only_applied_over_threshold(tmp_path: Path):
     tracker = tmp_path / "tracker.json"
     _write_tracker(tracker, [
         # 10 days stale → should be flagged
-        {"company": "Acme", "title": "PM", "status": "applied", "applied": "2026-05-10"},
+        {"company": "Acme", "title": "PM", "status": "applied", "applied_date": "2026-05-10"},
         # 3 days only → not stale enough
-        {"company": "Beta", "title": "PM", "status": "applied", "applied": "2026-05-17"},
+        {"company": "Beta", "title": "PM", "status": "applied", "applied_date": "2026-05-17"},
         # 30 days but status=interviewing → NOT a check-in target
-        {"company": "Gamma", "title": "PM", "status": "interviewing", "applied": "2026-04-20"},
+        {"company": "Gamma", "title": "PM", "status": "interviewing", "applied_date": "2026-04-20"},
         # 30 days but status=rejected → not a target
-        {"company": "Delta", "title": "PM", "status": "rejected", "applied": "2026-04-20"},
+        {"company": "Delta", "title": "PM", "status": "rejected", "applied_date": "2026-04-20"},
     ])
     today = datetime.strptime("2026-05-20", "%Y-%m-%d")
     stale = scan_stale_applications(tracker, stale_days=7, today=today)
@@ -162,7 +162,7 @@ def test_scan_stale_supports_object_entries_shape(tmp_path: Path):
     """Tracker JSON may be {"entries": [...]} as well as a bare list."""
     tracker = tmp_path / "tracker.json"
     tracker.write_text(json.dumps({"entries": [
-        {"company": "Acme", "title": "PM", "status": "applied", "applied": "2026-05-10"},
+        {"company": "Acme", "title": "PM", "status": "applied", "applied_date": "2026-05-10"},
     ]}), encoding="utf-8")
     today = datetime.strptime("2026-05-20", "%Y-%m-%d")
     stale = scan_stale_applications(tracker, stale_days=7, today=today)
@@ -186,7 +186,7 @@ def test_scan_stale_skips_entries_missing_applied_date(tmp_path: Path):
     tracker = tmp_path / "tracker.json"
     _write_tracker(tracker, [
         {"company": "NoDateCo", "title": "PM", "status": "applied"},  # no date
-        {"company": "WithDate", "title": "PM", "status": "applied", "applied": "2026-05-10"},
+        {"company": "WithDate", "title": "PM", "status": "applied", "applied_date": "2026-05-10"},
     ])
     today = datetime.strptime("2026-05-20", "%Y-%m-%d")
     stale = scan_stale_applications(tracker, stale_days=7, today=today)
@@ -194,10 +194,32 @@ def test_scan_stale_skips_entries_missing_applied_date(tmp_path: Path):
     assert stale[0].company == "WithDate"
 
 
+def test_scan_stale_does_NOT_fall_back_to_posted_field(tmp_path: Path):
+    """Regression test (v5.1.1): the canonical tracker.json schema (from
+    generate_tracker_html.py) uses 'posted' for when the COMPANY posted the
+    role, not when the USER applied. scan-stale must NOT use 'posted' as a
+    fallback for 'applied_date' — a posting that was up for 30 days when
+    the user just applied today should NOT be flagged as stale.
+    """
+    tracker = tmp_path / "tracker.json"
+    _write_tracker(tracker, [
+        # Company posted 30 days ago, but user has no applied_date field
+        # (or just applied today). Must NOT be flagged as stale.
+        {"company": "OldPosting", "title": "PM", "status": "applied",
+         "posted": "2026-04-20"},
+    ])
+    today = datetime.strptime("2026-05-20", "%Y-%m-%d")
+    stale = scan_stale_applications(tracker, stale_days=7, today=today)
+    assert stale == [], (
+        f"Entries without applied_date must not be flagged as stale based on "
+        f"the 'posted' field. Got: {stale}"
+    )
+
+
 def test_scan_stale_custom_threshold(tmp_path: Path):
     tracker = tmp_path / "tracker.json"
     _write_tracker(tracker, [
-        {"company": "Acme", "title": "PM", "status": "applied", "applied": "2026-05-15"},
+        {"company": "Acme", "title": "PM", "status": "applied", "applied_date": "2026-05-15"},
     ])
     today = datetime.strptime("2026-05-20", "%Y-%m-%d")
     # 5 days stale, threshold 14 → NOT flagged
@@ -254,8 +276,8 @@ def test_cli_thank_you_works_without_interview_date(tmp_path: Path):
 def test_cli_scan_stale_emits_json(tmp_path: Path):
     tracker = tmp_path / "tracker.json"
     _write_tracker(tracker, [
-        {"company": "Acme", "title": "PM", "status": "applied", "applied": "2026-05-10"},
-        {"company": "Beta", "title": "PM", "status": "interviewing", "applied": "2026-04-20"},
+        {"company": "Acme", "title": "PM", "status": "applied", "applied_date": "2026-05-10"},
+        {"company": "Beta", "title": "PM", "status": "interviewing", "applied_date": "2026-04-20"},
     ])
     result = subprocess.run(
         [sys.executable, str(SCRIPT), "scan-stale",

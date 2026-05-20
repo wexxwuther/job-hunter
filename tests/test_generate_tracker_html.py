@@ -294,6 +294,43 @@ def test_non_dict_item_raises():
 # ---- CLI smoke test --------------------------------------------------------
 
 
+# ---- applied_date column (v5.1.1 schema addition) -------------------------
+
+
+def test_applied_date_column_in_header():
+    """v5.1.1: tracker must render an Applied column distinct from Posted."""
+    out = render([])
+    assert "<th>Applied</th>" in out
+    assert "<th>Posted</th>" in out
+    # Applied column appears AFTER Posted column (per the documented schema)
+    posted_idx = out.find("<th>Posted</th>")
+    applied_idx = out.find("<th>Applied</th>")
+    assert posted_idx < applied_idx, "Applied column should appear after Posted"
+
+
+def test_applied_date_renders_when_present():
+    """When a row has applied_date, the value appears in the rendered HTML."""
+    posting = {
+        "company": "Stripe", "title": "Senior PM", "status": "applied",
+        "posted": "2026-04-22", "applied_date": "2026-05-15",
+    }
+    out = render([posting])
+    assert "2026-05-15" in out, "applied_date should render in the table"
+
+
+def test_applied_date_absent_renders_placeholder():
+    """When a row lacks applied_date, the cell shows the em-dash placeholder
+    (not a Python None or empty cell)."""
+    posting = {
+        "company": "Stripe", "title": "Senior PM", "status": "applied",
+        "posted": "2026-04-22",  # no applied_date
+    }
+    out = render([posting])
+    # The row exists; the placeholder must appear in the rendered table somewhere
+    assert "Stripe" in out
+    assert "&mdash;" in out  # placeholder for missing values
+
+
 def test_cli_writes_file(tmp_path):
     inp = tmp_path / "in.json"
     out = tmp_path / "tracker.html"

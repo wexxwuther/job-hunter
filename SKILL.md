@@ -363,14 +363,27 @@ For each targeted position, provide a summary package:
 
 Save a final **Application Tracker** HTML file to the workspace folder. Maintain a small JSON
 file `tracker.json` with the list of targeted positions (fields: `company`, `title`, `url`,
-`location`, `salary`, `posted`, `status`, `resume_file`, `cover_letter_file`, `notes`,
-`match_strength`, and optionally `score_breakdown` — see below), then run
+`location`, `salary`, `posted`, `applied_date`, `status`, `resume_file`, `cover_letter_file`,
+`notes`, `match_strength`, and optionally `score_breakdown` — see below), then run
 `scripts/generate_tracker_html.py tracker.json --out ApplicationTracker.html` to render it.
 The script bundles inline CSS (from `assets/templates/tracker.css`), sortable table layout,
 color-coded match and status badges, and totals-by-status pills — fully self-contained, no
 external assets, so the user can email or share the tracker without anything breaking. Status
 values: `to apply`, `applied`, `interviewing`, `offer`, `rejected`, `withdrawn`. Re-run the
 script as the user updates `tracker.json` over time.
+
+**Field discipline — `posted` vs `applied_date`:** these are two different dates and the
+distinction is load-bearing.
+
+- **`posted`** is the date the **company** put the job up. A posting that's been live for 30
+  days is a soft signal for ghost-job risk (see `posting_legitimacy` rubric).
+- **`applied_date`** is the date the **user** submitted their application. Phase 4.5's
+  stale-detection (`scripts/draft_followup.py scan-stale`) reads ONLY this field — never
+  `posted`. Conflating them produces false-positive stale flags on old postings that were
+  just applied to.
+
+When you set status to `applied`, set `applied_date` to today's date. The `posted` field
+stays as whatever the original posting showed. Both fields are independent.
 
 **Score breakdown (optional but recommended):** when you've run `scripts/score_posting.py`
 for a posting, include its output as a `score_breakdown` field on the tracker entry:

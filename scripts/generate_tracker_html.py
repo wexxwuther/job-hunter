@@ -241,6 +241,11 @@ def render(items: list[dict], generated_at: str | None = None) -> str:
         location = _safe(item.get("location"), "&mdash;")
         salary = _safe(item.get("salary"), "&mdash;")
         posted = _safe(item.get("posted"), "&mdash;")
+        # v5.1.1: applied_date is the canonical field for WHEN THE USER APPLIED,
+        # distinct from `posted` (when the company posted the role). The agent
+        # should set this when status moves to 'applied'. scan-stale in
+        # draft_followup.py reads ONLY this field — see SKILL.md Phase 4.
+        applied_date = _safe(item.get("applied_date"), "&mdash;")
         notes = _safe(item.get("notes"), "")
         files = _file_links(item)
 
@@ -263,6 +268,7 @@ def render(items: list[dict], generated_at: str | None = None) -> str:
           <td>{location}</td>
           <td>{salary}</td>
           <td>{posted}</td>
+          <td>{applied_date}</td>
           {'<td>' + score_cell + ' ' + match_cell + '</td>' if show_scores else '<td>' + match_cell + '</td>'}
           <td><span class="status {_status_class(status_lower)}">{status}</span></td>
           <td class="files">{files}</td>
@@ -368,7 +374,7 @@ generated {html.escape(generated_at)}</div>
 <table>
   <thead>
     <tr>
-      <th>Company</th><th>Role</th><th>Location</th><th>Salary</th><th>Posted</th>
+      <th>Company</th><th>Role</th><th>Location</th><th>Salary</th><th>Posted</th><th>Applied</th>
       <th>{score_header}</th><th>Status</th><th>Files</th><th>Notes</th>
     </tr>
   </thead>

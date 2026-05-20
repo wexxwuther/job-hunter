@@ -190,7 +190,12 @@ def scan_stale_applications(tracker_path: Path, stale_days: int = DEFAULT_STALE_
             continue
         if entry.get("status") != "applied":
             continue
-        applied_str = entry.get("applied") or entry.get("posted") or entry.get("applied_date")
+        # IMPORTANT (v5.1.1): only read `applied_date` — the canonical field for
+        # WHEN THE USER APPLIED. Do NOT fall back to `posted` (which represents
+        # when the COMPANY posted the role) or `applied` (legacy ambiguous name).
+        # Conflating these produces false-positive stale flags on old postings
+        # that were just applied to. See test_scan_stale_does_NOT_fall_back_to_posted_field.
+        applied_str = entry.get("applied_date")
         if not applied_str:
             continue
         try:

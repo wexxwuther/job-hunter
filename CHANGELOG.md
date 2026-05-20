@@ -2,6 +2,21 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## 2026-05-20 — v5.1.1 (patch: scan-stale field-conflation bug + _meta.json cosmetic)
+
+- **Signal:** E2E audit of v5.1.0 against the canonical `tracker.json` schema (produced by `generate_tracker_html.py`) found that `scan-stale` was treating the `posted` field (when the COMPANY posted the role) as if it were the application date. A user with a real tracker.json whose posting was 30 days old would get their fresh application flagged as stale, producing false-positive follow-up suggestions.
+- **Root cause:** `draft_followup.py:193` had `applied_str = entry.get("applied") or entry.get("posted") or entry.get("applied_date")` — the `or entry.get("posted")` fallback conflated two different dates with very different meanings.
+- **Fix:** introduced `applied_date` as the canonical field for "when the user applied" (distinct from `posted` which stays as "when the company posted"). `scan-stale` now reads ONLY `applied_date`. `generate_tracker_html.py` renders a new Applied column. SKILL.md Phase 4 documents the field-discipline contract explicitly.
+- **Changes:**
+  - `scripts/draft_followup.py` — `scan_stale_applications()` reads only `applied_date`. Inline comment explains why no fallback (with reference to the regression test).
+  - `scripts/generate_tracker_html.py` — accepts `applied_date` field, renders new Applied column in the header + each row. Backward-compatible: rows without the field show the em-dash placeholder.
+  - `SKILL.md` — new paragraph in Phase 4 explaining `posted` vs `applied_date` discipline + agent must set `applied_date` when status moves to `applied`.
+  - `tests/test_draft_followup.py` — added `test_scan_stale_does_NOT_fall_back_to_posted_field` regression test (load-bearing). Updated 9 fixture entries from `"applied"` key to `"applied_date"`.
+  - `tests/test_generate_tracker_html.py` — 3 new tests covering applied_date column rendering.
+  - `_meta.json` — cosmetic: reordered iterations array to chronological (was: v2/v3/v4/v5.1.0/v5.0.1/v5; now: v2/v3/v4/v5/v5.0.1/v5.1.0/v5.1.1).
+- **Tests:** **177/177 pass** (174 from v5.1.0 + 1 regression + 3 applied_date column tests). The regression test was confirmed failing before the fix (TDD red phase) and passing after (green phase).
+- **Why this is a patch, not a v6:** the new field is additive and backward-compatible. Existing tracker.json files without `applied_date` still render correctly; they just won't surface in `scan-stale` results, which is the correct behavior (no false positives).
+
 ## 2026-05-20 — v5.1.0 (follow-up drafting + workspace export/import + expanded non-tech references)
 
 - **Signal:** User strategic question — *"what other items/tools should we consider adding to this skill stack?"* After cataloguing options across "strong candidates / solid candidates / worth skipping / infrastructure additions" and applying the scope discipline (quality > breadth, no new modes that dilute the trigger), the v5.1 plan landed on three internal additions: follow-up drafting (Phase 4.5), workspace export/import (user portability), expanded non-tech references (honors the generalist promise).
