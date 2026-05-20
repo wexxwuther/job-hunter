@@ -51,6 +51,17 @@
       ]
     },
     {
+      "version": "v5.0.1",
+      "date": "2026-05-20",
+      "trigger_accuracy": null,
+      "audit_score": "pending",
+      "signal": "e2e testing of v5 found decisions_present flag false-positive (template scaffolding counted as user content)",
+      "changes": [
+        "scripts/harvest_outcomes.py - added _has_user_decisions() helper using append-marker boundary",
+        "tests/test_harvest_outcomes.py - 3 new tests covering the fix and marker-missing fallback"
+      ]
+    },
+    {
       "version": "v5",
       "date": "2026-05-20",
       "trigger_accuracy": null,

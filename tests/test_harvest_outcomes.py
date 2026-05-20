@@ -28,6 +28,7 @@ sys.path.insert(0, str(SCRIPT.parent))
 from harvest_outcomes import (  # noqa: E402
     MIN_CLOSED_OUTCOMES,
     POSITIVE_OUTCOMES,
+    _has_user_decisions,
     harvest,
     parse_outcomes,
 )
@@ -203,6 +204,41 @@ def test_parse_handles_missing_optional_fields():
     assert entries[0]["outcome"] == "accepted_offer"
     assert "reason" not in entries[0]
     assert "agent_rec" not in entries[0]
+
+
+# ---- decisions_present flag -------------------------------------------------
+
+
+def test_decisions_present_false_when_only_template(tmp_path: Path):
+    """Regression test (E2E-2 finding): an empty template should NOT count as
+    'decisions present'. The template's privacy notice and docs are not user
+    content. The flag should only flip to true after the append marker."""
+    init_workspace(tmp_path)
+    result = harvest(tmp_path)
+    assert result["decisions_present"] is False, (
+        "decisions_present must be False when DECISIONS.md only contains the "
+        "template scaffolding (no user/agent entries after the append marker)"
+    )
+
+
+def test_decisions_present_true_when_user_appended_entry(tmp_path: Path):
+    init_workspace(tmp_path)
+    path = tmp_path / ".job-hunter" / "DECISIONS.md"
+    text = path.read_text(encoding="utf-8")
+    new_text = text + "\n## 2026-06-15 — Skipped Acme\n\n**Reason:** location\n"
+    path.write_text(new_text, encoding="utf-8")
+    result = harvest(tmp_path)
+    assert result["decisions_present"] is True
+
+
+def test_has_user_decisions_marker_missing_fallback():
+    """If the append marker has been hand-deleted, fall back to looking for
+    any dated entry heading. Empty body → False. Body with dated entry → True."""
+    assert _has_user_decisions("") is False
+    assert _has_user_decisions("just some preamble without marker") is False
+    assert _has_user_decisions(
+        "preamble\n\n## 2026-06-15 — Decided X\n**Reason:** because\n"
+    ) is True
 
 
 # ---- CLI tests --------------------------------------------------------------

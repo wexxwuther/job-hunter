@@ -2,6 +2,14 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## 2026-05-20 — v5.0.1 (patch: harvest's decisions_present flag false-positive)
+
+- **Signal:** E2E testing of the v5 cycle found that `harvest_outcomes.py` reported `decisions_present: true` even when DECISIONS.md was just the empty template scaffolding (privacy notice + format docs). The flag was useless: it always returned true after init.
+- **Root cause:** `bool(decisions_text.strip())` treats any non-whitespace content as "present." The template ships with non-whitespace docs, so the check passed unconditionally.
+- **Fix:** `scripts/harvest_outcomes.py` now uses a new `_has_user_decisions()` helper that checks for non-whitespace content **after** the documented `<!-- Agent and user entries appended below this line -->` marker (with a regex fallback for `## YYYY-` headings if the marker is missing).
+- **Tests:** 3 new (123/123 total): `test_decisions_present_false_when_only_template`, `test_decisions_present_true_when_user_appended_entry`, `test_has_user_decisions_marker_missing_fallback`.
+- **Impact:** the agent now correctly distinguishes "user has logged decisions" from "scaffolding exists." Same template-as-data-pollution class of bug we caught in `parse_outcomes` earlier; now fixed in the second place it appeared.
+
 ## 2026-05-20 — v5 (per-user learning loop: DECISIONS / LESSONS / OUTCOMES / REJECTED_IDEAS + harvest/propose scripts)
 
 - **Signal:** User question — *"is there a self-improving / learning loop built into the skill so it learns from every interaction?"* Honest answer at v4 was *no, only two pieces of persistent state (`.job-hunter-profile.md` and `tracker.json`), neither of which is a learning loop.* User directed: *"the learning loop should be in personal space not shared with the general public, part of it would include files such as DECISIONS.md"* and *"check our self-improving-skills skill that one seems to work pretty well and see how the learning loop works in it."* Architectural model adapted from `self-improving-skills`'s proven harvest → propose → apply discipline.

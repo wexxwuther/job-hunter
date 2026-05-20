@@ -75,6 +75,27 @@ _OUTCOME_FIELD_PATTERNS = {
     "url": re.compile(r"^\*\*Posting URL:\*\*\s*(\S+)", re.MULTILINE),
 }
 
+# Append marker on DECISIONS.md template (the line below which user/agent entries land).
+# Used to distinguish "user has added decisions" from "template scaffolding exists."
+_DECISIONS_APPEND_MARKER = "<!-- Agent and user entries appended below this line -->"
+
+
+def _has_user_decisions(decisions_text: str) -> bool:
+    """True only when there's non-whitespace content AFTER the documented append
+    marker in DECISIONS.md. Just having the template scaffolding (with privacy
+    notice + format docs) does NOT count as decisions present.
+
+    Falls back to checking for any `## YYYY-` heading if the marker is missing
+    (someone hand-deleted it), since that's the documented entry format.
+    """
+    if not decisions_text.strip():
+        return False
+    idx = decisions_text.find(_DECISIONS_APPEND_MARKER)
+    if idx >= 0:
+        return bool(decisions_text[idx + len(_DECISIONS_APPEND_MARKER):].strip())
+    # Marker missing — fall back to looking for any dated entry heading
+    return bool(re.search(r"^## \d{4}-\d{2}-\d{2}", decisions_text, re.MULTILINE))
+
 
 def _read_text(path: Path) -> str:
     if not path.is_file():
@@ -227,7 +248,7 @@ def harvest(workspace: Path) -> dict:
                 f"need >={MIN_CLOSED_OUTCOMES} closed-loop outcomes, "
                 f"have {len(entries)} — apply to more roles and update tracker.json status"
             ),
-            "decisions_present": bool(decisions_text.strip()),
+            "decisions_present": _has_user_decisions(decisions_text),
             "untrusted_data": False,  # the user wrote the source files themselves
         }
 
@@ -246,7 +267,7 @@ def harvest(workspace: Path) -> dict:
         "outcomes_found": len(entries),
         "signals": signals,
         "no_op_reason": "no patterns met the 50% dominance threshold yet" if not signals else None,
-        "decisions_present": bool(decisions_text.strip()),
+        "decisions_present": _has_user_decisions(decisions_text),
         "untrusted_data": False,
     }
 
