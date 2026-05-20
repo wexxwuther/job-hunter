@@ -142,5 +142,29 @@
     "query": "I just lost my job, what should I do?",
     "should_trigger": false,
     "rationale": "Emotional/situational support request, not a concrete job search. The skill should engage only when the user signals they want to actively search."
+  },
+  {
+    "id": 25,
+    "query": "What have you learned about me from my job search so far?",
+    "should_trigger": true,
+    "rationale": "Direct request to surface accumulated lessons from the per-user learning loop. Maps to Phase 5 harvest_outcomes + propose_lessons workflow."
+  },
+  {
+    "id": 26,
+    "query": "Reset what you know about my preferences",
+    "should_trigger": true,
+    "rationale": "Direct request to reset the per-user learning state. The skill owns the .job-hunter/ directory and should know how to safely clear it (or guide the user through it)."
+  },
+  {
+    "id": 27,
+    "query": "Show me my application outcomes so far",
+    "should_trigger": true,
+    "rationale": "Direct request to read .job-hunter/OUTCOMES.md and present a summary. Part of the learning-loop surface area."
+  },
+  {
+    "id": 28,
+    "query": "What's the weather like in Seattle today?",
+    "should_trigger": false,
+    "rationale": "Negative control — mentions a city common in job searches but the request is about weather, not jobs. The skill should not over-fire on incidental geography."
   }
 ]

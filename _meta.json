@@ -3,7 +3,7 @@
   "license": "MIT",
   "baseline_score": "66.7",
   "current_score": "100.0",
-  "last_iteration": "2026-05-18",
+  "last_iteration": "2026-05-20",
   "iterations": [
     {
       "version": "v2",
@@ -48,6 +48,40 @@
         "tests/test_init_profile.py::test_profile_filename_is_dot_prefixed",
         "tests/test_init_profile.py::test_no_sample_profile_in_skill_directory",
         "tests/test_init_profile.py::test_questions_count_is_five"
+      ]
+    },
+    {
+      "version": "v5",
+      "date": "2026-05-20",
+      "trigger_accuracy": null,
+      "audit_score": "pending",
+      "frozen_v1_held": true,
+      "frozen_v2_held": true,
+      "signal": "user request: per-user learning loop modeled on self-improving-skills (harvest/propose discipline, opt-in confirmation, local-only)",
+      "changes": [
+        "assets/templates/DECISIONS.template.md - per-session decisions log",
+        "assets/templates/LESSONS.template.md - user-confirmed patterns (opt-in via agent suggestion)",
+        "assets/templates/OUTCOMES.template.md - closed-loop outcomes with documented enum",
+        "assets/templates/REJECTED_IDEAS.template.md - user-only hard constraints",
+        "scripts/init_workspace.py - creates .job-hunter/ with 4 templates; idempotent",
+        "scripts/harvest_outcomes.py - reads OUTCOMES/DECISIONS, emits signals.json; cold-start guard at 5 outcomes",
+        "scripts/propose_lessons.py - deterministic translator from signals to suggested lessons",
+        "references/learning-loop-guide.md - user-facing trust model and cycle docs",
+        "SKILL.md - new Phase 0 (read 4 files) and Phase 5 (close the loop)",
+        "README.md - new Learning Loop section + 2 FAQ entries",
+        ".gitignore - .job-hunter/ entry with reference to load-bearing test",
+        "evals/outcome-evals.json - 5 new evals (#13-#17) for cold-start, hard-constraint, LESSON grading, cold-start guard, opt-in",
+        "evals/trigger-evals.json - 4 new evals (#25-#28) including weather negative-control",
+        "tests/ - 51 new unit tests (21 + 12 + 18) for the 3 new scripts"
+      ],
+      "load_bearing_safety_tests": [
+        "tests/test_init_workspace.py::test_no_job_hunter_directory_in_skill_dir",
+        "tests/test_init_workspace.py::test_no_sample_lessons_in_skill_directory",
+        "tests/test_init_workspace.py::test_template_filenames_match_workspace_filenames",
+        "tests/test_init_workspace.py::test_rejected_ideas_template_says_agent_does_not_auto_add",
+        "tests/test_harvest_outcomes.py::test_three_outcomes_below_threshold_returns_no_op",
+        "tests/test_harvest_outcomes.py::test_parse_skips_template_preamble",
+        "tests/test_propose_lessons.py::test_application_guidance_always_warns_against_auto_write"
       ]
     }
   ]

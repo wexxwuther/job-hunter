@@ -114,6 +114,31 @@ No API keys required. No telemetry. No phoning home. Your `.job-hunter-profile.m
 
 ---
 
+## The learning loop (v5+)
+
+Job-hunter keeps a small, per-user memory of decisions, outcomes, and confirmed lessons — all in plain-markdown files in your workspace, never sent anywhere.
+
+| File (lives in `<your-workspace>/.job-hunter/`) | What it captures |
+|---|---|
+| `DECISIONS.md` | Per-session choices and why (skipped Acme because location, chose light tailoring for Beta) |
+| `LESSONS.md` | Patterns about your preferences — **you confirm each one** before it's added |
+| `OUTCOMES.md` | What actually happened (accepted, rejected after onsite, no response after 21 days) |
+| `REJECTED_IDEAS.md` | Hard constraints — "no defense contractors", "no commission-only" — agent never re-asks |
+
+The cycle: as you apply and outcomes land, `scripts/harvest_outcomes.py` looks for patterns. When ≥5 closed-loop outcomes exist, `scripts/propose_lessons.py` translates the signals into suggested lessons. The agent surfaces each suggestion with evidence and asks **"want me to remember this?"** — only confirmed lessons get added to `LESSONS.md`.
+
+**Six guardrails keep it honest:**
+1. **Cold-start guard**: no lessons proposed until ≥5 closed-loop outcomes (no pattern detection from thin data)
+2. **Opt-in only**: the agent never auto-writes lessons; every entry is user-confirmed
+3. **Deterministic translation**: same input → same suggestion; reasons are anchored in evidence, not paraphrased
+4. **Bounded influence**: lessons adjust how sub-scores are *graded* for you; the scoring weights in `score_posting.py` stay constant for all users
+5. **Plain markdown**: every file is readable, editable, deletable by you — no black-box weights
+6. **Local-only**: no telemetry, no phone-home, no upload
+
+Delete `.job-hunter/` to start over. The skill re-initializes it on next run. See `references/learning-loop-guide.md` for the full design and trust model.
+
+---
+
 ## Tested
 
 ```bash
@@ -143,6 +168,12 @@ No. Your resume, your `.job-hunter-profile.md`, and every tailored output live i
 
 **Why isn't there an interview-prep feature?**
 Deliberately out of scope. Interview prep is a different workflow with different inputs and a different success criterion. If you want it, run a separate interview-prep skill alongside this one.
+
+**Does the skill learn from my interactions?**
+Yes, but entirely locally and opt-in. After 5+ closed-loop application outcomes, the skill surfaces patterns it noticed (e.g., "4 of 5 rejections cite comp — want me to remember this?") and asks you to confirm before adding any lesson. Confirmed lessons live in `<your-workspace>/.job-hunter/LESSONS.md` and adjust how sub-scores are graded for you. The scoring weights themselves stay constant. Nothing is uploaded or used for training. See the [learning loop](#the-learning-loop-v5) section above and `references/learning-loop-guide.md`.
+
+**Can I reset what the skill has learned about me?**
+Yes — delete `<your-workspace>/.job-hunter/`. The next run will re-initialize empty templates. You can also edit any of the four files directly (LESSONS.md, DECISIONS.md, OUTCOMES.md, REJECTED_IDEAS.md) since they're plain markdown.
 
 ---
 

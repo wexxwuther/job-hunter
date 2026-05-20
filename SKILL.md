@@ -56,6 +56,43 @@ adjacent but different tasks.
 The process has four phases. Walk the user through each one conversationally — don't dump a wall
 of output all at once.
 
+### Phase 0: Load the per-user learning loop
+
+**Run this once at the start of every session, BEFORE Phase 1.** The learning loop is the
+per-user memory layer that keeps the skill from re-litigating settled preferences and that
+surfaces durable patterns across sessions. See `references/learning-loop-guide.md` for the
+full design.
+
+1. **Check the workspace state.** Run
+   `python scripts/init_workspace.py exists --workspace <workspace>`.
+   - **If exit 1 (no `.job-hunter/` directory):** run
+     `init_workspace.py init --workspace <workspace>` to create it with the four
+     template files (DECISIONS.md, LESSONS.md, OUTCOMES.md, REJECTED_IDEAS.md).
+     Tell the user once: *"I created `.job-hunter/` in your workspace — it's where I'll
+     keep cross-session notes. Add it to your `.gitignore` if your workspace is in git."*
+   - **If exit 0:** the directory and all four files already exist. Don't re-init.
+
+2. **Read the four files in priority order:**
+   - **`.job-hunter/REJECTED_IDEAS.md` (HARD constraints)** — read first. Any entry here
+     is a hard filter the user has explicitly told you to apply. Do NOT re-ask, do NOT
+     surface postings that violate these constraints. Cite the relevant entry in your
+     results header so the user knows the filter is being applied. Never auto-add entries
+     here; only the user adds rejected ideas.
+   - **`.job-hunter/LESSONS.md` (durable preferences)** — these are user-confirmed patterns
+     about how the user evaluates postings. Use them to adjust how you grade the 5
+     sub-scores (cv_match, comp_vs_target, cultural_signals, posting_legitimacy,
+     red_flags_penalty). Lessons influence grading, NOT the weights in
+     `scripts/score_posting.py` (those stay constant). When you apply a lesson, cite it
+     in your reasoning so the user can audit.
+   - **`.job-hunter/DECISIONS.md` (recent context)** — skim the last 5-10 entries for
+     continuity. If the user previously gave a reason for a choice, prefer the same
+     reasoning this session unless context has changed.
+   - **`.job-hunter/OUTCOMES.md` (closed-loop history)** — count the closed entries. If
+     ≥5, you may opportunistically run Phase 5 at end of session.
+
+3. **Cold-start respect.** On a brand-new run (just initialized), the four files are
+   empty templates. Do NOT pretend to have lessons or rejected ideas. Proceed to Phase 1.
+
 ### Phase 1: Understand the User
 
 **This phase is a gate — do NOT move to Phase 2 until you have enough information to run a
@@ -344,6 +381,55 @@ primary at-a-glance signal, sorts rows by `weighted_global` descending, and adds
 controls (recommendation buckets + minimum-score slider). Clicking a score badge expands
 the row to show the 5 sub-score bars. Rows without a score_breakdown keep the legacy
 match-strength tag rendering — backward compat is preserved.
+
+### Phase 5: Close the loop (per-user learning)
+
+This phase runs (a) when the user updates a tracker.json status past `applied`, (b) at end
+of session if at least one outcome changed, or (c) when the user asks "what have you
+learned about me?" / similar. See `references/learning-loop-guide.md` for the full design.
+
+1. **Append outcomes.** When tracker.json status moves to `interviewing`, `offer`,
+   `rejected`, or `withdrawn`, append a properly formatted entry to
+   `.job-hunter/OUTCOMES.md`. Format documented in the template. Always include the
+   agent recommendation at time of apply (`apply` / `apply_if_specific_reason` / `skip`)
+   so calibration analysis works. If the user gives a reason, include it; if not,
+   leave the reason field blank rather than guessing.
+
+2. **Harvest signals.** When `.job-hunter/OUTCOMES.md` has ≥5 closed entries, run:
+   ```
+   python scripts/harvest_outcomes.py --workspace <workspace> --out signals.json
+   ```
+   The script enforces a cold-start guard — if fewer than 5 closed outcomes exist, it
+   returns `no_op_reason: "need >=5 closed-loop outcomes, have N"`. Do NOT fabricate
+   lessons from thin data. If the cold-start guard fires and the user asks what
+   you've learned, report the honest count and suggest concrete next steps (apply to
+   more roles, update tracker.json status as outcomes land).
+
+3. **Translate signals to suggestions.** When the harvest returns signals, run:
+   ```
+   python scripts/propose_lessons.py --signals signals.json --out proposal.json
+   ```
+   The output is a list of suggested LESSONS.md entries with evidence and a
+   confidence tier.
+
+4. **Surface to user, with evidence, for confirmation.** For each suggestion in the
+   proposal:
+   - Present the pattern + the underlying evidence (e.g., "4 of 5 rejections cite
+     comp as the reason")
+   - Ask explicitly: *"Want me to remember this?"*
+   - If confirmed, append the suggestion's `lesson_block` to `.job-hunter/LESSONS.md`
+     verbatim (the script formatted it properly). Add a `**Confirmed:** <date>`
+     marker on the line right after the heading.
+   - If rejected, do NOT append. Do NOT re-propose the same pattern next session
+     unless new evidence makes it stronger (e.g., 4 of 5 → 7 of 8).
+
+5. **Never auto-write to LESSONS.md.** The opt-in confirmation gate is load-bearing.
+   The user owns the lessons log. The agent suggests, the user decides.
+
+6. **Never auto-write to REJECTED_IDEAS.md.** This file is the user's veto list,
+   not the agent's pattern guesses. Only entries the user has explicitly stated
+   (e.g., "stop suggesting government jobs", "I told you no commission-only roles")
+   should land here.
 
 ## Reading and writing resume formats
 
