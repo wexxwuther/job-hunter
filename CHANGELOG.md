@@ -2,6 +2,28 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## 2026-05-20 — v5.1.0 (follow-up drafting + workspace export/import + expanded non-tech references)
+
+- **Signal:** User strategic question — *"what other items/tools should we consider adding to this skill stack?"* After cataloguing options across "strong candidates / solid candidates / worth skipping / infrastructure additions" and applying the scope discipline (quality > breadth, no new modes that dilute the trigger), the v5.1 plan landed on three internal additions: follow-up drafting (Phase 4.5), workspace export/import (user portability), expanded non-tech references (honors the generalist promise).
+- **Changes:**
+  - **`scripts/draft_followup.py` (NEW)** — two subcommands: `draft` (emits `check_in` or `thank_you` email body with placeholder prompts), `scan-stale` (reads `tracker.json` for applications at `status=applied` for ≥7 days). Both templates render under 150 words. Load-bearing safety: the script imports no SMTP/email libraries — the "user copy-pastes" boundary is enforced by `tests/test_draft_followup.py::test_no_smtp_or_send_imports_in_script`. 22 unit tests.
+  - **`scripts/export_workspace.py` (NEW)** — bundles `.job-hunter-profile.md` + `.job-hunter/` + `tracker.json` + (optionally) tailored DOCX outputs into a single zip. Refuses to write to cloud-sync paths (Dropbox/OneDrive/iCloud/Google Drive/Box Sync) without `--allow-cloud` override. Writes a `manifest.json` inside the zip for integrity verification. Prints a privacy banner on every run.
+  - **`scripts/import_workspace.py` (NEW)** — restores an export archive to a destination workspace. Default policy preserves existing files (pass `--overwrite` to replace). Load-bearing safety: rejects path-traversal payloads (`../../`), absolute paths, and any archive members outside the documented prefix allowlist. 28 unit tests covering both scripts including the path-traversal safety test.
+  - **`references/followup-templates.md` (NEW)** — the patterns + cited sources (Indeed, The Muse, Robert Half, Teal HQ). Explicitly notes the "+30% response rate" figure is directional, not a precise benchmark drawn from sales-context data.
+  - **`references/niche-boards-by-industry.md` (EXPANDED)** — healthcare gained Vivian Health, AlliedTravelCareers, state nursing board search pattern. Trades gained IBEW/UA local-hall search pattern, SkillBridge (military-to-trades), explicit BLS growth-rate context. Legal gained Robert Half Legal, BCG Attorney Search, state bar career pages. Government gained NEOGOV-hosted municipal portals + state civil-service exam search pattern. Every addition URL-verified via WebSearch/WebFetch before being added.
+  - **SKILL.md rewiring:** added **Phase 4.5** (stale-application follow-ups) between Phase 4 and Phase 5. Cap discipline: 1 check-in + optional second touch + move on after 21 days. Added **Phase 0 step 4** (migration awareness — point user at export/import when they ask about backing up or moving machines).
+  - **README:** 4 new FAQ entries covering follow-ups, workspace export, non-tech support, and the "don't auto-send" boundary.
+  - **5 new outcome evals (#18-#21):** stale-application detection, post-interview thank-you flow, non-tech (nurse) search with niche-board usage, export/import roundtrip integrity.
+- **Tests:** **173/173 pass** (123 from v5.0.1 + 22 draft_followup + 28 export/import = 173 total).
+- **Privacy posture (unchanged):** no telemetry, no phone-home, no auto-send, no required API keys, no required network calls. The new export script's privacy posture is explicit: refuses cloud-sync paths by default, prints a banner every run.
+- **Load-bearing safety tests added:** `test_no_smtp_or_send_imports_in_script` (draft_followup never sends mail), `test_import_rejects_traversal_payload_in_archive` (import workspace can't be exploited), `test_export_refuses_cloud_sync_path_by_default` (export workspace can't silently upload to a third party).
+- **What was deliberately NOT done in v5.1:**
+  - Auto-sending emails (different trust model; user owns send)
+  - LinkedIn message templates (LinkedIn ToS makes automation risky)
+  - Salary research integration (defer to a v6 `salary-negotiation` skill)
+  - Network analysis ("who do I know at X") (requires LinkedIn API or scraping)
+  - Hardcoded state-by-state nursing board URLs (50 URLs that will rot — search patterns are more reliable)
+
 ## 2026-05-20 — v5.0.1 (patch: harvest's decisions_present flag false-positive)
 
 - **Signal:** E2E testing of the v5 cycle found that `harvest_outcomes.py` reported `decisions_present: true` even when DECISIONS.md was just the empty template scaffolding (privacy notice + format docs). The flag was useless: it always returned true after init.

@@ -175,6 +175,15 @@ Yes, but entirely locally and opt-in. After 5+ closed-loop application outcomes,
 **Can I reset what the skill has learned about me?**
 Yes — delete `<your-workspace>/.job-hunter/`. The next run will re-initialize empty templates. You can also edit any of the four files directly (LESSONS.md, DECISIONS.md, OUTCOMES.md, REJECTED_IDEAS.md) since they're plain markdown.
 
+**Will the skill help me follow up on applications?**
+Yes. `scripts/draft_followup.py` has two templates: `check_in` (7-10 days after applying with no response) and `thank_you` (24-48 hours after an interview). The skill scans your `tracker.json` for applications stale at `status=applied` for 7+ days and offers to draft polite check-in emails. It also drafts thank-you notes after you report an interview. **The skill never sends the email** — that's by design, and a load-bearing safety test enforces it. You copy-paste. See `references/followup-templates.md` for the patterns and cited sources.
+
+**Can I move my job-hunter state to a different machine?**
+Yes. `scripts/export_workspace.py` bundles your profile + `.job-hunter/` learning loop + `tracker.json` (and optionally your tailored DOCX outputs) into a single zip. `scripts/import_workspace.py` restores them on a new machine. The export refuses to write to cloud-sync directories (Dropbox, OneDrive, iCloud) by default; pass `--allow-cloud` if you intentionally want that. Roundtrip preserves all files byte-for-byte. The import path-sanitizes the archive to reject any traversal payloads.
+
+**Does this work for non-tech careers?**
+Yes — this is the explicit design goal. `references/niche-boards-by-industry.md` includes verified entries for healthcare (Vivian Health, Nurse.com, Health eCareers, AlliedTravelCareers, state nursing board portals), trades (iHireConstruction, AllTrucking, IBEW/UA local hall search patterns, SkillBridge for military-to-trades), legal (LawCrossing, BCG Attorney Search, state bar career pages), education (HigherEdJobs, SchoolSpring, K12JobSpot), government (USAJobs, GovernmentJobs.com, NEOGOV-hosted municipal portals, state civil-service exams), and more. The agent picks the right tier-2 boards based on your role.
+
 ---
 
 ## Contributing

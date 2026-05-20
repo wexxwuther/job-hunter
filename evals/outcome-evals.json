@@ -196,6 +196,53 @@
         { "text": "Skill does NOT auto-append the suggestion to LESSONS.md without user confirmation", "passed": false, "evidence": "" },
         { "text": "If user confirms, skill appends a properly formatted entry to LESSONS.md with date + reason + evidence count", "passed": false, "evidence": "" }
       ]
+    },
+    {
+      "id": 18,
+      "prompt": "Show me applications I should follow up on. (tracker.json has 5 entries: 3 at status=applied with applied_date 8-12 days ago, 1 at status=interviewing, 1 at status=rejected.)",
+      "expected_output": "Skill identifies the 3 applied-and-stale entries (>=7 days at applied with no movement), surfaces them as follow-up candidates, and offers to draft polite check-in emails per entry using scripts/draft_followup.py. Does NOT auto-send. Does NOT flag the interviewing or rejected entries as follow-up candidates.",
+      "assertions": [
+        { "text": "Skill correctly identifies exactly 3 stale-applied entries (filters by status=applied AND age >=7 days)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT flag the interviewing entry as needing a check-in follow-up (separate flow: thank-you note after interview)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT flag the rejected entry as needing follow-up", "passed": false, "evidence": "" },
+        { "text": "Skill offers to draft emails using scripts/draft_followup.py rather than writing them ad-hoc", "passed": false, "evidence": "" },
+        { "text": "Each drafted email is short (under 150 words), references the specific company and role, includes a concrete CTA, and is honest about not having had a response yet", "passed": false, "evidence": "" },
+        { "text": "Skill makes clear the user must send the emails themselves — the skill does NOT auto-send", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "I just had a phone screen yesterday with Acme. Help me write a thank-you note.",
+      "expected_output": "Skill uses scripts/draft_followup.py with the 'post-interview thank-you' template. Email is short, references the conversation specifically (asks user for one concrete detail to include if not provided), reiterates one strong qualification connecting to a discussed topic, closes with concrete next-step language. Does NOT use the post-application template (different purpose).",
+      "assertions": [
+        { "text": "Skill recognizes this is a post-interview thank-you, NOT a post-application check-in (different template)", "passed": false, "evidence": "" },
+        { "text": "Skill asks for or uses one concrete detail from the conversation if none is provided (avoid generic 'thanks for your time')", "passed": false, "evidence": "" },
+        { "text": "Email is under 150 words and includes a concrete next-step", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT auto-send; user copy-pastes", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "I'm a registered nurse in Ohio looking for travel-nurse contracts, $80/hr+. Find me real openings.",
+      "expected_output": "Phase 2 search uses the expanded references/niche-boards-by-industry.md healthcare entries (Health eCareers, Nurse.com, Vivian Health, Ohio Board of Nursing portals) in addition to Tier 1 (LinkedIn, Indeed). Does NOT default to tech-aggregator pattern. Each result includes source attribution from non-tech boards.",
+      "assertions": [
+        { "text": "Search query plan includes at least 2 nursing-specific job boards (e.g., Vivian Health, Nurse.com, Health eCareers)", "passed": false, "evidence": "" },
+        { "text": "Search includes Ohio-specific government/board sources (Ohio Board of Nursing, Ohio Means Jobs, etc.)", "passed": false, "evidence": "" },
+        { "text": "Result set includes postings sourced from non-LinkedIn/Indeed boards (proving the niche boards were actually used, not just listed)", "passed": false, "evidence": "" },
+        { "text": "Skill correctly distinguishes travel-nurse contracts from staff RN positions in scoring", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "I'm moving from my old laptop to a new one. Help me bring my job-hunter history with me.",
+      "expected_output": "Skill uses scripts/export_workspace.py to bundle .job-hunter/ + .job-hunter-profile.md + tracker.json + any tailored resumes/cover letters into a single archive, gives the user instructions to move it, and on the new machine the agent uses scripts/import_workspace.py to restore. Roundtrip preserves all 4 .job-hunter/ files byte-for-byte plus profile + tracker.",
+      "assertions": [
+        { "text": "Skill uses scripts/export_workspace.py to bundle the right files (does NOT manually copy)", "passed": false, "evidence": "" },
+        { "text": "Export archive includes: .job-hunter-profile.md, .job-hunter/DECISIONS.md, .job-hunter/LESSONS.md, .job-hunter/OUTCOMES.md, .job-hunter/REJECTED_IDEAS.md, tracker.json (if present)", "passed": false, "evidence": "" },
+        { "text": "Skill warns about archive contents being personal data before suggesting upload to any cloud", "passed": false, "evidence": "" },
+        { "text": "On the new machine, scripts/import_workspace.py restores files to the right locations without overwriting unrelated workspace files", "passed": false, "evidence": "" },
+        { "text": "After import, harvest_outcomes.py returns the same signals it would have on the source machine (roundtrip integrity)", "passed": false, "evidence": "" }
+      ]
     }
   ]
 }

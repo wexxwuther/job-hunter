@@ -93,6 +93,13 @@ full design.
 3. **Cold-start respect.** On a brand-new run (just initialized), the four files are
    empty templates. Do NOT pretend to have lessons or rejected ideas. Proceed to Phase 1.
 
+4. **Migration aware.** If the user mentions moving machines, backing up, or sharing
+   their job-search state, point them at `scripts/export_workspace.py` (bundles
+   profile + .job-hunter/ + tracker.json into a single zip) and
+   `scripts/import_workspace.py` (restores on the new machine). The export refuses
+   to write to cloud-sync paths by default — flag `--allow-cloud` if the user
+   intentionally wants to sync to Dropbox/OneDrive/etc.
+
 ### Phase 1: Understand the User
 
 **This phase is a gate — do NOT move to Phase 2 until you have enough information to run a
@@ -381,6 +388,53 @@ primary at-a-glance signal, sorts rows by `weighted_global` descending, and adds
 controls (recommendation buckets + minimum-score slider). Clicking a score badge expands
 the row to show the 5 sub-score bars. Rows without a score_breakdown keep the legacy
 match-strength tag rendering — backward compat is preserved.
+
+### Phase 4.5: Stale-application follow-ups
+
+This phase runs (a) when the user asks about follow-ups, (b) when the user
+explicitly invokes "what should I follow up on?", or (c) opportunistically when
+you notice (via `tracker.json` inspection) entries that are stale at status=applied.
+
+1. **Identify stale applications.** Run:
+   ```
+   python scripts/draft_followup.py scan-stale --tracker tracker.json [--stale-days 7]
+   ```
+   Default threshold is 7 days. Returns the list of applications at
+   `status=applied` for ≥7 days. Does NOT flag entries at `interviewing`,
+   `offer`, `rejected`, or `withdrawn` — those need different communication
+   patterns (or none at all).
+
+2. **Surface to user before drafting.** Present the list of stale applications
+   first, ask which the user wants to follow up on. Some users prefer batched
+   follow-ups; some are selective. Don't draft emails for entries the user
+   hasn't asked about.
+
+3. **Draft each requested follow-up.** Run:
+   ```
+   python scripts/draft_followup.py draft --template check_in \
+       --company "<Company>" --role "<Role>" --applied-date <YYYY-MM-DD>
+   ```
+   The output is a structurally correct email body with `[Add one specific
+   qualification...]` placeholder. The user MUST personalize before sending —
+   generic follow-ups get ignored at the same rate as no follow-up. See
+   `references/followup-templates.md` for the patterns and rationale.
+
+4. **Post-interview thank-yous use a different template.** After the user
+   reports an interview (phone screen, onsite), draft a thank-you within 24-48
+   hours using `--template thank_you`. Ask the user for one specific thing
+   discussed so the placeholder gets filled with real content.
+
+5. **Never auto-send.** This script never sends mail — the script doesn't even
+   import SMTP or email libraries (load-bearing safety test enforces this).
+   The user copy-pastes into their own mail client. The skill is a drafter,
+   not a sender.
+
+6. **Cap follow-ups.** Per hiring-advisor consensus (Indeed, The Muse, Robert
+   Half), the convention is: 1 check-in 7-10 days after applying, optional
+   second touch 5-7 days later if you have something new to add, then move on.
+   After 21 days of silence, update `tracker.json` status to
+   `no_response_after_21d` — that closes the loop and feeds the learning loop
+   in Phase 5.
 
 ### Phase 5: Close the loop (per-user learning)
 

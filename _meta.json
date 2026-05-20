@@ -51,6 +51,34 @@
       ]
     },
     {
+      "version": "v5.1.0",
+      "date": "2026-05-20",
+      "trigger_accuracy": null,
+      "audit_score": "pending",
+      "signal": "user strategic question: what other items/tools should we consider adding? Scope-disciplined answer = follow-up drafting + workspace export/import + expanded non-tech references",
+      "changes": [
+        "scripts/draft_followup.py - check_in + thank_you templates + scan-stale subcommand",
+        "scripts/export_workspace.py - bundles profile + .job-hunter/ + tracker.json with cloud-sync refusal default",
+        "scripts/import_workspace.py - restores archive with path-traversal rejection + preserve-existing default",
+        "references/followup-templates.md - patterns + cited sources (Indeed/Muse/Robert Half/Teal)",
+        "references/niche-boards-by-industry.md - URL-verified additions: Vivian Health, AlliedTravelCareers, IBEW/UA hall search patterns, SkillBridge, Robert Half Legal, BCG Attorney Search, NEOGOV portals, state civil-service exam pattern",
+        "SKILL.md - new Phase 4.5 (stale-application follow-ups) + Phase 0 step 4 (migration awareness)",
+        "README.md - 4 new FAQ entries covering follow-ups, workspace export, non-tech support, no-auto-send boundary",
+        "evals/outcome-evals.json - added evals #18-21 (stale-applications, thank-you, nurse niche-search, export/import roundtrip)",
+        "tests/ - 50 new unit tests (22 draft_followup + 28 export/import)"
+      ],
+      "load_bearing_safety_tests": [
+        "tests/test_draft_followup.py::test_no_smtp_or_send_imports_in_script",
+        "tests/test_workspace_export_import.py::test_import_rejects_traversal_payload_in_archive",
+        "tests/test_workspace_export_import.py::test_export_refuses_cloud_sync_path_by_default",
+        "tests/test_workspace_export_import.py::test_import_rejects_absolute_paths",
+        "tests/test_workspace_export_import.py::test_import_rejects_parent_traversal",
+        "tests/test_workspace_export_import.py::test_import_rejects_unknown_prefixes",
+        "tests/test_workspace_export_import.py::test_roundtrip_preserves_file_contents_byte_for_byte",
+        "tests/test_draft_followup.py::test_thank_you_without_detail_prompts_user_to_add_one"
+      ]
+    },
+    {
       "version": "v5.0.1",
       "date": "2026-05-20",
       "trigger_accuracy": null,

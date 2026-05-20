@@ -25,11 +25,14 @@ This list is not exhaustive — when the user's industry isn't here, search:
 
 | Board | Strengths | Notes |
 |---|---|---|
-| HealthcareJobSite | General healthcare | Nursing, physicians, allied health |
+| Vivian Health (vivian.com) | Travel nursing, staff nursing, per diem | Aggregates jobs from multiple agencies with transparent pay comparison |
 | Health eCareers | Physicians, advanced practice | Owned by Everyday Health |
+| Nurse.com | Nursing roles (staff + travel) | Affiliated with RNCommunity |
+| HealthcareJobSite | General healthcare | Nursing, physicians, allied health |
 | PracticeLink | Physicians + dentists | Specialty filters |
-| Nurse.com | Nursing roles | Affiliated with RNCommunity |
 | HealthLeaders Media | Healthcare admin/leadership | |
+| AlliedTravelCareers | Travel allied-health roles (PT/OT/RT/labs) | |
+| State Board of Nursing portals | State employees + state-administered nursing programs | Search pattern: `"state board of nursing" jobs [state]` — state-specific URLs change; the search reliably surfaces the official portal |
 
 ## Finance
 
@@ -56,8 +59,10 @@ This list is not exhaustive — when the user's industry isn't here, search:
 |---|---|---|
 | USAJobs | All federal civilian | Requires login for application |
 | GovernmentJobs.com | State + local gov | Aggregator across municipalities |
-| State workforce portals | State employees + state-administered programs | See `references/state-workforce-commissions.md` |
+| NEOGOV-hosted city + county boards | Many municipal HR portals run on NEOGOV | Search pattern: `[city] city jobs` usually surfaces the NEOGOV portal |
+| State workforce portals | State employees + state-administered programs | See `references/state-workforce-commissions.md` for the 50-state registry |
 | Schoolspring | K-12 + higher-ed support staff | |
+| State civil-service exam portals | Classified/competitive state jobs | Search pattern: `[state] civil service exam announcement` |
 
 ## Nonprofits
 
@@ -85,7 +90,10 @@ This list is not exhaustive — when the user's industry isn't here, search:
 | AllTrucking | CDL trucking | |
 | ManufacturingJobs | Manufacturing | |
 | Roadtechs | Industrial/nuclear travelers | |
-| WorkInTexas / state portals | Trades-heavy in some states | |
+| WorkInTexas / state portals | Trades-heavy in some states | See `references/state-workforce-commissions.md` for the 50-state registry |
+| Local union halls (IBEW, UA, IUOE) | Apprenticeship + journeyman roles | Union halls are local; search pattern: `IBEW Local [city] jobs` or `[trade] union hall [city]` |
+| Indeed + Glassdoor with role+location | Highest volume for trades | Per BLS, electricians/plumbers/HVAC have 4-9% projected growth through 2034 — these aggregators index most postings |
+| SkillBridge (DoD) | Military-to-trades transition | For service members exiting active duty |
 
 ## Legal
 
@@ -94,6 +102,9 @@ This list is not exhaustive — when the user's industry isn't here, search:
 | LawCrossing | General legal | Pay-walled |
 | Law360 Jobs | BigLaw + in-house | |
 | Vault | BigLaw + summer associate | |
+| Robert Half Legal | Contract + perm legal roles | Recruiter-led; good for paralegal + support |
+| BCG Attorney Search | Partner + senior associate placements | Recruiter-led |
+| State bar association career pages | State-employed attorneys + judicial clerkships | Search pattern: `[state] bar association careers` or `[state] judiciary jobs` |
 
 ## Search syntax for any niche board
 
