@@ -2,92 +2,148 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
-## 2026-05-20 — v5.1.1 (patch: scan-stale field-conflation bug + _meta.json cosmetic)
+## 2026-05-20 — v5.1.1
 
-- **Signal:** E2E audit of v5.1.0 against the canonical `tracker.json` schema (produced by `generate_tracker_html.py`) found that `scan-stale` was treating the `posted` field (when the COMPANY posted the role) as if it were the application date. A user with a real tracker.json whose posting was 30 days old would get their fresh application flagged as stale, producing false-positive follow-up suggestions.
-- **Root cause:** `draft_followup.py:193` had `applied_str = entry.get("applied") or entry.get("posted") or entry.get("applied_date")` — the `or entry.get("posted")` fallback conflated two different dates with very different meanings.
-- **Fix:** introduced `applied_date` as the canonical field for "when the user applied" (distinct from `posted` which stays as "when the company posted"). `scan-stale` now reads ONLY `applied_date`. `generate_tracker_html.py` renders a new Applied column. SKILL.md Phase 4 documents the field-discipline contract explicitly.
-- **Changes:**
-  - `scripts/draft_followup.py` — `scan_stale_applications()` reads only `applied_date`. Inline comment explains why no fallback (with reference to the regression test).
-  - `scripts/generate_tracker_html.py` — accepts `applied_date` field, renders new Applied column in the header + each row. Backward-compatible: rows without the field show the em-dash placeholder.
-  - `SKILL.md` — new paragraph in Phase 4 explaining `posted` vs `applied_date` discipline + agent must set `applied_date` when status moves to `applied`.
-  - `tests/test_draft_followup.py` — added `test_scan_stale_does_NOT_fall_back_to_posted_field` regression test (load-bearing). Updated 9 fixture entries from `"applied"` key to `"applied_date"`.
-  - `tests/test_generate_tracker_html.py` — 3 new tests covering applied_date column rendering.
-  - `_meta.json` — cosmetic: reordered iterations array to chronological (was: v2/v3/v4/v5.1.0/v5.0.1/v5; now: v2/v3/v4/v5/v5.0.1/v5.1.0/v5.1.1).
-- **Tests:** **177/177 pass** (174 from v5.1.0 + 1 regression + 3 applied_date column tests). The regression test was confirmed failing before the fix (TDD red phase) and passing after (green phase).
-- **Why this is a patch, not a v6:** the new field is additive and backward-compatible. Existing tracker.json files without `applied_date` still render correctly; they just won't surface in `scan-stale` results, which is the correct behavior (no false positives).
+A patch release. Running the v5.1.0 follow-up flow against a real tracker.json surfaced one annoying bug.
 
-## 2026-05-20 — v5.1.0 (follow-up drafting + workspace export/import + expanded non-tech references)
+**Fixed**
 
-- **Signal:** User strategic question — *"what other items/tools should we consider adding to this skill stack?"* After cataloguing options across "strong candidates / solid candidates / worth skipping / infrastructure additions" and applying the scope discipline (quality > breadth, no new modes that dilute the trigger), the v5.1 plan landed on three internal additions: follow-up drafting (Phase 4.5), workspace export/import (user portability), expanded non-tech references (honors the generalist promise).
-- **Changes:**
-  - **`scripts/draft_followup.py` (NEW)** — two subcommands: `draft` (emits `check_in` or `thank_you` email body with placeholder prompts), `scan-stale` (reads `tracker.json` for applications at `status=applied` for ≥7 days). Both templates render under 150 words. Load-bearing safety: the script imports no SMTP/email libraries — the "user copy-pastes" boundary is enforced by `tests/test_draft_followup.py::test_no_smtp_or_send_imports_in_script`. 22 unit tests.
-  - **`scripts/export_workspace.py` (NEW)** — bundles `.job-hunter-profile.md` + `.job-hunter/` + `tracker.json` + (optionally) tailored DOCX outputs into a single zip. Refuses to write to cloud-sync paths (Dropbox/OneDrive/iCloud/Google Drive/Box Sync) without `--allow-cloud` override. Writes a `manifest.json` inside the zip for integrity verification. Prints a privacy banner on every run.
-  - **`scripts/import_workspace.py` (NEW)** — restores an export archive to a destination workspace. Default policy preserves existing files (pass `--overwrite` to replace). Load-bearing safety: rejects path-traversal payloads (`../../`), absolute paths, and any archive members outside the documented prefix allowlist. 28 unit tests covering both scripts including the path-traversal safety test.
-  - **`references/followup-templates.md` (NEW)** — the patterns + cited sources (Indeed, The Muse, Robert Half, Teal HQ). Explicitly notes the "+30% response rate" figure is directional, not a precise benchmark drawn from sales-context data.
-  - **`references/niche-boards-by-industry.md` (EXPANDED)** — healthcare gained Vivian Health, AlliedTravelCareers, state nursing board search pattern. Trades gained IBEW/UA local-hall search pattern, SkillBridge (military-to-trades), explicit BLS growth-rate context. Legal gained Robert Half Legal, BCG Attorney Search, state bar career pages. Government gained NEOGOV-hosted municipal portals + state civil-service exam search pattern. Every addition URL-verified via WebSearch/WebFetch before being added.
-  - **SKILL.md rewiring:** added **Phase 4.5** (stale-application follow-ups) between Phase 4 and Phase 5. Cap discipline: 1 check-in + optional second touch + move on after 21 days. Added **Phase 0 step 4** (migration awareness — point user at export/import when they ask about backing up or moving machines).
-  - **README:** 4 new FAQ entries covering follow-ups, workspace export, non-tech support, and the "don't auto-send" boundary.
-  - **5 new outcome evals (#18-#21):** stale-application detection, post-interview thank-you flow, non-tech (nurse) search with niche-board usage, export/import roundtrip integrity.
-- **Tests:** **173/173 pass** (123 from v5.0.1 + 22 draft_followup + 28 export/import = 173 total).
-- **Privacy posture (unchanged):** no telemetry, no phone-home, no auto-send, no required API keys, no required network calls. The new export script's privacy posture is explicit: refuses cloud-sync paths by default, prints a banner every run.
-- **Load-bearing safety tests added:** `test_no_smtp_or_send_imports_in_script` (draft_followup never sends mail), `test_import_rejects_traversal_payload_in_archive` (import workspace can't be exploited), `test_export_refuses_cloud_sync_path_by_default` (export workspace can't silently upload to a third party).
-- **What was deliberately NOT done in v5.1:**
-  - Auto-sending emails (different trust model; user owns send)
-  - LinkedIn message templates (LinkedIn ToS makes automation risky)
-  - Salary research integration (defer to a v6 `salary-negotiation` skill)
-  - Network analysis ("who do I know at X") (requires LinkedIn API or scraping)
-  - Hardcoded state-by-state nursing board URLs (50 URLs that will rot — search patterns are more reliable)
+The `scan-stale` helper that finds applications worth following up on was treating two different dates as if they were the same thing. The tracker stores `posted` (when the company put the role up) and now also `applied_date` (when you actually submitted). If only `posted` was set, scan-stale was treating a 30-day-old posting you'd just applied to as a 30-day-stale application — false positive, annoying suggestion to send a follow-up that wasn't actually overdue.
 
-## 2026-05-20 — v5.0.1 (patch: harvest's decisions_present flag false-positive)
+The fix is small and additive: tracker entries should now include `applied_date`, and `scan-stale` reads only that field. Existing trackers without it still render fine — they just won't show up in stale-checks, which is the right default (no signal, no inference). The HTML tracker grew an Applied column to make this visible.
 
-- **Signal:** E2E testing of the v5 cycle found that `harvest_outcomes.py` reported `decisions_present: true` even when DECISIONS.md was just the empty template scaffolding (privacy notice + format docs). The flag was useless: it always returned true after init.
-- **Root cause:** `bool(decisions_text.strip())` treats any non-whitespace content as "present." The template ships with non-whitespace docs, so the check passed unconditionally.
-- **Fix:** `scripts/harvest_outcomes.py` now uses a new `_has_user_decisions()` helper that checks for non-whitespace content **after** the documented `<!-- Agent and user entries appended below this line -->` marker (with a regex fallback for `## YYYY-` headings if the marker is missing).
-- **Tests:** 3 new (123/123 total): `test_decisions_present_false_when_only_template`, `test_decisions_present_true_when_user_appended_entry`, `test_has_user_decisions_marker_missing_fallback`.
-- **Impact:** the agent now correctly distinguishes "user has logged decisions" from "scaffolding exists." Same template-as-data-pollution class of bug we caught in `parse_outcomes` earlier; now fixed in the second place it appeared.
+**Other**
 
-## 2026-05-20 — v5 (per-user learning loop: DECISIONS / LESSONS / OUTCOMES / REJECTED_IDEAS + harvest/propose scripts)
+Reordered the `_meta.json` iterations array so versions read chronologically. Pure cosmetic.
 
-- **Signal:** User question — *"is there a self-improving / learning loop built into the skill so it learns from every interaction?"* Honest answer at v4 was *no, only two pieces of persistent state (`.job-hunter-profile.md` and `tracker.json`), neither of which is a learning loop.* User directed: *"the learning loop should be in personal space not shared with the general public, part of it would include files such as DECISIONS.md"* and *"check our self-improving-skills skill that one seems to work pretty well and see how the learning loop works in it."* Architectural model adapted from `self-improving-skills`'s proven harvest → propose → apply discipline.
-- **Changes:**
-  - **4 new file templates in `assets/templates/`** that drop into a user's workspace `.job-hunter/` directory: `DECISIONS.template.md` (per-session choices log), `LESSONS.template.md` (user-confirmed patterns; cold-start guard documented), `OUTCOMES.template.md` (closed-loop outcomes with documented enum: accepted_offer / rejected_after_screen / etc.), `REJECTED_IDEAS.template.md` (user-only hard constraints; agent never auto-adds). All four carry the same privacy notice (never sent off-machine, never committed to public repo).
-  - **`scripts/init_workspace.py` (NEW)** — `init` / `exists` / `status` subcommands. Idempotent (preserves existing user content unless `--force`). Creates `.job-hunter/` if missing and drops only missing templates. 21 unit tests including load-bearing safety: `test_no_job_hunter_directory_in_skill_dir` and `test_no_sample_lessons_in_skill_directory`.
-  - **`scripts/harvest_outcomes.py` (NEW)** — reads `.job-hunter/OUTCOMES.md` + `DECISIONS.md`, deterministically classifies signals (`rejection_dominant_reason`, `recommendation_calibration`). Cold-start guard: returns `no_op_reason: "need >=5 closed-loop outcomes, have N"` if below threshold. Parser uses an append-marker boundary to avoid mis-parsing template documentation as real entries (the docs contain example `## ` headings and `**Outcome:**` lines that would otherwise pollute results). 12 unit tests.
-  - **`scripts/propose_lessons.py` (NEW)** — deterministic translator from signals → suggested LESSONS.md entries. Each suggestion includes the formatted lesson block, evidence count, confidence tier (low/medium/high), and a `reason` line anchored in observed evidence (never paraphrased). Skips unknown signal kinds silently (forward-compatible). `application_guidance` field always reminds callers to surface to user with evidence before appending. **Never auto-writes to LESSONS.md.** 18 unit tests.
-  - **`references/learning-loop-guide.md` (NEW)** — user-facing explanation of the 4 files, the cycle, the 6 guardrails (cold-start, opt-in, deterministic translation, bounded influence, plain markdown, local-only), and the privacy model.
-  - **SKILL.md rewiring:** added **Phase 0** (load the four files in priority order: REJECTED_IDEAS first as hard filter, then LESSONS for grading adjustments, then DECISIONS for continuity, then count OUTCOMES). Added **Phase 5** (close the loop: append outcomes, run harvest+propose when ≥5 closed, surface suggestions with evidence, never auto-write). Existing Phase 1-4 unchanged.
-  - **README:** new "The learning loop (v5+)" section with the 4-file table, the 6 guardrails, and a delete-to-reset note. Two new FAQ entries: "Does the skill learn from my interactions?" and "Can I reset what the skill has learned about me?"
-  - **`.gitignore`:** added `.job-hunter/` rule with reference to the load-bearing safety test that enforces no-such-directory-in-skill-dir.
-  - **5 new outcome evals (#13-#17):** cold-start respect (no `.job-hunter/`), REJECTED_IDEAS hard constraint application, LESSONS-weighted scoring with auditable reasoning, cold-start guard under 5 outcomes (no fabricated patterns), opt-in confirmation flow with ≥5 outcomes.
-  - **4 new trigger evals (#25-#28):** "what have you learned about me?" (positive), "reset what you know" (positive), "show my outcomes" (positive), "weather in Seattle" (negative control — must not over-fire on incidental geography).
-- **Tests:** **120/120 pass.** New tests: 21 (init_workspace) + 12 (harvest_outcomes) + 18 (propose_lessons) = 51 added. Existing 69 unchanged.
-- **Privacy guarantees (unchanged + extended):** no telemetry, no phone-home, no required API keys, no required network calls. The new `.job-hunter/` directory lives in the user's workspace, never in the skill installation. The `harvest_outcomes.py` and `propose_lessons.py` scripts read only local files.
-- **Load-bearing safety tests added (CL45 pattern):** `test_no_job_hunter_directory_in_skill_dir` (PII vector prevention — mirrors `test_no_sample_profile_in_skill_directory`), `test_no_sample_lessons_in_skill_directory` (LESSONS template must be empty after the append marker; sample lessons would be applied as user-confirmed without confirmation).
-- **What was deliberately NOT done:**
-  - Auto-applied lessons (silent learning) — every confirmed lesson requires explicit user opt-in. Same trust discipline as the existing profile.
-  - Changing the scoring weights in `score_posting.py` — they stay constant for all users. Learning happens *upstream* of scoring (how sub-scores are graded), not at the weight level.
-  - Per-user weight optimization — the deterministic-weights design choice from v4 is preserved.
-  - Cross-user learning aggregates — explicitly out of scope; the loop is per-user only.
+**Tests:** 177 passing (174 before, plus the regression test that proves this bug doesn't come back, plus three for the new column).
 
-## 2026-05-18 — v4 (career-ops competitive review: multi-block scoring + ghost-job axis + North-Star profile)
+## 2026-05-20 — v5.1.0
 
-- **Signal:** Reviewed `santifer/career-ops` (GitHub) as a competitive reference. Five capability gaps identified versus job-hunter v3: (a) coarse 3-bucket Strong/Good/Possible tag with no aggregation, forcing eyeball comparison across borderline postings; (b) red-flag detection and ghost-job legitimacy conflated as one axis when they have different consequences (independent 2025 estimates put LinkedIn ghost-job prevalence at ~27% per ResumeUp.AI and the broader online job market at 18-30% per Greenhouse 2025 and Congressional Research Service report IF12977); (c) HTML tracker had no scoring breakdown — user couldn't see *why* a posting was ranked; (d) no iterative profile capture across sessions — re-parses resume every run, forgets everything else; (e) interview prep was an opportunity but rejected this iteration due to sibling-collision risk (failure mode #11 / CL36). Items (a)-(d) folded in; (e) explicitly deferred.
-- **Changes (5 atomic steps; each with its own eval gate):**
-  - **Step 1 — `scripts/score_posting.py` (the substrate):** deterministic 1-5 scoring across 5 sub-scores (cv_match, comp_vs_target, cultural_signals, posting_legitimacy, red_flags_penalty). Weights are documented inline with rationale; cv_match is heaviest (0.35) because it's the single most predictive signal of reaching a human. red_flags_penalty applied as a multiplier (1.0 - penalty), not additive — so a single severe red flag (pays-in-equity, SSN pre-offer) can torpedo an otherwise-strong score. 23 unit tests including load-bearing safety tests for weight intent, threshold values, and directional sanity. Output: `{ weighted_global, recommendation: apply | apply_if_specific_reason | skip }` — feeds directly into the tracker.
-  - **Step 2 — ghost-job axis as a separate sub-score:** split `references/posting-quality-rubric.md` into two orthogonal files. `references/posting-legitimacy-rubric.md` (NEW) — three-tier confidence scale (High Confidence / Proceed with Caution / Suspicious) with signals for age, repost patterns, apply-button quality, employer disclosure, salary transparency, and company activity. Maps to `posting_legitimacy` on the 1-5 scale. `references/match-quality-rubric.md` (NEW) — the cv_match axis with red-flag catalog now carrying severity gradations (soft/moderate/severe), with severe red flags feeding `red_flags_penalty`. Old `posting-quality-rubric.md` converted to a stub redirector (preserves backward compat for existing references; will be removed in a future iteration). Added outcome evals #9 (ghost-job scenario, posting_legitimacy <= 2.5, recommend skip) and #10 (full 5-sub-score scoring with weighted_global >= 4.0 path).
-  - **Step 3 — multi-block scoring visible in the tracker:** rewrote `scripts/generate_tracker_html.py` to render a colored score badge (apply=green, specific=amber, skip=grey) as the primary at-a-glance signal when any row has a `score_breakdown` field. Sort defaults to weighted_global descending. Filter controls (recommendation buckets + min-score input). Sub-score breakdown is collapsible — clicking the score badge expands the row to show 5 horizontal bars + penalty indicator. CSS promoted to `assets/templates/tracker.css` (failure mode #14 / CL43 mitigation); inline-CSS-in-script is now prohibited by `test_script_has_no_inline_css_block`. Backward compat preserved: rows without `score_breakdown` render with the legacy match-strength tag only and skip the JS+filter payload. 23 unit tests.
-  - **Step 4 — North-Star profile capture (`.job-hunter-profile.md`):** new `scripts/init_profile.py` (subcommands: init/read/exists) manages a 5-question profile that lives in the user's workspace, not the skill directory. Five questions: target archetype, deal-breakers, company-size preference, mission-vs-comp priority, tolerance dimensions (on-call/travel/office). `references/profile-questions.md` documents the questions and rationale per question. Phase 1 SKILL.md sub-step 0 added: on first run drop template + ask 5 questions; on subsequent runs read existing profile and only ask "anything changed?" Privacy by design — dot-prefix filename so `git add .` patterns skip it, privacy notice bundled in the template visible every time the user opens the file, load-bearing safety test verifies the skill directory NEVER contains a sample profile (PII vector prevention). Added outcome evals #11 (first-run init) and #12 (second-run read). 23 unit tests.
-  - **Step 5 — final integration:** `_meta.json` bumped to v4 with iteration entry recording skill score 106/106 (100%), frozen-v1 and frozen-v2 both held. SKILL.md frontmatter last_iteration → 2026-05-18, last_review_due → 2026-08-16. All four continuity docs (`session-state.md`, `compaction-handoff.md`, `lessons.md`, `discovery-log.md`) revised against ACTUAL landed state (CL11 discipline). Install script bumped v3 → v4 install path. Install sync verified against all three harness paths.
-- **Audit:** 15/15 (0 findings). **Trigger accuracy: 100% (24/24).** **Skill score (source checkout): 106/106 (100.0%).** **Skill score (installed copy): 101/106 (95.3%)** — the 5-point gap is the long-standing install-name finding (install path is `job-hunter-v4/` while frontmatter `name:` is canonical `job-hunter`, by design across three install paths); same characteristic as the v3 install. **Frozen-v1: 5/5 (no regression).** **Frozen-v2: 5/5 (no regression).** **Tests: 69/69 pass** (23 score_posting + 23 generate_tracker_html + 23 init_profile). **CI check: all 6 stages green** (validate, audit, scorecard, pytest, script-audit, package-codex).
-- **Files produced:**
-  - 3 new scripts: `score_posting.py`, `init_profile.py`, plus a rewrite of `generate_tracker_html.py`
-  - 2 new references: `posting-legitimacy-rubric.md`, `match-quality-rubric.md`, `profile-questions.md` (plus the deprecated `posting-quality-rubric.md` stub)
-  - 1 new asset: `assets/templates/tracker.css`
-  - 3 new test files: `tests/test_score_posting.py`, `tests/test_generate_tracker_html.py`, `tests/test_init_profile.py` (total 69 unit tests)
-  - 4 new outcome evals (#9-#12)
-- **What was rejected (and why):** Playwright + bundled Chromium PDF rendering (too heavy, fragile across OS; our DOCX-first approach is more portable and ATS-equivalent), Go/Bubble Tea TUI dashboard (HTML tracker is browser-portable, no install), 45-company hardcoded portal list (would break the generalist scope; our tier-1-through-4 search works for nurses/teachers/welders/lawyers, not just AI engineers), slash-command UX (auto-activation on natural language is the right primitive for an Agent Skill), interview prep Phase 5 (deferred — would expose ~93% sibling-collision ceiling per CL36 with adjacent skills; revisit if signals warrant).
-- **Load-bearing safety tests added (CL45 pattern):** documented in `_meta.json.iterations[v4].load_bearing_safety_tests`. These tests encode design intent that a future helpful refactor could erase without obvious symptoms: weight rationale (cv_match heaviest), red-flag-as-multiplier semantics, CSS-asset-as-source-of-truth, profile-filename privacy, no-sample-profile-in-skill-directory.
+Three additions, all internal to the skill rather than spinning up new modes.
+
+**New: follow-up drafting** (`scripts/draft_followup.py`)
+
+When you've applied to something and heard nothing for a week, the skill now offers to draft a polite check-in. After an interview, it'll draft a thank-you. Both templates are short (under 150 words) and leave explicit placeholders for the things you should personalize — a generic "thanks for your time" gets ignored just as fast as silence. There's a `scan-stale` subcommand that reads your tracker.json and tells you which applications are eligible.
+
+The skill never sends the email. It drafts; you copy-paste. That boundary is enforced by a test — the script can't even import an SMTP library without the test failing.
+
+**New: workspace export/import** (`scripts/export_workspace.py` + `import_workspace.py`)
+
+Moving machines, backing up, or sharing your job-search state with a collaborator? Export bundles your profile + the four learning-loop files + tracker.json into a single zip. Import restores it on the other end. A few safety choices worth knowing:
+
+- Export refuses to write the archive into a cloud-sync path (Dropbox, OneDrive, iCloud, Google Drive, Box Sync) without `--allow-cloud`. The default is "don't accidentally upload your private job-search data."
+- Import rejects path-traversal payloads (`../../`) and any archive members outside the documented allowlist. You can't be tricked into restoring a malicious zip into `/etc/passwd`.
+- The archive includes a `manifest.json` for integrity verification.
+
+**Expanded: non-tech job-board references**
+
+The "Built for every career" promise was thin on the reference side. Added URL-verified entries for:
+
+- **Healthcare:** Vivian Health, AlliedTravelCareers, state board of nursing search patterns
+- **Trades:** IBEW/UA local-hall search patterns, SkillBridge for military-to-trades, BLS growth-rate context for electricians/plumbers/HVAC
+- **Legal:** Robert Half Legal, BCG Attorney Search, state bar career pages
+- **Government:** NEOGOV-hosted municipal portals, state civil-service exam search patterns
+
+Every addition was checked before being added — no fabricated board names.
+
+**Other**
+
+SKILL.md now has a Phase 4.5 for the follow-up flow. README has new FAQ entries for follow-ups, workspace export, non-tech support, and the "we never send the email" boundary.
+
+**Tests:** 173 passing.
+
+**Deliberately not in this release:**
+- Auto-sending emails (we don't own the send step)
+- LinkedIn message templates (ToS makes automation risky)
+- Salary research (deferred to a separate `salary-negotiation` skill if it ever happens)
+- Network analysis ("who do I know at X") (needs LinkedIn API or scraping)
+
+## 2026-05-20 — v5.0.1
+
+A small patch.
+
+The `harvest_outcomes` script reports a `decisions_present` flag in its output. After v5.0.0 shipped, that flag was always `true` — even on a fresh workspace where you'd added zero decisions. The check was naive: it asked "is there any non-whitespace content in DECISIONS.md?" Since the template itself ships with format documentation and a privacy notice, the answer was always yes.
+
+Fixed by adding a marker comment in the template (`<!-- Agent and user entries appended below this line -->`) and slicing from that marker before checking. The harvest now correctly distinguishes "user has added decisions" from "the template scaffold exists."
+
+This is the second time we've hit this class of bug — a parser scanning a template file and mistaking the documentation for data. The first time was in `parse_outcomes`, fixed mid-v5. Now there's an explicit pattern (append-marker comment + parser slices from it + a test that asserts the template body after the marker is empty) and it's documented as a chain-wide lesson.
+
+**Tests:** 123 passing.
+
+## 2026-05-20 — v5.0.0
+
+The big one. Per-user learning loop.
+
+Before this release, the skill remembered two things across sessions: your North-Star profile (5 preference questions) and your tracker.json (the list of jobs you'd targeted). That's stateful memory, but it's not really learning — the skill made the same decisions for you in session 50 that it made in session 1.
+
+v5 adds four plain-markdown files in your workspace under `.job-hunter/`:
+
+- **DECISIONS.md** — a running log of choices the agent makes on your behalf (and the reasons you give)
+- **LESSONS.md** — patterns about your preferences, but only entries you've explicitly confirmed
+- **OUTCOMES.md** — what actually happened to each application (offered / rejected / no response after 21 days)
+- **REJECTED_IDEAS.md** — hard constraints you've stated. "No defense contractors." "No commission-only comp." The agent never re-asks.
+
+Plus three new scripts:
+
+- `init_workspace.py` scaffolds the four files on first use
+- `harvest_outcomes.py` reads OUTCOMES + DECISIONS and looks for patterns (e.g., "4 of your last 5 rejections cited comp below target")
+- `propose_lessons.py` translates those patterns into draft LESSONS.md entries
+
+The agent surfaces a suggestion, you say yes or no, and only confirmed lessons get written. Every time, no exceptions.
+
+**Six guardrails that keep this honest:**
+
+1. **Cold-start guard.** No lessons proposed until you have at least 5 closed-loop outcomes. Pattern detection from thin data is guessing, not learning.
+2. **Opt-in only.** The agent never auto-writes to LESSONS.md.
+3. **Deterministic translation.** The "reason" line in every suggestion is anchored in observed evidence (counts, percentages), never paraphrased by an LLM.
+4. **Bounded influence.** Lessons shape how sub-scores are *graded* for you. They don't change the scoring weights in `score_posting.py` — those stay the same for everyone.
+5. **Plain markdown.** Every file is readable, editable, deletable. No black-box weights.
+6. **Local-only.** No telemetry. No phone-home. No required API keys. `.job-hunter/` lives in your workspace.
+
+The architecture is adapted from the proven harvest → propose → apply pattern in the `self-improving-skills` builder. Different artifacts (per-user data instead of skill-iteration edits), same discipline.
+
+**SKILL.md changes:**
+- New Phase 0: read the four files at the start of every session
+- New Phase 5: close the loop — append outcomes, harvest signals, propose lessons, ask for confirmation
+
+**Tests:** 120 passing (69 from v4 plus 51 for the new scripts).
+
+**Deliberately not in this release:**
+- Silent learning (every lesson needs explicit user opt-in)
+- Per-user weight optimization (the deterministic-weights design from v4 is load-bearing)
+- Cross-user learning aggregates (the loop is per-user only)
+
+## 2026-05-18 — v4
+
+This was the iteration that took the skill from "useful" to "defensible." Drove changes from a competitive review of `santifer/career-ops` — an MIT-licensed job-search system built after the author manually processed 740+ job listings. Folded in four of their better ideas, rejected five others.
+
+**New: deterministic 1-5 scoring** (`scripts/score_posting.py`)
+
+Every posting gets graded across five sub-scores: how well your resume matches, how comp compares to your target, cultural signals, posting legitimacy, and a red-flags multiplier. Weights are documented inline with rationale — `cv_match` carries the heaviest (0.35) because it's the single most predictive signal of whether the application reaches a human. Red flags are applied as a multiplier, not added: one severe flag (pays-only-in-equity, SSN pre-offer) can torpedo an otherwise-strong score from 5.0 down toward 1.0. The output is a recommendation: `apply` / `apply_if_specific_reason` / `skip`.
+
+**New: ghost-job detection as its own axis**
+
+Independent 2025 estimates put LinkedIn ghost-job prevalence at around 27% (ResumeUp.AI), with the broader online job market at 18-30% (Greenhouse 2025, Congressional Research Service IF12977). v4 treats ghost-job legitimacy as a separate sub-score (`posting_legitimacy`) on a three-tier scale — High Confidence / Proceed with Caution / Suspicious — using signals like posting age, repost patterns, apply-button quality, employer disclosure, and salary transparency.
+
+**New: visible scoring in the tracker**
+
+The HTML tracker grew a colored score badge per row (green / amber / grey for apply / specific-reason / skip), sortable, with filter controls and a collapsible sub-score breakdown. The CSS moved to a separate asset file so the renderer can be tested without dragging a hardcoded style block around.
+
+**New: North-Star profile** (`scripts/init_profile.py`)
+
+Five questions captured in `.job-hunter-profile.md` in your workspace (not in the skill directory — the dot-prefix is intentional, and the test suite enforces that no sample profile ever lives in the skill installation). The questions are: what archetype of role do you want (IC, tech lead, founding, etc.), deal-breakers, company-size preference, mission-vs-comp priority, and tolerance dimensions (on-call, travel, office days).
+
+On the first session, the agent walks you through them. On subsequent sessions, it reads the profile and only asks "anything changed?" If the profile is more than 90 days old, it'll gently mention that.
+
+**Rejected (and why):**
+- Playwright + bundled Chromium PDF rendering — too heavy, fragile across OSes. Our DOCX-first output is ATS-equivalent and far more portable.
+- A Go/Bubble Tea TUI dashboard — the HTML tracker is browser-portable with no install.
+- A 45-company hardcoded portal list — breaks the generalist scope. This skill is for nurses, teachers, welders, lawyers, and engineers, not just AI engineers.
+- Slash-command UX (`/career-ops scan`) — Agent Skills auto-activate on natural language; that's the right primitive.
+- Interview prep — deferred to a future separate skill rather than baked in, because there are ~12 interview-prep skills already on agentskills.io. The right play is a separate skill that consumes job-hunter's tracker.json.
+
+**Scores:** trigger accuracy 100% (24/24), audit 15/15, skill score 106/106. 69 tests passing.
 
 ## 2026-05-11 — v3 (eval-driven description rewrite + 4 new scripts + posting-quality rubric)
 

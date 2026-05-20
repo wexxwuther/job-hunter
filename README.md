@@ -7,8 +7,8 @@
 [![Tests](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml/badge.svg)](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/agentskills.io-2025--12--18-blue)](https://agentskills.io)
-[![Trigger accuracy](https://img.shields.io/badge/trigger_accuracy-100%25-brightgreen)](evals/trigger-evals.json)
-[![Unit tests](https://img.shields.io/badge/unit_tests-69%2F69-brightgreen)](tests/)
+[![Trigger accuracy](https://img.shields.io/badge/trigger_accuracy-28%2F28-brightgreen)](evals/trigger-evals.json)
+[![Unit tests](https://img.shields.io/badge/unit_tests-177%2F177-brightgreen)](tests/)
 [![GitHub Release](https://img.shields.io/github/v/release/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/releases/latest)
 [![GitHub stars](https://img.shields.io/github/stars/wexxwuther/job-hunter?style=social)](https://github.com/wexxwuther/job-hunter/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/commits/main)
@@ -44,7 +44,7 @@ The skill auto-activates, walks you through 5 quick profile questions on first u
 
 ## Install
 
-Pick your harness. All three install paths are first-class.
+Pick your harness. All four install paths are first-class.
 
 | Harness | Skills directory | Install guide |
 |---|---|---|
@@ -94,19 +94,25 @@ A single severe red flag can take an otherwise-perfect posting from 5.0 to 1.0. 
 ```
 job-hunter/
 ├── SKILL.md                          # The skill itself (agentskills.io spec)
-├── scripts/                          # 9 production Python scripts (no network deps)
+├── scripts/                          # 15 production Python scripts (no network deps)
 │   ├── score_posting.py              # Deterministic 1-5 scoring
-│   ├── init_profile.py               # North-Star profile management
 │   ├── parse_resume.py               # DOCX/PDF/text resume parser
 │   ├── extract_ats_keywords.py       # Keyword-gap analysis
 │   ├── build_search_queries.py       # Multi-board query builder
 │   ├── expand_role_synonyms.py       # Role-title synonyms (SDE = SWE = Engineer)
 │   ├── normalize_salary.py           # $120k/yr = $10k/mo = $60/hr
 │   ├── dedupe_postings.py            # Cross-board dedup
-│   └── generate_tracker_html.py      # Interactive HTML tracker
-├── references/                       # 7 reference docs the skill consults
-├── assets/templates/tracker.css      # Tracker styling (no inline CSS)
-├── tests/                            # 69 unit tests
+│   ├── generate_tracker_html.py      # Interactive HTML tracker
+│   ├── init_profile.py               # North-Star profile management
+│   ├── init_workspace.py             # Sets up the .job-hunter/ learning loop
+│   ├── harvest_outcomes.py           # Reads outcomes, finds patterns
+│   ├── propose_lessons.py            # Suggests lessons for you to confirm
+│   ├── draft_followup.py             # Check-in + thank-you email drafts
+│   ├── export_workspace.py           # Bundle your state to a zip
+│   └── import_workspace.py           # Restore from a zip on a new machine
+├── references/                       # 9 reference docs the skill consults
+├── assets/templates/                 # Template files + tracker CSS
+├── tests/                            # 177 unit tests
 └── evals/                            # Trigger + outcome eval suites
 ```
 
@@ -145,7 +151,7 @@ Delete `.job-hunter/` to start over. The skill re-initializes it on next run. Se
 cd job-hunter
 pip install pytest                   # only dependency
 pytest tests/
-# 69 passed
+# 177 passed
 ```
 
 CI runs the full suite on every push across Python 3.10/3.11/3.12 on Ubuntu, macOS, and Windows.
