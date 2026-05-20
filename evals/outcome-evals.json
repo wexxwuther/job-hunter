@@ -1,0 +1,143 @@
+{
+  "skill_name": "job-hunter",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Find me senior backend engineer roles in Austin, $180k+. Here's my resume: [attaches resume.pdf with 8 years Python/Go backend experience, AWS, distributed systems, Stripe + ex-Google]",
+      "expected_output": "Phase 1 is satisfied (role/location/comp all provided); skill proceeds to Phase 2 search. Output is an HTML file in the workspace with 10+ unique postings across Tier 1 (LinkedIn/Indeed/Glassdoor/ZipRecruiter), Tier 2 (Dice/Built In/HN Who's Hiring), Tier 3 (Texas Workforce Commission/Austin Business Journal/local boards), and Tier 4 (career pages of major Austin employers). Each posting has match strength (Strong/Good/Possible), source attribution, and clickable links.",
+      "assertions": [
+        { "text": "Skill does NOT re-ask for role, location, or comp - Phase 1 gating is satisfied by the prompt", "passed": false, "evidence": "" },
+        { "text": "Search covers at least 3 of the 4 tiers (major boards / niche / local / company pages)", "passed": false, "evidence": "" },
+        { "text": "Output is delivered as an HTML file saved to the workspace folder, not bare URLs in chat", "passed": false, "evidence": "" },
+        { "text": "Each posting includes: title, company, blurb, location, salary (if listed), date, source, summary, match strength, URL", "passed": false, "evidence": "" },
+        { "text": "Match strength uses the 80%+/50-80%/<50% rubric, not invented categories", "passed": false, "evidence": "" },
+        { "text": "Includes 'Sources searched' summary at the bottom (transparency)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Find me a job",
+      "expected_output": "Phase 1 gate triggers: skill asks for role, location, and compensation range before searching. Does NOT begin searching with assumed criteria.",
+      "assertions": [
+        { "text": "Skill asks at minimum for role/keywords, location, and compensation range", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT begin a search with placeholder or assumed criteria", "passed": false, "evidence": "" },
+        { "text": "Asks about resume location/upload if no resume is visible in workspace", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Tailor my resume for this role: https://jobs.example.com/senior-pm-stripe. [attaches resume.docx]",
+      "expected_output": "Skill fetches the posting, runs keyword gap analysis, presents the three-category breakdown (present / matchable-missing / entirely-missing), asks about tailoring depth, then produces a tailored .docx named Resume_Stripe_SeniorPM.docx in the workspace.",
+      "assertions": [
+        { "text": "Skill fetches the job posting page before tailoring (does not tailor blind)", "passed": false, "evidence": "" },
+        { "text": "Keyword gap analysis breaks down into present / matchable-missing / entirely-missing categories", "passed": false, "evidence": "" },
+        { "text": "Skill asks the user which tailoring depth (light touch vs heavy rewrite) before producing output", "passed": false, "evidence": "" },
+        { "text": "Output is .docx (matching input format) saved with the Resume_[Company]_[Role] naming pattern", "passed": false, "evidence": "" },
+        { "text": "Skill rewrites the summary/objective line specifically for this role, not generic", "passed": false, "evidence": "" },
+        { "text": "Tailored resume does NOT fabricate experience the user lacks (preserve-truth principle)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Search returns one stale posting from 2024 and two staffing-agency listings with no employer named. What do you do?",
+      "expected_output": "Skill flags red flags explicitly (staleness, unnamed-employer staffing agencies), suggests broader search alternatives, and does NOT pad results to hit a count target.",
+      "assertions": [
+        { "text": "Skill flags the stale posting age and the staffing-agency red flag visibly to the user", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT silently exclude or silently include flagged postings - flags are surfaced for user choice", "passed": false, "evidence": "" },
+        { "text": "Skill suggests concrete next-search alternatives (synonyms, broader location, different boards) rather than declaring done", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT fabricate additional postings to pad the result count", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I want a cover letter for this Greenhouse role. My resume is heavy on backend but the role wants ML experience, which I don't really have.",
+      "expected_output": "Cover letter under one page, opens with a specific company/role hook (not generic), connects 2-3 strongest qualifications, addresses the ML gap honestly with a bridging argument, closes with a concrete CTA.",
+      "assertions": [
+        { "text": "Opens with a specific hook tied to the company or role (not 'I am excited to apply')", "passed": false, "evidence": "" },
+        { "text": "Connects 2-3 specific qualifications from the resume to specific job requirements", "passed": false, "evidence": "" },
+        { "text": "Addresses the ML gap honestly with a bridging argument, does NOT pretend the user has ML experience", "passed": false, "evidence": "" },
+        { "text": "Closes with a concrete call to action", "passed": false, "evidence": "" },
+        { "text": "Stays under one page", "passed": false, "evidence": "" },
+        { "text": "Saved as CoverLetter_[Company]_[Role].docx to the workspace folder", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Should I become a product manager?",
+      "expected_output": "Skill does NOT engage. This is a career-coaching question explicitly out of scope.",
+      "assertions": [
+        { "text": "Skill does not begin a job search or resume tailoring", "passed": false, "evidence": "" },
+        { "text": "If the skill responds, it surfaces that career-path advice is out of scope and offers to help with a concrete search if/when the user has one in mind", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Search for product manager jobs in Denver. My salary target is $250k.",
+      "expected_output": "Skill searches Tier 1-4 and presents results, but flags that $250k may be above market for PM roles in Denver and suggests the user consider adjusting expectations or targeting Director-level roles.",
+      "assertions": [
+        { "text": "Skill runs the search across all four tiers", "passed": false, "evidence": "" },
+        { "text": "Skill flags compensation expectation mismatch (per 'Salary expectations vs market reality' guidance)", "passed": false, "evidence": "" },
+        { "text": "Skill suggests concrete alternative paths (adjust target, look at Director-level, etc.)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The same job appears on LinkedIn, Indeed, and the company's careers page.",
+      "expected_output": "Skill deduplicates by company + title + location, presents the posting once, and prefers the direct company-page URL over aggregators.",
+      "assertions": [
+        { "text": "Posting appears exactly once in the output (deduplicated)", "passed": false, "evidence": "" },
+        { "text": "The chosen URL is the company career page, not the LinkedIn or Indeed mirror", "passed": false, "evidence": "" },
+        { "text": "If sources are shown for the deduped posting, all three are surfaced as 'also seen on' rather than hidden", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "I found this posting on LinkedIn — it has no apply button visible, no salary listed (the role is in NYC), the company name says 'Confidential Fortune 500', and a quick search shows the exact same JD wording was posted three times in the last 60 days. Should I tailor my resume for it?",
+      "expected_output": "Skill rates this as Suspicious on the posting-legitimacy axis (1.0-2.5 range), not as a match-quality problem. Treats legitimacy and match quality as separate axes. Recommends skipping unless the user has specific reason to pursue, citing the multiple ghost-job signals.",
+      "assertions": [
+        { "text": "Skill identifies this as a posting-legitimacy problem, not a match-quality problem", "passed": false, "evidence": "" },
+        { "text": "Skill rates posting_legitimacy at or below 2.5 (Suspicious tier per posting-legitimacy-rubric.md)", "passed": false, "evidence": "" },
+        { "text": "Skill cites at least 3 specific ghost-job signals (no apply button, no salary in transparency state, confidential employer, repeat reposts)", "passed": false, "evidence": "" },
+        { "text": "Skill recommends skipping or proceeding with caution, NOT proceeding to tailor", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT conflate this with match-quality red flags (the user didn't ask about fit)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Score this posting: I'm a senior backend engineer with 8 YOE in Python+Go targeting $180k. The posting is a Senior Backend Engineer role at Stripe paying $200k-$240k, posted 5 days ago via Greenhouse, well-specified JD listing the same tech stack I have. No red flags.",
+      "expected_output": "Skill produces five 1-5 sub-scores (cv_match, comp_vs_target, cultural_signals, posting_legitimacy, red_flags_penalty) and feeds them to scripts/score_posting.py. Output includes weighted_global score >= 4.0 and recommendation 'apply'.",
+      "assertions": [
+        { "text": "Skill produces all 5 sub-scores explicitly, not just a global tag", "passed": false, "evidence": "" },
+        { "text": "Skill invokes scripts/score_posting.py or applies its weighted formula explicitly", "passed": false, "evidence": "" },
+        { "text": "cv_match >= 4.5 (perfect-stack-match scenario)", "passed": false, "evidence": "" },
+        { "text": "comp_vs_target >= 4.5 (range comfortably above floor)", "passed": false, "evidence": "" },
+        { "text": "posting_legitimacy >= 4.5 (named employer, fresh, ATS-direct, specific JD)", "passed": false, "evidence": "" },
+        { "text": "red_flags_penalty is 0 or very low", "passed": false, "evidence": "" },
+        { "text": "weighted_global >= 4.0 and recommendation is 'apply'", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "I'm running job-hunter for the first time. I'm a senior backend engineer in Austin targeting $180k. (No `.job-hunter-profile.md` exists in the workspace yet.)",
+      "expected_output": "Skill detects no profile exists, runs init_profile.py to drop a template, then asks the 5 North-Star questions conversationally before proceeding to Phase 2 search. Does NOT skip straight to searching.",
+      "assertions": [
+        { "text": "Skill checks for an existing profile via scripts/init_profile.py exists OR reads the workspace directly", "passed": false, "evidence": "" },
+        { "text": "Skill writes a .job-hunter-profile.md template to the user's workspace (not the skill directory)", "passed": false, "evidence": "" },
+        { "text": "Skill asks at least 3 of the 5 North-Star questions before Phase 2 search", "passed": false, "evidence": "" },
+        { "text": "Skill mentions that the profile is local to the workspace and won't be committed", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT search before profile is at least partially filled OR user has explicitly declined to answer", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "I'm running job-hunter again, second session. Same role/location/comp as last time. (A `.job-hunter-profile.md` exists in the workspace from session 1, with archetype='Tech lead, hands-on' and deal_breakers='No defense work, no commission-only'.)",
+      "expected_output": "Skill reads the existing profile, briefly confirms 'anything changed?', then proceeds without re-walking the 5 questions. Uses the saved deal-breakers to penalize matching postings.",
+      "assertions": [
+        { "text": "Skill reads the existing .job-hunter-profile.md (does NOT re-init or re-ask)", "passed": false, "evidence": "" },
+        { "text": "Skill confirms 'anything changed?' but does NOT re-walk all 5 questions", "passed": false, "evidence": "" },
+        { "text": "Skill applies deal_breakers from the profile as a hard filter (red_flags_penalty: 1.0 on matching postings, e.g., any defense contractor)", "passed": false, "evidence": "" },
+        { "text": "Skill references the saved archetype when scoring cv_match (Tech lead context shifts what counts as a fit)", "passed": false, "evidence": "" }
+      ]
+    }
+  ]
+}

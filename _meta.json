@@ -1,0 +1,54 @@
+{
+  "skill_name": "job-hunter",
+  "license": "MIT",
+  "baseline_score": "66.7",
+  "current_score": "100.0",
+  "last_iteration": "2026-05-18",
+  "iterations": [
+    {
+      "version": "v2",
+      "date": "2026-05-11",
+      "trigger_accuracy": 0.667,
+      "audit_score": "15/15"
+    },
+    {
+      "version": "v3",
+      "date": "2026-05-11",
+      "trigger_accuracy": 1.0,
+      "audit_score": "15/15",
+      "frozen_v1_held": true
+    },
+    {
+      "version": "v4",
+      "date": "2026-05-18",
+      "trigger_accuracy": 1.0,
+      "audit_score": "15/15",
+      "skill_score_source": "106/106 (100.0%)",
+      "frozen_v1_held": true,
+      "frozen_v2_held": true,
+      "signal": "competitive review against santifer/career-ops",
+      "changes": [
+        "scripts/score_posting.py - deterministic 5-sub-score scorer with weighted global + recommendation",
+        "references/posting-legitimacy-rubric.md - ghost-job axis split from posting-quality",
+        "references/match-quality-rubric.md - match-quality axis with severity-graded red flags",
+        "references/posting-quality-rubric.md - converted to stub redirector",
+        "scripts/generate_tracker_html.py - multi-block scoring in HTML; CSS promoted to asset",
+        "assets/templates/tracker.css - CSS source of truth",
+        "scripts/init_profile.py - North-Star profile management (init/read/exists)",
+        "references/profile-questions.md - 5 questions and rationale",
+        "evals/outcome-evals.json - added evals #9-12 (ghost-job, full-scoring, profile init, profile reuse)",
+        "tests/ - 69 unit tests across 3 test files"
+      ],
+      "load_bearing_safety_tests": [
+        "tests/test_score_posting.py::test_cv_match_is_heaviest_weight",
+        "tests/test_score_posting.py::test_red_flag_torpedoes_perfect_score",
+        "tests/test_score_posting.py::test_thresholds_match_career_ops_block_g",
+        "tests/test_generate_tracker_html.py::test_script_has_no_inline_css_block",
+        "tests/test_generate_tracker_html.py::test_css_asset_loaded_into_output",
+        "tests/test_init_profile.py::test_profile_filename_is_dot_prefixed",
+        "tests/test_init_profile.py::test_no_sample_profile_in_skill_directory",
+        "tests/test_init_profile.py::test_questions_count_is_five"
+      ]
+    }
+  ]
+}

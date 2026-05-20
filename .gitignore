@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Editor / OS
+.DS_Store
+*.swp
+.vscode/
+.idea/
+Thumbs.db
+
+# PII vector — user's North-Star profile lives in their workspace, NEVER in the repo
+# This is a load-bearing safety guard. Do not remove without reading
+# tests/test_init_profile.py::test_no_sample_profile_in_skill_directory
+.job-hunter-profile.md
+
+# Build artifacts
+dist/
+build/
+*.zip
+
+# Agent local state
+.claude/
+.codex/
+.agents/

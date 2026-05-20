@@ -1,0 +1,166 @@
+# job-hunter
+
+> **Stop applying to ghost jobs.**
+> A free, open-source AI agent skill that searches LinkedIn, Indeed, and state job boards, scores each posting **1-5** for legitimacy and CV-fit, and outputs a **tailored, ATS-ready resume + cover letter** per role.
+> Built for every career — nurses, welders, teachers, engineers. Runs in **Claude Code**, **Codex**, and any [agentskills.io](https://agentskills.io)-compatible agent.
+
+[![Tests](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml/badge.svg)](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Agent Skill](https://img.shields.io/badge/agentskills.io-2025--12--18-blue)](https://agentskills.io)
+[![Trigger accuracy](https://img.shields.io/badge/trigger_accuracy-100%25-brightgreen)](evals/trigger-evals.json)
+[![Unit tests](https://img.shields.io/badge/unit_tests-69%2F69-brightgreen)](tests/)
+[![GitHub Release](https://img.shields.io/github/v/release/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/releases/latest)
+[![GitHub stars](https://img.shields.io/github/stars/wexxwuther/job-hunter?style=social)](https://github.com/wexxwuther/job-hunter/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/commits/main)
+[![Downloads](https://img.shields.io/github/downloads/wexxwuther/job-hunter/total)](https://github.com/wexxwuther/job-hunter/releases)
+
+---
+
+## Quickstart
+
+Once installed (see [Install](#install) below), just ask your agent:
+
+```
+Find me senior backend engineer jobs in Seattle, $180k+, that aren't ghost listings.
+```
+
+```
+Here's my resume — what nurse practitioner jobs near Austin would I be a strong fit for?
+```
+
+```
+Tailor my resume for this posting: [URL]
+```
+
+The skill auto-activates, walks you through 5 quick profile questions on first use (saved to `.job-hunter-profile.md` in your workspace — **never** sent anywhere), then runs the full pipeline:
+
+1. **Understand the user** — North-Star profile (5 questions) + resume parsing
+2. **Search** — LinkedIn, Indeed, Glassdoor, ZipRecruiter, Dice, Wellfound, USAJobs, 50-state workforce commissions, and company career pages
+3. **Score** — every posting gets a 1-5 across 5 sub-scores (CV match, comp vs target, cultural signals, posting legitimacy, red flags)
+4. **Tailor** — ATS-optimized DOCX resume + cover letter per role you want to pursue
+5. **Track** — interactive HTML tracker with sort/filter, sub-score breakdown, and weighted global score
+
+---
+
+## Install
+
+Pick your harness. All three install paths are first-class.
+
+| Harness | Skills directory | Install guide |
+|---|---|---|
+| **Claude Code** | `~/.claude/skills/` | [install/claude-code.md](install/claude-code.md) |
+| **OpenAI Codex** | `~/.codex/skills/` | [install/codex.md](install/codex.md) |
+| **OpenClaw** | `~/.openclaw/skills/` | [install/openclaw.md](install/openclaw.md) |
+| **Hermes Agent** | `~/.hermes/skills/` | [install/hermes.md](install/hermes.md) |
+
+### One-shot installers
+
+If you just want it working in 10 seconds:
+
+```bash
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.sh | bash
+```
+
+```powershell
+# Windows (PowerShell)
+iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
+```
+
+### Skip the line — download the zip
+
+Prefer not to clone? Grab the latest release zip from the [Releases page](https://github.com/wexxwuther/job-hunter/releases/latest) and extract it into your agent's skills directory. Done.
+
+---
+
+## How the scoring works
+
+Every job posting gets scored across **five sub-scores** (1-5 each) with documented weights:
+
+| Sub-score | Weight | What it measures |
+|---|---|---|
+| `cv_match` | **0.35** (heaviest) | How well your resume aligns with the posting's stated requirements |
+| `comp_vs_target` | 0.25 | Listed comp vs your target band from your North-Star profile |
+| `cultural_signals` | 0.20 | Mission, team size, hiring-page tone, glassdoor signal |
+| `posting_legitimacy` | 0.20 | Ghost-job rubric (re-posts, vague specs, missing recruiter) |
+| `red_flags_penalty` | **multiplier** | Pays-in-equity, asks-for-SSN-pre-offer, fee-to-apply — torpedoes the score |
+
+A single severe red flag can take an otherwise-perfect posting from 5.0 to 1.0. Read the full rubrics in [references/posting-legitimacy-rubric.md](references/posting-legitimacy-rubric.md) and [references/match-quality-rubric.md](references/match-quality-rubric.md).
+
+---
+
+## What you get out of the box
+
+```
+job-hunter/
+├── SKILL.md                          # The skill itself (agentskills.io spec)
+├── scripts/                          # 9 production Python scripts (no network deps)
+│   ├── score_posting.py              # Deterministic 1-5 scoring
+│   ├── init_profile.py               # North-Star profile management
+│   ├── parse_resume.py               # DOCX/PDF/text resume parser
+│   ├── extract_ats_keywords.py       # Keyword-gap analysis
+│   ├── build_search_queries.py       # Multi-board query builder
+│   ├── expand_role_synonyms.py       # Role-title synonyms (SDE = SWE = Engineer)
+│   ├── normalize_salary.py           # $120k/yr = $10k/mo = $60/hr
+│   ├── dedupe_postings.py            # Cross-board dedup
+│   └── generate_tracker_html.py      # Interactive HTML tracker
+├── references/                       # 7 reference docs the skill consults
+├── assets/templates/tracker.css      # Tracker styling (no inline CSS)
+├── tests/                            # 69 unit tests
+└── evals/                            # Trigger + outcome eval suites
+```
+
+No API keys required. No telemetry. No phoning home. Your `.job-hunter-profile.md` stays in **your** workspace.
+
+---
+
+## Tested
+
+```bash
+cd job-hunter
+pip install pytest                   # only dependency
+pytest tests/
+# 69 passed
+```
+
+CI runs the full suite on every push across Python 3.10/3.11/3.12 on Ubuntu, macOS, and Windows.
+
+---
+
+## FAQ
+
+**I don't have a resume yet — can I still use this?**
+Yes. If no resume is in your workspace, the skill will offer two paths: (1) point to one you have (file upload, path, or paste), or (2) walk you through a focused interview to draft a baseline `resume.md` from scratch — work history, accomplishments with numbers, skills, education, projects, and any non-traditional experience. Once the baseline is solid, the normal job-search and tailoring flow kicks in. The skill won't run the job search with no resume at all, because the scoring rubric and tailoring step both need one.
+
+**My resume is thin or out of date.**
+The skill will flag that before tailoring rather than producing 10 weak tailored versions of a weak base resume. It'll walk you through a short strengthen-the-baseline pass (asking for numbers on your accomplishments, surfacing skills you haven't listed, filling in dates) and then proceed.
+
+**Will this submit applications for me?**
+No. It produces the tailored resume + cover letter + application tracker. You submit. That's a deliberate boundary — auto-submission is a different trust model and out of scope for this skill.
+
+**Does it send my resume or profile anywhere?**
+No. Your resume, your `.job-hunter-profile.md`, and every tailored output live in your workspace. The skill has no telemetry, no phone-home, no required API keys, and no required network calls beyond what your agent already does to search the web. See [SECURITY.md](SECURITY.md) for the full trust model.
+
+**Why isn't there an interview-prep feature?**
+Deliberately out of scope. Interview prep is a different workflow with different inputs and a different success criterion. If you want it, run a separate interview-prep skill alongside this one.
+
+---
+
+## Contributing
+
+Issues, feature requests, and PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow. If you found a security issue, see [SECURITY.md](SECURITY.md) for private disclosure.
+
+If you use `job-hunter` to land a job, **open a Discussion and tell us** — that's the highest-signal feedback this project gets.
+
+---
+
+## License
+
+[MIT](LICENSE). Use it commercially, fork it, rebrand it, ship it inside your product. No attribution required (but appreciated).
+
+---
+
+## Credits
+
+- Competitive design review against [`santifer/career-ops`](https://github.com/santifer/career-ops) (MIT) — `job-hunter` v4 folded in four of its ideas (1-5 scoring, legitimacy/match split, North-Star profile, multi-block tracker) and rejected five others where our design constraints differ.
+- Built on the open [agentskills.io](https://agentskills.io) spec so it runs across Claude Code, Codex, OpenClaw, and any future compatible agent.

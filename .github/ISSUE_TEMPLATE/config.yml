@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussion
+    url: https://github.com/wexxwuther/job-hunter/discussions
+    about: Have a question, want to share that you landed a job, or want to discuss design? Open a Discussion instead of an issue.
+  - name: Security issue
+    url: https://github.com/wexxwuther/job-hunter/blob/main/SECURITY.md
+    about: Please report security issues privately via email, not as a public issue.
