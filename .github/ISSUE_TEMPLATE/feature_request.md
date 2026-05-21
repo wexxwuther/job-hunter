@@ -10,11 +10,11 @@ assignees: ''
 
 Describe the situation, not the implementation. Who is the user? What are they trying to do? What's frustrating about doing it today?
 
-> Example: "I'm a registered nurse in Ohio looking for travel-nurse contracts. The current skill returns staff RN positions when I ask for travel — I have to manually filter every time."
+> Example: "I'm a registered nurse in Ohio looking for travel-nurse contracts. The current skill returns staff RN positions when I ask for travel, I have to manually filter every time."
 
 ## What would solve it
 
-What outcome would make this scenario better? Again, the outcome — not the code.
+What outcome would make this scenario better? Again, the outcome, not the code.
 
 > Example: "Travel-nurse postings should be tagged as a separate role-category so the scoring rubric can weight them appropriately, and the tracker should let me filter by `contract_type`."
 

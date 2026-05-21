@@ -20,7 +20,7 @@ This project exists to help real people find real jobs. That mission only works 
 
 Maintainers may delete comments, close issues or PRs, or block accounts that violate this code. The maintainer's call is final.
 
-To report a problem privately, see [SECURITY.md](SECURITY.md) for the contact email — same channel works for conduct issues.
+To report a problem privately, see [SECURITY.md](SECURITY.md) for the contact email, same channel works for conduct issues.
 
 ## Scope
 

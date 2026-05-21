@@ -2,20 +2,20 @@
 
 `job-hunter` is an agentskills.io-compliant skill. Claude Code auto-loads any skill placed in `~/.claude/skills/`.
 
-## Option 1 — Clone
+## Option 1, Clone
 
 ```bash
 mkdir -p ~/.claude/skills
 git clone https://github.com/wexxwuther/job-hunter.git ~/.claude/skills/job-hunter
 ```
 
-## Option 2 — Download the zip
+## Option 2, Download the zip
 
 1. Go to the [latest Release](https://github.com/wexxwuther/job-hunter/releases/latest).
 2. Download `job-hunter-vX.Y.Z.zip`.
 3. Extract it into `~/.claude/skills/` so the final path is `~/.claude/skills/job-hunter/SKILL.md`.
 
-## Option 3 — One-shot installer
+## Option 3, One-shot installer
 
 ```bash
 # macOS / Linux

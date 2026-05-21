@@ -1,4 +1,4 @@
-# Rejected Ideas — hard constraints
+# Rejected Ideas: hard constraints
 
 Things you have explicitly told the agent NOT to do again. Treat these as **hard filters**, not soft preferences. The agent reads this file at the start of every session and applies these constraints before searching, scoring, or tailoring.
 
@@ -9,11 +9,11 @@ Things you have explicitly told the agent NOT to do again. Treat these as **hard
 **Format per entry:**
 
 ```
-## YYYY-MM-DD — Short imperative constraint
+## YYYY-MM-DD: Short imperative constraint
 
-**Rejected:** What the agent should NOT do (be specific — "no defense work" or "no companies > 5000 employees" or "no commission-only comp")
-**Reason:** Why, in your own words — helps future-you decide whether to lift the constraint later
-**Scope:** Hard filter (exclude entirely) | Soft warning (include but flag) — default is hard filter
+**Rejected:** What the agent should NOT do (be specific, "no defense work" or "no companies > 5000 employees" or "no commission-only comp")
+**Reason:** Why, in your own words, helps future-you decide whether to lift the constraint later
+**Scope:** Hard filter (exclude entirely) | Soft warning (include but flag), default is hard filter
 ```
 
 **Editing this file:** delete an entry if the constraint no longer applies, or change Scope from "Hard filter" to "Soft warning" to relax it. The agent re-reads on every session.

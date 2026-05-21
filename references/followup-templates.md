@@ -10,21 +10,21 @@ When and how to follow up after a job application or interview. The skill drafts
 
 **The template (`check_in`):**
 
-- **Subject:** "Following up — {role} at {company}"
+- **Subject:** "Following up, {role} at {company}"
 - **Opening:** state the role and applied date in one short sentence
-- **Middle:** one specific qualification that maps to a stated requirement (this is the part the user must personalize — generic check-ins get ignored)
+- **Middle:** one specific qualification that maps to a stated requirement (this is the part the user must personalize, generic check-ins get ignored)
 - **CTA:** offer to share additional examples or jump on a brief call
 - **Sign-off:** standard
 
 ### Thank-you: 24-48 hours after a phone screen, onsite, or other interview
 
-**The principle:** thank-you notes are table stakes for many hiring managers — sending none is a soft negative signal. But the format matters more than the existence: a generic "thanks for your time" is forgettable; a thank-you that references a specific thing discussed shows you were engaged.
+**The principle:** thank-you notes are table stakes for many hiring managers, sending none is a soft negative signal. But the format matters more than the existence: a generic "thanks for your time" is forgettable; a thank-you that references a specific thing discussed shows you were engaged.
 
 **The template (`thank_you`):**
 
-- **Subject:** "Thank you — {role} at {company}"
+- **Subject:** "Thank you, {role} at {company}"
 - **Opening:** thank them, name the role, anchor the time ("yesterday" / "earlier today" / "on May 18")
-- **Middle:** reference one specific thing discussed — a problem they raised, a project they mentioned, an architecture decision you went deep on
+- **Middle:** reference one specific thing discussed, a problem they raised, a project they mentioned, an architecture decision you went deep on
 - **Bridge:** reiterate one strong qualification connecting to that topic
 - **CTA:** offer to provide anything else as they evaluate
 - **Sign-off:** standard
@@ -39,7 +39,7 @@ When and how to follow up after a job application or interview. The skill drafts
 
 ## What the script does NOT do
 
-- **Send the email.** The user copy-pastes. The skill never owns the send step. (See `tests/test_draft_followup.py::test_no_smtp_or_send_imports_in_script` — this is a load-bearing safety boundary.)
+- **Send the email.** The user copy-pastes. The skill never owns the send step. (See `tests/test_draft_followup.py::test_no_smtp_or_send_imports_in_script`, this is a load-bearing safety boundary.)
 - **Auto-personalize.** The script emits a structurally correct draft with placeholders (`[Add one specific qualification...]`, `[Add one specific thing discussed...]`) that the user must fill in. Generic content there is worse than no follow-up.
 - **Track follow-up send dates.** The agent appends to DECISIONS.md when a follow-up is drafted; the user updates DECISIONS.md or tracker.json when they actually send it. The skill doesn't try to be a CRM.
 
@@ -56,9 +56,9 @@ When and how to follow up after a job application or interview. The skill drafts
 
 These patterns are drawn from hiring-advisor consensus, not invention. Specifically:
 
-- [Indeed Career Advice — How To Write a Follow-Up Email After a Job Application](https://www.indeed.com/career-advice/finding-a-job/follow-up-email-after-application)
-- [The Muse — How to Follow Up on a Job Application](https://www.themuse.com/advice/how-to-follow-up-on-a-job-application-an-email-template)
-- [Robert Half — How to Follow Up on a Job Application](https://www.roberthalf.com/us/en/insights/landing-job/should-you-follow-up-after-applying-for-a-job)
-- [Teal HQ — How to Follow Up (Email Templates)](https://www.tealhq.com/post/how-to-follow-up-on-a-job-application-email-template)
+- [Indeed Career Advice, How To Write a Follow-Up Email After a Job Application](https://www.indeed.com/career-advice/finding-a-job/follow-up-email-after-application)
+- [The Muse, How to Follow Up on a Job Application](https://www.themuse.com/advice/how-to-follow-up-on-a-job-application-an-email-template)
+- [Robert Half, How to Follow Up on a Job Application](https://www.roberthalf.com/us/en/insights/landing-job/should-you-follow-up-after-applying-for-a-job)
+- [Teal HQ, How to Follow Up (Email Templates)](https://www.tealhq.com/post/how-to-follow-up-on-a-job-application-email-template)
 
-The "7-10 business days" timing and the 2-follow-up cap are conventional across these sources. The "+30% response rate" figure is sometimes cited (e.g., CareerBldr) but should be treated as directional guidance, not a precise benchmark — it's drawn from sales-context studies that don't perfectly translate to job-applicant outbound.
+The "7-10 business days" timing and the 2-follow-up cap are conventional across these sources. The "+30% response rate" figure is sometimes cited (e.g., CareerBldr) but should be treated as directional guidance, not a precise benchmark, it's drawn from sales-context studies that don't perfectly translate to job-applicant outbound.

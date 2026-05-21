@@ -8,7 +8,7 @@ assignees: ''
 
 ## What happened
 
-A clear, specific description of the bug. "It doesn't work" is not enough — please describe what you saw.
+A clear, specific description of the bug. "It doesn't work" is not enough, please describe what you saw.
 
 ## What you expected
 
@@ -16,7 +16,7 @@ What did you think would happen?
 
 ## How to reproduce
 
-1. Agent harness: [e.g. Claude Code, Codex, OpenClaw — version if known]
+1. Agent harness: [e.g. Claude Code, Codex, OpenClaw, version if known]
 2. Trigger phrase you used: [paste the exact words you said to the agent]
 3. Workspace state: [resume present? .job-hunter-profile.md present?]
 4. Step-by-step:
@@ -40,4 +40,4 @@ Paste any error messages, agent output, or unexpected file contents (redact anyt
 
 ## Anything else
 
-Screenshots, related issues, ideas about the cause — anything that might help.
+Screenshots, related issues, ideas about the cause, anything that might help.

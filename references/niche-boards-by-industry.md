@@ -2,9 +2,9 @@
 
 Reference table for Tier 2 niche-board searches. Use the boards relevant to the user's target
 industry, not all of them. Boards marked **(pay-walled)** require a subscription or login to
-read full postings — flag this to the user if you can't access details.
+read full postings, flag this to the user if you can't access details.
 
-This list is not exhaustive — when the user's industry isn't here, search:
+This list is not exhaustive, when the user's industry isn't here, search:
 `[industry] job board` or `[role] specialty job site` and use what the search returns.
 
 ## Technology
@@ -32,7 +32,7 @@ This list is not exhaustive — when the user's industry isn't here, search:
 | PracticeLink | Physicians + dentists | Specialty filters |
 | HealthLeaders Media | Healthcare admin/leadership | |
 | AlliedTravelCareers | Travel allied-health roles (PT/OT/RT/labs) | |
-| State Board of Nursing portals | State employees + state-administered nursing programs | Search pattern: `"state board of nursing" jobs [state]` — state-specific URLs change; the search reliably surfaces the official portal |
+| State Board of Nursing portals | State employees + state-administered nursing programs | Search pattern: `"state board of nursing" jobs [state]`, state-specific URLs change; the search reliably surfaces the official portal |
 
 ## Finance
 
@@ -92,7 +92,7 @@ This list is not exhaustive — when the user's industry isn't here, search:
 | Roadtechs | Industrial/nuclear travelers | |
 | WorkInTexas / state portals | Trades-heavy in some states | See `references/state-workforce-commissions.md` for the 50-state registry |
 | Local union halls (IBEW, UA, IUOE) | Apprenticeship + journeyman roles | Union halls are local; search pattern: `IBEW Local [city] jobs` or `[trade] union hall [city]` |
-| Indeed + Glassdoor with role+location | Highest volume for trades | Per BLS, electricians/plumbers/HVAC have 4-9% projected growth through 2034 — these aggregators index most postings |
+| Indeed + Glassdoor with role+location | Highest volume for trades | Per BLS, electricians/plumbers/HVAC have 4-9% projected growth through 2034, these aggregators index most postings |
 | SkillBridge (DoD) | Military-to-trades transition | For service members exiting active duty |
 
 ## Legal
@@ -108,7 +108,7 @@ This list is not exhaustive — when the user's industry isn't here, search:
 
 ## Search syntax for any niche board
 
-`site:[domain] "[role]" "[location]"` — most direct, but some sites block site: queries.
+`site:[domain] "[role]" "[location]"`, most direct, but some sites block site: queries.
 
 If site: returns nothing, fall back to: `[board name] [role] [location]` and look at the first
 2-3 result pages.

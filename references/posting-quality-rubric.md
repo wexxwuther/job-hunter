@@ -2,10 +2,10 @@
 
 This file was split in iteration v4 into two orthogonal axes:
 
-- **`references/match-quality-rubric.md`** — how well does the posting fit the user's resume?
+- **`references/match-quality-rubric.md`**: how well does the posting fit the user's resume?
   Red-flag catalog with severity gradations, 1-5 cv_match rubric, drop rules, salary sanity
   check, freshness threshold.
-- **`references/posting-legitimacy-rubric.md`** — is the posting real and active? Three-tier
+- **`references/posting-legitimacy-rubric.md`**: is the posting real and active? Three-tier
   confidence scale (High Confidence / Proceed with Caution / Suspicious), signals catalog
   for age, repost patterns, apply-button, employer-disclosure, salary-transparency, and
   company-activity.

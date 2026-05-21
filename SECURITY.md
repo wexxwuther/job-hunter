@@ -5,7 +5,7 @@
 If you find a security issue in `job-hunter`, **do not open a public issue.** Instead:
 
 - **Email:** greg@gdkdigital.com
-- **Subject line:** `[security] job-hunter — <one-line summary>`
+- **Subject line:** `[security] job-hunter, <one-line summary>`
 
 Include:
 - What you found (the bug, not just the symptom)
@@ -23,13 +23,13 @@ You'll get an acknowledgment within 72 hours. Confirmed issues get patched on `m
 
 ## What doesn't count
 
-- "The skill suggests jobs I don't want" — that's a feature request, not a security issue
-- "The score for this posting seems wrong" — that's a calibration issue, open a regular issue
-- "Some recruiters might find this annoying" — out of scope
+- "The skill suggests jobs I don't want", that's a feature request, not a security issue
+- "The score for this posting seems wrong", that's a calibration issue, open a regular issue
+- "Some recruiters might find this annoying", out of scope
 
 ## Supported versions
 
-Only the latest release is supported. The skill is small enough that a fix means "upgrade to latest" — no LTS branches.
+Only the latest release is supported. The skill is small enough that a fix means "upgrade to latest", no LTS branches.
 
 ## Trust model
 

@@ -9,7 +9,7 @@ Open a thread in [Discussions](https://github.com/wexxwuther/job-hunter/discussi
 Good fits for Discussions:
 - "Does this work with my harness?"
 - "How do I tell the agent to skip a specific company?"
-- "I used job-hunter to land a job — here's what worked"
+- "I used job-hunter to land a job, here's what worked"
 - "What's the difference between `posted` and `applied_date`?"
 - Anything that isn't broken but you wish was clearer
 
@@ -33,8 +33,8 @@ I work on this on the side. Expect a day or two for issues, sometimes a week. Di
 
 If you're looking for help with these, you'll get a faster answer elsewhere:
 - General career advice (no posting in hand)
-- Interview prep — out of scope for this skill by design
-- Salary negotiation strategy — different trust model, different skill
-- Auto-applying to jobs — never going to be a feature
+- Interview prep, out of scope for this skill by design
+- Salary negotiation strategy, different trust model, different skill
+- Auto-applying to jobs, never going to be a feature
 
 For each of those, the agent harness you're using probably has a better-fit skill. Try a search on agentskills.io or your harness's skill directory.

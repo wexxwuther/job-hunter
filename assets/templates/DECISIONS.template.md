@@ -1,4 +1,4 @@
-# Decisions — your job search
+# Decisions: your job search
 
 A running log of meaningful per-session choices and their reasons. The agent appends to this file during your sessions; you can also add entries directly.
 
@@ -9,11 +9,11 @@ A running log of meaningful per-session choices and their reasons. The agent app
 **Format per entry:**
 
 ```
-## YYYY-MM-DD — Short imperative summary
+## YYYY-MM-DD: Short imperative summary
 
 **Context:** What was being decided
 **Chosen:** What you (or the agent on your behalf) decided
-**Reason:** The why, in your own words — this is what feeds learning
+**Reason:** The why, in your own words, this is what feeds learning
 ```
 
 Decisions are immutable once written. If you change your mind, add a new entry that supersedes the old one rather than editing history.

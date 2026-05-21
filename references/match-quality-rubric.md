@@ -2,10 +2,10 @@
 
 How to evaluate how well a posting fits the user's resume and target, and when to flag or
 drop a posting outright. This reference is loaded when the agent needs to make a judgment
-call about a borderline posting — most of the routine extraction (title, company, salary,
+call about a borderline posting, most of the routine extraction (title, company, salary,
 location) doesn't need it.
 
-For the orthogonal question — is this posting real and active? — see
+For the orthogonal question, is this posting real and active?, see
 `references/posting-legitimacy-rubric.md`. The two axes are scored independently and feed
 `scripts/score_posting.py` as separate sub-scores.
 
@@ -19,7 +19,7 @@ Severity gradations matter for the `red_flags_penalty` field in `score_posting.p
 - **Moderate** red flags (no salary in transparency state, staffing agency hiding employer):
   penalty 0.2-0.4
 - **Severe** red flags (unpaid trial work, SSN pre-offer, pays only in equity,
-  typosquatting): penalty 0.5-1.0 — these should torpedo the score
+  typosquatting): penalty 0.5-1.0, these should torpedo the score
 
 | Red flag | What it looks like | Severity | Why it matters |
 |---|---|---|---|
@@ -47,23 +47,23 @@ legacy three-bucket tag (used in the tracker for at-a-glance scanning) is:
 - **4.0-4.9:** Strong-to-Good, mid-80s alignment with one secondary gap
 - **3.0-3.9:** Good, 50-80% alignment
 - **2.0-2.9:** Possible, 30-50% alignment, stretch
-- **1.0-1.9:** Below the bar — drop, don't include
+- **1.0-1.9:** Below the bar, drop, don't include
 
-### 5.0 — Strong (>=80% alignment)
+### 5.0, Strong (>=80% alignment)
 - User has 80%+ of stated required skills with the same terminology or close synonyms
 - Seniority level matches (e.g., "Senior" posting matches 5+ YOE on resume in similar role)
 - Industry/domain matches (or user has clear transferable experience in the same problem space)
 - Compensation range overlaps user's target
 - User could apply with confidence; resume needs only light tailoring
 
-### 3.0-3.9 — Good (50-80% alignment)
+### 3.0-3.9, Good (50-80% alignment)
 - User has most core requirements but missing 1-2 secondary skills
 - Slight seniority gap (e.g., "Staff" posting; user is "Senior" with strong signals of staff-level scope)
-- Adjacent industry (e.g., enterprise SaaS posting; user comes from B2B fintech — different verticals, same tooling)
+- Adjacent industry (e.g., enterprise SaaS posting; user comes from B2B fintech, different verticals, same tooling)
 - Comp range slightly off but negotiable
 - Worth applying with a targeted tailored resume that emphasizes adjacency
 
-### 2.0-2.9 — Possible (<50% alignment, or stretch)
+### 2.0-2.9, Possible (<50% alignment, or stretch)
 - User has 30-50% of requirements, mostly transferable from related but distinct work
 - Big seniority gap (under-leveled or over-leveled)
 - Different industry, different tooling, but role title matches
@@ -71,7 +71,7 @@ legacy three-bucket tag (used in the tracker for at-a-glance scanning) is:
 - Honest framing: "this is a stretch, here's what would have to land"
 
 Do not invent a fourth bucket. If a posting is below 30% alignment, drop it from the list rather
-than show it as "Possible" — that's noise, not opportunity.
+than show it as "Possible", that's noise, not opportunity.
 
 ## When to drop a posting
 
@@ -81,10 +81,10 @@ Drop, don't flag, when:
 - The posting is a hard category mismatch (user is a backend engineer; posting is for a sales role at a tech company)
 - The posting is an obvious scam (per red-flag list, Severe column)
 - The `posting_legitimacy` score is 1.0-1.5 AND the user has 10+ other postings to choose
-  from — there's no upside to spending tailoring time on a near-certain ghost
+  from, there's no upside to spending tailoring time on a near-certain ghost
 
 When dropping, still mention the count in the "Sources searched" summary so the user understands
-the search wasn't padded — e.g., "LinkedIn returned 47 results, 8 dropped as expired/scam, 39 considered."
+the search wasn't padded, e.g., "LinkedIn returned 47 results, 8 dropped as expired/scam, 39 considered."
 
 ## Salary expectation vs. market sanity check
 

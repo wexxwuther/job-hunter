@@ -1,4 +1,4 @@
-# Lessons — patterns about your job-search preferences
+# Lessons: patterns about your job-search preferences
 
 Durable patterns the agent has noticed and **you have confirmed**. The agent never writes here without your sign-off. Each entry should describe a stable preference or behavior the agent should remember across all future sessions.
 
@@ -9,7 +9,7 @@ Durable patterns the agent has noticed and **you have confirmed**. The agent nev
 **Format per entry:**
 
 ```
-## YYYY-MM-DD — Short imperative pattern
+## YYYY-MM-DD: Short imperative pattern
 
 **Pattern:** The durable behavior, written in plain language ("user consistently rejects X")
 **Evidence:** Which OUTCOMES.md or DECISIONS.md entries support this (N of M cases)

@@ -26,4 +26,4 @@ I read the "What gets accepted" section of [CONTRIBUTING.md](../CONTRIBUTING.md#
 
 ## Anything reviewers should know
 
-Tricky design choices, surprising tradeoffs, things you tried that didn't work — anything you'd want a fresh reviewer to know before reading the diff.
+Tricky design choices, surprising tradeoffs, things you tried that didn't work, anything you'd want a fresh reviewer to know before reading the diff.

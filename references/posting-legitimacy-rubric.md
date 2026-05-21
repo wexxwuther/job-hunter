@@ -24,7 +24,7 @@ The posting is almost certainly a real, active, fillable opening:
 - Posted within the last 30 days, with a visible date
 - Named employer (not "confidential client" or "Fortune 500 in X city")
 - Apply button leads to the company's actual ATS (Greenhouse, Ashby, Lever, Workday) or
-  career page — not a third-party form harvesting resumes
+  career page, not a third-party form harvesting resumes
 - Job description is specific: lists day-to-day responsibilities, named team or product,
   tooling stack with versions or specifics, not just a wishlist of buzzwords
 - Salary range is visible (or the role is outside a pay-transparency jurisdiction)
@@ -33,7 +33,7 @@ The posting is almost certainly a real, active, fillable opening:
 
 ### Proceed with Caution (rate 2.5-4.0)
 
-Mixed signals — the posting may be real but has indicators that warrant a closer look before
+Mixed signals, the posting may be real but has indicators that warrant a closer look before
 spending tailoring effort:
 
 - Posted 30-60 days ago, or no date visible at all
@@ -58,7 +58,7 @@ unless they have specific reason to pursue:
 - "Confidential client" / "our client" with no named employer (staffing agency, no
   recourse, no research possible)
 - Description boilerplate so generic it could apply to any company in any industry
-- Company has had a hiring freeze announced AND this role exists on their careers page —
+- Company has had a hiring freeze announced AND this role exists on their careers page,
   pipeline-builder, not a real opening
 - Recent layoff news at the company AND the role is on the affected team
 - Domain typosquatting (apply at `careers-stripe.com` instead of `stripe.com/jobs`)
@@ -80,7 +80,7 @@ a posting with three is almost certainly not worth tailoring for.
 
 ### Repost signals
 
-- **Same JD, multiple boards, same week:** normal — aggregators syndicate
+- **Same JD, multiple boards, same week:** normal, aggregators syndicate
 - **Same JD, multiple boards, same 30-day window, different post dates:** likely a real
   recurring need; legitimate
 - **Same JD, no edits, reposted month after month:** ghost-job pattern; treat as pipeline-
@@ -101,7 +101,7 @@ a posting with three is almost certainly not worth tailoring for.
 ### Employer-disclosure signals
 
 - **Named company, real domain:** legitimate-by-default
-- **"Our client" with industry/size hint:** staffing agency — legitimate but adds a
+- **"Our client" with industry/size hint:** staffing agency, legitimate but adds a
   middleman; comp visibility usually lower
 - **"Confidential employer":** caution; the user can't research the company before
   spending tailoring effort
@@ -120,7 +120,7 @@ a posting with three is almost certainly not worth tailoring for.
 ### Company-activity signals (corroborating, not deciding)
 
 - **Recent product launches, blog posts, or press in last 90 days:** corroborates legitimacy
-- **Layoff announcement in last 90 days affecting the posted team:** suspicious — even if
+- **Layoff announcement in last 90 days affecting the posted team:** suspicious, even if
   the role is technically open, it may be a backfill that gets cancelled
 - **Layoff announcement in last 90 days NOT affecting the posted team:** caution; verify
   the role is on a still-funded team
@@ -143,16 +143,16 @@ The 1-5 rating maps directly to the `posting_legitimacy` sub-score field:
 
 Then `python scripts/score_posting.py --sub-scores '...'` computes the weighted global. A
 posting with `posting_legitimacy=1.0` and everything else at 5.0 still scores well below 4.0
-on the global — by design. That's the discipline.
+on the global, by design. That's the discipline.
 
 ## What this rubric does NOT cover
 
-- **Match quality** (does the role fit the user's background?) — see
+- **Match quality** (does the role fit the user's background?), see
   `references/match-quality-rubric.md`
-- **Red flags that disqualify entirely** (pays in equity, requests SSN pre-offer, etc.) —
+- **Red flags that disqualify entirely** (pays in equity, requests SSN pre-offer, etc.),
   see `references/match-quality-rubric.md` red-flag catalog; severe red flags should
   populate `red_flags_penalty`, not the legitimacy score
-- **Cultural fit** (stability, remote policy, mission alignment) — separate sub-score
+- **Cultural fit** (stability, remote policy, mission alignment), separate sub-score
 
 Three separate axes, three separate ratings. Aggregating them upfront destroys the signal
 that lets the user understand *why* they should or shouldn't apply.

@@ -10,10 +10,10 @@ Ashby. Behaviors vary, but the safe baseline below works across all of them.
 
 - **.docx** is the safest universal choice. Most ATS parse it natively.
 - **PDF** works on modern ATS but older Taleo/iCIMS sometimes mangle it. If the job posting
-  doesn't specify a format and uses an older ATS (visible in the URL — e.g., `*.taleo.net`,
+  doesn't specify a format and uses an older ATS (visible in the URL, e.g., `*.taleo.net`,
   `*.iCIMS.com`), prefer .docx.
 - **.txt** parses perfectly but loses formatting; only use if the posting demands it.
-- **.rtf / .pages / .odt** — risky, often misparsed. Convert to .docx first.
+- **.rtf / .pages / .odt**: risky, often misparsed. Convert to .docx first.
 
 **Page setup**
 
@@ -21,7 +21,7 @@ Ashby. Behaviors vary, but the safe baseline below works across all of them.
 - 0.5"-1" margins. Sub-0.5" can be truncated.
 - 10-12 pt body, 12-14 pt headers. Smaller may not parse.
 - Standard fonts: Arial, Calibri, Helvetica, Georgia, Times New Roman. Avoid custom or unusual
-  fonts — they may not embed, and substitution can shift line breaks.
+  fonts, they may not embed, and substitution can shift line breaks.
 
 **Structure**
 
@@ -35,17 +35,17 @@ Ashby. Behaviors vary, but the safe baseline below works across all of them.
 
 ## What breaks ATS
 
-- **Tables** — ATS often read tables row-by-row across columns, producing garbled output.
+- **Tables**, ATS often read tables row-by-row across columns, producing garbled output.
   Especially deadly for skills tables and date/title side-by-side layouts.
-- **Text in headers/footers** — many ATS skip header/footer content entirely. Don't put contact
+- **Text in headers/footers**: many ATS skip header/footer content entirely. Don't put contact
   info or critical content there.
-- **Text inside images or graphics** — never parsed.
-- **Text boxes** — varies; risky. Use plain inline text.
-- **Embedded SmartArt, icons, infographics** — never parsed.
-- **Special characters in section headings** — `▪ Experience` may not match `Experience`.
+- **Text inside images or graphics**: never parsed.
+- **Text boxes**: varies; risky. Use plain inline text.
+- **Embedded SmartArt, icons, infographics**: never parsed.
+- **Special characters in section headings**, `▪ Experience` may not match `Experience`.
   Stick to plain text headings.
-- **Multi-column layouts** — almost always misparse.
-- **PDFs with form fields or scanned-image PDFs** — never parsed.
+- **Multi-column layouts**: almost always misparse.
+- **PDFs with form fields or scanned-image PDFs**: never parsed.
 
 ## Keyword discipline
 
@@ -57,7 +57,7 @@ ATS rank resumes by keyword match against the job description. To improve match 
 2. Include both acronyms and expansions on first use: "Software-as-a-Service (SaaS)."
 3. Put high-value keywords in section headings, the summary line, and the Skills section.
    Some ATS weight these higher than body text.
-4. **Do NOT keyword-stuff** — modern ATS (Workday, Greenhouse, Ashby) detect repetition and
+4. **Do NOT keyword-stuff**, modern ATS (Workday, Greenhouse, Ashby) detect repetition and
    penalize it. Also, a human reads the resume eventually. Aim for 2-4 organic occurrences of
    the top keywords across the resume, not 15.
 5. **Never use white-on-white keyword tricks.** ATS catch them, and they're considered fraud.
@@ -80,13 +80,13 @@ Run this before producing the final file:
 
 A few legacy ATS (and some federal/gov postings) require copy-paste into a text field. For these:
 - Convert to .txt (Save As Plain Text in Word)
-- Remove all bullet characters (`•`, `▪`, `▸`) — replace with `-` or nothing
+- Remove all bullet characters (`•`, `▪`, `▸`), replace with `-` or nothing
 - Use blank lines instead of indentation to separate sections
 - Preview the text by opening it in Notepad before pasting
 
 ## Verifying your output
 
 If you want to sanity-check what an ATS sees, use a free parsing preview:
-- **Jobscan** (jobscan.co) — paste resume + JD, get a match score
-- **Resume Worded** — similar
+- **Jobscan** (jobscan.co), paste resume + JD, get a match score
+- **Resume Worded**: similar
 - These are external services, treat their output as suggestive only.

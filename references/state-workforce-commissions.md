@@ -70,7 +70,7 @@ If site: fails, use: `[state] state jobs "[role]"` and look for the .gov result.
 
 State agencies rename and redomain frequently. Before quoting a result to the user, do a quick
 sanity check: search `[state] workforce commission jobs` and confirm the official .gov result
-points to the same portal. If the portal in this table 404s, the registry needs an update —
+points to the same portal. If the portal in this table 404s, the registry needs an update,
 flag this in `docs/continuity/maintenance.md`.
 
 ## Beyond the state portal
