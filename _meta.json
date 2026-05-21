@@ -1,8 +1,10 @@
 {
   "skill_name": "job-hunter",
+  "version": "5.1.1",
   "license": "MIT",
   "baseline_score": "66.7",
   "current_score": "100.0",
+  "trigger_accuracy": 1.0,
   "last_iteration": "2026-05-20",
   "iterations": [
     {
