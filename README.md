@@ -16,6 +16,16 @@
 
 ---
 
+## Why I built this
+
+People are looking for jobs and changing career paths all the time. The job search is full of noise. Ghost listings that were never real, irrelevant matches, generic advice, hours wasted tailoring resumes for roles that already had a hire lined up. It eats time you don't have.
+
+I also believe agent skills are the next big breakthrough in agentic AI. Small, focused, composable capabilities you bolt onto whatever agent you're already using. Combining the two was the obvious move.
+
+This is what job-hunting looks like when an AI agent actually does the boring parts. Free, open-source, runs locally, never uploads your resume.
+
+---
+
 ## Quickstart
 
 Once installed (see [Install](#install) below), just ask your agent:
