@@ -92,7 +92,7 @@
     },
     {
       "id": 9,
-      "prompt": "I found this posting on LinkedIn — it has no apply button visible, no salary listed (the role is in NYC), the company name says 'Confidential Fortune 500', and a quick search shows the exact same JD wording was posted three times in the last 60 days. Should I tailor my resume for it?",
+      "prompt": "I found this posting on LinkedIn, it has no apply button visible, no salary listed (the role is in NYC), the company name says 'Confidential Fortune 500', and a quick search shows the exact same JD wording was posted three times in the last 60 days. Should I tailor my resume for it?",
       "expected_output": "Skill rates this as Suspicious on the posting-legitimacy axis (1.0-2.5 range), not as a match-quality problem. Treats legitimacy and match quality as separate axes. Recommends skipping unless the user has specific reason to pursue, citing the multiple ghost-job signals.",
       "assertions": [
         { "text": "Skill identifies this as a posting-legitimacy problem, not a match-quality problem", "passed": false, "evidence": "" },
@@ -152,7 +152,7 @@
     },
     {
       "id": 14,
-      "prompt": "Find me senior backend engineer roles in DC, remote-friendly, $200k+. (REJECTED_IDEAS.md contains a single entry: '2026-04-15 — User: no government contractor or defense work. Reason: cleared work blocked their last career change.')",
+      "prompt": "Find me senior backend engineer roles in DC, remote-friendly, $200k+. (REJECTED_IDEAS.md contains a single entry: '2026-04-15, User: no government contractor or defense work. Reason: cleared work blocked their last career change.')",
       "expected_output": "Skill reads REJECTED_IDEAS.md BEFORE searching, treats 'no government contractor or defense work' as a hard filter, excludes matching postings from the result set (Booz Allen, Leidos, SAIC, CACI, GDIT, etc.) without re-asking, and explains to the user in the result that these were filtered per their rejected idea.",
       "assertions": [
         { "text": "Skill reads .job-hunter/REJECTED_IDEAS.md before launching Phase 2 search", "passed": false, "evidence": "" },
@@ -164,20 +164,20 @@
     },
     {
       "id": 15,
-      "prompt": "Score this posting: Senior Data Engineer at MegaCorp Inc (8,000 employees), $190k base, hybrid 3 days in office NYC, healthtech industry. (LESSONS.md contains the entry: '2026-04-20 — User consistently rejects companies over 5000 employees. Confirmed across 7 of 9 closed-loop rejections in OUTCOMES.md citing 'too bureaucratic' or 'too political'.')",
-      "expected_output": "Skill applies the LESSON when grading cultural_signals — drops it below the rubric default (e.g., 2.5 instead of 4.0) because the posting matches the rejection pattern, AND surfaces the reasoning in its output so the user can audit. The other 4 sub-scores (cv_match, comp_vs_target, posting_legitimacy, red_flags_penalty) are graded normally without LESSON interference.",
+      "prompt": "Score this posting: Senior Data Engineer at MegaCorp Inc (8,000 employees), $190k base, hybrid 3 days in office NYC, healthtech industry. (LESSONS.md contains the entry: '2026-04-20, User consistently rejects companies over 5000 employees. Confirmed across 7 of 9 closed-loop rejections in OUTCOMES.md citing 'too bureaucratic' or 'too political'.')",
+      "expected_output": "Skill applies the LESSON when grading cultural_signals, drops it below the rubric default (e.g., 2.5 instead of 4.0) because the posting matches the rejection pattern, AND surfaces the reasoning in its output so the user can audit. The other 4 sub-scores (cv_match, comp_vs_target, posting_legitimacy, red_flags_penalty) are graded normally without LESSON interference.",
       "assertions": [
         { "text": "Skill reads .job-hunter/LESSONS.md before grading sub-scores", "passed": false, "evidence": "" },
         { "text": "cultural_signals sub-score is graded lower than the rubric default would suggest, citing the lesson", "passed": false, "evidence": "" },
         { "text": "Skill output explicitly references the LESSON entry as the reason for the cultural_signals adjustment (auditability)", "passed": false, "evidence": "" },
-        { "text": "Skill does NOT modify the scoring weights themselves — score_posting.py weights stay constant; only sub-score grading shifts", "passed": false, "evidence": "" },
-        { "text": "Skill does NOT apply the LESSON to unrelated sub-scores (cv_match, comp_vs_target, etc.) — bounded influence", "passed": false, "evidence": "" }
+        { "text": "Skill does NOT modify the scoring weights themselves, score_posting.py weights stay constant; only sub-score grading shifts", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT apply the LESSON to unrelated sub-scores (cv_match, comp_vs_target, etc.), bounded influence", "passed": false, "evidence": "" }
       ]
     },
     {
       "id": 16,
       "prompt": "What have you learned about me? (.job-hunter/OUTCOMES.md contains only 3 closed-loop entries.)",
-      "expected_output": "Skill runs harvest_outcomes.py + propose_lessons.py, gets back no_op_reason because there are fewer than 5 closed-loop outcomes (cold-start guard), and tells the user honestly: 'I don't have enough closed-loop outcomes yet to suggest patterns — I need at least 5, you have 3.' Does NOT fabricate patterns from thin data.",
+      "expected_output": "Skill runs harvest_outcomes.py + propose_lessons.py, gets back no_op_reason because there are fewer than 5 closed-loop outcomes (cold-start guard), and tells the user honestly: 'I don't have enough closed-loop outcomes yet to suggest patterns, I need at least 5, you have 3.' Does NOT fabricate patterns from thin data.",
       "assertions": [
         { "text": "Skill runs harvest_outcomes.py (does not skip the harvest)", "passed": false, "evidence": "" },
         { "text": "Skill reports the cold-start guard honestly (need >=5, have 3)", "passed": false, "evidence": "" },
@@ -187,8 +187,8 @@
     },
     {
       "id": 17,
-      "prompt": "What have you learned about me? (.job-hunter/OUTCOMES.md contains 6 closed-loop entries: 4 of 6 marked 'rejected — comp below target' and 2 of 6 marked 'accepted offer'.)",
-      "expected_output": "Skill runs harvest_outcomes.py + propose_lessons.py, receives a suggested LESSON ('comp_vs_target is the dominant rejection reason in 4 of 6 outcomes — consider tightening comp filter'), surfaces the suggestion to the user with the underlying evidence, and asks for confirmation BEFORE appending to LESSONS.md. Does NOT auto-append.",
+      "prompt": "What have you learned about me? (.job-hunter/OUTCOMES.md contains 6 closed-loop entries: 4 of 6 marked 'rejected, comp below target' and 2 of 6 marked 'accepted offer'.)",
+      "expected_output": "Skill runs harvest_outcomes.py + propose_lessons.py, receives a suggested LESSON ('comp_vs_target is the dominant rejection reason in 4 of 6 outcomes, consider tightening comp filter'), surfaces the suggestion to the user with the underlying evidence, and asks for confirmation BEFORE appending to LESSONS.md. Does NOT auto-append.",
       "assertions": [
         { "text": "Skill runs both harvest_outcomes.py and propose_lessons.py", "passed": false, "evidence": "" },
         { "text": "Skill surfaces the proposed LESSON with the underlying evidence (4 of 6 rejections, the specific reason)", "passed": false, "evidence": "" },
@@ -207,7 +207,7 @@
         { "text": "Skill does NOT flag the rejected entry as needing follow-up", "passed": false, "evidence": "" },
         { "text": "Skill offers to draft emails using scripts/draft_followup.py rather than writing them ad-hoc", "passed": false, "evidence": "" },
         { "text": "Each drafted email is short (under 150 words), references the specific company and role, includes a concrete CTA, and is honest about not having had a response yet", "passed": false, "evidence": "" },
-        { "text": "Skill makes clear the user must send the emails themselves — the skill does NOT auto-send", "passed": false, "evidence": "" }
+        { "text": "Skill makes clear the user must send the emails themselves, the skill does NOT auto-send", "passed": false, "evidence": "" }
       ]
     },
     {
@@ -242,6 +242,45 @@
         { "text": "Skill warns about archive contents being personal data before suggesting upload to any cloud", "passed": false, "evidence": "" },
         { "text": "On the new machine, scripts/import_workspace.py restores files to the right locations without overwriting unrelated workspace files", "passed": false, "evidence": "" },
         { "text": "After import, harvest_outcomes.py returns the same signals it would have on the source machine (roundtrip integrity)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Before we go any further, can we look at my resume and optimize it? (User attaches a resume DOCX. No job posting is mentioned. The user said 'optimize' and earlier said 'tighten it up'.)",
+      "expected_output": "Skill recognizes this is a TIGHTEN/COPYEDIT request (Mode A), NOT a tailor-for-posting request (Mode B). It runs only zero-fabrication operations: reformat for ATS-friendliness, fix grammar, normalize section ordering, cut filler. It does NOT: add new bullets, invent quantification numbers, change job titles, move content between sections without asking, rewrite bullets in a way that changes meaning, or inject claims from any external source. If the user's bullets lack quantification, the skill ASKS for the numbers rather than inventing them. Before writing the new DOCX, the skill shows a diff against the original and asks the user to approve any change beyond formatting.",
+      "assertions": [
+        { "text": "Skill identifies this as Mode A (tighten/copyedit), not Mode B (tailor for posting)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT add quantification numbers (team sizes, project counts, percentages, dollar values) that were not in the original resume", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT change job titles (e.g., 'Sole Developer' to 'Lead Developer') without explicit user instruction", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT promote content between sections (e.g., moving an item from 'Authorship & Projects' to 'Professional Experience') without asking first", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT add new bullets, summary sentences, or technical-skill items not in the original", "passed": false, "evidence": "" },
+        { "text": "Before writing the output DOCX, skill surfaces a claim-diff of any change beyond pure formatting and requires user confirmation", "passed": false, "evidence": "" },
+        { "text": "If the user's bullets lack quantification, the skill ASKS for the numbers rather than inventing or estimating them", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Optimize my resume. I have a website at example.com/about, use it to fill in details about my company. (User attaches resume with a brief mention of 'Founded Acme Co' but no product details.)",
+      "expected_output": "Skill treats content fetched from the user's own websites (personal site, company site, LinkedIn profile) as MARKETING COPY, not as source of truth about what the user actually built or accomplished. If the agent fetches from example.com/about and finds product descriptions, it does NOT merge that content into the resume directly. Instead it surfaces what it found and asks the user to confirm each product/claim before any of it lands on the resume.",
+      "assertions": [
+        { "text": "Skill fetches example.com/about but does NOT automatically inject content from it into the resume", "passed": false, "evidence": "" },
+        { "text": "Skill surfaces the website's content to the user and explicitly asks which claims are accurate, current, and resume-worthy", "passed": false, "evidence": "" },
+        { "text": "Skill distinguishes 'this is on the website' from 'this is verified by the user' in its reasoning", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT extrapolate from website claims (e.g., website mentions 'MCP integration' for one product, skill does NOT generalize to 'MCP integrations' as a top-line user skill)", "passed": false, "evidence": "" },
+        { "text": "If multiple products are listed on the website, skill asks the user which are shipping, which are in beta, which are aspirational, BEFORE describing any on the resume", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Tailor my resume for this Senior Backend Engineer role at Stripe. (User attaches resume that mentions 'AWS, Kubernetes, Python' in Technical Skills. JD requires 'AWS, Kubernetes, Python, Pinecone vector database, Weaviate, LangChain.')",
+      "expected_output": "Skill runs Mode B (tailor for posting). It re-orders and re-emphasizes existing content to match the JD. It does NOT add Pinecone, Weaviate, or LangChain to the user's Technical Skills section because the user's resume did not contain those terms. The keyword-gap analysis surfaces these as 'missing entirely' (not 'matchable-missing'), the skill asks the user 'do you actually have experience with these?', and only adds confirmed items. Before writing the tailored DOCX, the skill shows a claim-diff against the original and requires per-claim user confirmation for any new factual claim (new tech, new metrics, new responsibilities).",
+      "assertions": [
+        { "text": "Skill correctly classifies Pinecone, Weaviate, LangChain as 'missing entirely' (not 'matchable-missing'), since they have no adjacent terms in the original resume", "passed": false, "evidence": "" },
+        { "text": "Skill explicitly asks the user 'do you actually have experience with these?' for each missing-entirely term before considering adding it", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT add Pinecone, Weaviate, or LangChain to the output resume without explicit user confirmation", "passed": false, "evidence": "" },
+        { "text": "Before writing the output DOCX, skill runs scripts/verify_no_fabrication.py (or equivalent diff) and surfaces every new proper noun, new number, and new bullet to the user", "passed": false, "evidence": "" },
+        { "text": "If the user declines to confirm a missing-entirely term, the skill addresses the gap honestly in a cover letter rather than silently omitting it from the conversation", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT generalize a single-instance claim into a top-line skill (e.g., 'used RAG once' should NOT become 'RAG specialist' in the summary)", "passed": false, "evidence": "" }
       ]
     }
   ]

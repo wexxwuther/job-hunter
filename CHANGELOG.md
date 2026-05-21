@@ -2,6 +2,41 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## v5.2.0 (2026-05-21)
+
+This one is a correctness fix, not a feature release. A real user ran the resume optimizer on their actual resume and the skill added things that weren't there. Specific tools the user had never mentioned (Pinecone, Weaviate, LangChain). Numbers the user never gave (team sizes, project counts). Job title changes the user never asked for (Sole Developer to Lead Developer). Content pulled from the user's company website and merged into their resume without confirmation. Sections restructured without permission.
+
+Every one of those is a fabrication. The whole point of the tailor flow is that the output represents the user honestly. If the skill invents experience, the user can't trust any of it.
+
+**What broke and why**
+
+Phase 3 of the SKILL.md was written with the truth-preservation rule listed as a Key Principle near the bottom of the document. The actual phase instructions said things like "push for numbers and outcomes" and "quantify wherever possible" with the truth guardrail tucked in as a parenthetical. When an LLM reads a long instruction document, the active and vivid instructions dominate the passive guardrails. The agent did exactly what the dominant instructions said and exactly what the buried guardrails forbade.
+
+**What changed**
+
+Phase 3 now splits into two explicit modes:
+
+- **Mode A (Tighten / Copyedit):** zero-fabrication contract. The skill may improve how the resume reads, not what it says. Adding numbers, changing job titles, moving content between sections, and pulling from external websites are all explicitly forbidden. If the user wants quantification added, the skill asks for the numbers; it does not invent them.
+- **Mode B (Tailor for a specific posting):** the existing flow, but with a mandatory verification gate before any DOCX is written.
+
+The verification gate is a new script: `scripts/verify_no_fabrication.py`. Given the original resume and the proposed tailored version, it surfaces every new proper noun, every new number, every new section heading, every new bullet, and every new 5-word phrase run. The agent then has to walk the user through each item and get explicit per-claim confirmation before writing the file. The script never auto-approves anything. A load-bearing test asserts the script's output always has `auto_approved: false`.
+
+A new rule explicitly addresses websites: if the user mentions their own site, LinkedIn profile, or company URL, the skill may fetch it for context but **may not merge its content into the resume without per-claim user confirmation**. The user's website is marketing copy. The user is the only source of truth about what they actually built.
+
+**Other changes**
+
+- Truth-preservation moved from a Key Principle at the bottom of SKILL.md to a Hard Gate at the top of Phase 3. The wording is now imperative ("you may not change what it says") rather than passive ("preserve truth").
+- 3 new outcome evals (#22 tighten-not-tailor, #23 web-content-untrusted, #24 keyword-gap-fabrication-prevention).
+- 24 new unit tests for `verify_no_fabrication.py`, including 3 load-bearing safety tests that prove the script can never auto-approve.
+
+**Tests**
+
+201 passing (177 from v5.1.1 plus 24 for the new script).
+
+**Acknowledgment**
+
+This fix exists because a real user noticed the bug and called it out clearly. That's worth more than any automated test. If you hit a similar issue with this skill, open an issue.
+
 ## v5.1.1 (2026-05-20)
 
 A patch release. Running the v5.1.0 follow-up flow against a real tracker.json surfaced one annoying bug.

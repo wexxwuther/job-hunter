@@ -200,6 +200,9 @@ Yes. `scripts/export_workspace.py` bundles your profile + `.job-hunter/` learnin
 **Does this work for non-tech careers?**
 Yes, this is the explicit design goal. `references/niche-boards-by-industry.md` includes verified entries for healthcare (Vivian Health, Nurse.com, Health eCareers, AlliedTravelCareers, state nursing board portals), trades (iHireConstruction, AllTrucking, IBEW/UA local hall search patterns, SkillBridge for military-to-trades), legal (LawCrossing, BCG Attorney Search, state bar career pages), education (HigherEdJobs, SchoolSpring, K12JobSpot), government (USAJobs, GovernmentJobs.com, NEOGOV-hosted municipal portals, state civil-service exams), and more. The agent picks the right tier-2 boards based on your role.
 
+**I asked it to tighten my resume and it added things I didn't say. What went wrong?**
+That's a real bug we fixed in v5.2.0. Earlier versions of Phase 3 had truth-preservation listed as a Key Principle near the bottom of the SKILL.md, while the actual phase instructions said things like "push for numbers and outcomes." LLMs follow active instructions over passive guardrails, so the skill added quantification and content the user hadn't given it. v5.2.0 splits Phase 3 into two explicit modes: **Mode A (Tighten/Copyedit)** is a zero-fabrication contract that may not add numbers, change job titles, or pull content from external websites, and **Mode B (Tailor for a posting)** runs a mandatory verification gate (`scripts/verify_no_fabrication.py`) that surfaces every new claim before any output file is written. If you ever see the skill add something you didn't say, that's still a bug; please open an issue.
+
 ---
 
 ## Contributing

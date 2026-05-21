@@ -1,11 +1,11 @@
 {
   "skill_name": "job-hunter",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "license": "MIT",
   "baseline_score": "66.7",
   "current_score": "100.0",
   "trigger_accuracy": 1.0,
-  "last_iteration": "2026-05-20",
+  "last_iteration": "2026-05-21",
   "iterations": [
     {
       "version": "v2",
@@ -141,6 +141,29 @@
       ],
       "load_bearing_safety_tests": [
         "tests/test_draft_followup.py::test_scan_stale_does_NOT_fall_back_to_posted_field"
+      ]
+    },
+    {
+      "version": "v5.2.0",
+      "date": "2026-05-21",
+      "trigger_accuracy": null,
+      "audit_score": "pending",
+      "signal": "Real user (Greg) ran resume optimizer on his actual resume and reported it added technologies/numbers/titles he never mentioned. Phase 3 had truth-preservation buried as a Key Principle near the bottom while phase instructions said push for numbers and outcomes; LLMs follow active instructions over passive guardrails. Real correctness bug, not polish.",
+      "changes": [
+        "SKILL.md Phase 3: split into Mode A (Tighten/Copyedit, zero-fabrication contract) and Mode B (Tailor for posting, mandatory verification gate). Truth-preservation promoted from Key Principle to Hard Gate at the top of Phase 3.",
+        "SKILL.md Phase 3: explicit web-content-untrusted rule for user-owned sites (gdkdigital.com, LinkedIn, etc.) \u2014 fetch is allowed, merging content into the resume requires per-claim user confirmation.",
+        "scripts/verify_no_fabrication.py (NEW) \u2014 detection-only script that compares original vs proposed and surfaces every new proper noun, new number, new section, new bullet, new 5+-word phrase run. Never auto-approves. Mandatory gate before any DOCX is written.",
+        "evals/outcome-evals.json \u2014 added #22 (tighten-not-tailor mode discipline), #23 (web-content-untrusted), #24 (keyword-gap missing-entirely confirmation).",
+        "tests/test_verify_no_fabrication.py (NEW) \u2014 24 unit tests including 3 load-bearing safety tests that prove the script cannot auto-approve.",
+        "README.md \u2014 new FAQ entry explaining the bug, what changed, and the verification gate.",
+        "CHANGELOG.md \u2014 full v5.2.0 entry in human voice."
+      ],
+      "load_bearing_safety_tests": [
+        "tests/test_verify_no_fabrication.py::test_auto_approved_field_is_always_false_on_clean_input",
+        "tests/test_verify_no_fabrication.py::test_auto_approved_field_is_always_false_on_dirty_input",
+        "tests/test_verify_no_fabrication.py::test_script_exports_only_detection_no_approval_helpers",
+        "tests/test_verify_no_fabrication.py::test_real_world_pattern_detects_multiple_categories",
+        "tests/test_verify_no_fabrication.py::test_years_NOT_flagged_as_new_numbers"
       ]
     }
   ]
