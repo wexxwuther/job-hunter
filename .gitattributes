@@ -1,0 +1,17 @@
+# Enforce LF line endings for executable + text content so the skill runs
+# unchanged on macOS/Linux (CRLF in a shebang breaks `#!/usr/bin/env python3`).
+# Added 2026-05-28 after the os-coupling guard caught CRLF in
+# scripts/verify_no_fabrication.py.
+* text=auto eol=lf
+
+# Explicitly LF for the executable + text surfaces.
+*.py text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.txt text eol=lf
+
+# Windows-only installer stays CRLF (PowerShell tolerates either; CRLF is the
+# native Windows convention and this file never runs on macOS/Linux).
+*.ps1 text eol=crlf
