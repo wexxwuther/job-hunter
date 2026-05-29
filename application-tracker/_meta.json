@@ -1,0 +1,32 @@
+{
+  "skill_name": "application-tracker",
+  "version": "1.0.0",
+  "license": "MIT",
+  "family": "job-hunter",
+  "family_role": "tracker",
+  "sister_skills": [
+    "job-hunter",
+    "career-profile",
+    "job-search",
+    "resume-tailor",
+    "outcome-learning"
+  ],
+  "baseline_score": "100.0",
+  "current_score": "100.0",
+  "trigger_accuracy": 1.0,
+  "last_iteration": "2026-05-28",
+  "last_review_due": "2026-08-26",
+  "signals_observed": {
+    "trigger_misses": 0,
+    "trigger_overfires": 0,
+    "repeated_work": 0,
+    "dead_refs": 0
+  },
+  "load_bearing_safety_tests": [
+    "test_script_has_no_inline_css_block",
+    "test_css_asset_loaded_into_output",
+    "test_no_smtp_or_send_imports_in_script",
+    "test_scan_stale_does_NOT_fall_back_to_posted_field"
+  ],
+  "version_notes": "v1.0.0 is the job-hunter family tracker member, carved from the v5.2.0 monolith's Phase 4 (prepare-for-submission / application tracker) + Phase 4.5 (stale-application follow-ups + thank-you notes). Owns generate_tracker_html.py (bundles assets/templates/tracker.css; CSS lives in the asset, never inline) and draft_followup.py (check_in / thank_you drafting + scan-stale). Two load-bearing safety invariants: the tracker CSS is sourced from the asset file (no inline drift), and follow-up staleness reads ONLY applied_date never posted (the v5.1.1 fix), and the drafter NEVER auto-sends (no SMTP/email imports). Reads postings.json + tailored-resume filenames; produces tracker.json -> ApplicationTracker.html per the family workspace-contract."
+}

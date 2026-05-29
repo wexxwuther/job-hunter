@@ -1,0 +1,94 @@
+{
+  "skill_name": "job-search",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Find me senior backend engineer roles in Austin, $180k+. Here's my resume: [attaches resume.pdf with 8 years Python/Go backend experience, AWS, distributed systems, Stripe + ex-Google]",
+      "expected_output": "Skill builds a 4-tier query plan via build_search_queries.py, then searches and returns 10+ unique postings across Tier 1 (LinkedIn/Indeed/Glassdoor/ZipRecruiter), Tier 2 (Dice/Built In/HN Who's Hiring), Tier 3 (Texas Workforce Commission/Austin Business Journal/local boards), and Tier 4 (career pages of major Austin employers). Output is an HTML file in the workspace with each posting carrying source attribution, a recommendation/score badge, and clickable links.",
+      "assertions": [
+        { "text": "Search covers at least 3 of the 4 tiers (major boards / niche / local / company pages)", "passed": false, "evidence": "" },
+        { "text": "Skill builds the query plan with build_search_queries.py rather than ad-hoc queries", "passed": false, "evidence": "" },
+        { "text": "Output is delivered as an HTML file saved to the workspace folder, not bare URLs in chat", "passed": false, "evidence": "" },
+        { "text": "Each posting includes: title, company, blurb, location, salary (if listed), date, source, summary, recommendation/score, URL", "passed": false, "evidence": "" },
+        { "text": "Includes a 'Sources searched' summary at the bottom (transparency)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Find me a job",
+      "expected_output": "Skill asks for role, location, and compensation range before searching. Does NOT begin searching with assumed criteria.",
+      "assertions": [
+        { "text": "Skill asks at minimum for role/keywords, location, and compensation range", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT begin a search with placeholder or assumed criteria", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Search returns one stale posting from 2024 and two staffing-agency listings with no employer named. What do you do?",
+      "expected_output": "Skill flags red flags explicitly (staleness, unnamed-employer staffing agencies), suggests broader search alternatives (synonyms via expand_role_synonyms.py, broader location, different boards), and does NOT pad results to hit a count target.",
+      "assertions": [
+        { "text": "Skill flags the stale posting age and the staffing-agency red flag visibly to the user", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT silently exclude or silently include flagged postings - flags are surfaced for user choice", "passed": false, "evidence": "" },
+        { "text": "Skill suggests concrete next-search alternatives (synonyms, broader location, different boards) rather than declaring done", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT fabricate additional postings to pad the result count", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Search for product manager jobs in Denver. My salary target is $250k.",
+      "expected_output": "Skill searches Tier 1-4 and presents results, normalizes posting salary strings with normalize_salary.py, but flags that $250k may be above market for PM roles in Denver and suggests the user consider adjusting expectations or targeting Director-level roles.",
+      "assertions": [
+        { "text": "Skill runs the search across all four tiers", "passed": false, "evidence": "" },
+        { "text": "Skill flags compensation expectation mismatch (per the match-quality salary-vs-market sanity check)", "passed": false, "evidence": "" },
+        { "text": "Skill suggests concrete alternative paths (adjust target, look at Director-level, etc.)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "The same job appears on LinkedIn, Indeed, and the company's careers page.",
+      "expected_output": "Skill deduplicates via dedupe_postings.py (by company + title + location), presents the posting once, and prefers the direct company-page URL over aggregators, preserving the other sources under also_seen_on.",
+      "assertions": [
+        { "text": "Posting appears exactly once in the output (deduplicated)", "passed": false, "evidence": "" },
+        { "text": "The chosen URL is the company career page, not the LinkedIn or Indeed mirror", "passed": false, "evidence": "" },
+        { "text": "All three sources are surfaced as 'also seen on' rather than hidden", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I found this posting on LinkedIn, it has no apply button visible, no salary listed (the role is in NYC), the company name says 'Confidential Fortune 500', and a quick search shows the exact same JD wording was posted three times in the last 60 days. Should I tailor my resume for it?",
+      "expected_output": "Skill rates this as Suspicious on the posting-legitimacy axis (1.0-2.5 range), not as a match-quality problem. Treats legitimacy and match quality as separate axes. Recommends skipping unless the user has a specific reason to pursue, citing the multiple ghost-job signals. (Tailoring itself routes to resume-tailor and is out of scope for the search member.)",
+      "assertions": [
+        { "text": "Skill identifies this as a posting-legitimacy problem, not a match-quality problem", "passed": false, "evidence": "" },
+        { "text": "Skill rates posting_legitimacy at or below 2.5 (Suspicious tier per posting-legitimacy-rubric.md)", "passed": false, "evidence": "" },
+        { "text": "Skill cites at least 3 specific ghost-job signals (no apply button, no salary in transparency state, confidential employer, repeat reposts)", "passed": false, "evidence": "" },
+        { "text": "Skill recommends skipping or proceeding with caution, NOT proceeding to tailor", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT conflate this with match-quality red flags (the user didn't ask about fit)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Score this posting: I'm a senior backend engineer with 8 YOE in Python+Go targeting $180k. The posting is a Senior Backend Engineer role at Stripe paying $200k-$240k, posted 5 days ago via Greenhouse, well-specified JD listing the same tech stack I have. No red flags.",
+      "expected_output": "Skill produces five 1-5 sub-scores (cv_match, comp_vs_target, cultural_signals, posting_legitimacy, red_flags_penalty) and feeds them to scripts/score_posting.py. Output includes weighted_global score >= 4.0 and recommendation 'apply'.",
+      "assertions": [
+        { "text": "Skill produces all 5 sub-scores explicitly, not just a global tag", "passed": false, "evidence": "" },
+        { "text": "Skill invokes scripts/score_posting.py or applies its weighted formula explicitly", "passed": false, "evidence": "" },
+        { "text": "cv_match >= 4.5 (perfect-stack-match scenario)", "passed": false, "evidence": "" },
+        { "text": "comp_vs_target >= 4.5 (range comfortably above floor)", "passed": false, "evidence": "" },
+        { "text": "posting_legitimacy >= 4.5 (named employer, fresh, ATS-direct, specific JD)", "passed": false, "evidence": "" },
+        { "text": "red_flags_penalty is 0 or very low", "passed": false, "evidence": "" },
+        { "text": "weighted_global >= 4.0 and recommendation is 'apply'", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "I'm a registered nurse in Ohio looking for travel-nurse contracts, $80/hr+. Find me real openings.",
+      "expected_output": "Search uses the references/niche-boards-by-industry.md healthcare entries (Health eCareers, Nurse.com, Vivian Health, Ohio Board of Nursing portals) in addition to Tier 1 (LinkedIn, Indeed). Does NOT default to the tech-aggregator pattern. Each result includes source attribution from non-tech boards.",
+      "assertions": [
+        { "text": "Search query plan includes at least 2 nursing-specific job boards (e.g., Vivian Health, Nurse.com, Health eCareers)", "passed": false, "evidence": "" },
+        { "text": "Search includes Ohio-specific government/board sources (Ohio Board of Nursing, Ohio Means Jobs, etc.)", "passed": false, "evidence": "" },
+        { "text": "Result set includes postings sourced from non-LinkedIn/Indeed boards (proving the niche boards were actually used, not just listed)", "passed": false, "evidence": "" },
+        { "text": "Skill correctly distinguishes travel-nurse contracts from staff RN positions in scoring", "passed": false, "evidence": "" }
+      ]
+    }
+  ]
+}

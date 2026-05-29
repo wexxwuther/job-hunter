@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "query": "Set up my job-search profile before we start looking for jobs",
+    "should_trigger": true,
+    "rationale": "Direct request to set up the North-Star profile - the canonical profile-intake trigger. Maps to init_profile.py + the 5 questions."
+  },
+  {
+    "id": 2,
+    "query": "Let me tell you about myself and what kind of role I actually want before we search",
+    "should_trigger": true,
+    "rationale": "User wants to capture who they are beyond the resume (target archetype, preferences). This is the North-Star intake, not a search yet."
+  },
+  {
+    "id": 3,
+    "query": "Here's my resume DOCX - can you read it and pull out my experience?",
+    "should_trigger": true,
+    "rationale": "Resume parsing/extraction request. Exercises parse_resume.py (DOCX path). Profile-intake reads the resume; it does not tailor it."
+  },
+  {
+    "id": 4,
+    "query": "Extract the text from my resume PDF so we can use it",
+    "should_trigger": true,
+    "rationale": "Plain resume-to-text extraction. Direct parse_resume.py PDF path; downstream members consume the parsed text."
+  },
+  {
+    "id": 5,
+    "query": "I set up my profile a few months ago - can we refresh it?",
+    "should_trigger": true,
+    "rationale": "Stale-profile refresh. Exercises init_profile.py read + the 90-day staleness prompt; does not re-walk all five questions."
+  },
+  {
+    "id": 6,
+    "query": "Capture my deal-breakers: no on-call, no defense work, no relocation",
+    "should_trigger": true,
+    "rationale": "User is supplying North-Star answers (deal-breakers question). Profile-intake records these into .job-hunter-profile.md."
+  },
+  {
+    "id": 7,
+    "query": "Tailor my resume for this product manager role at Stripe",
+    "should_trigger": false,
+    "rationale": "Sibling-collision negative. Tailoring a resume to a specific posting is resume-tailor's job, not profile-intake. career-profile parses resumes but never tailors them."
+  },
+  {
+    "id": 8,
+    "query": "Find me senior backend engineer roles in Seattle, $180k+",
+    "should_trigger": false,
+    "rationale": "Sibling-collision negative. Finding/scoring postings is job-search (or the orchestrator). Profile-intake does not search."
+  },
+  {
+    "id": 9,
+    "query": "Review my resume and tell me what's wrong with it",
+    "should_trigger": false,
+    "rationale": "Generic resume critique divorced from a job search. Out of scope for profile-intake, which reads/parses but does not critique."
+  },
+  {
+    "id": 10,
+    "query": "Should I become a product manager?",
+    "should_trigger": false,
+    "rationale": "Career-coaching question with no concrete job search or profile setup. Out of scope across the family."
+  }
+]

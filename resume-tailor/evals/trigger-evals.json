@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "query": "Can you tailor my resume for this product manager role at Stripe?",
+    "should_trigger": true,
+    "rationale": "Resume tailoring against a named posting - the canonical Mode B trigger for the resume-tailor member."
+  },
+  {
+    "id": 2,
+    "query": "Tighten up my resume and clean up the formatting",
+    "should_trigger": true,
+    "rationale": "'Tighten' / 'clean up' with no posting named is the canonical Mode A (zero-fabrication copyedit) trigger."
+  },
+  {
+    "id": 3,
+    "query": "Optimize my resume for ATS systems",
+    "should_trigger": true,
+    "rationale": "ATS optimization is a core resume-tailor capability; the member owns the ats-formatting-guide reference."
+  },
+  {
+    "id": 4,
+    "query": "Optimize my resume for this senior backend engineer role at Acme",
+    "should_trigger": true,
+    "rationale": "'Optimize ... for a role' names a target posting - Mode B tailor flow with keyword gap analysis."
+  },
+  {
+    "id": 5,
+    "query": "What's the keyword gap between my resume and this job description?",
+    "should_trigger": true,
+    "rationale": "Keyword gap analysis is the extract_ats_keywords.py capability owned by this member (present / matchable-missing / missing-entirely)."
+  },
+  {
+    "id": 6,
+    "query": "Rewrite my resume bullets to mirror this posting's language",
+    "should_trigger": true,
+    "rationale": "Rephrasing existing claims to echo the JD is the Mode B light-touch tailoring target (rephrase, do not invent)."
+  },
+  {
+    "id": 7,
+    "query": "Write me a cover letter for the Anthropic research engineer position",
+    "should_trigger": true,
+    "rationale": "Cover-letter generation tied to a specific role is Phase 3 step 6, owned by the resume-tailor member."
+  },
+  {
+    "id": 8,
+    "query": "Help me with my resume",
+    "should_trigger": true,
+    "rationale": "Ambiguous resume request. Should activate the member, which then runs Step 0 to classify Mode A vs Mode B and ASK if ambiguous (does not default to Mode B)."
+  },
+  {
+    "id": 9,
+    "query": "Find me senior backend engineer roles in Seattle, $180k+",
+    "should_trigger": false,
+    "rationale": "Finding and scoring job postings belongs to the job-search member, not resume-tailor. This member edits resumes; it does not search."
+  },
+  {
+    "id": 10,
+    "query": "Set up my job-search profile and parse my resume into facts",
+    "should_trigger": false,
+    "rationale": "Profile setup and resume parsing belong to the career-profile member. resume-tailor consumes a resume to rewrite it; it does not run the North-Star intake."
+  },
+  {
+    "id": 11,
+    "query": "Is this LinkedIn posting a real job or a ghost job?",
+    "should_trigger": false,
+    "rationale": "Posting-legitimacy scoring belongs to the job-search member (posting_legitimacy sub-score). resume-tailor does not score postings."
+  },
+  {
+    "id": 12,
+    "query": "What's the weather like in Seattle today?",
+    "should_trigger": false,
+    "rationale": "Negative control - unrelated to resumes or job hunting. The member should not over-fire on incidental geography."
+  }
+]

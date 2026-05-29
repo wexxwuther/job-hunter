@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "query": "What have you learned about me from my job search so far?",
+    "should_trigger": true,
+    "rationale": "Direct request to surface accumulated lessons from the per-user learning loop. The canonical Phase 5 trigger: harvest_outcomes + propose_lessons."
+  },
+  {
+    "id": 2,
+    "query": "What's working in my job search? What patterns do you see?",
+    "should_trigger": true,
+    "rationale": "Pattern-recognition over closed-loop outcomes. Maps to the rejection_dominant_reason / recommendation_calibration signals the harvest produces."
+  },
+  {
+    "id": 3,
+    "query": "Close the loop on my applications and harvest any lessons.",
+    "should_trigger": true,
+    "rationale": "Explicit 'close the loop' + 'harvest lessons' phrasing — the core capability and quoted trigger of this member."
+  },
+  {
+    "id": 4,
+    "query": "Show me my application outcomes so far.",
+    "should_trigger": true,
+    "rationale": "Direct request to read .job-hunter/OUTCOMES.md and present a summary. Part of the learning-loop read surface."
+  },
+  {
+    "id": 5,
+    "query": "Reset what you know about my preferences.",
+    "should_trigger": true,
+    "rationale": "Direct request to reset the per-user learning state. The skill reads/owns the read side of the .job-hunter/ memory and knows how to safely clear it (or guide the user through deleting it)."
+  },
+  {
+    "id": 6,
+    "query": "Find me senior backend engineer roles in Seattle, $180k+.",
+    "should_trigger": false,
+    "rationale": "Negative: this is a job-search request (find/score postings). Belongs to job-search, not the learning loop. Explicitly excluded in the 'Do not use' section."
+  },
+  {
+    "id": 7,
+    "query": "Tailor my resume for this product manager role at Stripe.",
+    "should_trigger": false,
+    "rationale": "Negative: resume tailoring against a posting belongs to resume-tailor, not outcome-learning."
+  },
+  {
+    "id": 8,
+    "query": "Show me applications I should follow up on and draft check-in emails.",
+    "should_trigger": false,
+    "rationale": "Negative: stale-application follow-up drafting belongs to application-tracker, not the learning loop. Adjacent but distinct."
+  },
+  {
+    "id": 9,
+    "query": "How do I negotiate salary when I get an offer?",
+    "should_trigger": false,
+    "rationale": "Negative: salary-negotiation strategy with no posting and no outcome history to learn from. Out of scope."
+  },
+  {
+    "id": 10,
+    "query": "Should I become a product manager?",
+    "should_trigger": false,
+    "rationale": "Negative: career-coaching question with no concrete outcomes to harvest. Out of scope for the whole family and for this member specifically."
+  },
+  {
+    "id": 11,
+    "query": "What's the weather like in Seattle today?",
+    "should_trigger": false,
+    "rationale": "Negative control — unrelated to job-search outcomes. The skill should not over-fire on incidental geography or generic 'what' questions."
+  }
+]
