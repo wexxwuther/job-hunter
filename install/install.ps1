@@ -9,10 +9,12 @@
 # Members: job-hunter (orchestrator), career-profile, job-search,
 #          resume-tailor, application-tracker, outcome-learning.
 #
-# Usage (remote):
-#   iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
-# Or, after cloning:
-#   .\install\install.ps1
+# TWO WAYS TO RUN - both install all 6 skills into all harnesses:
+#   1. OFFLINE (from the unzipped family bundle - no GitHub needed):
+#        Expand-Archive job-hunter-FAMILY-installer-only-v6.0.0.zip -DestinationPath .
+#        .\job-hunter\install\install.ps1
+#   2. ONLINE (clones the repo; needs access to the GitHub repo):
+#        iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
 
 $ErrorActionPreference = 'Stop'
 
@@ -24,19 +26,32 @@ $TmpDir  = Join-Path $env:TEMP ("job-hunter-install-" + [Guid]::NewGuid().ToStri
 New-Item -ItemType Directory -Force -Path $TmpDir | Out-Null
 
 try {
-    Write-Host "==> Downloading job-hunter family (branch: $Branch)..."
-    $git = Get-Command git -ErrorAction SilentlyContinue
-    if ($git) {
-        & git clone --depth=1 --branch $Branch "https://github.com/$Repo.git" (Join-Path $TmpDir 'src') | Out-Null
-    } else {
-        $zipPath = Join-Path $TmpDir 'src.zip'
-        Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/$Repo/archive/refs/heads/$Branch.zip" -OutFile $zipPath
-        Expand-Archive -Path $zipPath -DestinationPath $TmpDir -Force
-        Move-Item -Path (Join-Path $TmpDir "job-hunter-$Branch") -Destination (Join-Path $TmpDir 'src')
-        Remove-Item $zipPath -Force
+    # --- Find the source: prefer LOCAL (running from the unzipped bundle), else clone. ---
+    # When run from the bundle this script is at <root>\job-hunter\install\install.ps1, so the
+    # family root (the dir holding the 6 member dirs) is the script dir's parent.
+    $src = $null
+    if ($PSScriptRoot) {
+        $candidate = Split-Path $PSScriptRoot -Parent
+        if (Test-Path (Join-Path $candidate 'job-hunter\SKILL.md')) {
+            $src = $candidate
+            Write-Host "==> Installing from local files (no download): $src"
+        }
     }
 
-    $src = Join-Path $TmpDir 'src'
+    if (-not $src) {
+        Write-Host "==> Local bundle not detected; downloading job-hunter family (branch: $Branch)..."
+        $git = Get-Command git -ErrorAction SilentlyContinue
+        if ($git) {
+            & git clone --depth=1 --branch $Branch "https://github.com/$Repo.git" (Join-Path $TmpDir 'src') | Out-Null
+        } else {
+            $zipPath = Join-Path $TmpDir 'src.zip'
+            Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/$Repo/archive/refs/heads/$Branch.zip" -OutFile $zipPath
+            Expand-Archive -Path $zipPath -DestinationPath $TmpDir -Force
+            Move-Item -Path (Join-Path $TmpDir "job-hunter-$Branch") -Destination (Join-Path $TmpDir 'src')
+            Remove-Item $zipPath -Force
+        }
+        $src = Join-Path $TmpDir 'src'
+    }
 
     foreach ($member in $Members) {
         $memberSrc = Join-Path $src $member
