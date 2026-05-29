@@ -59,9 +59,10 @@ if absent, so it also works standalone:
   rendered HTML links to the exact materials submitted.
 
 Produces a **`tracker.json`** the user owns, rendered into a self-contained
-**`ApplicationTracker.html`** per the family workspace contract. The orchestrator's
-`job-hunter/references/workspace-contract.md` is the single source of truth for
-the family's typed hand-offs.
+**`ApplicationTracker.html`** per the family workspace contract (see
+`references/workspace-contract.md`, shipped with this skill; the `job-hunter`
+orchestrator owns the canonical copy and is the single source of truth for the
+family's typed hand-offs).
 
 ## Phase 4: Prepare for Submission
 

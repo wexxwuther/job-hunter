@@ -56,9 +56,10 @@ of those, hand off (or, under the orchestrator, let it route).
 
 ## What this member produces
 
-Per the family workspace-contract (the orchestrator's
-`job-hunter/references/workspace-contract.md` is the single source of truth for
-the family's typed hand-offs), this member produces:
+Per the family workspace-contract (see `references/workspace-contract.md`,
+shipped with this skill; the `job-hunter` orchestrator owns the canonical copy
+and is the single source of truth for the family's typed hand-offs), this
+member produces:
 
 | Artifact | How | Consumed by |
 |---|---|---|
