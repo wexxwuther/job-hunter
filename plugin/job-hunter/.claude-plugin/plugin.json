@@ -1,0 +1,21 @@
+{
+  "name": "job-hunter",
+  "displayName": "Job Hunter (family)",
+  "version": "6.0.0",
+  "description": "End-to-end job-search & resume-tailoring family: an orchestrator that routes to career-profile, job-search, resume-tailor, application-tracker, and outcome-learning. Installs all 6 skills in one action.",
+  "author": {
+    "name": "GDK Digital",
+    "url": "https://github.com/wexxwuther/job-hunter"
+  },
+  "homepage": "https://github.com/wexxwuther/job-hunter",
+  "repository": "https://github.com/wexxwuther/job-hunter",
+  "license": "MIT",
+  "keywords": [
+    "job",
+    "resume",
+    "job-search",
+    "career",
+    "orchestrator",
+    "family"
+  ]
+}
