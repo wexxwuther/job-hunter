@@ -3,33 +3,48 @@
 Where things live on disk + which files are load-bearing for which questions. A future session
 looking for "where is X?" should find the answer here before grepping.
 
-## ⚠ THIS is the v5+/v6 source-of-truth repo — now a FAMILY MONOREPO (v6.0.0, 2026-05-28)
+## ⚠ THIS is the v5+/v6 source-of-truth repo — FAMILY MONOREPO, 7 members (v6.0.0, updated 2026-05-29)
 
-job-hunter is developed in THIS repo, `E:\Git\job-hunter-public\` (remote `https://github.com/wexxwuther/job-hunter`, currently PRIVATE). The `skill-builder-workdir/job-hunter/` copy is the frozen v4 ancestor (separate git history, no merge path). See `session-state.md` and `decisions.md` for the full rationale. **Current version: v6.0.0 (family split).**
+job-hunter is developed in THIS repo, `E:\Git\job-hunter-public\` (remote `https://github.com/wexxwuther/job-hunter`, **PUBLIC** as of 2026-05-29). The `skill-builder-workdir/job-hunter/` copy is the frozen v4 ancestor (separate git history, no merge path). See `session-state.md` and `decisions.md` for the full rationale. **Current version: v6.0.0 family, 7 members.**
 
-**Where things live now (v6.0.0 family, THIS repo) — root has NO SKILL.md:**
-- Source repo: `E:\Git\job-hunter-public\` (you are here), branch `main`, HEAD `31b90d2` (pushed to origin/main).
-- **6 member dirs**, each self-contained (own `SKILL.md`, `scripts/`, `references/`, `evals/`, `tests/`, `_meta.json`, `CHANGELOG.md`):
+**Where things live now (THIS repo) — root has NO SKILL.md:**
+- Source repo: `E:\Git\job-hunter-public\` (you are here), branch `main`, latest HEAD `9e6bb19` (pushed to origin/main, PUBLIC).
+- **7 member dirs**, each self-contained (own `SKILL.md`, `scripts/`, `references/`, `evals/`, `tests/`, `_meta.json`, `CHANGELOG.md`):
   - `job-hunter/` — orchestrator (routing surface, context:fork, member table; owns `init_workspace`/`export_workspace`/`import_workspace`; ships the canonical `references/workspace-contract.md`)
   - `career-profile/` — profile-intake (`init_profile`, `parse_resume`)
   - `job-search/` — search+score (`build_search_queries`, `expand_role_synonyms`, `normalize_salary`, `dedupe_postings`, `score_posting`)
-  - `resume-tailor/` — tailor (`extract_ats_keywords`, **`verify_no_fabrication`** + its 5 load-bearing safety tests)
+  - `resume-tailor/` — tailor/ATS-optimize (`extract_ats_keywords`, **`verify_no_fabrication`** + its 5 load-bearing safety tests). Triggers on "resume optimizer" (the noun) as of 2026-05-29.
+  - `cover-letter/` — NEW 2026-05-29: posting-tailored cover letters (`draft_cover_letter`, deterministic fact-grounded skeleton) + **bundled byte-identical `verify_no_fabrication`** (drift-guard test ensures it matches resume-tailor's)
   - `application-tracker/` — submit+track (`generate_tracker_html`, `draft_followup`, `assets/templates/tracker.css`)
   - `outcome-learning/` — learning loop (`harvest_outcomes`, `propose_lessons`)
-- Workspace contract (single source of truth for typed hand-offs): `job-hunter/references/workspace-contract.md`; a COPY is shipped into all 5 members so each is self-contained post-install.
-- Install-readiness guards: `job-hunter/tests/test_install_readiness.py` (3 guards: no monorepo-path sibling refs, every member ships the contract, every member owns the scripts its SKILL.md names).
+- Claude Code PLUGIN: `plugin/.claude-plugin/marketplace.json` (local marketplace `gdk-skills`) → plugin at `plugin/job-hunter/.claude-plugin/plugin.json` + `plugin/job-hunter/skills/<7>/`. Built by `build_plugin.py` from the canonical member dirs; **`plugin/job-hunter/skills/` is GITIGNORED** (generated, regenerate with `python build_plugin.py`). The committed parts are the 2 manifests + the generator.
+- Workspace contract (single source of truth for typed hand-offs): `job-hunter/references/workspace-contract.md`; a COPY is shipped into all 6 sibling members so each is self-contained post-install.
+- Install-readiness guards: `job-hunter/tests/test_install_readiness.py` (3 guards: no monorepo-path sibling refs, every member ships the contract, every member owns the scripts its SKILL.md names). Member list now includes cover-letter.
 - Cutover doc: `docs/CUTOVER.md` (archive + E2E/parity + what was removed + recovery).
 - Continuity stack: `E:\Git\job-hunter-public\docs\continuity\` (this directory).
-- Family installers: `install/install.sh` + `install/install.ps1` (loop 6 members into 3 harness roots), per-harness guides `install/{claude-code,codex,openclaw,hermes}.md`.
+- Family installers: `install/install.sh` + `install/install.ps1` (loop all 7 members into 3 harness roots; offline-from-bundle or clone), per-harness guides `install/{claude-code,codex,openclaw,hermes}.md`.
 - LF enforcement: `.gitattributes`.
 - Archive of the retired monolith: tag `v5.2.0-monolith-archive` + `E:/Git/job-hunter-v5.2.0-monolith-archive.zip`.
-- Q catalog: `Q:/skills/job-hunter/` (5 v6.0.0 zips + skill.json + README); index `Q:/skills/catalog.json`.
+- Q catalog: `Q:/skills/job-hunter/` (30 zips: 7 members × 4 runtimes + plugin zip + family-installer bundle; + `skill.json` + `README.md` + `INSTALL.md` + `NOTE-READ-ME-FIRST.txt`); index `Q:/skills/catalog.json`.
 - Local v6 zip backups: `E:/Git/job-hunter-v6.0.0-{claude-code,codex,openclaw,hermes,portable}.zip`.
 - Local submission drafts: `E:\Git\job-hunter-submission-drafts.md` (post-public-flip PR drafts).
 - Local roadmap: `E:\Git\job-hunter-roadmap.md`.
 
 **Where the frozen v4 ancestor lives (read-only, historical):**
 - `E:\Git\skill-builder-workdir\job-hunter\`. Many path/inventory tables in the rest of this document were authored against v4 state and reference that ancestor's layout; they are historically accurate but the v5+ source of truth is THIS repo. v5+ adds the learning-loop scripts (`harvest_outcomes.py`, `propose_lessons.py`, `init_workspace.py`), follow-up/export-import scripts (`draft_followup.py`, `export_workspace.py`, `import_workspace.py`), and `verify_no_fabrication.py` not in the v4 inventory below.
+
+## Claude Code distribution discoveries (2026-05-29)
+
+**Claude Code has NO "upload a skill zip" feature.** Confirmed from official docs (code.claude.com/docs/en/skills + /plugins-reference) and the `claude` CLI 2.1.143. Skills install via (a) a folder at `~/.claude/skills/<name>/SKILL.md`, or (b) a **plugin** that bundles many skills. The "a zip can only have one skill file" error a user hit is from **Claude.ai / Claude Desktop's** uploader (a different product), which takes one skill per zip. Implication: a multi-skill family ships to Claude Code as a PLUGIN, not a zip upload.
+
+**Plugin packaging facts (verified by building one):**
+- Layout: `<plugin>/.claude-plugin/plugin.json` + `<plugin>/skills/<name>/SKILL.md` (multiple skills allowed). Manifest is optional; all fields optional.
+- A **marketplace** wraps it: `marketplace.json` with `plugins: [{name, source, description}]`. `source: "."` is INVALID (validator rejects it) — the marketplace must sit one level ABOVE the plugin dir and point at `./<plugin>` (so repo layout is `plugin/.claude-plugin/marketplace.json` + `plugin/job-hunter/...`).
+- End-user install: `/plugin marketplace add <github-repo-or-local-dir>` then `/plugin install <name>@<marketplace>`. Verified: reports "Component inventory: Skills (N)".
+- `claude plugin validate <dir>` is a no-auth deterministic validator. It does NOT accept a `.zip` (parses bytes as JSON → "PK" error); validate the extracted dir instead. `claude --plugin-dir` DOES accept a dir or a `.zip`.
+- Claude Code IGNORES `metadata.family` / `sister_skills` in SKILL.md frontmatter — they're informational only. The orchestrator references members by NAME in prose, which is what actually makes the family cohere once all are installed.
+
+**Per-runtime zip convention (matches the rest of the Q catalog):** every other catalog skill ships `<skill>-<ver>-{claude-code,codex,cursor,portable}.zip`. The canonical builder is `E:/Git/skill-builder/scripts/package_skill.py` (targets claude-code/codex/cursor/portable; the codex variant adds `agents/openai.yaml`; it runs `validate_zip_file` shape/depth checks). job-hunter now follows this per-member.
 
 ## v6.0.0 family-split discoveries (2026-05-28)
 

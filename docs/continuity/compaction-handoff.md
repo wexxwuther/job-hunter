@@ -1,15 +1,31 @@
 # Compaction Handoff, job-hunter (PUBLIC REPO, v6 family active source of truth)
 
-**Updated:** 2026-05-28 (v6.0.0 FAMILY SPLIT shipped + pushed + redeployed live to all 3 harnesses + stale installs cleaned)
+**Updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging; repo PUBLIC). Prior milestone: 2026-05-28 v6.0.0 family split shipped + redeployed.
 
 Purpose: a future session (or post-compaction continuation) can read THIS file alone and recover
 all the load-bearing context needed to continue the work. Designed to be self-contained.
 
 ## ⚠ FIRST THING TO KNOW: where the active work lives
 
-**This file is in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.** All current development happens HERE. Remote: `https://github.com/wexxwuther/job-hunter` (PRIVATE; user controls visibility flip).
+**This file is in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.** All current development happens HERE. Remote: `https://github.com/wexxwuther/job-hunter` (**PUBLIC** as of 2026-05-29).
 
-**As of v6.0.0 (2026-05-28) this repo is a FAMILY MONOREPO, not a single skill.** Root has NO `SKILL.md`. The 6 member dirs are `job-hunter/` (orchestrator) + `career-profile/`, `job-search/`, `resume-tailor/`, `application-tracker/`, `outcome-learning/`, plus `docs/` and `install/`. "job-hunter" the name now means the family; `job-hunter/` the dir is the orchestrator.
+**This repo is a FAMILY MONOREPO, not a single skill.** Root has NO `SKILL.md`. As of 2026-05-29 there are **7 member dirs**: `job-hunter/` (orchestrator) + `career-profile/`, `job-search/`, `resume-tailor/`, `cover-letter/`, `application-tracker/`, `outcome-learning/`, plus `docs/`, `install/`, `plugin/` (Claude Code plugin + local marketplace), and `build_plugin.py`. "job-hunter" the name now means the family; `job-hunter/` the dir is the orchestrator.
+
+## v6.0.0 + cover-letter handoff (MOST RECENT — 2026-05-29 — read this first)
+
+**Current state: v6.0.0 family, 7 members.** Since the 2026-05-28 split, this session added the 7th member and the real Claude Code distribution path:
+
+- **`cover-letter` (7th member).** Drafts a posting-tailored cover letter from the user's confirmed facts; `scripts/draft_cover_letter.py` is deterministic and emits `[CONFIRM: ...]` for ungrounded slots (never invents). Routes the draft through the family anti-fabrication gate, which it **bundles byte-identical** from resume-tailor (`scripts/verify_no_fabrication.py`; a test asserts they can't drift). 12 tests, 9 trigger evals, 3 outcome evals, 0 os-coupling.
+- **resume-tailor now triggers on "resume optimizer"** (the noun). It was never a missing skill — resume-tailor does resume/ATS optimization; only the description wording lagged. Added the phrase + 2 trigger evals. No duplicate skill.
+- **Claude Code PLUGIN is the real one-install path.** Claude Code has NO "upload a zip" feature (confirmed via official docs + `claude` CLI 2.1.143). It installs a *plugin* that bundles many skills: `plugin/job-hunter/.claude-plugin/plugin.json` + `skills/<7>/`, distributed via `plugin/.claude-plugin/marketplace.json`. `build_plugin.py` generates `plugin/job-hunter/skills/` from the canonical member dirs (generated tree gitignored → no drift). VERIFIED: `claude plugin marketplace add` + `claude plugin install job-hunter@gdk-skills` → "Component inventory: Skills (7)". Also shipped as `job-hunter-PLUGIN-v6.0.0.zip` (for `claude --plugin-dir`).
+- **Distribution by surface:** Claude Code → the plugin. Claude.ai/Desktop → the 7 `-claude-code.zip` per-skill zips (uploader takes one skill per zip). Any agent offline → `job-hunter-FAMILY-installer-only-v6.0.0.zip` → run `install/install.sh`/`.ps1`. `Q:/skills/job-hunter/` holds all 30 zips + `INSTALL.md` + `skill.json` + `README` + `NOTE-READ-ME-FIRST.txt`.
+- **Tests:** 244 green (job-hunter 65 + career-profile 25 + job-search 25 + resume-tailor 28 + cover-letter 12 + application-tracker 51 + outcome-learning 35 + installer 3). Latest HEAD `9e6bb19`.
+- **Repo is PUBLIC** (`gh repo view` confirms).
+
+To resume: `cd E:/Git/job-hunter-public`; per-member tests `for m in job-hunter career-profile job-search resume-tailor cover-letter application-tracker outcome-learning; do python -m pytest "$m/tests/" -q; done` (244 incl. installer); regen plugin `python build_plugin.py` then `claude plugin validate plugin`.
+
+---
+*(The 2026-05-28 v6.0.0-split handoff below remains accurate for the original 6-member cutover.)*
 
 **The v4 ancestor (`E:\Git\skill-builder-workdir\job-hunter\`) is frozen, historical, read-only.** It has a completely separate git history; there is NO merge path. If you find yourself editing the workdir copy, stop, you are in the wrong repo.
 

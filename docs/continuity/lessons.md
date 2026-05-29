@@ -4,6 +4,20 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-05-29, Continuity docs + memory are part of "done" — never wait to be asked
+
+**What happened:** added the cover-letter member, packaged the plugin, shipped everything — then *asked the user* whether to update the continuity docs and 2ndBrain memory. The user (rightly) pushed back: this is a standing mandatory rule, and asking inverts it. The work was not "done" when I called it done.
+
+**Why it's a real failure, not pedantry:** the cost of unwritten continuity is paid by the NEXT session, which boots with docs describing a 6-member family and a private repo and no plugin — and rediscovers or contradicts reality. The whole point of the gate is to stop that. Shipping code while leaving the docs stale is shipping a landmine.
+
+**Lesson (binding):** for any skill-chain change, continuity-doc accuracy + a 2ndBrain memory write are completion criteria on equal footing with code + tests. Before saying "done"/"shipped": (1) re-read the four time-sensitive docs (session-state, compaction-handoff, lessons, discovery-log) and revise each against ACTUAL state — versions, member counts, commit SHAs, test counts, install state; (2) write/update the 2ndBrain note; (3) land a dedicated `continuity:` commit. Do this WITHOUT being asked, every time. If tempted to defer it or ask permission to skip it, that's the violation — do it first.
+
+## 2026-05-29 (cover-letter), Add the missing capability as a member; make the existing one discoverable
+
+**What happened:** user said "resume optimizer and cover letter writer are missing." Verified: resume-tailor ALREADY does resume/ATS optimization (so "resume optimizer" was a discoverability gap, fixed with trigger wording — NOT a new skill), but cover-letter genuinely did not exist (0 mentions anywhere). Built cover-letter as the 7th member.
+
+**Lesson:** when asked for "missing" capabilities, grep the family first and split real-gap from naming-gap. A naming gap is a description/trigger fix (don't duplicate a skill); a real gap is a new member. For a new member that produces user-facing content, REUSE the family's safety gate byte-identical (cover-letter bundles resume-tailor's `verify_no_fabrication.py` with a drift-guard test) rather than forking a second check — one source of truth for the invariant.
+
 ## 2026-05-28 (v6.0.0 split), A reported "missing skill" is more often a stale install than a broken architecture
 
 **What happened:** the user reported "resume optimizer was not part of the skill set." The instinct is to assume the chain is broken or a member is missing. The actual cause: the LIVE installs predated v5.2.0 and were missing `verify_no_fabrication.py` — resume optimization was always Phase 3 (now the `resume-tailor` member), never a separate skill. The symptom was a STALE INSTALL, not a design gap.

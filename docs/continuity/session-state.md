@@ -2,21 +2,30 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-05-28 (v6.0.0 FAMILY SPLIT shipped, pushed to GitHub, redeployed live to all 3 harnesses + stale installs cleaned)
+**Last updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging + per-runtime zips; repo now PUBLIC)
+**2026-05-29 (post-v6.0.0, same version line):** added the **cover-letter** member (7th family skill), sharpened resume-tailor to trigger on "resume optimizer", packaged the family as a real Claude Code **plugin** (one-install) + per-runtime per-skill zips, and confirmed the GitHub repo is **PUBLIC**. See "2026-05-29 additions" below.
 **v5.0.0 shipped:** 2026-05-20 (per-user learning loop)
 **v5.0.1 shipped:** 2026-05-20 (decisions_present flag fix)
 **v5.1.0 shipped:** 2026-05-20 (follow-up drafting + workspace export/import + non-tech references)
 **v5.1.1 shipped:** 2026-05-20 (scan-stale posted-vs-applied_date conflation fix)
 **v5.2.0 shipped:** 2026-05-21 (Phase 3 fabrication fix, split Mode A (Tighten/zero-fabrication) / Mode B (Tailor + verification gate); truth-preservation promoted to a Hard Gate; new `scripts/verify_no_fabrication.py`; web-content-untrusted rule) — **last MONOLITH version, now retired**
 **v6.0.0 shipped:** 2026-05-28 (FAMILY SPLIT: monolith → orchestrator `job-hunter` + 5 members `career-profile`, `job-search`, `resume-tailor`, `application-tracker`, `outcome-learning`; typed artifact hand-offs via the shared `.job-hunter/` workspace contract; all 16 member scripts byte-identical to the monolith — zero behavior change)
-**Current version:** v6.0.0 (family)
-**Current scores (v6.0.0):** 226 family unit tests + 3 install-readiness guards = 229 green; orchestrator validates with 0 ERRORs; all 6 members 0 os-coupling; CI matrix green
+**Current version:** v6.0.0 (family, now **7 members** after the 2026-05-29 cover-letter addition)
+**Current scores (2026-05-29):** **244 tests green** (job-hunter 65 + career-profile 25 + job-search 25 + resume-tailor 28 + cover-letter 12 + application-tracker 51 + outcome-learning 35 + installer 3); orchestrator 0 validate ERRORs; all 7 members 0 os-coupling.
+
+## 2026-05-29 additions (7th member + plugin packaging + public repo)
+
+- **`cover-letter` (7th member) added.** Closed a real gap — the family had ZERO cover-letter capability. Drafts a posting-tailored cover letter from the user's confirmed facts (`scripts/draft_cover_letter.py`, deterministic, emits `[CONFIRM: ...]` for any ungrounded slot, never invents), then routes the draft through the family anti-fabrication gate. It **bundles `verify_no_fabrication.py` byte-identical** to resume-tailor's (a test asserts they can't drift). 12 tests, 9 trigger evals, 3 outcome evals, 0 os-coupling. Wired into orchestrator (member table + routing + description), all 6 siblings' `sister_skills`, the workspace-contract producer table (re-synced into all 7 members), install-readiness/family-wiring/orchestrator-meta/installer tests, both installers, and `build_plugin.py`.
+- **resume-tailor "optimizer" trigger fix.** "resume optimizer" is NOT a missing skill — resume-tailor already does resume/ATS optimization; it just didn't match the noun "optimizer" (only the verb "optimize"). Added "resume optimizer / resume-optimization tool" to its description + 2 trigger evals. No duplicate skill.
+- **Claude Code PLUGIN packaging (the real one-install path).** Discovered (via official docs + `claude` CLI) that Claude Code has NO "upload a zip" feature — it installs a *plugin* that bundles many skills. Added `plugin/` (a local marketplace at `plugin/.claude-plugin/marketplace.json` → the plugin at `plugin/job-hunter/.claude-plugin/plugin.json` + `skills/<7>/`) and `build_plugin.py` (generates `plugin/job-hunter/skills/` from the canonical member dirs; generated tree is gitignored so it can't drift). VERIFIED with `claude plugin install` → "Component inventory: Skills (7)". The plugin is also shipped as `job-hunter-PLUGIN-v6.0.0.zip` for `claude --plugin-dir`.
+- **Per-runtime zips + Q catalog.** `Q:/skills/job-hunter/` now holds 7 members × 4 runtimes (`-claude-code`/`-codex`/`-cursor`/`-portable`, built via the canonical `package_skill.py`; codex variant adds `agents/openai.yaml`) = 28 zips + the plugin zip + the offline family-installer bundle = 30 zips, plus `INSTALL.md` (per-app guide). The per-skill zips are for the Claude.ai/Desktop uploader (one skill per zip); the plugin is for Claude Code; the family bundle is the offline CLI installer for any agent.
+- **Repo is PUBLIC.** `gh repo view` confirms `visibility: PUBLIC`. The plugin marketplace `add wexxwuther/job-hunter` form now works for end users.
 
 ## ⚠ CRITICAL: This IS the v5+/v6 active repo — now a FAMILY MONOREPO
 
 **v5+/v6 source of truth (THIS repo):** `E:\Git\job-hunter-public\`
 - Git-tracked, branch `main`, HEAD on commit `31b90d2` (install-readiness fix + guards, 2026-05-28). **Pushed to origin/main (network-verified, 0 ahead / 0 behind).**
-- Remote: `https://github.com/wexxwuther/job-hunter` (PRIVATE; user controls visibility flip).
+- Remote: `https://github.com/wexxwuther/job-hunter` (**PUBLIC** as of 2026-05-29).
 - **Layout is now a FAMILY MONOREPO, not a single skill.** Root no longer has a `SKILL.md`. The 6 member dirs are: `job-hunter/` (orchestrator), `career-profile/`, `job-search/`, `resume-tailor/`, `application-tracker/`, `outcome-learning/`, plus `docs/` and `install/`.
 - The retired v5.2.0 monolith is recoverable from tag `v5.2.0-monolith-archive` (and `E:/Git/job-hunter-v5.2.0-monolith-archive.zip`).
 - All active job-hunter development happens HERE.
@@ -44,8 +53,8 @@ Landed as commit `6d725cd` (OS fix + .gitattributes). The continuity-stack creat
 
 ## Where the skill lives right now
 
-- **Source of truth (THIS repo, git-tracked):** `E:\Git\job-hunter-public\`, branch `main`, remote `https://github.com/wexxwuther/job-hunter` (PRIVATE). All v6+ edits go here. FAMILY-MONOREPO layout: 6 member dirs (`job-hunter/` orchestrator + `career-profile/`, `job-search/`, `resume-tailor/`, `application-tracker/`, `outcome-learning/`), each with its own `SKILL.md`, `scripts/`, `references/`, `evals/`, `tests/`, `_meta.json`, `CHANGELOG.md`; plus root `docs/` (this continuity stack + `CUTOVER.md` + `superpowers/`) and `install/`. Root `SKILL.md` is GONE by design.
-- **Family installers:** `install/install.sh` + `install/install.ps1` loop all 6 members into the 3 harness roots (`~/.claude/skills`, `~/.agents/skills` (Codex + OpenClaw share this), `~/.hermes/skills`). Per-harness guides: `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`.
+- **Source of truth (THIS repo, git-tracked):** `E:\Git\job-hunter-public\`, branch `main`, remote `https://github.com/wexxwuther/job-hunter` (**PUBLIC**). All v6+ edits go here. FAMILY-MONOREPO layout: **7 member dirs** (`job-hunter/` orchestrator + `career-profile/`, `job-search/`, `resume-tailor/`, `cover-letter/`, `application-tracker/`, `outcome-learning/`), each with its own `SKILL.md`, `scripts/`, `references/`, `evals/`, `tests/`, `_meta.json`, `CHANGELOG.md`; plus root `docs/` (this continuity stack + `CUTOVER.md` + `superpowers/`), `install/`, `plugin/` (Claude Code plugin + local marketplace), and `build_plugin.py`. Root `SKILL.md` is GONE by design.
+- **Family installers:** `install/install.sh` + `install/install.ps1` loop all 7 members into the 3 harness roots (`~/.claude/skills`, `~/.agents/skills` (Codex + OpenClaw share this), `~/.hermes/skills`); they install offline from the unzipped bundle or clone from GitHub. Per-harness guides: `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`. **Claude Code's supported one-install path is the PLUGIN** (`/plugin marketplace add wexxwuther/job-hunter` → `/plugin install job-hunter@gdk-skills`), not the installer.
 - **LIVE INSTALL STATE (2026-05-28, verified clean):** each of the 3 deploy targets (`~/.claude`, `~/.agents`, `~/.hermes`) has exactly the 6 v6.0.0 family members; orchestrator `_meta.json` reads v6.0.0; `resume-tailor/scripts/verify_no_fabrication.py` is PRESENT in all 3 (this is the fix for the original "resume optimizer not part of skill set" symptom, which was stale installs, not a broken chain). No stale/shadowing copies remain.
 - **Catalog (Q:):** `Q:/skills/job-hunter/` has 5 v6.0.0 zips (claude-code, codex, openclaw, hermes, portable; 234,197 bytes each, 91 entries) + `skill.json` (current_version v6.0.0, chainability plugin-bundle, chain.members 6, source_version_hash 67161e9d516c) + README. `Q:/skills/catalog.json` lists job-hunter at current_version v6.0.0, kind skill-family-bundle.
 - **v4 ancestor (frozen, historical):** `E:\Git\skill-builder-workdir\job-hunter\`, separate git history, no merge path. Read-only for reference.
@@ -98,8 +107,8 @@ Signal: competitive review of `santifer/career-ops` (GitHub). Five capability ga
 
 | Item | Why it's pending | Priority |
 |---|---|---|
-| **Tag/release v6.0.0 on GitHub** | v6.0.0 is pushed to `main` but the only release-style tag present is `v5.2.0-monolith-archive` (the retirement snapshot). A `v6.0.0` release tag is not yet cut. User controls releases | Medium, user-gated |
-| **Public-repo visibility flip** | Remote is PRIVATE; user controls the flip to PUBLIC | User-gated |
+| **Tag/release v6.0.0 on GitHub** | a `v6.0.0` *Release* object is not yet cut (tag `v5.2.0-monolith-archive` exists). User controls releases | Medium, user-gated |
+| **~~Public-repo visibility flip~~** | DONE 2026-05-29 — repo is PUBLIC (`gh repo view` confirms) | ✅ resolved |
 | **Real `claude`-runner pass on routing + outcome evals** | The routing/parity checks used read-through + mock runners; a real Claude invocation can surface different behaviors, especially the orchestrator routing and the fabrication-gate evals | Medium |
 | **Remove `posting-quality-rubric.md` stub** | Intentional deprecated-stub redirector (now in the `job-search` member); deletable once nothing references it | Low |
 | **First real-user run + harvest** | After 1-2 real v6.0.0 family runs, harvest transcripts (outcome-learning Phase 5) for the next iteration | Medium, opportunistic |
@@ -120,15 +129,15 @@ Signal: competitive review of `santifer/career-ops` (GitHub). Five capability ga
 
 ## Current Goal
 
-v6.0.0 family is complete, tested, pushed, shipped to the Q catalog, and live across all 3 harnesses — the original "resume optimizer not part of skill set" symptom is fixed (it was stale installs). No unprompted work; the remaining items (release tag, visibility flip) are user-gated.
+v6.0.0 family (now **7 members**, incl. cover-letter) is complete, tested (244 green), pushed to the PUBLIC GitHub repo, shipped to the Q catalog (30 zips + plugin + INSTALL.md), packaged as a verified Claude Code plugin (Skills (7)), and live across all 3 harnesses. The original "resume optimizer not part of skill set" symptom is fixed (it was stale installs; resume optimization is resume-tailor, now also trigger-matched on the noun). No unprompted work; the only open item is the optional GitHub `v6.0.0` Release object (user-gated).
 
 ## Last Known State
 
-v6.0.0 family in THIS repo: 229 tests green, 16 scripts byte-identical to the monolith, orchestrator 0 validate ERRORs, all 6 members 0 os-coupling, HEAD `31b90d2` pushed to origin/main. Monolith retired and archived (tag `v5.2.0-monolith-archive` + zip). Live installs clean: 6 members per harness, `verify_no_fabrication.py` present, no stale copies.
+v6.0.0 family in THIS repo (7 members as of 2026-05-29): **244 tests green**, orchestrator 0 validate ERRORs, all 7 members 0 os-coupling, latest HEAD `9e6bb19` pushed to origin/main (PUBLIC). Monolith retired and archived (tag `v5.2.0-monolith-archive` + zip). Live installs clean: **7 members per harness**, `verify_no_fabrication.py` present in resume-tailor AND cover-letter, no stale copies. Claude Code plugin verified: `claude plugin install` → Skills (7).
 
 ## Next Step
 
-Exact next action: **v6.0.0 family is fully shipped + redeployed + clean. Nothing technical pending.** The only open items are user-gated: cut a GitHub `v6.0.0` release tag, and flip remote visibility PRIVATE→PUBLIC. Do not do either without explicit user authorization.
+Exact next action: **v6.0.0 family (7 members) is fully shipped + redeployed + clean; repo is PUBLIC; plugin verified at Skills (7). Nothing technical pending.** The only open item is the optional GitHub `v6.0.0` *Release* object (user-gated). Do not cut it without explicit user authorization.
 
 ## Blockers
 
