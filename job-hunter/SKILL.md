@@ -52,6 +52,8 @@ Examples:
 - "find me jobs and tailor my resume for the top one" -> job-search, then resume-tailor.
 - "just tighten my resume" -> resume-tailor alone.
 - "where am I on my applications?" -> application-tracker alone.
+- "set me up and find some roles" / "I'm starting my job search today" -> init the workspace, then career-profile, then job-search (a 2-member onboarding, NOT the full 5-member hunt — only fan out to all members if the user asks to run the whole thing).
+- "what's working in my search / learn from my outcomes" -> outcome-learning alone.
 - "run my whole job search" -> career-profile -> job-search -> (resume-tailor per chosen posting) -> application-tracker -> outcome-learning.
 
 ## The shared workspace (orchestrator-owned)
