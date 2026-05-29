@@ -31,6 +31,7 @@ between members, not persisted by default).
 | `.job-hunter-profile.md` (North-Star profile) + parsed resume text | **career-profile** (`init_profile.py`, `parse_resume.py`) | job-search (match scoring), resume-tailor (base resume) | job-search scores on explicitly-provided criteria; resume-tailor works from a pasted resume |
 | `postings.json` (scored) | **job-search** (`score_posting.py` et al.) | resume-tailor (pick a posting to tailor for), application-tracker (seed tracked apps) | resume-tailor tailors for a JD the user pastes; tracker tracks manually-entered apps |
 | `Resume_[Company]_[Role].docx` (gated) | **resume-tailor** (`extract_ats_keywords.py`, `verify_no_fabrication.py`) | application-tracker (records the tailored-resume filename) | tracker records apps without a tailored file |
+| `CoverLetter_[Company]_[Role].md` (gated) | **cover-letter** (`draft_cover_letter.py`, `verify_no_fabrication.py`) | application-tracker (records the cover-letter filename) | cover-letter drafts from a pasted resume + posting if no workspace |
 | `tracker.json` → HTML | **application-tracker** (`generate_tracker_html.py`, `draft_followup.py`) | outcome-learning (reads closed outcomes) | outcome-learning cold-start guard (needs ≥5 closed) |
 | proposed LESSONS entries | **outcome-learning** (`harvest_outcomes.py`, `propose_lessons.py`) | the user (opt-in confirmation), future career-profile/job-search runs | no-op below the cold-start threshold |
 

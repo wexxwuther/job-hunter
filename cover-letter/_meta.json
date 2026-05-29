@@ -1,0 +1,27 @@
+{
+  "skill_name": "cover-letter",
+  "version": "1.0.0",
+  "license": "MIT",
+  "family": "job-hunter",
+  "family_role": "cover-letter",
+  "sister_skills": [
+    "job-hunter",
+    "career-profile",
+    "job-search",
+    "resume-tailor",
+    "application-tracker",
+    "outcome-learning"
+  ],
+  "baseline_score": "100.0",
+  "current_score": "100.0",
+  "trigger_accuracy": 1.0,
+  "last_iteration": "2026-05-29",
+  "last_review_due": "2026-08-27",
+  "signals_observed": {
+    "trigger_misses": 0,
+    "trigger_overfires": 0,
+    "repeated_work": 0,
+    "dead_refs": 0
+  },
+  "version_notes": "v1.0.0 adds cover-letter as the 7th job-hunter family member, closing a real gap (the family had zero cover-letter capability). Drafts a posting-tailored cover letter from the user's confirmed profile/resume facts via draft_cover_letter.py, then routes the draft through the family's verify_no_fabrication gate (bundled byte-identical from resume-tailor) so no claim/number/employer is invented. Persuasive prose is allowed; new facts are not. Never auto-sends. Works standalone or routed by the orchestrator after resume-tailor."
+}

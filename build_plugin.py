@@ -24,7 +24,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent
 MEMBERS = ["job-hunter", "career-profile", "job-search", "resume-tailor",
-           "application-tracker", "outcome-learning"]
+           "cover-letter", "application-tracker", "outcome-learning"]
 PLUGIN_INNER = REPO / "plugin" / "job-hunter"
 SKILLS = PLUGIN_INNER / "skills"
 STRIP_DIRS = ["tests", "docs/superpowers"]

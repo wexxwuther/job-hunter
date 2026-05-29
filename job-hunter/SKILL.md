@@ -1,6 +1,6 @@
 ---
 name: job-hunter
-description: Routes a job-search task to the right specialists in the job-hunter family, then owns the shared per-user workspace and merges member output into one coherent result. Use when the user wants to run a job search, find a job, find jobs or openings or positions or work, manage an end-to-end job hunt, apply to roles and track applications, or do several job-search steps at once (find jobs and tailor a resume and track applications). Routes to career-profile (set up profile + parse resume), job-search (find + score postings), resume-tailor (tailor or tighten a resume with the anti-fabrication gate), application-tracker (track applications + follow-ups), and outcome-learning (learn from outcomes). Do not use for a single isolated step that names its own skill (use that member directly), reviewing code (use a code-review skill), or non-job-search tasks.
+description: Routes a job-search task to the right specialists in the job-hunter family, then owns the shared per-user workspace and merges member output into one coherent result. Use when the user wants to run a job search, find a job, find jobs or openings or positions or work, manage an end-to-end job hunt, apply to roles and track applications, or do several job-search steps at once (find jobs and tailor a resume and track applications). Routes to career-profile (set up profile + parse resume), job-search (find + score postings), resume-tailor (tailor or tighten a resume with the anti-fabrication gate), cover-letter (draft a posting-tailored cover letter through the same gate), application-tracker (track applications + follow-ups), and outcome-learning (learn from outcomes). Do not use for a single isolated step that names its own skill (use that member directly), reviewing code (use a code-review skill), or non-job-search tasks.
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. The orchestrator routes to family members; if a member is not installed it falls back to a documented inline path.
 metadata:
@@ -35,6 +35,7 @@ single coherent voice across the whole hunt.
 | `career-profile` | Set up the North-Star profile + parse the resume | `.job-hunter-profile.md` + parsed resume |
 | `job-search` | Find, expand, normalize, dedupe, and score postings | scored `postings.json` |
 | `resume-tailor` | Tighten (Mode A) or tailor (Mode B) a resume, with the anti-fabrication gate | gated `Resume_[Company]_[Role].docx` |
+| `cover-letter` | Draft a posting-tailored cover letter from real facts, through the anti-fabrication gate | gated `CoverLetter_[Company]_[Role].md` |
 | `application-tracker` | Track applications + draft stale-application follow-ups | `tracker.json` -> HTML, follow-up drafts |
 | `outcome-learning` | Close the loop: harvest outcomes, propose user-confirmed lessons | proposed LESSONS entries |
 
@@ -50,11 +51,13 @@ single coherent voice across the whole hunt.
 
 Examples:
 - "find me jobs and tailor my resume for the top one" -> job-search, then resume-tailor.
+- "write a cover letter for this posting" -> cover-letter alone.
+- "tailor my resume AND write a cover letter for this job" -> resume-tailor, then cover-letter (both through the anti-fabrication gate).
 - "just tighten my resume" -> resume-tailor alone.
 - "where am I on my applications?" -> application-tracker alone.
 - "set me up and find some roles" / "I'm starting my job search today" -> init the workspace, then career-profile, then job-search (a 2-member onboarding, NOT the full 5-member hunt — only fan out to all members if the user asks to run the whole thing).
 - "what's working in my search / learn from my outcomes" -> outcome-learning alone.
-- "run my whole job search" -> career-profile -> job-search -> (resume-tailor per chosen posting) -> application-tracker -> outcome-learning.
+- "run my whole job search" -> career-profile -> job-search -> (resume-tailor + cover-letter per chosen posting) -> application-tracker -> outcome-learning.
 
 ## The shared workspace (orchestrator-owned)
 

@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "query": "Write a cover letter for this product manager role at Stripe",
+    "should_trigger": true,
+    "rationale": "Canonical cover-letter request tied to a named posting."
+  },
+  {
+    "id": 2,
+    "query": "Can you draft a cover letter for this job posting?",
+    "should_trigger": true,
+    "rationale": "Direct cover-letter draft request."
+  },
+  {
+    "id": 3,
+    "query": "Turn my resume into a cover letter for this role",
+    "should_trigger": true,
+    "rationale": "Resume-to-cover-letter conversion is this member's job, grounded in the user's real resume facts."
+  },
+  {
+    "id": 4,
+    "query": "Write a letter of interest for the analyst opening",
+    "should_trigger": true,
+    "rationale": "'Letter of interest' / 'motivation letter' are cover-letter synonyms."
+  },
+  {
+    "id": 5,
+    "query": "Tailor my cover letter to this job description",
+    "should_trigger": true,
+    "rationale": "Tailoring an existing cover letter to a posting is in scope."
+  },
+  {
+    "id": 6,
+    "query": "Tighten up my resume and fix the formatting",
+    "should_trigger": false,
+    "rationale": "Resume editing is resume-tailor's job, not cover-letter. Must not over-fire on resume work."
+  },
+  {
+    "id": 7,
+    "query": "Find me product manager jobs in Denver",
+    "should_trigger": false,
+    "rationale": "Job search is job-search's job; cover-letter must not fire on a search request."
+  },
+  {
+    "id": 8,
+    "query": "What should I follow up on this week?",
+    "should_trigger": false,
+    "rationale": "Follow-ups are application-tracker's job; negative control."
+  },
+  {
+    "id": 9,
+    "query": "What's a good recipe for banana bread?",
+    "should_trigger": false,
+    "rationale": "Negative control - unrelated to job hunting."
+  }
+]

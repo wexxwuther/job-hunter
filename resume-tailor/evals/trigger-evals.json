@@ -70,5 +70,17 @@
     "query": "What's the weather like in Seattle today?",
     "should_trigger": false,
     "rationale": "Negative control - unrelated to resumes or job hunting. The member should not over-fire on incidental geography."
+  },
+  {
+    "id": 13,
+    "query": "Run my resume through a resume optimizer",
+    "should_trigger": true,
+    "rationale": "'resume optimizer' (noun) is the user's name for ATS/keyword optimization, which IS resume-tailor's job. Added because a user reported expecting a separate 'resume optimizer' skill; the capability lives here."
+  },
+  {
+    "id": 14,
+    "query": "I need a resume optimization tool to optimize my resume for ATS",
+    "should_trigger": true,
+    "rationale": "Explicit ATS optimization request - core resume-tailor Mode A/B scope; must trigger here, not be mistaken for a missing skill."
   }
 ]

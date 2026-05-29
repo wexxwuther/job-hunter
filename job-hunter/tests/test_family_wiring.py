@@ -6,7 +6,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent.parent  # E:/Git/job-hunter-public
 MEMBERS = ["job-hunter", "career-profile", "job-search",
-           "resume-tailor", "application-tracker", "outcome-learning"]
+           "resume-tailor", "cover-letter", "application-tracker", "outcome-learning"]
 
 
 def _meta(m):

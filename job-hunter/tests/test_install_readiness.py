@@ -10,7 +10,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent.parent
 MEMBERS = ["job-hunter", "career-profile", "job-search",
-           "resume-tailor", "application-tracker", "outcome-learning"]
+           "resume-tailor", "cover-letter", "application-tracker", "outcome-learning"]
 SIBLINGS = [m for m in MEMBERS]
 
 

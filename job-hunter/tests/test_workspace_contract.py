@@ -14,7 +14,7 @@ def test_contract_documents_every_shared_artifact():
 def test_contract_names_every_producer_member():
     text = CONTRACT.read_text(encoding="utf-8")
     for member in ["career-profile", "job-search", "resume-tailor",
-                   "application-tracker", "outcome-learning"]:
+                   "cover-letter", "application-tracker", "outcome-learning"]:
         assert member in text, f"contract must name producer {member}"
 
 
