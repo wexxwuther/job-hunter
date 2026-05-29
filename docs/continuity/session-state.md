@@ -2,21 +2,23 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-05-28 (continuity stack created in this repo; OS/docs maintenance pass; v5.2.0 documented from this repo's perspective)
+**Last updated:** 2026-05-28 (v6.0.0 FAMILY SPLIT shipped, pushed to GitHub, redeployed live to all 3 harnesses + stale installs cleaned)
 **v5.0.0 shipped:** 2026-05-20 (per-user learning loop)
 **v5.0.1 shipped:** 2026-05-20 (decisions_present flag fix)
 **v5.1.0 shipped:** 2026-05-20 (follow-up drafting + workspace export/import + non-tech references)
 **v5.1.1 shipped:** 2026-05-20 (scan-stale posted-vs-applied_date conflation fix)
-**v5.2.0 shipped:** 2026-05-21 (Phase 3 fabrication fix, split Mode A (Tighten/zero-fabrication) / Mode B (Tailor + verification gate); truth-preservation promoted to a Hard Gate; new `scripts/verify_no_fabrication.py`; web-content-untrusted rule)
-**Current version:** v5.2.0
-**Current scores (v5.2.0):** unit tests 201/201 passing (177 from v5.1.1 + 24 new); trigger evals: 28; outcome evals: 24; CI green on Ubuntu/macOS/Windows × Python 3.10/3.11/3.12
+**v5.2.0 shipped:** 2026-05-21 (Phase 3 fabrication fix, split Mode A (Tighten/zero-fabrication) / Mode B (Tailor + verification gate); truth-preservation promoted to a Hard Gate; new `scripts/verify_no_fabrication.py`; web-content-untrusted rule) — **last MONOLITH version, now retired**
+**v6.0.0 shipped:** 2026-05-28 (FAMILY SPLIT: monolith → orchestrator `job-hunter` + 5 members `career-profile`, `job-search`, `resume-tailor`, `application-tracker`, `outcome-learning`; typed artifact hand-offs via the shared `.job-hunter/` workspace contract; all 16 member scripts byte-identical to the monolith — zero behavior change)
+**Current version:** v6.0.0 (family)
+**Current scores (v6.0.0):** 226 family unit tests + 3 install-readiness guards = 229 green; orchestrator validates with 0 ERRORs; all 6 members 0 os-coupling; CI matrix green
 
-## ⚠ CRITICAL: This IS the v5+ active repo
+## ⚠ CRITICAL: This IS the v5+/v6 active repo — now a FAMILY MONOREPO
 
-**v5+ source of truth (THIS repo):** `E:\Git\job-hunter-public\`
-- Git-tracked, branch `main`, HEAD on commit `6d725cd` (CRLF→LF + .gitattributes, 2026-05-28).
-- Remote: `https://github.com/wexxwuther/job-hunter` (PRIVATE as of this writing, user controls visibility flip).
-- Released tags: `v4.0.0`, `v5.0.0`, `v5.0.1`, `v5.1.0`, `v5.1.1` (NOTE: the `v4.0.0` tag here is the initial public-release commit, NOT skill-builder-workdir's v4). v5.2.0 not yet tagged/released as of this writing.
+**v5+/v6 source of truth (THIS repo):** `E:\Git\job-hunter-public\`
+- Git-tracked, branch `main`, HEAD on commit `31b90d2` (install-readiness fix + guards, 2026-05-28). **Pushed to origin/main (network-verified, 0 ahead / 0 behind).**
+- Remote: `https://github.com/wexxwuther/job-hunter` (PRIVATE; user controls visibility flip).
+- **Layout is now a FAMILY MONOREPO, not a single skill.** Root no longer has a `SKILL.md`. The 6 member dirs are: `job-hunter/` (orchestrator), `career-profile/`, `job-search/`, `resume-tailor/`, `application-tracker/`, `outcome-learning/`, plus `docs/` and `install/`.
+- The retired v5.2.0 monolith is recoverable from tag `v5.2.0-monolith-archive` (and `E:/Git/job-hunter-v5.2.0-monolith-archive.zip`).
 - All active job-hunter development happens HERE.
 
 **v4 ancestor (frozen, historical):** `E:\Git\skill-builder-workdir\job-hunter\`
@@ -26,8 +28,8 @@
 **Why the split:** see `decisions.md` entry "2026-05-20 (v5+), Public repo at `E:/Git/job-hunter-public/` is the new source of truth". TL;DR: public-distribution-shaped repo needs different file structure (LICENSE, README with badges, .github/workflows, install/) that doesn't fit skill-builder-workdir convention.
 
 **What this means for future you:**
-- If the user says "edit job-hunter", they mean THIS repo. Verify by checking the working directory.
-- v4 install at `~/.claude/skills/job-hunter-v4/` still exists on the machine. v5+ public-repo installers write to `~/.claude/skills/job-hunter/` (no version suffix). Both coexist.
+- If the user says "edit job-hunter", they mean THIS repo. Verify by checking the working directory. "job-hunter" now means the FAMILY (6 skills), and `job-hunter/` specifically is the orchestrator member.
+- **Installs are CLEAN as of 2026-05-28:** all stale `job-hunter-v3`/`job-hunter-v4` copies were removed from all roots, and the orphaned `~/.codex/skills/job-hunter` is gone (Codex reads `~/.agents`, not `~/.codex`). Each of the 3 deploy targets has exactly the 6 v6.0.0 members and nothing stale. See "Where the skill lives".
 
 ## 2026-05-28 maintenance pass (this session)
 
@@ -42,13 +44,14 @@ Landed as commit `6d725cd` (OS fix + .gitattributes). The continuity-stack creat
 
 ## Where the skill lives right now
 
-- **Source of truth (THIS repo, git-tracked):** `E:\Git\job-hunter-public\`, branch `main`, remote `https://github.com/wexxwuther/job-hunter` (PRIVATE). All v5+ edits go here. Distribution-shaped layout: `SKILL.md`, `scripts/`, `references/`, `assets/`, `evals/`, `tests/`, `install/`, `.github/`, `_meta.json`, `CHANGELOG.md`, `README.md`, `LICENSE`, `SECURITY.md`, `SUPPORT.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and (as of 2026-05-28) this `docs/continuity/` stack.
-- **Public-repo installers:** `install/install.ps1` + `install/install.sh` deploy whatever is on `main` to `~/.claude/skills/job-hunter/` (no version suffix). Per-harness guides: `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`.
+- **Source of truth (THIS repo, git-tracked):** `E:\Git\job-hunter-public\`, branch `main`, remote `https://github.com/wexxwuther/job-hunter` (PRIVATE). All v6+ edits go here. FAMILY-MONOREPO layout: 6 member dirs (`job-hunter/` orchestrator + `career-profile/`, `job-search/`, `resume-tailor/`, `application-tracker/`, `outcome-learning/`), each with its own `SKILL.md`, `scripts/`, `references/`, `evals/`, `tests/`, `_meta.json`, `CHANGELOG.md`; plus root `docs/` (this continuity stack + `CUTOVER.md` + `superpowers/`) and `install/`. Root `SKILL.md` is GONE by design.
+- **Family installers:** `install/install.sh` + `install/install.ps1` loop all 6 members into the 3 harness roots (`~/.claude/skills`, `~/.agents/skills` (Codex + OpenClaw share this), `~/.hermes/skills`). Per-harness guides: `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`.
+- **LIVE INSTALL STATE (2026-05-28, verified clean):** each of the 3 deploy targets (`~/.claude`, `~/.agents`, `~/.hermes`) has exactly the 6 v6.0.0 family members; orchestrator `_meta.json` reads v6.0.0; `resume-tailor/scripts/verify_no_fabrication.py` is PRESENT in all 3 (this is the fix for the original "resume optimizer not part of skill set" symptom, which was stale installs, not a broken chain). No stale/shadowing copies remain.
+- **Catalog (Q:):** `Q:/skills/job-hunter/` has 5 v6.0.0 zips (claude-code, codex, openclaw, hermes, portable; 234,197 bytes each, 91 entries) + `skill.json` (current_version v6.0.0, chainability plugin-bundle, chain.members 6, source_version_hash 67161e9d516c) + README. `Q:/skills/catalog.json` lists job-hunter at current_version v6.0.0, kind skill-family-bundle.
 - **v4 ancestor (frozen, historical):** `E:\Git\skill-builder-workdir\job-hunter\`, separate git history, no merge path. Read-only for reference.
-- **v4 installs (still on machine):** `~/.claude/skills/job-hunter-v4/`, `~/.codex/skills/job-hunter-v4/`, `~/.agents/skills/job-hunter-v4/`. Coexist with the no-suffix `job-hunter` install.
 - **Plugin-managed original (read-only):** `C:\Users\Owner\AppData\Roaming\Claude\local-agent-mode-sessions\skills-plugin\...\skills\job-hunter\`. Untouched. Invocable as `anthropic-skills:job-hunter`.
 
-> ⚠ **Installed-copy staleness (2026-05-28):** the installed `job-hunter` copies predate v5.2.0 and are MISSING `scripts/verify_no_fabrication.py`. They need a redeploy via `install/install.ps1`. Deferred pending user go-ahead, see "Next Step".
+> ✅ **Installs are CURRENT (2026-05-28):** the live `job-hunter` family across all 3 harnesses is v6.0.0 and carries `verify_no_fabrication.py` (in the `resume-tailor` member). The old staleness warning (pre-v5.2.0 installs missing the anti-fabrication script) is RESOLVED — that was the root cause of the original symptom and it is fixed.
 
 ## How job-hunter reached v5.2.0 (version history)
 
@@ -82,50 +85,51 @@ Signal: competitive review of `santifer/career-ops` (GitHub). Five capability ga
 - **Unit tests:** 69/69 pass at v4 (THIS repo is at 201/201 for v5.2.0)
 - **CI check:** all 6 stages green at v4
 
-## Current state (v5.2.0, THIS repo)
+## Current state (v6.0.0 FAMILY, THIS repo)
 
-- **Version:** v5.2.0 (`_meta.json`); current_score 100.0, baseline 66.7, trigger_accuracy 1.0
-- **Unit tests:** 201/201 passing (177 carried from v5.1.1 + 24 new in v5.2.0)
-- **Trigger evals:** 28; **Outcome evals:** 24
-- **CI:** green on Ubuntu/macOS/Windows × Python 3.10/3.11/3.12 (`.github/workflows/test.yml`)
-- **OS-clean:** `.gitattributes` enforces LF; `verify_no_fabrication.py` CRLF→LF fixed (2026-05-28)
-- **Git:** branch `main`, HEAD `6d725cd`. Working tree as of the 2026-05-28 pass had `SKILL.md` + `_meta.json` staged/modified for the v5.2.x doc-wiring (verify with `git status` before trusting).
+- **Version:** v6.0.0 family. Orchestrator `job-hunter/_meta.json`: version 6.0.0, family "job-hunter", family_role "orchestrator", sister_skills = the 5 members.
+- **Tests:** 226 family unit tests (per-member sum) + 3 install-readiness guards = 229 green. All 16 member scripts are byte-identical to the retired monolith (git tracked the moves as 100%-similarity renames) → **zero behavioral regression**. The 5 load-bearing `verify_no_fabrication` safety tests moved intact into `resume-tailor`.
+- **Validate/audit:** orchestrator validates with 0 ERRORs; all 6 members pass the os-coupling guard (0 findings).
+- **OS-clean:** `.gitattributes` enforces LF; `verify_no_fabrication.py` is LF (the CRLF-in-the-safety-script lesson, CL-tracked).
+- **Git:** branch `main`, HEAD `31b90d2`, pushed to origin/main (network-verified). Working tree clean.
+- **Shipped + deployed:** pushed to GitHub; 5 v6.0.0 zips on `Q:/skills/job-hunter/`; catalog.json updated to v6.0.0; live install redeployed + cleaned across all 3 harnesses.
 
 ## What's NOT done yet (next session's work)
 
 | Item | Why it's pending | Priority |
 |---|---|---|
-| **Re-sync installed copies to v5.2.0** | Installed `job-hunter` copies are STALE, missing `verify_no_fabrication.py`. Need redeploy via `install/install.ps1`. DEFERRED pending user go-ahead as of 2026-05-28 | High, but user-gated |
-| **Tag/release v5.2.0** | v5.2.0 is shipped in-repo but not yet tagged on GitHub (latest released tag is v5.1.1). User controls release | Medium |
+| **Tag/release v6.0.0 on GitHub** | v6.0.0 is pushed to `main` but the only release-style tag present is `v5.2.0-monolith-archive` (the retirement snapshot). A `v6.0.0` release tag is not yet cut. User controls releases | Medium, user-gated |
 | **Public-repo visibility flip** | Remote is PRIVATE; user controls the flip to PUBLIC | User-gated |
-| **Real `claude`-runner pass on outcome evals** | Mock runner is keyword-overlap-based; real Claude invocation can surface different behaviors, especially for the v5.2.0 fabrication-gate evals | Medium |
-| **Remove `posting-quality-rubric.md` stub** | Intentional deprecated-stub redirector (see `_meta.json signals_observed`); can be deleted once nothing references it | Low |
-| **First real-user run + harvest** | After 1-2 real v5.2.0 runs, harvest transcripts for the next iteration | Medium, opportunistic |
+| **Real `claude`-runner pass on routing + outcome evals** | The routing/parity checks used read-through + mock runners; a real Claude invocation can surface different behaviors, especially the orchestrator routing and the fabrication-gate evals | Medium |
+| **Remove `posting-quality-rubric.md` stub** | Intentional deprecated-stub redirector (now in the `job-search` member); deletable once nothing references it | Low |
+| **First real-user run + harvest** | After 1-2 real v6.0.0 family runs, harvest transcripts (outcome-learning Phase 5) for the next iteration | Medium, opportunistic |
 
 ## What I would do first if I picked up this session cold
 
 1. Read this file (session-state.md).
 2. Read `compaction-handoff.md` for the full self-contained evidence chain.
-3. Read `lessons.md` for traps (top entry: the CRLF-in-the-safety-script lesson).
-4. Verify the skill still scores correctly against THIS repo:
-   ```powershell
-   python C:\Users\Owner\.claude\skills\self-improving-skills\scripts\ci_check.py E:\Git\job-hunter-public
-   python -m pytest E:\Git\job-hunter-public\tests\ -q   # expect 201 passed
+3. Read `lessons.md` for traps + `docs/CUTOVER.md` for the archive/recovery path.
+4. Verify the family still passes against THIS repo (note: monorepo, no root SKILL.md; test per member):
+   ```bash
+   cd E:/Git/job-hunter-public
+   for m in job-hunter career-profile job-search resume-tailor application-tracker outcome-learning; do
+     python -m pytest "$m/tests/" -q
+   done   # expect 226 family + 3 install-readiness guards = 229 passed total
    ```
-5. Then move to the next pending item from the table above (installed-copy re-sync is the top user-gated one).
+5. Then move to the next pending item (a GitHub `v6.0.0` release tag is the top user-gated one).
 
 ## Current Goal
 
-v5.2.0 source is complete, OS-clean, and documented. The next concrete action is re-syncing the stale installed copies to v5.2.0, but that is user-gated. No unprompted work until the user gives the go-ahead.
+v6.0.0 family is complete, tested, pushed, shipped to the Q catalog, and live across all 3 harnesses — the original "resume optimizer not part of skill set" symptom is fixed (it was stale installs). No unprompted work; the remaining items (release tag, visibility flip) are user-gated.
 
 ## Last Known State
 
-v5.2.0 source in THIS repo: 201/201 unit tests, 28 trigger evals, 24 outcome evals, CI green across the matrix, `.gitattributes` enforcing LF, `verify_no_fabrication.py` shebang portable. Continuity stack created in this repo on 2026-05-28. Installed copies are stale (pre-v5.2.0, missing the anti-fabrication script).
+v6.0.0 family in THIS repo: 229 tests green, 16 scripts byte-identical to the monolith, orchestrator 0 validate ERRORs, all 6 members 0 os-coupling, HEAD `31b90d2` pushed to origin/main. Monolith retired and archived (tag `v5.2.0-monolith-archive` + zip). Live installs clean: 6 members per harness, `verify_no_fabrication.py` present, no stale copies.
 
 ## Next Step
 
-Exact next action: **v5.2.0 source is complete + OS-clean + documented; installed copies are STALE (missing `verify_no_fabrication.py`) and need redeploy via `install/install.ps1`, DEFERRED pending user go-ahead as of 2026-05-28.**
+Exact next action: **v6.0.0 family is fully shipped + redeployed + clean. Nothing technical pending.** The only open items are user-gated: cut a GitHub `v6.0.0` release tag, and flip remote visibility PRIVATE→PUBLIC. Do not do either without explicit user authorization.
 
 ## Blockers
 
-None technical. The top pending action (installed-copy re-sync) is user-authorization-gated, not blocked.
+None. All technical work for the v6.0.0 family split, ship, and redeploy is complete and verified.

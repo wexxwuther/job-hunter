@@ -6,8 +6,8 @@ for user-level memory (2ndBrain).
 
 ## Stable facts about the skill itself
 
-- **Current version:** v5.2.0 (`_meta.json version: 5.2.0`). Active source of truth is THIS repo, `E:/Git/job-hunter-public/`.
-- **Skill name (canonical):** `job-hunter` (lowercase, hyphenated; frontmatter `name:` field is the canonical name; v5+ public-repo installs use the no-suffix form `job-hunter/`, while the legacy local installs use the versioned form `job-hunter-vN/`)
+- **Current version:** v6.0.0 (FAMILY split; orchestrator `job-hunter/_meta.json version: 6.0.0`). Active source of truth is THIS repo, `E:/Git/job-hunter-public/`, now a family monorepo (6 member dirs, no root SKILL.md). v5.2.0 was the last monolith (archived at tag `v5.2.0-monolith-archive`).
+- **Skill name (canonical):** `job-hunter` (lowercase, hyphenated). As of v6.0.0 "job-hunter" names the FAMILY; `job-hunter/` specifically is the orchestrator member. The 6 members install as separate sibling dirs `~/.<harness>/skills/<member>/`. Legacy versioned installs (`job-hunter-vN/`) have all been removed.
 - **License:** MIT
 - **Spec version:** `agentskills.io 2025-12-18`
 - **Loop type:** human-in-the-loop
@@ -41,9 +41,10 @@ for user-level memory (2ndBrain).
 - **Source of truth (v5+, THIS repo):** `E:\Git\job-hunter-public\`, branch `main`, remote `https://github.com/wexxwuther/job-hunter` (PRIVATE). All v5+ edits go here.
 - **v4 ancestor (frozen, historical):** `E:\Git\skill-builder-workdir\job-hunter\`, separate git history, no merge path, read-only. (Dual-repo fact: v4 frozen at skill-builder-workdir; v5+ active here.)
 - **Plugin-managed original:** `C:\Users\Owner\AppData\Roaming\Claude\local-agent-mode-sessions\skills-plugin\5c05cc04-2463-4046-bba9-caf393e8b23f\e536094f-d1a7-4bf2-b2e6-96280eabdba7\skills\job-hunter\`, READ-ONLY
-- **v5+ installs (no version suffix):** `~/.claude/skills/job-hunter/` (+ codex/openclaw/hermes paths), written by the public-repo installers. NOTE (2026-05-28): these are STALE relative to v5.2.0, missing `scripts/verify_no_fabrication.py`; redeploy is deferred pending user go-ahead.
-- **v4 installs (still present):** `~/.claude/skills/job-hunter-v4/`, `~/.codex/skills/job-hunter-v4/`, `~/.agents/skills/job-hunter-v4/`, coexist with the no-suffix install.
-- **Install procedure (v5+):** run `install/install.ps1` (Windows) or `install/install.sh` (macOS/Linux) from THIS repo's root; deploys whatever is on `main` to `~/.claude/skills/job-hunter/`. Per-harness guides: `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`. (The v4 ancestor used a `.install.ps1` to local versioned paths instead, historical.)
+- **v6.0.0 family installs (CURRENT, verified clean 2026-05-28):** the 6 members are installed as separate sibling dirs under each of the 3 deploy targets — `~/.claude/skills/`, `~/.agents/skills/` (Codex + OpenClaw share this), `~/.hermes/skills/`. Each target has exactly the 6 members; orchestrator `_meta.json` v6.0.0; `resume-tailor/scripts/verify_no_fabrication.py` PRESENT in all 3. The earlier staleness (pre-v5.2.0 installs missing the anti-fabrication script) is RESOLVED — that was the root cause of the "resume optimizer not part of skill set" symptom.
+- **Stale installs REMOVED (2026-05-28):** the old `job-hunter-v3` + `job-hunter-v4` dirs (across `.claude`/`.codex`/`.agents`) and the orphaned `~/.codex/skills/job-hunter` are deleted. `~/.codex` is NOT a deploy target (Codex reads `~/.agents`).
+- **v4 ancestor (frozen, historical):** still on disk at `E:\Git\skill-builder-workdir\job-hunter\` as read-only source history (not an install).
+- **Install procedure (v6.0.0 family):** run `install/install.sh` (macOS/Linux) or `install/install.ps1` (Windows) from THIS repo's root; loops all 6 members into the 3 harness roots. Per-harness guides: `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`.
 
 ## Stable facts about external dependencies
 

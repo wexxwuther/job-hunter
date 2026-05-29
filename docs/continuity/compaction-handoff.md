@@ -1,21 +1,50 @@
-# Compaction Handoff, job-hunter (PUBLIC REPO, v5+ active source of truth)
+# Compaction Handoff, job-hunter (PUBLIC REPO, v6 family active source of truth)
 
-**Updated:** 2026-05-28 (continuity stack created in THIS repo; OS/docs maintenance pass on the v5.2.0 source)
+**Updated:** 2026-05-28 (v6.0.0 FAMILY SPLIT shipped + pushed + redeployed live to all 3 harnesses + stale installs cleaned)
 
 Purpose: a future session (or post-compaction continuation) can read THIS file alone and recover
 all the load-bearing context needed to continue the work. Designed to be self-contained.
 
 ## ⚠ FIRST THING TO KNOW: where the active work lives
 
-**This file is in `E:\Git\job-hunter-public\`, THE active v5+ source of truth for job-hunter.** All current development happens HERE. Remote: `https://github.com/wexxwuther/job-hunter` (PRIVATE as of this writing, user controls visibility flip).
+**This file is in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.** All current development happens HERE. Remote: `https://github.com/wexxwuther/job-hunter` (PRIVATE; user controls visibility flip).
+
+**As of v6.0.0 (2026-05-28) this repo is a FAMILY MONOREPO, not a single skill.** Root has NO `SKILL.md`. The 6 member dirs are `job-hunter/` (orchestrator) + `career-profile/`, `job-search/`, `resume-tailor/`, `application-tracker/`, `outcome-learning/`, plus `docs/` and `install/`. "job-hunter" the name now means the family; `job-hunter/` the dir is the orchestrator.
 
 **The v4 ancestor (`E:\Git\skill-builder-workdir\job-hunter\`) is frozen, historical, read-only.** It has a completely separate git history; there is NO merge path. If you find yourself editing the workdir copy, stop, you are in the wrong repo.
 
 If the user says "work on job-hunter," they mean THIS repo. Verify by checking the working directory.
 
-## v5.2.0 + 2026-05-28 maintenance handoff (most recent, read this section first)
+## v6.0.0 FAMILY SPLIT handoff (MOST RECENT — read this first)
 
-**Current version: v5.2.0** (shipped 2026-05-21). The 2026-05-28 session did NOT bump the version, it was an OS-portability + documentation pass on the v5.2.0 source plus creation of this continuity stack.
+**Current version: v6.0.0 family** (shipped 2026-05-28). The monolithic v5.2.0 SKILL.md was split into an orchestrator + 5 members with typed artifact hand-offs through the shared `.job-hunter/` workspace contract.
+
+**Final state as of 2026-05-28 (all verified):**
+- **Repo:** `E:\Git\job-hunter-public\`, branch `main`, HEAD `31b90d2`, **pushed to origin/main (network-verified: `git ls-remote` matches; 0 ahead / 0 behind).**
+- **Members (6):** `job-hunter/` orchestrator (owns init/export/import_workspace), `career-profile/` (init_profile, parse_resume), `job-search/` (build_search_queries, expand_role_synonyms, normalize_salary, dedupe_postings, score_posting), `resume-tailor/` (extract_ats_keywords, **verify_no_fabrication**), `application-tracker/` (generate_tracker_html, draft_followup + tracker.css), `outcome-learning/` (harvest_outcomes, propose_lessons).
+- **Behavior parity:** all 16 member scripts byte-identical to the monolith (git recorded the moves as 100%-similarity renames) → zero behavioral regression. The 5 load-bearing `verify_no_fabrication` safety tests moved intact.
+- **Tests:** 226 family unit tests + 3 install-readiness guards (`job-hunter/tests/test_install_readiness.py`) = 229 green. Orchestrator validates with 0 ERRORs; all 6 members 0 os-coupling.
+- **Archive:** the retired monolith is recoverable from tag `v5.2.0-monolith-archive` and `E:/Git/job-hunter-v5.2.0-monolith-archive.zip` (1,427,851 bytes, 89 entries). Cutover documented in `docs/CUTOVER.md`.
+- **Shipped to Q catalog:** `Q:/skills/job-hunter/` has 5 v6.0.0 zips (claude-code/codex/openclaw/hermes/portable, 234,197 bytes each, 91 entries) + `skill.json` (current_version v6.0.0, chainability plugin-bundle, chain.members 6, source_version_hash 67161e9d516c) + README. `Q:/skills/catalog.json` lists job-hunter at v6.0.0, kind skill-family-bundle.
+- **LIVE INSTALL (redeployed + cleaned):** all 3 deploy targets (`~/.claude/skills`, `~/.agents/skills`, `~/.hermes/skills`) carry exactly the 6 v6.0.0 members; orchestrator `_meta.json` v6.0.0; `resume-tailor/scripts/verify_no_fabrication.py` PRESENT in all 3. Removed 7 stale dirs: `job-hunter-v3` + `job-hunter-v4` across `.claude`/`.codex`/`.agents`, plus the orphaned `~/.codex/skills/job-hunter` (Codex reads `~/.agents`, not `~/.codex`).
+
+**Original symptom RESOLVED:** "resume optimizer not part of skill set" was diagnosed as STALE INSTALLS (the live copies predated v5.2.0 and lacked `verify_no_fabrication.py`), NOT a broken chain. Resume optimization is Phase 3 / the `resume-tailor` member — never a separate component. The v6.0.0 redeploy fixes it.
+
+**Exact next action:** nothing technical is pending. The only open items are USER-GATED: cut a GitHub `v6.0.0` release tag (only `v5.2.0-monolith-archive` exists as a tag), and flip remote visibility PRIVATE→PUBLIC. Do neither without explicit authorization.
+
+**How to resume (v6.0.0 family):**
+1. `cd E:/Git/job-hunter-public`; `git status` (expect clean, branch `main`, HEAD `31b90d2`).
+2. It's a monorepo — no root SKILL.md. Per-member test: `for m in job-hunter career-profile job-search resume-tailor application-tracker outcome-learning; do python -m pytest "$m/tests/" -q; done` → 229 passed total.
+3. Read the orchestrator `job-hunter/SKILL.md` (routing surface, context:fork, member table, anti-fabrication HARD GATE) + `references/workspace-contract.md` (typed hand-offs).
+4. Read `docs/CUTOVER.md` for the archive/recovery path.
+
+---
+
+## v5.2.0 + 2026-05-28 maintenance handoff (HISTORICAL — superseded by the v6.0.0 section above)
+
+> ⚠ This section describes the last MONOLITH state (v5.2.0). It was the "current" handoff before the v6.0.0 family split landed later the same day. Kept for the v5.2.0 evidence chain; for current reality read the v6.0.0 section at the top.
+
+**Version at the time: v5.2.0** (shipped 2026-05-21). That 2026-05-28 sub-session did NOT bump the version, it was an OS-portability + documentation pass on the v5.2.0 source plus creation of this continuity stack. (The v6.0.0 split happened afterward, same day.)
 
 **Final state as of 2026-05-28:**
 - **Repo:** `E:\Git\job-hunter-public\` (branch `main`, HEAD on commit `6d725cd`)
@@ -38,15 +67,14 @@ If the user says "work on job-hunter," they mean THIS repo. Verify by checking t
 - **`_meta.json` gained `last_review_due` (2026-08-19) + `signals_observed`**, for validate/CI compliance.
 - **This continuity stack created**, `docs/continuity/` did not exist in this repo before 2026-05-28. Previously the only continuity stack was in the frozen v4 workdir copy, where it pointed "forward" to this repo. Now it lives here, written from this repo's perspective.
 
-**Exact next action (DEFERRED, user-gated):** v5.2.0 source is complete + OS-clean + documented; the installed `job-hunter` copies are STALE (predate v5.2.0, MISSING `verify_no_fabrication.py`) and need redeploy via `install/install.ps1`, DEFERRED pending user go-ahead as of 2026-05-28. Tagging/releasing v5.2.0 on GitHub and the PRIVATE→PUBLIC visibility flip are also user-controlled.
+**Exact next action (HISTORICAL — now DONE):** this section once said the stale installed copies needed a redeploy, DEFERRED pending user go-ahead. That redeploy HAPPENED later the same day as part of the v6.0.0 family ship: all 3 harnesses now carry the v6.0.0 family with `verify_no_fabrication.py` present, and stale copies were removed. See the v6.0.0 section at the top. (v5.2.0 itself was never tagged/released on GitHub; it was superseded by v6.0.0.)
 
-**How to resume work (v5.2.0):**
+**How to resume work (v5.2.0 — HISTORICAL; use the v6.0.0 resume steps at the top instead):**
 1. `cd E:/Git/job-hunter-public`
-2. `git status`, confirm branch `main`; HEAD `6d725cd` (the 2026-05-28 pass left `SKILL.md`/`_meta.json` modified for v5.2.x doc-wiring; verify against reality)
-3. `python -m pytest tests/ -q`, should show `201 passed`
-4. Read `SKILL.md` Phase 0-5 (note the v5.2.0 Phase 3 Mode A / Mode B split) to refresh the workflow
-5. Check `CHANGELOG.md` for the v5.2.0 entry
-6. If the user authorizes it, run `install/install.ps1` to re-sync the stale installed copies
+2. `git status`, confirm branch `main`
+3. NOTE: at v5.2.0 the suite was a single root `tests/` dir (`201 passed`). v6.0.0 is a monorepo with per-member `tests/` (229 total) and NO root `tests/`. Use the v6.0.0 resume steps.
+4. The v5.2.0 monolith `SKILL.md` (Phase 0-5, the Mode A / Mode B split) is recoverable from tag `v5.2.0-monolith-archive`; in the live tree those phases now map to the 6 members.
+5. Step "run install/install.ps1 to re-sync stale copies" — **DONE** as part of the v6.0.0 ship; nothing to re-sync.
 
 ---
 

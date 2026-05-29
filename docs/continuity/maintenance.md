@@ -122,10 +122,11 @@ have changed (e.g., `--results` vs `--out-dir`), update the maintenance.md comma
 **Cadence:** triggered, not recurring. Run after committing changes in THIS repo when you want
 the installed `job-hunter` copy to reflect the new state.
 
-**Why:** The installed copy at `~/.claude/skills/job-hunter/` (+ codex/openclaw/hermes paths) is
-a packaged snapshot, NOT a symlink or live view of the repo. Repo edits don't propagate
-automatically. **As of 2026-05-28 the installed copy is STALE relative to v5.2.0 (missing
-`scripts/verify_no_fabrication.py`), re-sync is deferred pending user go-ahead.**
+**Why:** The installed copies (the 6 family members under `~/.claude/skills/`, `~/.agents/skills/`,
+`~/.hermes/skills/`) are packaged snapshots, NOT symlinks or a live view of the repo. Repo edits
+don't propagate automatically. **As of 2026-05-28 the installs are CURRENT (v6.0.0 family,
+redeployed + stale copies cleaned); the earlier "stale / missing verify_no_fabrication.py" state
+is RESOLVED.** Re-run the family installer after future repo edits you want reflected live.
 
 **Procedure (v5+, canonical, THIS repo):**
 ```powershell

@@ -4,6 +4,30 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-05-28 (v6.0.0 split), A reported "missing skill" is more often a stale install than a broken architecture
+
+**What happened:** the user reported "resume optimizer was not part of the skill set." The instinct is to assume the chain is broken or a member is missing. The actual cause: the LIVE installs predated v5.2.0 and were missing `verify_no_fabrication.py` — resume optimization was always Phase 3 (now the `resume-tailor` member), never a separate skill. The symptom was a STALE INSTALL, not a design gap.
+
+**Lesson:** before re-architecting in response to a "missing capability" report, check what's actually installed vs. what's in source. Diff the live install against the repo. A redeploy is cheaper than a redesign, and re-architecting around a phantom gap is wasted work.
+
+**How to apply:** keep a one-liner that verifies each deploy target has the expected members + critical files (here: `resume-tailor/scripts/verify_no_fabrication.py` present in all 3 harness roots). Run it whenever a "X isn't working / X is missing" report comes in.
+
+## 2026-05-28 (v6.0.0 split), Byte-identical script moves are the strongest parity evidence
+
+**What happened:** splitting a monolith into a family risks behavioral regression. To prove zero regression, the 16 scripts were MOVED (not rewritten) out of the monolith into members. `git` recorded every move as a 100%-similarity rename — meaning the bytes are unchanged.
+
+**Lesson:** when refactoring structure (not behavior), move files instead of recreating them, and let `git`'s rename detection (or a hash compare) prove the bytes didn't change. Unchanged bytes = no behavioral regression is *possible*. This is far stronger than "the tests still pass" because it removes the test suite as a single point of trust.
+
+**How to apply:** for any "restructure without behavior change" task, verify with `git log --follow` / rename detection or a `sha256` compare per moved file. If a file shows as modified rather than renamed, investigate the diff before claiming parity.
+
+## 2026-05-28 (v6.0.0 split), Monorepo-relative sibling references break once members install as separate dirs
+
+**What happened:** member SKILL.md files referenced a sibling by a monorepo-relative path (e.g. `job-hunter/references/workspace-contract.md`). That resolves IN the repo, but each member installs as its OWN dir at `~/.claude/skills/<member>/` where sibling skills are not subdirectories — so the reference breaks post-install.
+
+**Lesson:** every family member must be SELF-CONTAINED on its references. A shared doc that members consume must be COPIED into each member, not referenced across the family tree. Same applies to scripts and bundled assets (templates, CSS): a moved script that reads an asset isn't self-contained until the asset moves with it.
+
+**How to apply:** add install-readiness guards that fail on (a) any `<sibling>/references|scripts|evals/` path in a member's SKILL.md, (b) any member missing its own copy of the shared contract, (c) any `scripts/<name>.py` a member names but doesn't own. See `job-hunter/tests/test_install_readiness.py`. These catch the trap in CI, before it ships.
+
 ## 2026-05-28 (OS pass), The highest-stakes file is exactly the one to check for portability
 
 **What happened:** the most important safety script in v5.2.0, `scripts/verify_no_fabrication.py`, the anti-fabrication gate that enforces the truth-preservation Hard Gate, shipped with CRLF line endings. Its shebang (`#!/usr/bin/env python3`) would be read as `python3\r` on macOS/Linux, so the interpreter lookup fails and the script won't execute directly. The self-improving-skills os-coupling guard caught it during a portability pass.

@@ -30,26 +30,28 @@ after handoff from another agent.
 
 ## Verify state before trusting notes
 
-Continuity docs can drift from filesystem state. Before acting on what they say, run (THIS repo is the active v5+ source of truth):
+Continuity docs can drift from filesystem state. Before acting on what they say, run (THIS repo is the active v6 family source of truth — a MONOREPO with 6 member dirs, NO root SKILL.md):
 
 ```powershell
 $builder = "C:\Users\Owner\.claude\skills\self-improving-skills"
 $work = "E:\Git\job-hunter-public"
+$members = @("job-hunter","career-profile","job-search","resume-tailor","application-tracker","outcome-learning")
 
-# 1. Audit should be 15/15, 0 findings
-python "$builder\scripts\audit_existing.py" --skill $work | Select-Object -First 6
+# 1. Audit + validate EACH member (each member is its own skill dir; there is no root skill)
+foreach ($m in $members) {
+  python "$builder\scripts\audit_existing.py" --skill "$work\$m" | Select-Object -First 3
+  python "$builder\scripts\validate.py" "$work\$m"   # orchestrator should return 0 ERRORs; all 6 = 0 os-coupling
+}
 
-# 2. Validate should return OK
-python "$builder\scripts\validate.py" $work
+# 2. Unit tests should total 229 (226 family + 3 install-readiness guards). Run per member:
+foreach ($m in $members) { python -m pytest "$work\$m\tests" -q }
 
-# 3. Mock eval, 28 trigger evals (100% trigger accuracy)
-$results = "$work\evals\results\reload-check-$(Get-Date -Format yyyyMMdd)"
-if (Test-Path $results) { Remove-Item $results -Recurse -Force }
-python "$builder\scripts\run_evals.py" --skill $work --runner mock --out-dir $results
-Get-Content "$results\report.md"
+# 3. Confirm the monorepo shape (no root SKILL.md; 6 member dirs present)
+if (Test-Path "$work\SKILL.md") { Write-Warning "root SKILL.md should NOT exist in the v6 family" }
+$members | ForEach-Object { if (-not (Test-Path "$work\$_\SKILL.md")) { Write-Warning "missing member: $_" } }
 
-# 4. Unit tests should be 201/201 (v5.2.0)
-python -m pytest "$work\tests" -q
+# 4. Behavior-parity spot check: the 16 moved scripts are byte-identical to the archived monolith
+#    (recover the monolith from tag v5.2.0-monolith-archive and sha256-compare if in doubt)
 
 # 5. Verify the plugin-managed original (v1, read-only) is untouched
 (Get-FileHash "C:\Users\Owner\AppData\Roaming\Claude\local-agent-mode-sessions\skills-plugin\5c05cc04-2463-4046-bba9-caf393e8b23f\e536094f-d1a7-4bf2-b2e6-96280eabdba7\skills\job-hunter\SKILL.md" -Algorithm SHA256).Hash

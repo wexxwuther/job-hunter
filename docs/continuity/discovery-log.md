@@ -3,23 +3,47 @@
 Where things live on disk + which files are load-bearing for which questions. A future session
 looking for "where is X?" should find the answer here before grepping.
 
-## ⚠ THIS is the v5+ source-of-truth repo (split recorded 2026-05-20)
+## ⚠ THIS is the v5+/v6 source-of-truth repo — now a FAMILY MONOREPO (v6.0.0, 2026-05-28)
 
-job-hunter v5+ is developed in THIS repo, `E:\Git\job-hunter-public\` (remote `https://github.com/wexxwuther/job-hunter`, currently PRIVATE). The `skill-builder-workdir/job-hunter/` copy is the frozen v4 ancestor (separate git history, no merge path). See `session-state.md` and `decisions.md` for the full rationale. **Current version: v5.2.0.**
+job-hunter is developed in THIS repo, `E:\Git\job-hunter-public\` (remote `https://github.com/wexxwuther/job-hunter`, currently PRIVATE). The `skill-builder-workdir/job-hunter/` copy is the frozen v4 ancestor (separate git history, no merge path). See `session-state.md` and `decisions.md` for the full rationale. **Current version: v6.0.0 (family split).**
 
-**Where things live now (v5+, THIS repo):**
-- Source repo: `E:\Git\job-hunter-public\` (you are here)
-- Continuity stack: `E:\Git\job-hunter-public\docs\continuity\` (created 2026-05-28, this directory)
-- Public-distribution scripts: `install/install.sh`, `install/install.ps1`, per-harness install guides at `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`
-- v5.2.0 safety script: `scripts/verify_no_fabrication.py` (+ `tests/test_verify_no_fabrication.py`), the anti-fabrication gate
-- LF enforcement: `.gitattributes` (added 2026-05-28)
-- Release artifacts: `https://github.com/wexxwuther/job-hunter/releases` (5 tagged releases: v4.0.0, v5.0.0, v5.0.1, v5.1.0, v5.1.1; v5.2.0 shipped in-repo but not yet tagged)
-- Local zip backups: `E:\Git\job-hunter-v4.0.0.zip` through `E:\Git\job-hunter-v5.1.1.zip`
-- Local submission drafts: `E:\Git\job-hunter-submission-drafts.md` (post-public-flip PR drafts for HermesHub, VoltAgent's awesome lists, etc.)
-- Local roadmap: `E:\Git\job-hunter-roadmap.md` (v6 candidates: interview-prep, salary-negotiation as separate skills)
+**Where things live now (v6.0.0 family, THIS repo) — root has NO SKILL.md:**
+- Source repo: `E:\Git\job-hunter-public\` (you are here), branch `main`, HEAD `31b90d2` (pushed to origin/main).
+- **6 member dirs**, each self-contained (own `SKILL.md`, `scripts/`, `references/`, `evals/`, `tests/`, `_meta.json`, `CHANGELOG.md`):
+  - `job-hunter/` — orchestrator (routing surface, context:fork, member table; owns `init_workspace`/`export_workspace`/`import_workspace`; ships the canonical `references/workspace-contract.md`)
+  - `career-profile/` — profile-intake (`init_profile`, `parse_resume`)
+  - `job-search/` — search+score (`build_search_queries`, `expand_role_synonyms`, `normalize_salary`, `dedupe_postings`, `score_posting`)
+  - `resume-tailor/` — tailor (`extract_ats_keywords`, **`verify_no_fabrication`** + its 5 load-bearing safety tests)
+  - `application-tracker/` — submit+track (`generate_tracker_html`, `draft_followup`, `assets/templates/tracker.css`)
+  - `outcome-learning/` — learning loop (`harvest_outcomes`, `propose_lessons`)
+- Workspace contract (single source of truth for typed hand-offs): `job-hunter/references/workspace-contract.md`; a COPY is shipped into all 5 members so each is self-contained post-install.
+- Install-readiness guards: `job-hunter/tests/test_install_readiness.py` (3 guards: no monorepo-path sibling refs, every member ships the contract, every member owns the scripts its SKILL.md names).
+- Cutover doc: `docs/CUTOVER.md` (archive + E2E/parity + what was removed + recovery).
+- Continuity stack: `E:\Git\job-hunter-public\docs\continuity\` (this directory).
+- Family installers: `install/install.sh` + `install/install.ps1` (loop 6 members into 3 harness roots), per-harness guides `install/{claude-code,codex,openclaw,hermes}.md`.
+- LF enforcement: `.gitattributes`.
+- Archive of the retired monolith: tag `v5.2.0-monolith-archive` + `E:/Git/job-hunter-v5.2.0-monolith-archive.zip`.
+- Q catalog: `Q:/skills/job-hunter/` (5 v6.0.0 zips + skill.json + README); index `Q:/skills/catalog.json`.
+- Local v6 zip backups: `E:/Git/job-hunter-v6.0.0-{claude-code,codex,openclaw,hermes,portable}.zip`.
+- Local submission drafts: `E:\Git\job-hunter-submission-drafts.md` (post-public-flip PR drafts).
+- Local roadmap: `E:\Git\job-hunter-roadmap.md`.
 
 **Where the frozen v4 ancestor lives (read-only, historical):**
 - `E:\Git\skill-builder-workdir\job-hunter\`. Many path/inventory tables in the rest of this document were authored against v4 state and reference that ancestor's layout; they are historically accurate but the v5+ source of truth is THIS repo. v5+ adds the learning-loop scripts (`harvest_outcomes.py`, `propose_lessons.py`, `init_workspace.py`), follow-up/export-import scripts (`draft_followup.py`, `export_workspace.py`, `import_workspace.py`), and `verify_no_fabrication.py` not in the v4 inventory below.
+
+## v6.0.0 family-split discoveries (2026-05-28)
+
+**Diagnosis: "resume optimizer not part of skill set" = STALE INSTALLS, not a broken chain.** Resume optimization is Phase 3 / the `resume-tailor` member; it was never a separate component. The live installs predated v5.2.0 and lacked `verify_no_fabrication.py`. Fix = redeploy, not re-architecture.
+
+**Behavior parity is provable via git rename detection.** All 16 member scripts moved out of the monolith are byte-identical to their originals — `git` recorded the moves as 100%-similarity renames. That's the strongest possible parity evidence: no behavioral regression is possible when the bytes are unchanged. The 5 load-bearing `verify_no_fabrication` safety tests moved intact with their script.
+
+**Post-install cross-member reference trap (caught + fixed).** A member SKILL.md that references a sibling by a monorepo-relative path (e.g. `job-hunter/references/workspace-contract.md`) resolves IN the repo but BREAKS once each member installs as a separate sibling dir at `~/.claude/skills/<member>/`. Fix: ship `workspace-contract.md` into all 5 members + rewrite refs to local + add `test_install_readiness.py` guards so it can't regress. This is the family analogue of "every member must be self-contained on its references."
+
+**Codex reads `~/.agents`, not `~/.codex`.** The 3 real deploy targets are `~/.claude/skills` (Claude Code), `~/.agents/skills` (Codex AND OpenClaw share this), `~/.hermes/skills` (Hermes). The orphaned `~/.codex/skills/job-hunter` was a dead path and was removed.
+
+**Asset dependencies travel with their script.** `init_workspace.py` reads `assets/templates/` → those 4 `.job-hunter` templates had to be copied into the orchestrator's `assets/`. Same pattern: `tracker.css` had to land in `application-tracker/assets/templates/`. A moved script that reads a bundled asset is not self-contained until the asset moves too.
+
+**Test count arithmetic:** authoritative per-member sum is **226** family unit tests; the install-readiness file adds **3** guards = **229** total. (A shell loop briefly flickered 225 vs 226 — a shell-arithmetic artifact, not a real discrepancy; trust the per-member sum.)
 
 ## v5.1.1 audit + bug-fix discoveries (2026-05-20)
 
