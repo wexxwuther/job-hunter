@@ -1,0 +1,26 @@
+{
+  "skill_name": "job-hunter",
+  "version": "6.0.0",
+  "license": "MIT",
+  "family": "job-hunter",
+  "family_role": "orchestrator",
+  "sister_skills": [
+    "career-profile",
+    "job-search",
+    "resume-tailor",
+    "application-tracker",
+    "outcome-learning"
+  ],
+  "baseline_score": "100.0",
+  "current_score": "100.0",
+  "trigger_accuracy": 1.0,
+  "last_iteration": "2026-05-28",
+  "last_review_due": "2026-08-26",
+  "signals_observed": {
+    "trigger_misses": 0,
+    "trigger_overfires": 0,
+    "repeated_work": 0,
+    "dead_refs": 0
+  },
+  "version_notes": "v6.0.0 splits the v5.2.0 monolith into a 6-skill family. This is the orchestrator: it owns the .job-hunter/ workspace lifecycle (init/export/import), routes a job-search task to the right member specialists (career-profile, job-search, resume-tailor, application-tracker, outcome-learning), and enforces the anti-fabrication family invariant. Members each work standalone; the orchestrator routes + merges."
+}
