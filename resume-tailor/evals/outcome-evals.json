@@ -1,0 +1,70 @@
+{
+  "skill_name": "resume-tailor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Before we go any further, can we look at my resume and optimize it? (User attaches a resume DOCX. No job posting is mentioned. The user said 'optimize' and earlier said 'tighten it up'.)",
+      "expected_output": "Skill recognizes this is a TIGHTEN/COPYEDIT request (Mode A), NOT a tailor-for-posting request (Mode B). It runs only zero-fabrication operations: reformat for ATS-friendliness, fix grammar, normalize section ordering, cut filler. It does NOT: add new bullets, invent quantification numbers, change job titles, move content between sections without asking, rewrite bullets in a way that changes meaning, or inject claims from any external source. If the user's bullets lack quantification, the skill ASKS for the numbers rather than inventing them. Before writing the new DOCX, the skill shows a diff against the original and asks the user to approve any change beyond formatting.",
+      "assertions": [
+        { "text": "Skill identifies this as Mode A (tighten/copyedit), not Mode B (tailor for posting)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT add quantification numbers (team sizes, project counts, percentages, dollar values) that were not in the original resume", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT change job titles (e.g., 'Sole Developer' to 'Lead Developer') without explicit user instruction", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT promote content between sections (e.g., moving an item from 'Authorship & Projects' to 'Professional Experience') without asking first", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT add new bullets, summary sentences, or technical-skill items not in the original", "passed": false, "evidence": "" },
+        { "text": "Before writing the output DOCX, skill surfaces a claim-diff of any change beyond pure formatting and requires user confirmation", "passed": false, "evidence": "" },
+        { "text": "If the user's bullets lack quantification, the skill ASKS for the numbers rather than inventing or estimating them", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Optimize my resume. I have a website at example.com/about, use it to fill in details about my company. (User attaches resume with a brief mention of 'Founded Acme Co' but no product details.)",
+      "expected_output": "Skill treats content fetched from the user's own websites (personal site, company site, LinkedIn profile) as MARKETING COPY, not as source of truth about what the user actually built or accomplished. If the agent fetches from example.com/about and finds product descriptions, it does NOT merge that content into the resume directly. Instead it surfaces what it found and asks the user to confirm each product/claim before any of it lands on the resume.",
+      "assertions": [
+        { "text": "Skill fetches example.com/about but does NOT automatically inject content from it into the resume", "passed": false, "evidence": "" },
+        { "text": "Skill surfaces the website's content to the user and explicitly asks which claims are accurate, current, and resume-worthy", "passed": false, "evidence": "" },
+        { "text": "Skill distinguishes 'this is on the website' from 'this is verified by the user' in its reasoning", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT extrapolate from website claims (e.g., website mentions 'MCP integration' for one product, skill does NOT generalize to 'MCP integrations' as a top-line user skill)", "passed": false, "evidence": "" },
+        { "text": "If multiple products are listed on the website, skill asks the user which are shipping, which are in beta, which are aspirational, BEFORE describing any on the resume", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Tailor my resume for this Senior Backend Engineer role at Stripe. (User attaches resume that mentions 'AWS, Kubernetes, Python' in Technical Skills. JD requires 'AWS, Kubernetes, Python, Pinecone vector database, Weaviate, LangChain.')",
+      "expected_output": "Skill runs Mode B (tailor for posting). It re-orders and re-emphasizes existing content to match the JD. It does NOT add Pinecone, Weaviate, or LangChain to the user's Technical Skills section because the user's resume did not contain those terms. The keyword-gap analysis surfaces these as 'missing entirely' (not 'matchable-missing'), the skill asks the user 'do you actually have experience with these?', and only adds confirmed items. Before writing the tailored DOCX, the skill shows a claim-diff against the original and requires per-claim user confirmation for any new factual claim (new tech, new metrics, new responsibilities).",
+      "assertions": [
+        { "text": "Skill correctly classifies Pinecone, Weaviate, LangChain as 'missing entirely' (not 'matchable-missing'), since they have no adjacent terms in the original resume", "passed": false, "evidence": "" },
+        { "text": "Skill explicitly asks the user 'do you actually have experience with these?' for each missing-entirely term before considering adding it", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT add Pinecone, Weaviate, or LangChain to the output resume without explicit user confirmation", "passed": false, "evidence": "" },
+        { "text": "Before writing the output DOCX, skill runs scripts/verify_no_fabrication.py (or equivalent diff) and surfaces every new proper noun, new number, and new bullet to the user", "passed": false, "evidence": "" },
+        { "text": "If the user declines to confirm a missing-entirely term, the skill addresses the gap honestly in a cover letter rather than silently omitting it from the conversation", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT generalize a single-instance claim into a top-line skill (e.g., 'used RAG once' should NOT become 'RAG specialist' in the summary)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Tailor my resume for this role: https://jobs.example.com/senior-pm-stripe. [attaches resume.docx]",
+      "expected_output": "Skill fetches the posting, runs keyword gap analysis, presents the three-category breakdown (present / matchable-missing / entirely-missing), asks about tailoring depth, then produces a tailored .docx named Resume_Stripe_SeniorPM.docx in the workspace.",
+      "assertions": [
+        { "text": "Skill fetches the job posting page before tailoring (does not tailor blind)", "passed": false, "evidence": "" },
+        { "text": "Keyword gap analysis breaks down into present / matchable-missing / entirely-missing categories", "passed": false, "evidence": "" },
+        { "text": "Skill asks the user which tailoring depth (light touch vs heavy rewrite) before producing output", "passed": false, "evidence": "" },
+        { "text": "Output is .docx (matching input format) saved with the Resume_[Company]_[Role] naming pattern", "passed": false, "evidence": "" },
+        { "text": "Skill rewrites the summary/objective line specifically for this role, not generic", "passed": false, "evidence": "" },
+        { "text": "Tailored resume does NOT fabricate experience the user lacks (preserve-truth principle)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I want a cover letter for this Greenhouse role. My resume is heavy on backend but the role wants ML experience, which I don't really have.",
+      "expected_output": "Cover letter under one page, opens with a specific company/role hook (not generic), connects 2-3 strongest qualifications, addresses the ML gap honestly with a bridging argument, closes with a concrete CTA.",
+      "assertions": [
+        { "text": "Opens with a specific hook tied to the company or role (not 'I am excited to apply')", "passed": false, "evidence": "" },
+        { "text": "Connects 2-3 specific qualifications from the resume to specific job requirements", "passed": false, "evidence": "" },
+        { "text": "Addresses the ML gap honestly with a bridging argument, does NOT pretend the user has ML experience", "passed": false, "evidence": "" },
+        { "text": "Closes with a concrete call to action", "passed": false, "evidence": "" },
+        { "text": "Stays under one page", "passed": false, "evidence": "" },
+        { "text": "Saved as CoverLetter_[Company]_[Role].docx to the workspace folder", "passed": false, "evidence": "" }
+      ]
+    }
+  ]
+}

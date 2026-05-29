@@ -1,0 +1,31 @@
+{
+  "skill_name": "job-search",
+  "version": "1.0.0",
+  "license": "MIT",
+  "family": "job-hunter",
+  "family_role": "search",
+  "sister_skills": [
+    "job-hunter",
+    "career-profile",
+    "resume-tailor",
+    "application-tracker",
+    "outcome-learning"
+  ],
+  "baseline_score": "100.0",
+  "current_score": "100.0",
+  "trigger_accuracy": 1.0,
+  "last_iteration": "2026-05-28",
+  "last_review_due": "2026-08-26",
+  "signals_observed": {
+    "trigger_misses": 0,
+    "trigger_overfires": 0,
+    "repeated_work": 0,
+    "dead_refs": 0
+  },
+  "load_bearing_safety_tests": [
+    "test_cv_match_is_heaviest_weight",
+    "test_red_flag_torpedoes_perfect_score",
+    "test_thresholds_match_career_ops_block_g"
+  ],
+  "version_notes": "v1.0.0 is the job-hunter family search member, carved from the v5.2.0 monolith's Phase 2 (4-tier search) + Phase 2.5 (deterministic scoring). Owns build_search_queries / expand_role_synonyms / normalize_salary / dedupe_postings (eval-only, no unit tests) + score_posting (3 load-bearing semantic tests). Reads .job-hunter-profile.md for match scoring if present; degrades to explicit user criteria. Produces scored postings.json per the family workspace-contract."
+}

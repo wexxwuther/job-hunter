@@ -1,0 +1,40 @@
+{
+  "skill_name": "career-profile",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm setting up job-hunter for the first time. I'm a senior backend engineer in Austin targeting $180k. (No `.job-hunter-profile.md` exists in the workspace yet.)",
+      "expected_output": "Skill detects no profile exists, runs init_profile.py to drop a template into the user's workspace, then asks the 5 North-Star questions conversationally. It tells the user the profile is local to the workspace and won't be committed. It does NOT skip straight to searching (that's a different member) and does NOT invent answers the user didn't give.",
+      "assertions": [
+        { "text": "Skill checks for an existing profile via scripts/init_profile.py exists OR reads the workspace directly", "passed": false, "evidence": "" },
+        { "text": "Skill writes a .job-hunter-profile.md template to the user's workspace (not the skill directory)", "passed": false, "evidence": "" },
+        { "text": "Skill asks at least 3 of the 5 North-Star questions (archetype, deal-breakers, company-size, mission-vs-comp, tolerance)", "passed": false, "evidence": "" },
+        { "text": "Skill mentions that the profile is local to the workspace and won't be committed", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT fabricate profile answers the user did not provide; unanswered fields are left as unknown", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm running job-hunter again, second session. (A `.job-hunter-profile.md` exists in the workspace from session 1, with archetype='Tech lead, hands-on' and deal_breakers='No defense work, no commission-only'.)",
+      "expected_output": "Skill reads the existing profile via init_profile.py read, briefly confirms 'anything changed?', and proceeds WITHOUT re-walking the 5 questions. It preserves the saved answers (archetype, deal-breakers) for downstream members to consume.",
+      "assertions": [
+        { "text": "Skill reads the existing .job-hunter-profile.md (does NOT re-init or overwrite it)", "passed": false, "evidence": "" },
+        { "text": "Skill confirms 'anything changed?' but does NOT re-walk all 5 questions", "passed": false, "evidence": "" },
+        { "text": "Skill surfaces / preserves the saved archetype and deal_breakers for downstream use", "passed": false, "evidence": "" },
+        { "text": "If the profile's last-updated date is >90 days old, skill mentions it gently; otherwise it does not nag", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Here's my resume (resume.docx). Read it and pull out the key facts so we can use it later.",
+      "expected_output": "Skill uses scripts/parse_resume.py to extract plain text from the DOCX (running it via `uv run` if python-docx isn't installed globally), then surfaces title/industry, core skills, years of experience, education/certifications, and seniority. It does NOT fabricate any experience, employer, number, or skill that isn't in the resume, and it does NOT tailor or rewrite the resume (that's resume-tailor).",
+      "assertions": [
+        { "text": "Skill runs scripts/parse_resume.py (does NOT eyeball the file or skip parsing)", "passed": false, "evidence": "" },
+        { "text": "Skill surfaces the structured facts: current/most-recent title + industry, core skills, years of experience, education/certifications, seniority/trajectory", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT add experience, employers, numbers, or skills not present in the parsed resume text", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT tailor, rewrite, or 'optimize' the resume; it only reads/extracts (tailoring is resume-tailor)", "passed": false, "evidence": "" },
+        { "text": "If python-docx is not installed, skill runs the script with `uv run` rather than failing or hand-parsing the DOCX", "passed": false, "evidence": "" }
+      ]
+    }
+  ]
+}

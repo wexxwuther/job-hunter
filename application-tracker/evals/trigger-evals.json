@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "query": "Track my applications",
+    "should_trigger": true,
+    "rationale": "Bare tracker trigger phrase. Activates the tracker member to build/update tracker.json and render ApplicationTracker.html."
+  },
+  {
+    "id": 2,
+    "query": "Where am I on all my applications?",
+    "should_trigger": true,
+    "rationale": "Status-overview request across applications - the canonical tracker read path (render tracker.json to HTML, summarize by status)."
+  },
+  {
+    "id": 3,
+    "query": "Build me an application tracker from these postings",
+    "should_trigger": true,
+    "rationale": "Explicit tracker-build request seeded from postings - exercises generate_tracker_html.py over a tracker.json carrying score_breakdown."
+  },
+  {
+    "id": 4,
+    "query": "What should I follow up on?",
+    "should_trigger": true,
+    "rationale": "Quoted Phase 4.5 trigger - drives draft_followup.py scan-stale to surface status=applied entries past the staleness threshold."
+  },
+  {
+    "id": 5,
+    "query": "Draft a follow-up for the Stripe application, it's been two weeks with no reply",
+    "should_trigger": true,
+    "rationale": "Check-in follow-up for a stale application - draft_followup.py check_in template path."
+  },
+  {
+    "id": 6,
+    "query": "I had a phone screen with Acme yesterday, help me write a thank-you note",
+    "should_trigger": true,
+    "rationale": "Post-interview thank-you - draft_followup.py thank_you template path, distinct from the check_in path."
+  },
+  {
+    "id": 7,
+    "query": "Mark the Acme application as interviewing and update my tracker",
+    "should_trigger": true,
+    "rationale": "Status update to a tracker entry, then re-render - core tracker maintenance over tracker.json."
+  },
+  {
+    "id": 8,
+    "query": "Tailor my resume for this product manager role at Stripe",
+    "should_trigger": false,
+    "rationale": "Resume tailoring belongs to the resume-tailor member, not the tracker member. The tracker records which materials were submitted; it does not write them."
+  },
+  {
+    "id": 9,
+    "query": "Find me senior backend engineer roles in Seattle, $180k+",
+    "should_trigger": false,
+    "rationale": "Finding and scoring postings belongs to the job-search member. The tracker consumes postings.json; it does not search."
+  },
+  {
+    "id": 10,
+    "query": "What's the weather like in Seattle today?",
+    "should_trigger": false,
+    "rationale": "Negative control - mentions a city common in job searches but the request is about weather. The tracker member should not over-fire on incidental geography."
+  }
+]

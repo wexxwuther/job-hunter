@@ -1,14 +1,27 @@
 # job-hunter
 
 > **Stop applying to ghost jobs.**
-> A free, open-source AI agent skill that searches LinkedIn, Indeed, and state job boards, scores each posting **1-5** for legitimacy and CV-fit, and outputs a **tailored, ATS-ready resume + cover letter** per role.
-> Built for every career: nurses, welders, teachers, engineers. Runs in **Claude Code**, **Codex**, and any [agentskills.io](https://agentskills.io)-compatible agent.
+> A free, open-source AI agent **skill family** that searches LinkedIn, Indeed, and state job boards, scores each posting **1-5** for legitimacy and CV-fit, and outputs a **tailored, ATS-ready resume + cover letter** per role.
+> Built for every career: nurses, welders, teachers, engineers. Runs cross-OS (Windows / macOS / Linux) in **Claude Code**, **OpenAI Codex**, **OpenClaw**, **Hermes Agent**, and any [agentskills.io](https://agentskills.io)-compatible agent.
 
 [![Tests](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml/badge.svg)](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Agent Skill](https://img.shields.io/badge/agentskills.io-2025--12--18-blue)](https://agentskills.io)
-[![Trigger accuracy](https://img.shields.io/badge/trigger_accuracy-28%2F28-brightgreen)](evals/trigger-evals.json)
-[![Unit tests](https://img.shields.io/badge/unit_tests-177%2F177-brightgreen)](tests/)
+[![Agent Skill](https://img.shields.io/badge/agentskills.io-open_standard-blue)](https://agentskills.io)
+[![Trigger accuracy](https://img.shields.io/badge/trigger_accuracy-28%2F28-brightgreen)](job-hunter/evals/trigger-evals.json)
+[![Unit tests](https://img.shields.io/badge/unit_tests-226%2F226-brightgreen)](.)
+
+> **v6.0.0 is now a skill family.** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to five focused member skills — so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
+>
+> | Skill | Role | What it does |
+> |---|---|---|
+> | **job-hunter** | orchestrator | Routes your request to the right members; owns the workspace + the anti-fabrication invariant |
+> | **career-profile** | profile-intake | Captures your North-Star profile (5 questions) + parses your resume |
+> | **job-search** | search | Finds, dedupes, and scores postings 1-5 across 4 search tiers |
+> | **resume-tailor** | resume-tailor | Tightens (Mode A) or tailors (Mode B) your resume, with the verify-no-fabrication gate |
+> | **application-tracker** | tracker | Tracks applications + drafts stale-application follow-ups |
+> | **outcome-learning** | learning-loop | Learns from your outcomes; proposes opt-in lessons |
+>
+> Install them together with the family installer ([Install](#install) below).
 [![GitHub Release](https://img.shields.io/github/v/release/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/releases/latest)
 [![GitHub stars](https://img.shields.io/github/stars/wexxwuther/job-hunter?style=social)](https://github.com/wexxwuther/job-hunter/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/commits/main)

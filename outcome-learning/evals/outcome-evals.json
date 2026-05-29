@@ -1,0 +1,61 @@
+{
+  "skill_name": "outcome-learning",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "What have you learned about me from my job search so far? (No `.job-hunter/` directory exists in the workspace yet — the user has not run the job-hunter orchestrator or applied to anything.)",
+      "expected_output": "Skill detects there is no `.job-hunter/` workspace to read, reports honestly that there is nothing to learn from yet, and points the user at the orchestrator (or job-search) to set up the workspace and start applying. Does NOT fabricate lessons or outcomes. Does NOT claim to own or create the workspace — the `.job-hunter/` directory and its templates are owned by the orchestrator's init_workspace.py.",
+      "assertions": [
+        { "text": "Skill reports there is no learning-loop data yet because the .job-hunter/ workspace does not exist", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT fabricate any LESSONS, OUTCOMES, or patterns from a non-existent workspace (cold-start respect)", "passed": false, "evidence": "" },
+        { "text": "Skill points the user at the job-hunter orchestrator (or job-search) to initialize the workspace and start applying, rather than initializing it itself", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT claim to own or create the .job-hunter/ templates (those are the orchestrator's init_workspace.py per the workspace-contract)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "What have you learned about me from my job search? (.job-hunter/REJECTED_IDEAS.md contains a single entry: '2026-04-15, User: no government contractor or defense work. Reason: cleared work blocked their last career change.' OUTCOMES.md has 6 closed entries.)",
+      "expected_output": "Skill reads REJECTED_IDEAS.md and treats 'no government contractor or defense work' as a hard constraint that is already on file — it reports it as a standing filter, does NOT re-ask the user about defense/government preferences, and does NOT propose adding or re-confirming it as a lesson. It only ever READS REJECTED_IDEAS.md; it never auto-writes to it.",
+      "assertions": [
+        { "text": "Skill reads .job-hunter/REJECTED_IDEAS.md and surfaces the standing hard constraint", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT re-ask the user about defense/government preferences (already on file)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT propose adding entries to REJECTED_IDEAS.md — only the user adds rejected ideas (never auto-write)", "passed": false, "evidence": "" },
+        { "text": "Skill distinguishes the hard constraint (REJECTED_IDEAS) from confirmed preferences (LESSONS) in its reasoning", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Summarize what you'd tell job-search to do differently for me. (.job-hunter/LESSONS.md contains the entry: '2026-04-20, User consistently rejects companies over 5000 employees. Confirmed across 7 of 9 closed-loop rejections in OUTCOMES.md citing too bureaucratic or too political.')",
+      "expected_output": "Skill reads LESSONS.md and reports that confirmed lessons shape how the family GRADES sub-scores for this user (e.g., grade cultural_signals lower for large companies), citing the lesson so the user can audit. It is explicit that lessons influence grading, NOT the scoring weights in score_posting.py (owned by job-search), which stay constant for all users. It applies the lesson only to the relevant sub-score (cultural_signals), not to unrelated ones (bounded influence).",
+      "assertions": [
+        { "text": "Skill reads .job-hunter/LESSONS.md and reports the confirmed pattern", "passed": false, "evidence": "" },
+        { "text": "Skill explains the lesson adjusts how cultural_signals is GRADED for this user, citing the lesson for auditability", "passed": false, "evidence": "" },
+        { "text": "Skill is explicit that lessons do NOT change the scoring weights in score_posting.py (owned by job-search; weights stay constant)", "passed": false, "evidence": "" },
+        { "text": "Skill applies the lesson only to the relevant sub-score (cultural_signals), not to unrelated sub-scores (bounded influence)", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What have you learned about me? (.job-hunter/OUTCOMES.md contains only 3 closed-loop entries.)",
+      "expected_output": "Skill runs harvest_outcomes.py + propose_lessons.py, gets back no_op_reason because there are fewer than 5 closed-loop outcomes (cold-start guard), and tells the user honestly: 'I do not have enough closed-loop outcomes yet to suggest patterns — I need at least 5, you have 3.' Does NOT fabricate patterns from thin data.",
+      "assertions": [
+        { "text": "Skill runs harvest_outcomes.py (does not skip the harvest)", "passed": false, "evidence": "" },
+        { "text": "Skill reports the cold-start guard honestly (need >=5, have 3)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT fabricate or paraphrase lessons from <5 outcomes", "passed": false, "evidence": "" },
+        { "text": "Skill suggests how to get more signal (apply to more roles + update tracker.json status) rather than declaring done", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "What have you learned about me? (.job-hunter/OUTCOMES.md contains 6 closed-loop entries: 4 of 6 marked 'rejected, comp below target' and 2 of 6 marked 'accepted offer'.)",
+      "expected_output": "Skill runs harvest_outcomes.py + propose_lessons.py, receives a suggested LESSON ('comp_vs_target is the dominant rejection reason in 4 of 6 outcomes, consider grading comp more strictly'), surfaces the suggestion to the user with the underlying evidence, and asks for confirmation BEFORE appending to LESSONS.md. Does NOT auto-append.",
+      "assertions": [
+        { "text": "Skill runs both harvest_outcomes.py and propose_lessons.py", "passed": false, "evidence": "" },
+        { "text": "Skill surfaces the proposed LESSON with the underlying evidence (4 of 6 rejections, the specific reason)", "passed": false, "evidence": "" },
+        { "text": "Skill asks the user 'Want me to remember this?' before appending to .job-hunter/LESSONS.md", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT auto-append the suggestion to LESSONS.md without user confirmation", "passed": false, "evidence": "" },
+        { "text": "If user confirms, skill appends a properly formatted entry to LESSONS.md (the script-formatted lesson_block) with date + reason + evidence count", "passed": false, "evidence": "" }
+      ]
+    }
+  ]
+}

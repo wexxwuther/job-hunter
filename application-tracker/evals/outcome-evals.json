@@ -1,0 +1,40 @@
+{
+  "skill_name": "application-tracker",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Show me applications I should follow up on. (tracker.json has 5 entries: 3 at status=applied with applied_date 8-12 days ago, 1 at status=interviewing, 1 at status=rejected.)",
+      "expected_output": "Skill identifies the 3 applied-and-stale entries (>=7 days at applied with no movement) via scripts/draft_followup.py scan-stale, surfaces them as follow-up candidates, and offers to draft polite check-in emails per entry. Does NOT auto-send. Does NOT flag the interviewing or rejected entries as follow-up candidates.",
+      "assertions": [
+        { "text": "Skill correctly identifies exactly 3 stale-applied entries (filters by status=applied AND age >=7 days, reading applied_date not posted)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT flag the interviewing entry as needing a check-in follow-up (separate flow: thank-you note after interview)", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT flag the rejected entry as needing follow-up", "passed": false, "evidence": "" },
+        { "text": "Skill offers to draft emails using scripts/draft_followup.py rather than writing them ad-hoc", "passed": false, "evidence": "" },
+        { "text": "Each drafted email is short (under 150 words), references the specific company and role, includes a concrete CTA, and is honest about not having had a response yet", "passed": false, "evidence": "" },
+        { "text": "Skill makes clear the user must send the emails themselves, the skill does NOT auto-send", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I just had a phone screen yesterday with Acme. Help me write a thank-you note.",
+      "expected_output": "Skill uses scripts/draft_followup.py with the thank_you template. Email is short, references the conversation specifically (asks user for one concrete detail to include if not provided), reiterates one strong qualification connecting to a discussed topic, closes with concrete next-step language. Does NOT use the check_in (post-application) template (different purpose).",
+      "assertions": [
+        { "text": "Skill recognizes this is a post-interview thank-you, NOT a post-application check-in (different template)", "passed": false, "evidence": "" },
+        { "text": "Skill asks for or uses one concrete detail from the conversation if none is provided (avoid generic 'thanks for your time')", "passed": false, "evidence": "" },
+        { "text": "Email is under 150 words and includes a concrete next-step", "passed": false, "evidence": "" },
+        { "text": "Skill does NOT auto-send; user copy-pastes", "passed": false, "evidence": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Build me an application tracker. (postings.json has 3 scored postings carrying score_breakdown; the user has applied to all 3 today and tailored resumes exist as Resume_Stripe_SeniorPM.docx etc.)",
+      "expected_output": "Skill seeds tracker.json from postings.json (carrying company/title/url/location/salary/posted and the score_breakdown), sets status=applied with applied_date=today and posted left as the original posting date, records the resume_file/cover_letter_file names, then runs scripts/generate_tracker_html.py to produce a self-contained ApplicationTracker.html with a colored score badge and totals-by-status pills.",
+      "assertions": [
+        { "text": "Skill sets applied_date to today on each entry and leaves posted as the original posting date (the two fields stay independent)", "passed": false, "evidence": "" },
+        { "text": "Skill carries the score_breakdown from postings.json onto each tracker entry so the HTML renders a score badge", "passed": false, "evidence": "" },
+        { "text": "Skill records resume_file (and cover_letter_file if present) so the rendered HTML links to the submitted materials", "passed": false, "evidence": "" },
+        { "text": "Skill renders via scripts/generate_tracker_html.py to a self-contained HTML file (CSS bundled from the asset, no external dependencies)", "passed": false, "evidence": "" }
+      ]
+    }
+  ]
+}

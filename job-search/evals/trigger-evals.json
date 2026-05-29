@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "query": "Find me senior backend engineer roles in Seattle, $180k+",
+    "should_trigger": true,
+    "rationale": "Explicit job-search request with role, location, and compensation - the canonical search trigger."
+  },
+  {
+    "id": 2,
+    "query": "What jobs match my resume?",
+    "should_trigger": true,
+    "rationale": "Resume-to-job matching - search-and-score path; cv_match is the heaviest sub-score."
+  },
+  {
+    "id": 3,
+    "query": "Look for openings near me, I'm a marketing manager",
+    "should_trigger": true,
+    "rationale": "Location-based search with role context. 'look for openings' is a search trigger phrase."
+  },
+  {
+    "id": 4,
+    "query": "Search local jobs in Austin for a data analyst",
+    "should_trigger": true,
+    "rationale": "'Search local jobs' exercises the Tier 3 local-sources / state-workforce-commission path."
+  },
+  {
+    "id": 5,
+    "query": "Find companies hiring software engineers in Boston",
+    "should_trigger": true,
+    "rationale": "'Find companies hiring' exercises the Tier 4 direct-company-page path."
+  },
+  {
+    "id": 6,
+    "query": "I'm looking for remote DevOps jobs that pay at least $150k",
+    "should_trigger": true,
+    "rationale": "Remote-job search with a compensation floor - natural search phrasing; comp feeds comp_vs_target."
+  },
+  {
+    "id": 7,
+    "query": "Search Indeed and LinkedIn for nursing positions in Phoenix",
+    "should_trigger": true,
+    "rationale": "Named-board search with role and location - direct Tier 1 path."
+  },
+  {
+    "id": 8,
+    "query": "Find me a job",
+    "should_trigger": true,
+    "rationale": "Bare search trigger. Should activate the skill, which then gathers role/location/comp before searching."
+  },
+  {
+    "id": 9,
+    "query": "Help me find work as a freelance graphic designer in NYC",
+    "should_trigger": true,
+    "rationale": "'Find work' is a search synonym; exercises role-synonym expansion and niche boards."
+  },
+  {
+    "id": 10,
+    "query": "Are there any state government jobs in Texas I'd qualify for?",
+    "should_trigger": true,
+    "rationale": "Public-sector search - exercises USAJobs / state-portal Tier 2-3 path."
+  },
+  {
+    "id": 11,
+    "query": "Is this posting legit or is it a ghost job? [pastes a LinkedIn posting with no apply button, confidential employer, reposted 3x in 60 days]",
+    "should_trigger": true,
+    "rationale": "Posting-legitimacy / ghost-job scoring is a core search-member capability (posting_legitimacy sub-score, independent of match quality)."
+  },
+  {
+    "id": 12,
+    "query": "Score this Senior Backend Engineer posting at Stripe against my profile",
+    "should_trigger": true,
+    "rationale": "Explicit scoring request - drives the five-sub-score score_posting.py flow."
+  },
+  {
+    "id": 13,
+    "query": "Tailor my resume for this product manager role at Stripe",
+    "should_trigger": false,
+    "rationale": "Resume tailoring belongs to the resume-tailor member, not the search member. Search finds and scores; it does not rewrite resumes."
+  },
+  {
+    "id": 14,
+    "query": "Set up my job-search profile and parse my resume",
+    "should_trigger": false,
+    "rationale": "Profile setup and resume parsing belong to the career-profile member. The search member only reads the profile if it already exists."
+  },
+  {
+    "id": 15,
+    "query": "What's the weather like in Seattle today?",
+    "should_trigger": false,
+    "rationale": "Negative control - mentions a city common in job searches but the request is about weather. The search member should not over-fire on incidental geography."
+  }
+]

@@ -2,6 +2,21 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## v6.0.0 (2026-05-28)
+
+The big one: job-hunter is now a **skill family**, not a single monolith.
+
+Why: as the skill grew (Phases 0-5, 16 scripts, a 681-line SKILL.md), a single coarse trigger surface meant "just tighten my resume" loaded the whole job-hunt machine, and the file was getting hard to evolve. The fix is the orchestrator-template pattern proven by other skill families: one **orchestrator** (`job-hunter`) that reads your request and routes to the right **member skills**, each a focused job-to-be-done that also works standalone.
+
+What shipped:
+- **6 skills:** `job-hunter` (orchestrator — owns the `.job-hunter/` workspace + routing + the anti-fabrication invariant) + `career-profile` (profile-intake), `job-search` (search), `resume-tailor` (resume-tailor), `application-tracker` (tracker), `outcome-learning` (learning-loop).
+- **Typed artifact hand-offs:** members read/write the shared `.job-hunter/` workspace per `job-hunter/references/workspace-contract.md`; each degrades gracefully when run alone.
+- **The anti-fabrication gate moved intact:** `verify_no_fabrication.py` lives in `resume-tailor` with all 5 of its load-bearing safety tests preserved, and the orchestrator enforces it as a family-wide invariant (no member writes resume/profile content without passing through it). The v5.2.0 fabrication fix is fully retained.
+- **Family installer:** `install/install.sh` + `install/install.ps1` install all 6 members across `~/.claude`, `~/.agents` (Codex + OpenClaw), and `~/.hermes`, cross-OS.
+- **No behavior regression:** the combined family test suite is **226 tests** (up from 201 in the monolith), all green.
+
+Breaking change (hence the major bump): the install shape changed. Re-install with the family installer; the orchestrator triggers on the same job-search intents as before, and routes to the focused members underneath.
+
 ## v5.2.0 (2026-05-21)
 
 This one is a correctness fix, not a feature release. A real user ran the resume optimizer on their actual resume and the skill added things that weren't there. Specific tools the user had never mentioned (Pinecone, Weaviate, LangChain). Numbers the user never gave (team sizes, project counts). Job title changes the user never asked for (Sole Developer to Lead Developer). Content pulled from the user's company website and merged into their resume without confirmation. Sections restructured without permission.
