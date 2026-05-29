@@ -1,0 +1,14 @@
+[
+  {"id": 1, "query": "Help me run my whole job search from scratch", "should_trigger": true, "rationale": "End-to-end multi-member hunt — the orchestrator routes profile + search + tailor + track."},
+  {"id": 2, "query": "I need to find a job — can you help me through the whole process?", "should_trigger": true, "rationale": "Broad job-hunt intent spanning multiple members; orchestrator routes."},
+  {"id": 3, "query": "Find me some backend roles and tailor my resume for the best one", "should_trigger": true, "rationale": "Two-member need (job-search then resume-tailor) — orchestrator sequences."},
+  {"id": 4, "query": "Set up my job search, find openings, and track my applications", "should_trigger": true, "rationale": "Three-member need — orchestrator fans out."},
+  {"id": 5, "query": "I'm starting a job hunt and want to do it properly end to end", "should_trigger": true, "rationale": "Full-pipeline intent; orchestrator owns the workspace + routing."},
+  {"id": 6, "query": "Manage my job applications and figure out what's working", "should_trigger": true, "rationale": "Tracker + outcome-learning span; orchestrator routes."},
+  {"id": 7, "query": "Export my job-search workspace so I can move to a new laptop", "should_trigger": true, "rationale": "Workspace lifecycle is orchestrator-owned (export_workspace)."},
+  {"id": 8, "query": "Restore my job-hunter workspace on this machine", "should_trigger": true, "rationale": "Workspace import is orchestrator-owned."},
+  {"id": 9, "query": "Review this Python pull request for bugs", "should_trigger": false, "rationale": "Code review — not a job-search task."},
+  {"id": 10, "query": "What's the weather tomorrow?", "should_trigger": false, "rationale": "Unrelated; negative control."},
+  {"id": 11, "query": "Write a blog post about career growth", "should_trigger": false, "rationale": "Content writing, not running a job search; near-miss on 'career'."},
+  {"id": 12, "query": "Plan my social media posts for the week", "should_trigger": false, "rationale": "Social-media family territory, not job-hunter."}
+]

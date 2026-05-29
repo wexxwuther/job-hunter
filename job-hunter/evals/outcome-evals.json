@@ -1,0 +1,59 @@
+{
+  "skill_name": "job-hunter",
+  "schema_note": "Orchestrator routing evals: each prompt should result in the orchestrator invoking the correct member subset. Assertions check the routing report names the expected member(s) and respects the anti-fabrication invariant. Deterministic substring kinds where checkable; routing-judgment assertions are prose for manual/LLM-judge grading.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Tailor my resume for this Senior Backend Engineer role at Stripe.",
+      "expected_output": "Orchestrator routes to resume-tailor (single member). The tailored resume passes the verify_no_fabrication gate before any DOCX is written.",
+      "files": [],
+      "assertions": [
+        {"text": "Routes to resume-tailor", "kind": "substring", "expected": "resume-tailor", "passed": false, "evidence": ""},
+        {"text": "Does NOT run a full search/profile pipeline for a single-member tailor request", "kind": "not_substring", "expected": "career-profile", "passed": false, "evidence": ""},
+        {"text": "The anti-fabrication gate is applied before producing a DOCX", "passed": false, "evidence": ""}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Find me data-engineer jobs and tailor my resume for the top match.",
+      "expected_output": "Orchestrator routes to job-search FIRST (find + score), then resume-tailor for the top-scored posting. Two members, in order.",
+      "files": [],
+      "assertions": [
+        {"text": "Routes to job-search", "kind": "substring", "expected": "job-search", "passed": false, "evidence": ""},
+        {"text": "Routes to resume-tailor", "kind": "substring", "expected": "resume-tailor", "passed": false, "evidence": ""},
+        {"text": "job-search runs before resume-tailor (the tailored posting comes from the scored results)", "passed": false, "evidence": ""}
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Where am I on my applications, and draft a follow-up for anything stale.",
+      "expected_output": "Orchestrator routes to application-tracker alone (status + stale follow-up drafts). No tailoring or search.",
+      "files": [],
+      "assertions": [
+        {"text": "Routes to application-tracker", "kind": "substring", "expected": "application-tracker", "passed": false, "evidence": ""},
+        {"text": "Follow-up drafts are never auto-sent", "passed": false, "evidence": ""}
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm starting my job search today — set me up and find some roles.",
+      "expected_output": "Orchestrator initializes the .job-hunter/ workspace, routes to career-profile (profile + resume) then job-search (find + score). Multi-member.",
+      "files": [],
+      "assertions": [
+        {"text": "Routes to career-profile", "kind": "substring", "expected": "career-profile", "passed": false, "evidence": ""},
+        {"text": "Routes to job-search", "kind": "substring", "expected": "job-search", "passed": false, "evidence": ""},
+        {"text": "The .job-hunter/ workspace is initialized for the hunt", "passed": false, "evidence": ""}
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "What's working in my job search? Learn from my outcomes.",
+      "expected_output": "Orchestrator routes to outcome-learning (harvest outcomes, propose user-confirmed lessons, cold-start guard if <5 closed). Opt-in only, never auto-writes lessons.",
+      "files": [],
+      "assertions": [
+        {"text": "Routes to outcome-learning", "kind": "substring", "expected": "outcome-learning", "passed": false, "evidence": ""},
+        {"text": "Lessons are proposed for user confirmation, never auto-written", "passed": false, "evidence": ""}
+      ]
+    }
+  ]
+}
