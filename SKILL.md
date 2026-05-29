@@ -337,7 +337,7 @@ The contract: you may improve **how** the resume reads. You may not change **wha
   capitalization of job titles).
 - Reorder bullets within a single role for impact (most relevant first).
 - Cut filler words and redundancy without changing meaning.
-- Apply ATS-friendly formatting (Arial, standard section headings, no tables/columns/graphics).
+- Apply ATS-friendly formatting (Arial, standard section headings, no tables/columns/graphics). Full baseline (file type, fonts, headings, what breaks parsing) in [`references/ats-formatting-guide.md`](references/ats-formatting-guide.md).
 
 **FORBIDDEN in Mode A (these are fabrications, not improvements):**
 - Adding new bullets, even short ones.

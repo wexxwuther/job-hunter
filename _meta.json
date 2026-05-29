@@ -6,6 +6,14 @@
   "current_score": "100.0",
   "trigger_accuracy": 1.0,
   "last_iteration": "2026-05-21",
+  "last_review_due": "2026-08-19",
+  "signals_observed": {
+    "trigger_misses": 0,
+    "trigger_overfires": 0,
+    "repeated_work": 0,
+    "dead_refs": 1,
+    "dead_refs_detail": "references/posting-quality-rubric.md is an intentional deprecated-stub redirector (split into match-quality + posting-legitimacy rubrics in v4); kept as a self-documenting tombstone. references/ats-formatting-guide.md was wired into SKILL.md Phase 3 Mode A in v5.2.x (no longer orphan)."
+  },
   "iterations": [
     {
       "version": "v2",
