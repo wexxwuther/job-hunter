@@ -73,12 +73,23 @@ real behavior, not the mock proxy.
 
 ### Does `parse_resume.py` work end-to-end on real DOCX and PDF inputs?
 
-**Status:** Smoke-tested with text and HTML only this session. The PEP 723 dependency
-declarations should let `uv run` fetch python-docx and pypdf, but that path wasn't exercised.
+**Status (2026-10-12, ANSWERED - partly no; fixes not yet applied):** tested
+(`career-profile/scripts/parse_resume.py`) via `uv run ... --json` on 11 Word-authored files:
+5 synthetic resumes (fictional person) built with python-docx, re-saved by Microsoft Word, and
+exported to PDF by Word, plus an image-only "scanned" PDF. Harness + fixtures: `E:\tmp\jh-resume\`
+(`gen/make_fixtures.py`, `gen/word_roundtrip.ps1`, `gen/score_parse.py`, `results.json`).
+- PDF (Word export): 12/12 facts on all 5 layouts, including the 2-column table; section detection OK.
+- DOCX bugs: (1) page-header content dropped (name/email/phone lost); (2) text-box content
+  dropped (same); (3) tables are appended after ALL paragraphs, so reading order breaks and an
+  experience table lands under the CERTIFICATIONS section; (4) horizontally merged cells repeat
+  their text once per grid column (bullets tripled); (5) a heading inside a table cell is joined
+  with " | " so the 2-column layout loses its "experience" section.
+- Scanned PDF: exit 0 with empty text and no warning (silent failure).
+- Docs: `career-profile/SKILL.md` shows plain `python scripts/parse_resume.py resume.docx`, which
+  fails ("python-docx is not installed", exit 2) unless deps are installed; only `uv run` works.
 
-**To answer:** Get a sample DOCX resume + sample PDF resume; run `uv run scripts/parse_resume.py
-<path> --json` against each; verify text extraction and section detection. If either fails,
-fix and update the script.
+**Next:** fix in document order (walk body XML incl. tables; add headers + text boxes; dedupe merged
+cells), fail loudly on empty PDF text, fix the docs, and turn the fixtures into regression tests.
 
 ### Are the state workforce commission URLs in `state-workforce-commissions.md` still live?
 
