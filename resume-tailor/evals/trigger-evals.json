@@ -38,8 +38,8 @@
   {
     "id": 7,
     "query": "Write me a cover letter for the Anthropic research engineer position",
-    "should_trigger": true,
-    "rationale": "Cover-letter generation tied to a specific role is Phase 3 step 6, owned by the resume-tailor member."
+    "should_trigger": false,
+    "rationale": "Cover letters are owned by the cover-letter member since 2026-05-29; resume-tailor edits the resume itself. Live routing eval 2026-10-12 routed this to cover-letter."
   },
   {
     "id": 8,

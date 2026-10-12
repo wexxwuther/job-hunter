@@ -69,6 +69,11 @@ def test_cases_dedupe_and_labels_apply():
     assert by_q["Write me a cover letter for the Anthropic research engineer position"]["expected"] == ["cover-letter"]
 
 
+def test_parse_ids_ranges():
+    assert rre.parse_ids("7,8,13-15") == {7, 8, 13, 14, 15}
+    assert rre.parse_ids(" 3 ,") == {3}
+
+
 def test_unclaimed_query_without_label_is_rejected(tmp_path):
     import json, shutil
     for m in rre.MEMBERS:

@@ -25,9 +25,9 @@
   },
   {
     "id": 5,
-    "query": "Reset what you know about my preferences.",
+    "query": "Reset what the job hunter has learned about my job-search preferences.",
     "should_trigger": true,
-    "rationale": "Direct request to reset the per-user learning state. The skill reads/owns the read side of the .job-hunter/ memory and knows how to safely clear it (or guide the user through deleting it)."
+    "rationale": "Direct request to reset the per-user learning state. The skill reads/owns the read side of the .job-hunter/ memory and knows how to safely clear it (or guide the user through deleting it). Reworded 2026-10-12: the bare 'reset what you know about me' has no job-search context and live Claude reasonably answered about its own memory instead."
   },
   {
     "id": 6,

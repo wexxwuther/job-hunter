@@ -77,6 +77,19 @@ def load_cases(repo: Path = REPO, labels_path: Path = LABELS) -> list[dict]:
     return list(cases.values())
 
 
+def parse_ids(spec: str) -> set[int]:
+    """'7,8,13-18' -> {7, 8, 13, 14, 15, 16, 17, 18}"""
+    ids: set[int] = set()
+    for part in spec.split(","):
+        part = part.strip()
+        if "-" in part:
+            lo, hi = part.split("-", 1)
+            ids.update(range(int(lo), int(hi) + 1))
+        elif part:
+            ids.add(int(part))
+    return ids
+
+
 def normalize_skill(name: str) -> str:
     """'plugin:job-search' / 'job-search-v0.2' style names -> bare member name if it is one."""
     bare = name.split(":")[-1].strip()
@@ -227,16 +240,22 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out-dir", required=True, type=Path)
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--max", type=int, help="only the first N queries")
+    ap.add_argument("--ids", help="only these case numbers, e.g. 7,8,13-18 (numbering as in --dry-run)")
     ap.add_argument("--timeout", type=int, default=300)
     ap.add_argument("--dry-run", action="store_true", help="print cases, call nothing")
     args = ap.parse_args(argv)
 
-    cases = load_cases()[: args.max] if args.max else load_cases()
+    numbered = list(enumerate(load_cases(), 1))
+    if args.max:
+        numbered = numbered[: args.max]
+    if args.ids:
+        wanted = parse_ids(args.ids)
+        numbered = [(i, c) for i, c in numbered if i in wanted]
     if args.dry_run:
-        for i, c in enumerate(cases, 1):
+        for i, c in numbered:
             exp = ",".join(c["expected"]) + ("|none" if c["allow_none"] else "")
             print(f"{i:3d} {exp or 'none':32s} {c['query'][:80]}")
-        print(f"{len(cases)} cases")
+        print(f"{len(numbered)} cases")
         return 0
 
     out = args.out_dir.resolve()
@@ -245,7 +264,7 @@ def main(argv: list[str] | None = None) -> int:
     cwd.mkdir(exist_ok=True)
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         rows = list(pool.map(lambda ic: run_case(ic[1], ic[0], raw_dir, cwd, args.timeout),
-                             enumerate(cases, 1)))
+                             numbered))
     (out / "results.json").write_text(json.dumps(rows, indent=2), encoding="utf-8")
     report = render_report(rows)
     (out / "report.md").write_text(report, encoding="utf-8")

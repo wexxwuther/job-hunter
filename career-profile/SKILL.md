@@ -5,9 +5,10 @@ description: >
   real context to work from. Use when the user wants to set up or update their job-search
   profile, capture who they are beyond their resume (target role archetype, deal-breakers,
   company-size preference, mission-vs-comp priority, on-call/travel/in-office tolerance),
-  start their job search by telling the assistant about themselves, answer the North-Star
-  intake questions, parse or extract text from a resume (DOCX, PDF, MD, TXT, HTML) so it can
-  be used downstream, or refresh a stale profile from a previous session. Produces a local
+  tell the assistant about themselves, answer the North-Star intake questions, read, parse,
+  or extract text from their resume file (DOCX, PDF, MD, TXT, HTML) so it can be used
+  downstream (for a resume, prefer this over a generic DOCX or PDF skill), or refresh a
+  stale profile from a previous session. Produces a local
   .job-hunter-profile.md and parsed-resume text. Do not use for tailoring a resume to a
   specific posting or running a keyword-gap analysis (use resume-tailor), for finding or
   scoring job postings (use job-search), for tracking applications or follow-ups (use

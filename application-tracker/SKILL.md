@@ -8,7 +8,8 @@ description: >
   thank-you note, or mark an application's status (applied, interviewing, offer, rejected,
   withdrawn). Maintains a small tracker.json and renders a self-contained ApplicationTracker.html
   with sortable rows, status pills, and (when scores are present) a colored score badge. Do not
-  use for tailoring resumes or cover letters to a posting (use resume-tailor) or for finding or
+  use for tailoring a resume (use resume-tailor), writing a cover letter (use cover-letter),
+  or finding or
   scoring job postings (use job-search). It never auto-sends email — it drafts; the user sends.
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the tracker member of the job-hunter family; reads the shared .job-hunter/ workspace and postings.json if present and degrades gracefully if absent.
@@ -39,8 +40,8 @@ follow-up communication**:
 - "I had a phone screen yesterday — help me write a thank-you note"
 - "Mark the Acme application as interviewing" / "update my tracker"
 
-Do **not** use this skill for tailoring or optimizing a resume or cover letter
-against a posting (use **resume-tailor**), or for finding or scoring job
+Do **not** use this skill for tailoring or optimizing a resume (use
+**resume-tailor**), writing a cover letter (use **cover-letter**), or for finding or scoring job
 postings (use **job-search**). For an end-to-end hunt that spans several of
 these, the **job-hunter** orchestrator routes across the family.
 
