@@ -28,5 +28,10 @@ jobs:
       - name: Install pytest
         run: python -m pip install --upgrade pip pytest
 
+      # Family monorepo (v6+): no root tests/; each member owns its suite.
+      # importlib mode because several members share test file names.
       - name: Run unit tests
-        run: pytest tests/ -v
+        run: >-
+          python -m pytest --import-mode=importlib -v
+          job-hunter/tests career-profile/tests job-search/tests resume-tailor/tests
+          cover-letter/tests application-tracker/tests outcome-learning/tests install
