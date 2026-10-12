@@ -26,10 +26,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
 import sys
+import threading
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -125,23 +127,57 @@ def parse_stream(text: str) -> list[dict]:
     return events
 
 
+def _kill_tree(proc: subprocess.Popen) -> None:
+    """Kill claude and its children (MCP servers) so nothing keeps spending."""
+    if proc.poll() is not None:
+        return
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/T", "/F", "/PID", str(proc.pid)],
+                       capture_output=True)
+    else:
+        proc.kill()
+
+
+def _is_done(events: list[dict]) -> bool:
+    return any(e.get("type") in ("result", "routing_stop") for e in events)
+
+
 def run_case(case: dict, idx: int, raw_dir: Path, cwd: Path, timeout: int) -> dict:
+    """Stream claude -p output and stop at the first routing signal.
+
+    Once a skill is invoked the routing decision is made; letting the session
+    carry on doing the task only spends tokens (observed $0.9-1.4 per query).
+    Early-stopped runs have no CLI result event, so their cost is unknown.
+    """
     raw = raw_dir / f"{idx:03d}.jsonl"
     events = parse_stream(raw.read_text(encoding="utf-8")) if raw.exists() else []
-    if not any(e.get("type") == "result" for e in events):
+    if not _is_done(events):
         exe = shutil.which("claude")
         if not exe:
             raise SystemExit("claude CLI not found on PATH")
         cmd = [exe, "-p", "--output-format", "stream-json", "--verbose",
                "--no-session-persistence", "--max-turns", "2",
                "--allowedTools", *ALLOWED_TOOLS, "--disallowedTools", *DISALLOWED_TOOLS]
+        proc = subprocess.Popen(cmd, cwd=cwd, text=True, encoding="utf-8", errors="replace",
+                                stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                stderr=subprocess.DEVNULL)
+        proc.stdin.write(case["query"])
+        proc.stdin.close()
+        timer = threading.Timer(timeout, _kill_tree, args=(proc,))
+        timer.start()
+        lines: list[str] = []
         try:
-            proc = subprocess.run(cmd, input=case["query"], cwd=cwd, text=True,
-                                  encoding="utf-8", errors="replace",
-                                  capture_output=True, timeout=timeout)
-            raw.write_text(proc.stdout, encoding="utf-8")
-        except subprocess.TimeoutExpired as exc:
-            raw.write_text(exc.stdout or "", encoding="utf-8")
+            for line in proc.stdout:
+                lines.append(line)
+                routed, _ = routed_skill(parse_stream(line))
+                if routed:
+                    lines.append(json.dumps({"type": "routing_stop", "skill": routed}) + "\n")
+                    _kill_tree(proc)
+                    break
+        finally:
+            timer.cancel()
+            _kill_tree(proc)
+            raw.write_text("".join(lines), encoding="utf-8")
         events = parse_stream(raw.read_text(encoding="utf-8"))
     routed, seen = routed_skill(events)
     result = next((e for e in events if e.get("type") == "result"), {})
@@ -149,8 +185,8 @@ def run_case(case: dict, idx: int, raw_dir: Path, cwd: Path, timeout: int) -> di
     return {
         "id": idx, **case, "routed": routed, "all_skills_invoked": seen,
         **score(case, routed),
-        "completed": bool(result),
-        "result_subtype": result.get("subtype"),
+        "completed": _is_done(events),
+        "result_subtype": result.get("subtype") or ("routing_stop" if _is_done(events) else None),
         "cost_usd": result.get("total_cost_usd") or 0.0,
         "model": init.get("model"),
     }
@@ -168,7 +204,8 @@ def render_report(rows: list[dict]) -> str:
         f"- Queries: {len(rows)} ({len(pos)} positive, {len(neg)} negative); completed: {sum(r['completed'] for r in rows)}",
         f"- Positive strict: {pct(sum(r['strict'] for r in pos), len(pos))}; lenient (orchestrator ok): {pct(sum(r['lenient'] for r in pos), len(pos))}",
         f"- Negative (no family skill): {pct(sum(r['strict'] for r in neg), len(neg))}",
-        f"- Total cost (CLI-reported): ${sum(r['cost_usd'] for r in rows):.2f}", "",
+        f"- Cost (CLI-reported, completed calls only): ${sum(r['cost_usd'] for r in rows):.2f}; "
+        f"early-stopped at first skill call (cost not reported): {sum(r['result_subtype'] == 'routing_stop' for r in rows)}", "",
         "## Misses", "",
         "| # | query | expected | routed | lenient | sources |",
         "|---|---|---|---|---|---|",

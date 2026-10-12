@@ -2,7 +2,17 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-12 (Q catalog republished from this repo after user approval; regression fully resolved)
+**Last updated:** 2026-10-12 (first LIVE routing eval run; CI fixed after 5 months red; Q catalog republished)
+
+## 2026-10-12 live routing evals (first real-Claude measurement)
+
+- Runner: `tools/run_routing_evals.py` (+ `tools/routing-labels.json`, 9 unit tests). Uses the user's real environment via `claude -p --output-format stream-json` and records the skill actually invoked (Skill tool call or Read of a SKILL.md), stopping each call at the first skill call (early-stop added after the first attempt cost $0.9-1.4/query by continuing the task).
+- Result (`docs/evals/routing-2026-10-12/`): model claude-opus-4-8[1m], 306 skills loaded. 72 queries: positive strict 55/64 (86%), lenient (orchestrator accepted) 59/64 (92%); off-domain 8/8 (100%). CLI-reported cost $7.23 for the 12 completed calls; 60 early-stopped calls do not report cost (estimate ~$0.4-0.9 each).
+- Hard misses (5): #15 resume DOCX -> `document-skills:docx`, #16 resume PDF -> `document-skills:pdf` (generic format skills beat career-profile); #8 "Restore my job-hunter workspace" -> no skill (orchestrator description never mentions workspace export/import/restore, which it owns; model went to 2ndBrain memory instead); #67 "Show me my application outcomes" -> application-tracker (ambiguous label); #68 "Reset what you know about my preferences" -> no skill (query has no job-search context; model discussed CLAUDE.md/memory).
+- Soft misses (4, orchestrator chosen for broad asks): "Find me a job", freelance designer NYC, Texas state jobs, "Help me with my resume". Acceptable by design.
+- Confirmed stale eval: resume-tailor#7 (cover letter) routed to cover-letter, as the label override predicted. application-tracker's description still points cover letters to resume-tailor (no observed miss from it).
+- NOT done (awaiting user choice): description/eval fixes for the misses, then a re-run of the affected queries.
+- CI: workflow fixed in `9274fb6` (was `pytest tests/`, no such dir since v6; red on every push since 2026-05-28). First green run since 2026-05-21: `e60a28d`, 3 OS x 3 Python.
 
 ## 2026-10-12 Q republish (DONE, user-approved)
 
@@ -15,7 +25,7 @@
 ## 2026-10-11 audit (read this first)
 
 **Source + installs are healthy. The Q catalog is NOT.**
-- **Verified:** this repo at `4f7b84b` is clean and equal to origin/main; 247 tests green (job-hunter 65, career-profile 25, job-search 25, resume-tailor 28, cover-letter 12, application-tracker 51, outcome-learning 35, installer 3). All 7 members in `~/.claude`, `~/.agents`, `~/.hermes` match source except `tests/` (by design).
+- **Verified:** this repo at `4f7b84b` is clean and equal to origin/main; 244 tests green (corrected 2026-10-12 from a mis-added 247; job-hunter 65, career-profile 25, job-search 25, resume-tailor 28, cover-letter 12, application-tracker 51, outcome-learning 35, installer 3). All 7 members in `~/.claude`, `~/.agents`, `~/.hermes` match source except `tests/` (by design).
 - **Regression (2026-06-06):** `E:\Git\skills\job-hunter` (a frozen v4 copy, separate nested repo) went through `E:\Git\skills\scripts\sync_q.py push` -> `publish_to_q.py`. Result on `Q:\skills\job-hunter`: v4 monolith zips labelled `v0.1.0` (v4 `_meta.json` has no `version`, script fell back to `0.1.0`); v4 source tree copied onto Q; `skill.json` and `Q:\skills\catalog.json` say `v0.1.0`; the 4 `job-hunter-orchestrator-v6.0.0-*.zip` files deleted (cleanup glob `job-hunter-*-<target>.zip` matched them). Anyone installing `job-hunter` from Q gets v4, which has no anti-fabrication gate.
 - **Older drift found at the same time:** the per-member zips for career-profile, job-search, resume-tailor, application-tracker, outcome-learning on Q were built at 00:02 on 2026-05-29, BEFORE the cover-letter commit; they lack the updated `_meta.json` sister_skills, the 7-member workspace contract, and resume-tailor's "optimizer" triggers. Cover-letter zips, the PLUGIN zip (93 files) and the FAMILY installer zip (104 files) are byte-identical to source.
 - **Locked (done):** `E:\Git\skills` commit `e6993da` adds `publish_to_q.EXTERNAL_SOURCES = {"job-hunter": "E:\Git\job-hunter-public"}`; `publish()` and `sync_q` push/pull skip it; cleanup glob narrowed to `<name>-v*-<target>.zip`; `tests/test_publish_guards.py` 6/6 (5/6 fail on pre-fix scripts). `sync_q --status` shows `job-hunter external -> E:\Git\job-hunter-public`. `E:\Git\skills` has no remote, so nothing to push.
