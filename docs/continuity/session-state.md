@@ -2,7 +2,15 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-11 (audit: Q catalog regression found + publish pipeline locked; Q republish awaiting user approval)
+**Last updated:** 2026-10-12 (Q catalog republished from this repo after user approval; regression fully resolved)
+
+## 2026-10-12 Q republish (DONE, user-approved)
+
+- Rollback archive of the previous Q folder (148 files, 1,387,083 bytes, zip-tested): `E:\Git\job-hunter-q-catalog-pre-2026-10-11.zip`.
+- `Q:\skills\job-hunter` now = 28 per-member zips (7 x claude-code/codex/cursor/portable, orchestrator named `job-hunter-orchestrator-v6.0.0-*`) + PLUGIN zip + FAMILY installer zip + INSTALL.md + NOTE-READ-ME-FIRST.txt + README.md + skill.json. v4 source tree and v0.1.0 zips removed.
+- skill.json: v6.0.0, `chainability: chain-orchestrator`, `source_repo: E:\Git\job-hunter-public\job-hunter`, `family_source_commit: 57273f8`.
+- Verified: 436 files across the 28 zips byte-identical to source (codex `agents/openai.yaml` excluded, packager-generated); `verify_no_fabrication.py` present in resume-tailor and cover-letter zips; `python Q:\skills\update-catalog.py` -> catalog.json lists job-hunter v6.0.0, version_drift in-sync, 30 packages (catalog total 91 skills).
+- Script used: `E:\tmp\jh-scripts\republish_q.py`. Rollback = delete Q folder contents and unzip the archive's `job-hunter/` into `Q:\skills\`.
 
 ## 2026-10-11 audit (read this first)
 
@@ -148,7 +156,7 @@ v6.0.0 family in THIS repo (7 members as of 2026-05-29): **244 tests green**, or
 
 ## Next Step
 
-Exact next action (2026-10-11): **republish `Q:\skills\job-hunter` from this repo once the user approves** (plan in the audit section at the top). Source, tests and live installs need nothing. (2026-05-29 text, kept for history: v6.0.0 family (7 members) is fully shipped + redeployed + clean; repo is PUBLIC; plugin verified at Skills (7). Nothing technical pending.) The only open item is the optional GitHub `v6.0.0` *Release* object (user-gated). Do not cut it without explicit user authorization.
+Exact next action (2026-10-12): **none required.** Q republished and verified (see top). Optional, user-chosen: real-Claude routing/outcome eval pass; parse_resume on real DOCX/PDF; state workforce URL liveness check; GitHub `v6.0.0` Release object (user-gated). (2026-05-29 text, kept for history: v6.0.0 family (7 members) is fully shipped + redeployed + clean; repo is PUBLIC; plugin verified at Skills (7). Nothing technical pending.) The only open item is the optional GitHub `v6.0.0` *Release* object (user-gated). Do not cut it without explicit user authorization.
 
 ## Blockers
 

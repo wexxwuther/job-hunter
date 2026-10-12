@@ -5,12 +5,6 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ## Active (2026-10-11)
 
-### Republish Q:\skills\job-hunter from this repo?
-
-**Status:** awaiting user approval (deletes/overwrites on Q). Q currently serves the v4 monolith as
-v0.1.0 and lacks the orchestrator zips; see session-state.md "2026-10-11 audit". The pipeline that
-caused it is already locked (`E:\Git\skills` commit `e6993da`).
-
 ### Retire E:\Git\skills\job-hunter entirely?
 
 **Status:** it is now inert for Q sync (skip-listed), but still a second v4 copy beside the frozen
@@ -129,6 +123,12 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-12) Republish Q:\skills\job-hunter from this repo?
+
+**Resolution:** user approved; done. Rollback zip `E:\Git\job-hunter-q-catalog-pre-2026-10-11.zip`;
+28 rebuilt member zips + plugin + family installer on Q, all byte-verified against source; catalog
+shows v6.0.0 in-sync. Pipeline guard `E:\Git\skills` `e6993da` prevents a repeat.
 
 ### (2026-05-18, v4 ship) Where should v3 be installed for global use?
 
