@@ -4,6 +4,14 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-11, A stale ancestor copy inside a generic publish pipeline will eventually overwrite the real release
+
+**What happened:** the frozen v4 copy at `E:\Git\skills\job-hunter` stayed enrolled in the `E:\Git\skills` -> `Q:\skills` sync/publish pipeline after v5+ moved to this repo. On 2026-06-06 a routine sync re-shipped it over the v6 family as "v0.1.0" (silent version fallback), and the zip cleanup glob deleted the v6 orchestrator zips. Nothing failed loudly; the continuity docs kept saying Q was v6 for four months.
+
+**Lesson:** when a skill's source of truth moves, every pipeline that still sees the old copy must be told explicitly (a mechanical skip-list with a test), not just the docs. "Frozen, do not edit" in a README does not stop an automated job. And verify the published artifact, not only source + installs: compare zip contents against source HEAD file-by-file.
+
+**How to apply:** `E:\Git\skills\scripts\publish_to_q.py` `EXTERNAL_SOURCES` + `tests/test_publish_guards.py` (commit `e6993da`). When auditing this family, also run the zip-vs-source comparison against `Q:\skills\job-hunter`.
+
 ## 2026-05-29, Continuity docs + memory are part of "done" — never wait to be asked
 
 **What happened:** added the cover-letter member, packaged the plugin, shipped everything — then *asked the user* whether to update the continuity docs and 2ndBrain memory. The user (rightly) pushed back: this is a standing mandatory rule, and asking inverts it. The work was not "done" when I called it done.

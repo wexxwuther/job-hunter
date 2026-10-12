@@ -2,7 +2,18 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging + per-runtime zips; repo now PUBLIC)
+**Last updated:** 2026-10-11 (audit: Q catalog regression found + publish pipeline locked; Q republish awaiting user approval)
+
+## 2026-10-11 audit (read this first)
+
+**Source + installs are healthy. The Q catalog is NOT.**
+- **Verified:** this repo at `4f7b84b` is clean and equal to origin/main; 247 tests green (job-hunter 65, career-profile 25, job-search 25, resume-tailor 28, cover-letter 12, application-tracker 51, outcome-learning 35, installer 3). All 7 members in `~/.claude`, `~/.agents`, `~/.hermes` match source except `tests/` (by design).
+- **Regression (2026-06-06):** `E:\Git\skills\job-hunter` (a frozen v4 copy, separate nested repo) went through `E:\Git\skills\scripts\sync_q.py push` -> `publish_to_q.py`. Result on `Q:\skills\job-hunter`: v4 monolith zips labelled `v0.1.0` (v4 `_meta.json` has no `version`, script fell back to `0.1.0`); v4 source tree copied onto Q; `skill.json` and `Q:\skills\catalog.json` say `v0.1.0`; the 4 `job-hunter-orchestrator-v6.0.0-*.zip` files deleted (cleanup glob `job-hunter-*-<target>.zip` matched them). Anyone installing `job-hunter` from Q gets v4, which has no anti-fabrication gate.
+- **Older drift found at the same time:** the per-member zips for career-profile, job-search, resume-tailor, application-tracker, outcome-learning on Q were built at 00:02 on 2026-05-29, BEFORE the cover-letter commit; they lack the updated `_meta.json` sister_skills, the 7-member workspace contract, and resume-tailor's "optimizer" triggers. Cover-letter zips, the PLUGIN zip (93 files) and the FAMILY installer zip (104 files) are byte-identical to source.
+- **Locked (done):** `E:\Git\skills` commit `e6993da` adds `publish_to_q.EXTERNAL_SOURCES = {"job-hunter": "E:\Git\job-hunter-public"}`; `publish()` and `sync_q` push/pull skip it; cleanup glob narrowed to `<name>-v*-<target>.zip`; `tests/test_publish_guards.py` 6/6 (5/6 fail on pre-fix scripts). `sync_q --status` shows `job-hunter external -> E:\Git\job-hunter-public`. `E:\Git\skills` has no remote, so nothing to push.
+- **Pending user approval:** the Q republish (deletes/overwrites files on Q, blocked by auto-mode classifier). Prepared: 28 fresh zips at `E:\tmp\jh-rebuild\` built from `4f7b84b` with `E:\Git\skill-builder-workdir\self-improving-skills\scripts\package_skill.py`; script `E:\tmp\jh-scripts\republish_q.py` was NOT written (denied). Plan: full rollback zip of the Q dir first, remove v4 tree + v0.1.0 zips, copy 28 zips, write v6 `skill.json` (`chainability: chain-orchestrator`, `source_repo` = `job-hunter-public\job-hunter` so update-catalog's SKILL.md+_meta.json fingerprint works), then `python Q:\skills\update-catalog.py`.
+- Note: `publish_to_q.py`'s packager path `~/.claude/skills/self-improving-skills/scripts/package_skill.py` no longer exists; it falls back to scanning `E:\Git\skill-builder-workdir`.
+
 **2026-05-29 (post-v6.0.0, same version line):** added the **cover-letter** member (7th family skill), sharpened resume-tailor to trigger on "resume optimizer", packaged the family as a real Claude Code **plugin** (one-install) + per-runtime per-skill zips, and confirmed the GitHub repo is **PUBLIC**. See "2026-05-29 additions" below.
 **v5.0.0 shipped:** 2026-05-20 (per-user learning loop)
 **v5.0.1 shipped:** 2026-05-20 (decisions_present flag fix)
@@ -56,7 +67,7 @@ Landed as commit `6d725cd` (OS fix + .gitattributes). The continuity-stack creat
 - **Source of truth (THIS repo, git-tracked):** `E:\Git\job-hunter-public\`, branch `main`, remote `https://github.com/wexxwuther/job-hunter` (**PUBLIC**). All v6+ edits go here. FAMILY-MONOREPO layout: **7 member dirs** (`job-hunter/` orchestrator + `career-profile/`, `job-search/`, `resume-tailor/`, `cover-letter/`, `application-tracker/`, `outcome-learning/`), each with its own `SKILL.md`, `scripts/`, `references/`, `evals/`, `tests/`, `_meta.json`, `CHANGELOG.md`; plus root `docs/` (this continuity stack + `CUTOVER.md` + `superpowers/`), `install/`, `plugin/` (Claude Code plugin + local marketplace), and `build_plugin.py`. Root `SKILL.md` is GONE by design.
 - **Family installers:** `install/install.sh` + `install/install.ps1` loop all 7 members into the 3 harness roots (`~/.claude/skills`, `~/.agents/skills` (Codex + OpenClaw share this), `~/.hermes/skills`); they install offline from the unzipped bundle or clone from GitHub. Per-harness guides: `install/claude-code.md`, `install/codex.md`, `install/openclaw.md`, `install/hermes.md`. **Claude Code's supported one-install path is the PLUGIN** (`/plugin marketplace add wexxwuther/job-hunter` → `/plugin install job-hunter@gdk-skills`), not the installer.
 - **LIVE INSTALL STATE (2026-05-28, verified clean):** each of the 3 deploy targets (`~/.claude`, `~/.agents`, `~/.hermes`) has exactly the 6 v6.0.0 family members; orchestrator `_meta.json` reads v6.0.0; `resume-tailor/scripts/verify_no_fabrication.py` is PRESENT in all 3 (this is the fix for the original "resume optimizer not part of skill set" symptom, which was stale installs, not a broken chain). No stale/shadowing copies remain.
-- **Catalog (Q:):** `Q:/skills/job-hunter/` has 5 v6.0.0 zips (claude-code, codex, openclaw, hermes, portable; 234,197 bytes each, 91 entries) + `skill.json` (current_version v6.0.0, chainability plugin-bundle, chain.members 6, source_version_hash 67161e9d516c) + README. `Q:/skills/catalog.json` lists job-hunter at current_version v6.0.0, kind skill-family-bundle.
+- **Catalog (Q:) -- STALE as of 2026-10-11, see the audit section at the top; the text below is the 2026-05-28 state:** `Q:/skills/job-hunter/` has 5 v6.0.0 zips (claude-code, codex, openclaw, hermes, portable; 234,197 bytes each, 91 entries) + `skill.json` (current_version v6.0.0, chainability plugin-bundle, chain.members 6, source_version_hash 67161e9d516c) + README. `Q:/skills/catalog.json` lists job-hunter at current_version v6.0.0, kind skill-family-bundle.
 - **v4 ancestor (frozen, historical):** `E:\Git\skill-builder-workdir\job-hunter\`, separate git history, no merge path. Read-only for reference.
 - **Plugin-managed original (read-only):** `C:\Users\Owner\AppData\Roaming\Claude\local-agent-mode-sessions\skills-plugin\...\skills\job-hunter\`. Untouched. Invocable as `anthropic-skills:job-hunter`.
 
@@ -137,7 +148,7 @@ v6.0.0 family in THIS repo (7 members as of 2026-05-29): **244 tests green**, or
 
 ## Next Step
 
-Exact next action: **v6.0.0 family (7 members) is fully shipped + redeployed + clean; repo is PUBLIC; plugin verified at Skills (7). Nothing technical pending.** The only open item is the optional GitHub `v6.0.0` *Release* object (user-gated). Do not cut it without explicit user authorization.
+Exact next action (2026-10-11): **republish `Q:\skills\job-hunter` from this repo once the user approves** (plan in the audit section at the top). Source, tests and live installs need nothing. (2026-05-29 text, kept for history: v6.0.0 family (7 members) is fully shipped + redeployed + clean; repo is PUBLIC; plugin verified at Skills (7). Nothing technical pending.) The only open item is the optional GitHub `v6.0.0` *Release* object (user-gated). Do not cut it without explicit user authorization.
 
 ## Blockers
 

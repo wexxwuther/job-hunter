@@ -3,6 +3,24 @@
 Unresolved questions that the current state can't answer. Each entry lists what we'd need to
 answer it. Move to "Closed" with the answer + date once resolved.
 
+## Active (2026-10-11)
+
+### Republish Q:\skills\job-hunter from this repo?
+
+**Status:** awaiting user approval (deletes/overwrites on Q). Q currently serves the v4 monolith as
+v0.1.0 and lacks the orchestrator zips; see session-state.md "2026-10-11 audit". The pipeline that
+caused it is already locked (`E:\Git\skills` commit `e6993da`).
+
+### Retire E:\Git\skills\job-hunter entirely?
+
+**Status:** it is now inert for Q sync (skip-listed), but still a second v4 copy beside the frozen
+`E:\Git\skill-builder-workdir\job-hunter`. Deleting it is destructive and user-gated; the skip-list
+makes it optional.
+
+**Note on the v4-era items below:** "delete the v3 install" was resolved 2026-05-28 (all v3/v4
+installs removed; see session-state.md). The others are still open but now apply per member
+(e.g. `parse_resume.py` lives in career-profile, the rubric stub in job-search).
+
 ## Active (v4-era)
 
 ### Should we delete the v3 install now that v4 ships?
