@@ -26,7 +26,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install pytest
-        run: python -m pip install --upgrade pip pytest
+        run: python -m pip install --upgrade pip pytest python-docx pypdf
 
       # Family monorepo (v6+): no root tests/; each member owns its suite.
       # importlib mode because several members share test file names.

@@ -73,7 +73,8 @@ real behavior, not the mock proxy.
 
 ### Does `parse_resume.py` work end-to-end on real DOCX and PDF inputs?
 
-**Status (2026-10-12, ANSWERED - partly no; fixes not yet applied):** tested
+**Status (2026-10-12, ANSWERED - partly no; FIXED 2026-10-13 in career-profile v1.1.0, see
+its CHANGELOG and tests/test_parse_resume.py):** tested
 (`career-profile/scripts/parse_resume.py`) via `uv run ... --json` on 11 Word-authored files:
 5 synthetic resumes (fictional person) built with python-docx, re-saved by Microsoft Word, and
 exported to PDF by Word, plus an image-only "scanned" PDF. Harness + fixtures: `E:\tmp\jh-resume\`
@@ -85,8 +86,10 @@ exported to PDF by Word, plus an image-only "scanned" PDF. Harness + fixtures: `
   their text once per grid column (bullets tripled); (5) a heading inside a table cell is joined
   with " | " so the 2-column layout loses its "experience" section.
 - Scanned PDF: exit 0 with empty text and no warning (silent failure).
-- Docs: `career-profile/SKILL.md` shows plain `python scripts/parse_resume.py resume.docx`, which
-  fails ("python-docx is not installed", exit 2) unless deps are installed; only `uv run` works.
+- Docs: `career-profile/SKILL.md` showed plain `python scripts/parse_resume.py`, which needs
+  python-docx/pypdf installed. CORRECTION 2026-10-13: on this machine they ARE installed (user
+  site-packages), so plain python works here; the earlier "not installed" failure came from
+  testing with `python -I`, which ignores user site-packages. Docs now lead with `uv run`.
 
 **Next:** fix in document order (walk body XML incl. tables; add headers + text boxes; dedupe merged
 cells), fail loudly on empty PDF text, fix the docs, and turn the fixtures into regression tests.

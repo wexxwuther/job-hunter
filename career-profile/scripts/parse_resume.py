@@ -64,7 +64,87 @@ def _strip_html(html: str) -> str:
     return re.sub(r"\n{3,}", "\n\n", text).strip()
 
 
+_W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+_MC_FALLBACK = "{http://schemas.openxmlformats.org/markup-compatibility/2006}Fallback"
+
+
+def _paragraph_text(p) -> tuple[str, list]:
+    """Visible text of one w:p plus any text boxes anchored in it.
+
+    Text-box content (w:txbxContent) is returned separately so it becomes its own
+    lines; mc:Fallback is skipped because Word may store the same box twice
+    (DrawingML Choice + VML Fallback).
+    """
+    chunks: list[str] = []
+    boxes: list = []
+
+    def walk(el) -> None:
+        for ch in el:
+            tag = ch.tag
+            if not isinstance(tag, str) or tag == _MC_FALLBACK:
+                continue
+            if tag == _W + "txbxContent":
+                boxes.append(ch)
+                continue
+            if tag == _W + "t":
+                chunks.append(ch.text or "")
+            elif tag in (_W + "tab", _W + "br", _W + "cr"):
+                chunks.append(" ")
+            walk(ch)
+
+    walk(p)
+    return "".join(chunks).strip(), boxes
+
+
+def _block_lines(container) -> list[str]:
+    """Lines from a body / cell / header / text box, in document order."""
+    lines: list[str] = []
+    for el in container:
+        tag = el.tag
+        if tag == _W + "p":
+            text, boxes = _paragraph_text(el)
+            if text:
+                lines.append(text)
+            for box in boxes:
+                lines.extend(_block_lines(box))
+        elif tag == _W + "tbl":
+            for tr in el.findall(_W + "tr"):
+                # One w:tc per visible cell: a horizontally merged cell is a single
+                # w:tc with gridSpan, so it is read once (python-docx's row.cells
+                # repeats it per grid column).
+                cells = [c for c in (_block_lines(tc) for tc in tr.findall(_W + "tc")) if c]
+                if not cells:
+                    continue
+                if all(len(c) == 1 for c in cells):
+                    lines.append(" | ".join(c[0] for c in cells))   # data row
+                else:
+                    for c in cells:                                 # layout table
+                        lines.extend(c)
+        elif tag in (_W + "sdt", _W + "customXml"):
+            content = el.find(_W + "sdtContent") if tag == _W + "sdt" else el
+            if content is not None:
+                lines.extend(_block_lines(content))
+    return lines
+
+
+def _header_footer_lines(doc, kinds: tuple[str, ...]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for section in doc.sections:
+        for kind in kinds:
+            part = getattr(section, kind)
+            if part.is_linked_to_previous:   # no definition of its own; don't create one
+                continue
+            for line in _block_lines(part._element):
+                if line not in seen:
+                    seen.add(line)
+                    out.append(line)
+    return out
+
+
 def _parse_docx(path: Path) -> str:
+    """Header (contact details often live here), body in document order including
+    tables and text boxes, then footer."""
     try:
         from docx import Document
     except ImportError as e:
@@ -73,17 +153,9 @@ def _parse_docx(path: Path) -> str:
             "or `pip install python-docx`."
         ) from e
     doc = Document(str(path))
-    parts: list[str] = []
-    for para in doc.paragraphs:
-        text = para.text.strip()
-        if text:
-            parts.append(text)
-    for table in doc.tables:
-        for row in table.rows:
-            cells = [c.text.strip() for c in row.cells]
-            cells = [c for c in cells if c]
-            if cells:
-                parts.append(" | ".join(cells))
+    parts = _header_footer_lines(doc, ("first_page_header", "header", "even_page_header"))
+    parts += _block_lines(doc.element.body)
+    parts += _header_footer_lines(doc, ("first_page_footer", "footer", "even_page_footer"))
     return "\n".join(parts)
 
 
@@ -138,7 +210,15 @@ def parse(path: str | Path) -> str:
         raise ValueError(
             f"unsupported resume format: {ext!r}. Supported: {sorted(PARSERS.keys())}"
         )
-    return parser(p)
+    text = parser(p)
+    if not text.strip():
+        hint = (" It is probably a scanned image with no text layer."
+                if ext == ".pdf" else "")
+        raise ValueError(
+            f"no text could be extracted from {p.name}.{hint} Ask the user for a DOCX, "
+            "TXT, or pasted copy of the resume; do not guess its contents."
+        )
+    return text
 
 
 def _basic_sections(text: str) -> dict[str, str]:

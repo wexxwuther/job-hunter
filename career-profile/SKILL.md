@@ -137,17 +137,24 @@ scratch?"* Two branches:
 
 Use `scripts/parse_resume.py` to extract plain text from any supported format
 without depending on sibling docx/pdf skills. The script declares its
-dependencies inline (PEP 723); run it with `uv run scripts/parse_resume.py ...`
-if you don't have `python-docx` / `pypdf` installed globally. Examples:
+dependencies inline (PEP 723), so run it with `uv run`, which fetches
+`python-docx` / `pypdf` automatically. Plain `python scripts/parse_resume.py`
+only works for DOCX/PDF if both packages are already installed. Examples:
 
 ```
-python scripts/parse_resume.py resume.docx
-python scripts/parse_resume.py resume.pdf --out resume.txt
-python scripts/parse_resume.py resume.md --json
+uv run scripts/parse_resume.py resume.docx
+uv run scripts/parse_resume.py resume.pdf --out resume.txt
+uv run scripts/parse_resume.py resume.md --json
 ```
 
-The `--json` flag adds a best-effort section breakdown (summary / experience /
-education / skills / certifications / projects) plus character/line counts.
+DOCX text is read in document order, including page headers/footers, tables, and
+text boxes (templates often keep the name and contact details there). The `--json`
+flag adds a best-effort section breakdown (summary / experience / education /
+skills / certifications / projects) plus character/line counts.
+
+If the script exits with "no text could be extracted" (typically a scanned PDF
+with no text layer), tell the user and ask for a DOCX, TXT, or pasted copy. Do
+not guess or reconstruct the resume's contents.
 
 From the parsed text, surface for the rest of the workflow:
 

@@ -12,6 +12,10 @@
 *.css text eol=lf
 *.txt text eol=lf
 
+# Test fixtures are binary (never line-ending converted).
+*.docx binary
+*.pdf binary
+
 # Windows-only installer stays CRLF (PowerShell tolerates either; CRLF is the
 # native Windows convention and this file never runs on macOS/Linux).
 *.ps1 text eol=crlf
