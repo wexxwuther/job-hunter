@@ -2,7 +2,16 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-12 (first LIVE routing eval run; CI fixed after 5 months red; Q catalog republished)
+**Last updated:** 2026-10-13 (career-profile v1.1.0: parse_resume fixed on real Word DOCX/PDF; deployed + Q re-shipped)
+
+## 2026-10-13 parse_resume fix (career-profile v1.1.0, commit `9d1bb29`)
+
+- Tested 2026-10-12 on 11 Word-authored files (fictional resume, 5 layouts x DOCX/PDF + scanned PDF; harness in `E:\tmp\jh-resume\`). PDFs were fine; DOCX lost header/text-box contact info, appended tables at the end (experience filed under CERTIFICATIONS), tripled merged cells, lost in-table headings; scanned PDF returned empty text with exit 0.
+- Fix: `_parse_docx` walks the body XML in document order (paragraphs, tables, content controls, text boxes; skips mc:Fallback duplicates; one read per w:tc), adds header/footer lines; `parse()` raises on empty extraction with an ask-the-user message. SKILL.md usage leads with `uv run`.
+- Tests: `career-profile/tests/test_parse_resume.py` (15) + `tests/fixtures/resumes/` (8 files, 368 KB). 10/15 failed before the fix; all pass after. Re-score with the original harness: 12/12 facts on all 10 text files, sections + order correct; scanned PDF exits 2. Full suite 269 passed; CI green on `9d1bb29` (now installs python-docx + pypdf); tests skip cleanly without those packages.
+- Correction: plain `python scripts/parse_resume.py` works on this machine (python-docx/pypdf in user site-packages); the earlier "not installed" result came from `python -I`.
+- Deployed: installer -> 21 installs verified (rollback `E:\Git\job-hunter-installs-pre-9d1bb29.zip`); Q re-shipped (rollback `E:\Git\job-hunter-q-catalog-pre-9d1bb29.zip`), 661 entries byte-verified, catalog v6.0.0 in-sync. Per-member zips include tests/ (package_skill.py behavior), so career-profile zips now carry the fictional fixtures; installs and plugin strip tests.
+- Not done: re-running career-profile routing evals (description unchanged, so not needed); testing Google Docs / LibreOffice-authored files (only Word-authored covered).
 
 ## 2026-10-12 live routing evals (first real-Claude measurement)
 
