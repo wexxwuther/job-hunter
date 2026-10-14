@@ -96,12 +96,17 @@ cells), fail loudly on empty PDF text, fix the docs, and turn the fixtures into 
 
 ### Are the state workforce commission URLs in `state-workforce-commissions.md` still live?
 
-**Status:** Reference says "verify-portal-is-live" maintenance is recommended. Last verified:
-the date this reference was authored (unclear, not recorded in the file). Some state portals
-rebrand and redomain frequently.
+**Status (2026-10-13, ANSWERED - no; FIXED in job-search v1.0.1, commit `46b585e`):** all 51
+checked. 13 replaced (7 no DNS: AL KY LA MA NJ NY OR; GA's employgeorgia.com hijacked by an
+online-poker site; MT/OK/PA failed or retired; NH pointed at a non-job page; RI pointed at the
+agency homepage), 7 moved to their .gov redirect target. The same dead domains were in
+`build_search_queries.py` STATE_PORTALS (NY MA PA GA OR). Spot-checking 5 would likely have missed
+the hijack: check ALL rows and read page titles, not just status codes.
 
-**To answer:** Quarterly maintenance task. Spot-check 5 random state portal URLs; if any 404
-or redirect to "we've moved" pages, update the table. Add this to `maintenance.md`.
+**Ongoing:** quarterly, run `python tools/check_state_portals.py`; confirm 403/reset/timeout rows
+in a real browser (AZ, NH, DC block scripts; FL/SC/TN/TX reset under repeated hits) before calling
+them dead; confirm replacements against the agency's own .gov page. `tools/test_state_portals.py`
+keeps the script in sync with the table and blocks retired domains. Next due: 2027-01-13.
 
 ### Should the skill auto-detect ATS systems from posting URLs?
 

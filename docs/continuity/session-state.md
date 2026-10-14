@@ -2,7 +2,15 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-13 (career-profile v1.1.0: parse_resume fixed on real Word DOCX/PDF; deployed + Q re-shipped)
+**Last updated:** 2026-10-13 (job-search v1.0.1: state portal registry re-verified; career-profile v1.1.0 parse_resume fix; both deployed + Q re-shipped)
+
+## 2026-10-13 state workforce portal check (job-search v1.0.1, commit `46b585e`)
+
+- All 51 rows checked: Python HTTP pass (status, final URL, title) + Google DNS re-check + the in-app browser for blocked/unclear rows; replacements from web search confirmed by loading them and, for non-.gov hosts, by finding the link on the agency's .gov page (GA dol.georgia.gov, KY kcc.ky.gov, LA laworks.net, OR unemployment.oregon.gov, RI dlt.ri.gov). NY: official alias myjobs.ny.gov is a CNAME to myjobsny.usnlx.com but failed TLS in Python, curl and the browser, so the table uses newyork.usnlx.com ("Welcome to the New York State Job Bank!").
+- Result: 13 replaced, 7 moved to .gov redirect targets; build_search_queries.py STATE_PORTALS fixed (5 dead incl. the hijacked GA domain). New `tools/check_state_portals.py` (network, manual) + `tools/test_state_portals.py` (offline, CI; mutation-checked). 273 tests; CI green on `46b585e`.
+- Deployed: installs (rollback `E:\Git\job-hunter-installs-pre-46b585e.zip`), Q re-shipped (rollback `E:\Git\job-hunter-q-catalog-pre-46b585e.zip`, 661 entries byte-verified).
+- Side effect during the check: opening dol.ny.gov/new-york-state-job-bank-fact-sheet in the browser pane triggered a PDF download dialog shown to the user; it was fetched with curl instead (E:\tmp\jh-links\dl\).
+- Not verified: agency names for rows that were not replaced (e.g. FL, MI agencies may have been renamed); only portal hosts were checked.
 
 ## 2026-10-13 parse_resume fix (career-profile v1.1.0, commit `9d1bb29`)
 
