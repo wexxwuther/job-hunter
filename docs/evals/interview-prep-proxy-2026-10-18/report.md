@@ -42,3 +42,13 @@ clauses and fired on the thank-you and podcast negatives).
 One sample per query; a model reading 18 options is not the real environment with ~300
 skills and the full system prompt; competitors had no descriptions. Treat this as a sanity
 check of the description wording, not a measured trigger rate.
+
+## Live run (done later the same day)
+
+After the CLI was logged in, the real harness run was done:
+`docs/evals/routing-2026-10-18-interview-prep/` (`tools/run_routing_evals.py --ids
+62,63,73-86`, runner at `24eea6a`, model claude-opus-4-8[1m], all installed skills
+competing). 16/16 as expected: positive strict 11/11, negative 5/5, 0 errored. Every
+negative (hiring-side x2, salary, podcast, kitchen contractors) was answered with no skill
+at all. One sample per query. (The resume control and banana-bread negatives from the
+proxy set are not in these ids.)

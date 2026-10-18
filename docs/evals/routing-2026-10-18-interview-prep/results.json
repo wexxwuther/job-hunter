@@ -1,0 +1,366 @@
+[
+  {
+    "id": 62,
+    "query": "I had a phone screen with Acme yesterday, help me write a thank-you note",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#6:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 63,
+    "query": "Mark the Acme application as interviewing and update my tracker",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#7:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 73,
+    "query": "I have an interview with Globex on Thursday for the data analyst job I applied to. Help me prepare.",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#1:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 74,
+    "query": "Prep me for my phone screen tomorrow for the nursing position I applied for",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#2:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 75,
+    "query": "Run a mock interview for my hiring manager round at Acme",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#3:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 76,
+    "query": "What questions will they ask in my panel interview for the welding supervisor job I applied to?",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#4:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 77,
+    "query": "Help me build STAR stories from my resume for my interview next week for the teaching job",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#5:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 78,
+    "query": "I'm the hiring manager. Write interview questions and a scorecard to evaluate candidates for our analyst opening",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#6:F"
+    ],
+    "label": "hiring side; interview-prep#6 is the collision guard (candidate prep only)",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.323197,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 79,
+    "query": "Write a thank-you note to the interviewer from yesterday's phone screen",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#7:F"
+    ],
+    "label": "post-interview thank-you drafts (draft_followup.py thank_you)",
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 80,
+    "query": "Mark the Acme application as interviewing",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#8:F"
+    ],
+    "label": "tracker status change; interview-prep never writes tracker.json",
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 81,
+    "query": "Help me negotiate the salary on my offer from Globex",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#9:F"
+    ],
+    "label": "salary negotiation, out of family scope",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.28980700000000004,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 82,
+    "query": "Prepare questions for a podcast interview I'm hosting next week",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#10:F"
+    ],
+    "label": "media interview, not a job interview",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.280887,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 83,
+    "query": "Help me practice answering 'tell me about yourself' for my interview at Acme on Monday",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#13:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 84,
+    "query": "I got a second-round interview at the hospital I applied to. What should I ask them?",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#14:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 85,
+    "query": "Explain how to run a structured behavioral interview when I'm the interviewer",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#15:F"
+    ],
+    "label": "hiring-side interview technique",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.290067,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 86,
+    "query": "I'm interviewing contractors to remodel my kitchen. What should I ask them?",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#16:F"
+    ],
+    "label": "off-domain use of 'interviewing'",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.27369699999999997,
+    "model": "claude-opus-4-8[1m]"
+  }
+]
