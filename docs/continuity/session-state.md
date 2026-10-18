@@ -2,7 +2,43 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 natural-trigger probe promoted to a tested tool (`bc34e94`)
+
+- New `tools/run_trigger_probe.py` (replaces the evidence-only
+  `docs/evals/trigger-2026-10-18-interview-prep/probe.py`, which stays as the record of what
+  ran): reuses `run_outcome_evals.py` case loading, fixtures, tool allow-list and
+  `disableAllHooks`, and `run_routing_evals.MEMBERS`. Turn 1 only, `--samples N` fresh
+  sessions, stream read until the first Skill call, then the process is killed. Defaults
+  match the evidence probe (`--max-turns 6`, $1.50 cap, 600 s timeout).
+- `--family-only`: `--setting-sources project`, cwd under a temp folder (default
+  `tempfile.mkdtemp`, removed after; `--env-root` to keep it) whose `.claude/skills` holds the
+  8 members' git-tracked files minus `<member>/tests/` (`git ls-files`), byte-copied. A
+  sample is errored, not scored, if a user skill (a dir name in `~/.claude/skills` that is
+  not a member) or any plugin shows up in the init listing, or if the expected skill is not
+  listed at all.
+- Outcomes: `skill` (hit only if it is the expected skill), `answered`, `capped`
+  (`error_max_turns`, the only cap subtype seen in the raw streams on disk; a budget cap
+  stays errored), `errored` (exit 1; a rerun on the same `--out-dir` retries only those). An
+  `--out-dir` holding another env/expected skill is refused. `--dry-run`: no calls, nothing
+  written. No hard-coded paths.
+- Tests: `tools/test_run_trigger_probe.py` (14) replays `tools/trigger-fixtures/`
+  (`skill-hit.jsonl`, `direct-answer.jsonl`, `errored.jsonl`; synthetic, shaped like the
+  2026-10-18 raw streams, no local paths) through a fake Popen; the family-env test uses
+  the real `git ls-files`. Mutation check `E:\tmp\jh-trigger\mutate.py`: 22/22 killed. CI command
+  397 passed (was 383); ruff clean on the new files.
+- Dry-run, interview-prep `--ids 2-4 --samples 3 --family-only`: cases 2, 3, 4 with their
+  turn-1 prompts; env = 8 members, 103 files.
+- Live smoke (`claude auth status`: claude.ai, Max plan; estimate stated first: under $1,
+  cap $4.50): family-only, cases 2-4, 1 sample each: 3/3 interview-prep, 21 skills listed
+  (same as the evidence probe, so a `%TEMP%` env under the home folder does not pick up
+  `~/.claude/skills`), $0.00 reported (all stopped at the Skill call). Output
+  `E:\tmp\jh-trigger\live-family\`. It caught one bug the fixtures missed: case 3's multi-line
+  prompt broke the report table; fixed (whitespace collapsed) with a test and a mutant.
+- Not done: no other member has an outcome-scenarios file, so the probe has not run for
+  them (new open question). No `--draft` mode (the evidence probe's temp-copy description
+  draft env); draft testing still means editing a copy by hand.
 
 ## 2026-10-18 interview-prep 1.1.0: natural-trigger fix (`854e29b`, evidence `990a129`)
 
@@ -41,7 +77,8 @@
 - Cost (CLI-reported, completed calls only): probes $5.59 + $1.56, listing checks $0.79,
   routing $3.54 plus 4 small reruns; early-stopped calls report none.
 - Not done: no tested routing/probe mode with the normal tool set in `tools/` (the probe is
-  an evidence script); heavily loaded installs still under-trigger (both open questions).
+  an evidence script; closed later the same day by `tools/run_trigger_probe.py`); heavily
+  loaded installs still under-trigger (open question).
 
 ## 2026-10-18 gate comma fix deployed (source `3527358`, contains `cec398d`)
 

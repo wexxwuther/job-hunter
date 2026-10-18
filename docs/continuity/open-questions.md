@@ -14,16 +14,17 @@ owner's sessions get ts-judge routing; public users with many other skills may n
 
 **To answer:** decide whether that matters enough for another description pass (e.g. move
 the "load it rather than answering" clause to the front) or a skill-side nudge; measure with
-`docs/evals/trigger-2026-10-18-interview-prep/probe.py --env full`.
+`tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/interview-prep.json --ids 2-4`
+(full install = no `--family-only`).
 
-### No tested routing mode with the normal tool set
+### Other members' natural trigger rate is unmeasured
 
-**Status:** `run_routing_evals.py` allows only the Skill tool (overstates triggering). The
-2026-10-18 natural-trigger probe lives in `docs/evals/trigger-2026-10-18-interview-prep/`
-as an evidence script with hard-coded paths and no tests.
+**Status (2026-10-18):** `tools/run_trigger_probe.py` can measure it, but only
+interview-prep has an outcome-scenarios file (`tools/outcome-scenarios/`). The probe needs
+one per member before it can run.
 
-**To answer:** promote it into `tools/` (e.g. `run_outcome_evals.py --trigger-only
---samples N --family-only`) with tests, then run it for the other members' outcome evals.
+**To answer:** write scenarios for each member's outcome evals (fixtures + turn 1), then
+run the probe with `--family-only --samples 3`, and once in the full install.
 
 ### Three copies of the gate
 
@@ -202,6 +203,18 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-18) No tested routing mode with the normal tool set
+
+**Resolution:** `tools/run_trigger_probe.py` (commit `bc34e94`) promotes the evidence probe:
+turn 1 only, `--samples N`, normal tool set, hooks off, stopped at the first Skill call;
+`--family-only` = `--setting-sources project` in a temp folder holding only the 8
+git-tracked members (no tests/), with a leak check. No hard-coded paths. 14 tests replay
+stream fixtures (Skill hit, direct answer, errored); 22/22 mutants killed
+(`E:\tmp\jh-trigger\mutate.py`). Live smoke, family-only, interview-prep cases 2-4:
+3/3, 21 skills listed. Running it for the other members is a new open question (they
+have no scenarios files yet). Original status: `run_routing_evals.py` allows only the
+Skill tool; the probe was an untested script with hard-coded paths.
 
 ### (2026-10-18) interview-prep does not trigger for some in-domain prompts in a plain install
 

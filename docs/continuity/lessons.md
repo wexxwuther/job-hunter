@@ -4,6 +4,21 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, Fixture replays passed and 21/21 mutants died; one live call still found a bug
+
+**What happened:** `tools/run_trigger_probe.py` had 14 passing fixture tests and 21/21
+killed mutants. The first live smoke (3 calls) printed a broken report: case 3's turn-1
+prompt contains the pasted posting, and its newlines split the markdown table row. The
+fixtures had only been checked against single-line prompts.
+
+**Lesson:** fixtures written from the same assumption as the code (prompts are one line)
+do not test that assumption. Real scenario data is the cheaper check here: the scenarios
+file was already in the repo.
+
+**How to apply:** when a tool renders user-supplied text, test it with the real scenario
+data as well as synthetic fixtures; run a 1-sample live smoke before calling a live tool
+done.
+
 ## 2026-10-18, Naming the task in a description is not enough when the model can just answer
 
 **What happened:** three interview-prep prompts loaded the skill 1/9 in a natural-trigger
