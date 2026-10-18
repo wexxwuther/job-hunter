@@ -5,6 +5,28 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ## Active (2026-10-18)
 
+### interview-prep does not trigger for some in-domain prompts in a plain install
+
+**Status (2026-10-18 live outcome run):** with user hooks disabled, 3 of 6 outcome-eval
+prompts were answered by the base model without loading the skill ("Prep me for the
+Globex interview ... make me sound like I have", "Research Globex before my interview",
+"Mock interview me for the behavioral panel for my Globex interview"). The live routing
+run scored 16/16 because `run_routing_evals.py` allows only the Skill tool, so it
+measures which skill is chosen, not whether Claude answers directly instead. One sample
+each.
+
+**To answer:** decide whether to tune the description (e.g. name research and mock
+interviews for a tracked application explicitly) and/or add a routing mode with the
+normal tool set. Re-run with `tools/run_outcome_evals.py` (natural mode) and a few
+samples per prompt before and after. Description changes need re-running the family
+routing evals and a redeploy (installs + Q).
+
+### Gate comma fix not deployed
+
+**Status:** `cec398d` is in the repo; the 24 installs and Q still carry the pre-fix
+`verify_no_fabrication.py` (it over-flags numbers followed by a comma; it does not miss
+fabrications). Deploy with the usual installer + Q reship runbook.
+
 ### Three copies of the gate
 
 **Status:** `verify_no_fabrication.py` is now bundled in resume-tailor (canonical),
@@ -30,8 +52,10 @@ installers, with an install test.
 ### Reviewer pass not yet exercised end to end in a harness
 
 **Status:** outcome evals resume-tailor #6 and cover-letter #4 are written but not run; the
-no-subagent fallback and the second round are untested live. Needs a real `claude -p` run
-(see `tools/run_routing_evals.py` for the runner pattern).
+no-subagent fallback and the second round are untested live. A runner now exists
+(2026-10-18): write a scenarios file like `tools/outcome-scenarios/interview-prep.json`
+and run `tools/run_outcome_evals.py`. The other members' outcome evals have also never
+run live.
 
 ## Active (2026-10-11)
 
@@ -150,6 +174,12 @@ it's worth the script weight, the agent can infer ATS from URL with no helper. P
 specific user case demands it.
 
 ### What's the right outcome-eval grading mechanism?
+
+**Update 2026-10-18:** `tools/run_outcome_evals.py` grades the evals' mentions_* assertions
+automatically over the real transcript and merges a manual verdict per case. In the first
+run the assertions disagreed with the manual verdict in 3 of 9 graded cases (one wrong
+assertion, fixed; two wording-brittle mentions_any). Keep the manual verdict as the result
+and the assertions as a floor.
 
 **Status (v4 update):** Still unresolved. v3 had 8 outcome evals with 3-6 assertions each;
 v4 expanded to 12 (added #9-#12 for ghost-job, full-scoring, and 2 profile scenarios). All

@@ -4,6 +4,23 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, A Skill-only routing runner overstates triggering
+
+**What happened:** the live routing run gave interview-prep 16/16. The first live outcome
+run, with the normal tool set, loaded the skill for only 3 of 6 in-domain prompts; the
+base model answered the other 3 itself, and in one of them scripted invented experience
+for the user. `run_routing_evals.py` allows only the Skill tool, so "use a skill" is
+nearly the only move available.
+
+**Lesson:** a routing eval that removes the alternative to using a skill measures skill
+choice, not skill-vs-direct-answer. User hooks matter too: on this machine a ts-judge
+UserPromptSubmit hook injects the right skill, so results with and without hooks differ.
+
+**How to apply:** report which tools and hooks a routing number was measured with. For
+outcome evals, run natural mode first (`tools/run_outcome_evals.py`, hooks disabled via
+`--settings {"disableAllHooks": true}`), then `--invoke-skill` for the cases that missed,
+so routing and skill quality are reported separately.
+
 ## 2026-10-18, The live trial paid off again: 4 defects that 55 tests and 10/10 mutants missed
 
 **What happened:** interview-prep had 55 passing tests and 10/10 killed mutants. One live

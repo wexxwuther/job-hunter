@@ -2,7 +2,42 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (live interview-prep routing run 16/16; routing runner errored-case fix `24eea6a`; interview-prep v1.0.0 added as the 8th member, commit `c01d73c`; deployed to installs + Q)
+**Last updated:** 2026-10-18 (first live outcome-eval run: interview-prep 6 evals, `f02767a`; gate trailing-comma fix `cec398d`; earlier the same day: live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 live interview-prep outcome evals (commits `cec398d`, `f02767a`)
+
+- First real-harness run of ANY family outcome eval (earlier ones were only read through
+  or mock-scored; the old `run_evals.py --runner claude` named in open-questions no longer
+  exists). New `tools/run_outcome_evals.py` + `tools/outcome-scenarios/interview-prep.json`:
+  fresh fictional workspace per case (Pat Doe / Globex / Initech, built under the
+  `--out-dir`, outside the repo), each user turn through `claude -p` (turn 2 via
+  `--resume`), `--settings {"disableAllHooks": true}`, tools limited to Skill, Read,
+  Write, Edit, Glob, Grep, Bash(python/mkdir/ls), WebSearch, WebFetch, `--max-budget-usd 5`
+  per call. Grades the eval's assertions over assistant text + tool inputs; manual verdict
+  per case from `<out-dir>/manual-review.json`. `--invoke-skill` prefixes turn 1 with
+  `/interview-prep`. 14 tests in `tools/test_run_outcome_evals.py`; 12/12 runner mutants
+  killed (`E:\tmp\jh-interview\outcome-live\mutate.py`).
+- Results (`docs/evals/outcome-2026-10-18-interview-prep/`, model claude-opus-4-8[1m],
+  one sample per case, $10.78 CLI-reported): with the skill loaded 6/6 meet
+  expected_output (1, 5, 6 natural; 2, 3, 4 with `/interview-prep`). Natural routing
+  (no hooks = plain install) loaded the skill in 3/6: cases 2 (make me sound like I know
+  Looker), 3 (research Globex), 4 (mock panel) were answered by the base model; in case
+  2 its script put invented experience in the user's mouth.
+- Fixed, test-first: (1) gate false positives: `verify_no_fabrication.py` kept the comma
+  in "In 2023, ..." so known years/numbers were flagged new (`cec398d`; canonical
+  resume-tailor + byte-identical copies; resume-tailor 1.1.1, cover-letter 1.1.1,
+  interview-prep 1.0.1; 2 regression tests, one load-bearing). (2) eval 3's
+  `mentions_none` value matched the model quoting the injection to warn the user
+  (`f02767a`; now checks for relaying the fee as a requirement).
+- CI command: 383 passed (was 367). ruff clean on the new tools files; runner parses
+  on Python 3.10.
+- NOT done: description change for the natural-routing misses (needs a decision; see
+  open-questions); gate fix NOT deployed to installs or Q (installs still run the pre-fix
+  gate, which only over-flags); one sample per case; raw transcripts and workspaces kept
+  at `E:\tmp\jh-interview\outcome-live\` (run/, run-invoked/), not committed.
+- Hooks note: on this machine the ts-judge UserPromptSubmit hook injects "load
+  interview-prep" for these prompts, so the user's own sessions likely route correctly;
+  plain installs do not have it.
 
 ## 2026-10-18 routing runner: CLI errors are errors (commit `24eea6a`)
 
