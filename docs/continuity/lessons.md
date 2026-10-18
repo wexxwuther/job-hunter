@@ -4,6 +4,37 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, The live trial paid off again: 4 defects that 55 tests and 10/10 mutants missed
+
+**What happened:** interview-prep had 55 passing tests and 10/10 killed mutants. One live
+subagent run on a fictional workspace found four real defects: a "5+ years" requirement
+keyword-matched to "Trained four new analysts" (one shared stem); the documented way to
+refresh the gate's source (re-run `build`) would have overwritten the user's filled pack;
+posting URLs kept a trailing period; gap requirements turned into questions to ask.
+
+**Lesson:** the second live trial in one day found defects the unit tests could not,
+because the tests encoded the same picture of the workflow as the code. Workflow hazards
+(an instruction that destroys earlier work) only show when an agent follows the SKILL.md
+end to end.
+
+**How to apply:** for any new member or workflow step, run one live agent trial that
+follows SKILL.md literally on a realistic case with planted traps (an injected
+instruction, a gap the user cannot fill, a tenure requirement), before the commit. Make
+every finding a regression test and a mutant.
+
+## 2026-10-18, A routing runner must fail auth errors, not score them
+
+**What happened:** `run_routing_evals.py` ran 16 queries; every `claude -p` call returned
+`"result": "Not logged in - Please run /login"` with `is_error: true`. The runner reported
+"Positive strict: 0/11" and listed every query as routed to "(none)", which reads like a
+catastrophic description failure.
+
+**Lesson:** a measurement tool that turns an infrastructure error into a score produces a
+believable wrong answer. Check one raw transcript before believing a surprising eval.
+
+**How to apply:** open one raw `.jsonl` when results look extreme. Fix pending in
+open-questions (treat `is_error` results as errors, not routing outcomes).
+
 ## 2026-10-18, A real quote is not proof of support: run one live trial before trusting an LLM-output validator
 
 **What happened:** `review_pass.py check` passed 23 unit tests and 8/8 mutants. The first

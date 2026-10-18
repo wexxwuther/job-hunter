@@ -4,6 +4,36 @@ Each entry: **what was decided**, **why** (the rationale that made this the choi
 **consequences** (what future-self needs to honor or know about). Decisions here are durable,
 they outlast the session that made them.
 
+## 2026-10-18, interview-prep is a separate member; answers are blockquotes the gate checks
+
+**Decision:** interview prep ships as an 8th member (`interview-prep`), not a phase of
+application-tracker or the orchestrator. It reads the tracker archive (entry + submitted
+resume and cover letter) and confirmed lessons, and never writes `tracker.json`. Every line
+the user would say is a `> ` blockquote; `build_prep_pack.py claims` extracts exactly those
+for the bundled `verify_no_fabrication.py`. Time requirements ("5+ years") are never
+matched to a resume line. Research needs a source the agent found; URLs inside the posting
+are rejected mechanically. Family version stays 6.0.0.
+
+**Why:**
+- The v4/v5.1 deferral said: if interview prep comes, make it a new skill that consumes
+  job-hunter's outputs. The collision risk was handled in the description: candidate side
+  only, explicit do-not-use clauses for hiring-side interview plans, media interviews,
+  thank-you notes, salary negotiation, resumes, cover letters (proxy routing 18/18).
+- Interview answers are the highest fabrication risk in the family: spoken, then tested by
+  follow-up questions. The gate has to see only what the user will say, or the question
+  text and research would drown it; the blockquote rule makes that boundary mechanical.
+- Keyword overlap cannot do date arithmetic (live trial matched "5+ years" to an unrelated
+  line), so tenure goes to the user.
+- Version: adding cover-letter on 2026-05-29 kept 6.0.0; same here, so zip names and
+  catalog entries stay stable.
+
+**Consequences:**
+- Three byte-identical copies of `verify_no_fabrication.py` now exist (resume-tailor
+  canonical, cover-letter, interview-prep). Edit resume-tailor's and re-copy both.
+- The workspace contract has a byte-equality test across all members; re-copy it after any
+  edit to the orchestrator's canonical copy.
+- Not built: a persistent STAR story bank (see rejected-ideas).
+
 ## 2026-10-18, Reviewer pass is advisory; unaddressed requirements always go to the user
 
 **Decision:** resume-tailor (Mode B) and cover-letter run a fresh-context reviewer pass

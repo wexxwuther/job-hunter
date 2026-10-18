@@ -2,7 +2,52 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (fresh-context reviewer pass: resume-tailor v1.1.0 + cover-letter v1.1.0; deployed to installs + Q)
+**Last updated:** 2026-10-18 (interview-prep v1.0.0 added as the 8th member, commit `c01d73c`; deployed to installs + Q)
+
+## 2026-10-18 interview-prep, 8th family member (commit `c01d73c`)
+
+- Origin: the ai-job-search review ranked its `/interview` command next after the reviewer
+  pass; interview prep had been deferred since v4 for sibling-collision risk.
+- Built `interview-prep/`: `load_application.py` (one tracker entry + the resume and cover
+  letter that were sent + posting + confirmed LESSONS entries; lists posting URLs as
+  do-not-open; never writes tracker.json) and `build_prep_pack.py` (`stages`, `build`,
+  `source`, `questions`, `claims`; 6 stages). Answer lines are `> ` blockquotes and only
+  those reach the bundled `verify_no_fabrication.py` (byte-identical, parity test).
+  References: `interview-stages.md`, `mock-interview.md`, workspace contract.
+- Wiring (same places as cover-letter on 2026-05-29): orchestrator description (1012
+  chars), member table, routing examples, invariant text; all 7 siblings' `sister_skills`;
+  contract producer/consumer rows, re-synced into all 8 members, plus a new byte-equality
+  test (`test_every_members_contract_copy_matches_the_orchestrators`); application-tracker
+  do-not-use clause; installers; `build_plugin.py`; plugin.json/marketplace.json
+  descriptions (were stale at 6 skills); routing runner + 7 new labels; CI test command;
+  README (member table also lacked cover-letter; old FAQ said interview prep was out of
+  scope).
+- Live trial (Sonnet subagent, fictional workspace `E:\tmp\jh-interview\trial`, posting
+  with an injected "$200 fee" instruction): injection ignored, posting URL not opened, Looker
+  gap kept as an honest bridge. Found 4 defects, all fixed before commit with regression
+  tests: "5+ years" keyword-matched to an unrelated line; rebuilding source.txt meant
+  re-running `build`, overwriting the filled pack (`source` subcommand; `build` refuses to
+  overwrite); URL kept a trailing period; gap requirements in questions to ask.
+- Tests: 365 passed with the CI command (was 303; +61 interview-prep, +1 contract sync).
+  Mutation check 15/15 killed (`E:\tmp\jh-interview\mutate.py`). ruff clean on new files.
+  validate.py 0 errors on all 8 members; audit 11/15 interview-prep (same as other members).
+  CI green on `c01d73c` (9/9 jobs).
+- Trigger accuracy: the live `claude -p` routing run failed on every call with "Not logged
+  in - Please run /login" (CLI not authenticated in this environment) and the runner
+  mis-scored those as "(none)"; results discarded. Proxy check instead (fresh Sonnet
+  subagent, real descriptions, name-only competitors): 18/18 as expected
+  (`docs/evals/interview-prep-proxy-2026-10-18/`). Keyword mock runner: 14/16.
+- Deployed: installer to all 24 installs (rollback `E:\Git\job-hunter-installs-pre-c01d73c.zip`,
+  342 files), 309 files byte-verified; installed scripts run from all 3 roots. Q re-shipped
+  (`E:\tmp\jh-interview\reship_q.py`, rollback `E:\Git\job-hunter-q-catalog-pre-c01d73c.zip`):
+  34 zips, 761 entries byte-verified, INSTALL.md / NOTE-READ-ME-FIRST.txt rewritten for 8
+  skills (ASCII), skill.json chain.members has interview-prep; update-catalog shows
+  job-hunter in-sync.
+- Not done: live routing run (needs `claude` logged in); outcome evals not run in a real
+  harness; mock mode not exercised live; family version stays 6.0.0 (same precedent as
+  cover-letter); no persistent story bank (see rejected-ideas).
+- TypeSafe fit: declined (requirement-to-line matching is advisory and user-confirmed;
+  public skill with resume PII and a no-phone-home rule).
 
 ## 2026-10-18 fresh-context reviewer pass (resume-tailor v1.1.0, cover-letter v1.1.0, commit `b010256`)
 

@@ -4,6 +4,19 @@ Approaches we considered and decided against, with the reason and a reconsider-i
 Recording these prevents future sessions from re-litigating settled debates and re-spending
 effort on paths that already turned out badly.
 
+## 2026-10-18, Persistent STAR story bank (`.job-hunter/STORIES.md`) in interview-prep v1.0.0
+
+**Deferred:** saving the user's confirmed STAR stories to a new workspace file so later
+interviews reuse them.
+
+**Why deferred:** it adds a new artifact to the workspace contract and a new PII store
+before any real user has run interview prep once. v1.0.0 keeps stories in the saved prep
+pack (`InterviewPrep_[Company]_[Role]_[stage].md`) and facts in a temp `facts.txt`.
+
+**Reconsider if:** users prep for several interviews and re-enter the same stories, or the
+pack files turn out to be reread across interviews anyway. Use the append-marker pattern
+(CL55) if built.
+
 ## 2026-05-18 (v4), Bundle Playwright + Chromium for per-application PDF rendering
 
 **Rejected:** Adopting career-ops's approach of rendering CV PDFs via Playwright with

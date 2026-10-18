@@ -5,6 +5,25 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ## Active (2026-10-18)
 
+### Live routing check for interview-prep not run (CLI not logged in)
+
+**Status:** `run_routing_evals.py --ids 62,63,73-86` failed on every call with "Not logged
+in - Please run /login". Only the proxy check exists (18/18,
+`docs/evals/interview-prep-proxy-2026-10-18/`). Needed: `claude` CLI logged in, then re-run
+those ids (~$0.4-0.9 per query).
+
+### Routing runner scores CLI errors as "(none)"
+
+**Status:** `tools/run_routing_evals.py` treats a `result` event with `is_error: true` as
+a completed run that routed nowhere. Fix: count such cases as errors, exclude them from the
+score, and print the error text; add a unit test with a "Not logged in" result event.
+
+### Three copies of the gate
+
+**Status:** `verify_no_fabrication.py` is now bundled in resume-tailor (canonical),
+cover-letter and interview-prep; any ruff fix to it must be made in resume-tailor and
+re-copied to both (parity tests in each).
+
 ### ruff debt (18 findings) and gate phrase-run noise
 
 **Status:** `ruff check .` reports 18 pre-existing findings (unused imports including

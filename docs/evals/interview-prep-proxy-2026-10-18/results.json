@@ -1,0 +1,20 @@
+[
+  {"query": "Explain how to run a structured behavioral interview when I'm the interviewer", "expected": "not a family skill", "skill": "human-resources:interview-prep", "pass": true},
+  {"query": "Run a mock interview for my hiring manager round at Acme", "expected": "interview-prep", "skill": "interview-prep", "pass": true},
+  {"query": "Prepare questions for a podcast interview I'm hosting next week", "expected": "not a family skill", "skill": "(none)", "pass": true},
+  {"query": "I had a phone screen with Acme yesterday, help me write a thank-you note", "expected": "application-tracker", "skill": "application-tracker", "pass": true},
+  {"query": "Mark the Acme application as interviewing", "expected": "application-tracker", "skill": "application-tracker", "pass": true},
+  {"query": "Write a thank-you note to the interviewer from yesterday's phone screen", "expected": "application-tracker", "skill": "application-tracker", "pass": true},
+  {"query": "What's a good recipe for banana bread?", "expected": "not a family skill", "skill": "(none)", "pass": true},
+  {"query": "What questions will they ask in my panel interview for the welding supervisor job I applied to?", "expected": "interview-prep", "skill": "interview-prep", "pass": true},
+  {"query": "I got a second-round interview at the hospital I applied to. What should I ask them?", "expected": "interview-prep", "skill": "interview-prep", "pass": true},
+  {"query": "I'm the hiring manager. Write interview questions and a scorecard to evaluate candidates for our analyst opening", "expected": "not a family skill", "skill": "human-resources:interview-prep", "pass": true},
+  {"query": "I'm interviewing contractors to remodel my kitchen. What should I ask them?", "expected": "not a family skill", "skill": "(none)", "pass": true},
+  {"query": "Help me negotiate the salary on my offer from Globex", "expected": "not a family skill", "skill": "(none)", "pass": true},
+  {"query": "Prep me for my phone screen tomorrow for the nursing position I applied for", "expected": "interview-prep", "skill": "interview-prep", "pass": true},
+  {"query": "I have an interview with Globex on Thursday for the data analyst job I applied to. Help me prepare.", "expected": "interview-prep", "skill": "interview-prep", "pass": true},
+  {"query": "Mark the Acme application as interviewing and update my tracker", "expected": "application-tracker", "skill": "application-tracker", "pass": true},
+  {"query": "Help me practice answering 'tell me about yourself' for my interview at Acme on Monday", "expected": "interview-prep", "skill": "interview-prep", "pass": true},
+  {"query": "Help me build STAR stories from my resume for my interview next week for the teaching job", "expected": "interview-prep", "skill": "interview-prep", "pass": true},
+  {"query": "Tailor my resume for this product manager role at Stripe", "expected": "resume-tailor", "skill": "resume-tailor", "pass": true}
+]
