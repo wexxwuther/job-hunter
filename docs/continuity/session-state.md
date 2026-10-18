@@ -16,7 +16,8 @@
   dates are fixed relative to 2026-10-18 and go stale with time.
 - Test `test_member_scenarios_cover_every_outcome_eval[<member>]` (7 params): ids match the
   evals file, skill name matches, turns non-empty, file is ASCII. 2 mutants (dropped case,
-  non-ASCII turn) both failed it. CI command 404 passed (was 397).
+  non-ASCII turn) both failed it. CI command 404 passed (was 397). CI "Tests" run
+  39172819966 green on `12bf984` (all 9 OS/Python jobs).
 - Dry-run of all 7 (`--family-only --samples 3 --dry-run`): 34 cases, 8 members, nothing
   written. `claude auth status`: claude.ai, Max plan. Estimate stated first: 102 calls,
   ~$10-30 API-equivalent, ceiling $153. Actual CLI-reported floor $2.00 (most calls stopped
