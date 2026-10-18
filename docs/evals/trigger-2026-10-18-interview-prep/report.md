@@ -44,8 +44,28 @@ miss stable, and does a description change fix it?
   general knowledge, which can script experience they lack" and folded the gate sentence
   into "honest gap answers checked by the family anti-fabrication gate": 9/9.
 
+## After deploy (1.1.0 installed, `854e29b`)
+
+| env | case 2 | case 3 | case 4 |
+|---|---|---|---|
+| full (new description, installed) | 1/3 | 0/3 | 2/3 |
+
+- Full install: 3/9 (was 1/9). The family-only result (9/9) is the one that models a
+  public install; on this machine the ts-judge UserPromptSubmit hook (disabled here)
+  routes these prompts anyway.
+- Truncation check (self-report, weak evidence): asked in the full environment to quote
+  the listed interview-prep description, the model quoted the full 1.1.0 text, and said
+  most of the ~400 listing entries show no description. So the new clause is in the
+  listing; the lower rate is likely the larger context, not a cut-off description.
+- In the full-environment misses the base model refused the Looker claim, flagged the
+  posting injection and refused the fee, and started a mock panel, without the workspace.
+- Family routing evals after deploy (collisions): see
+  `docs/evals/routing-2026-10-18-interview-prep-desc/` (interview-prep 11/11 positive,
+  13/13 negative).
+
 ## Files
 
 - `results-full.json`, `results-family.json`, `results-family-ctl.json`: baseline.
 - `results-draft-v1.json`, `results-draft-v2.json`, `results-draft-v2-ctl.json`: drafts.
+- `results-full-after.json`: full install after the deploy.
 - Raw stream transcripts: kept outside the repo (`E:\tmp\jh-interview\trigger-probe\`).
