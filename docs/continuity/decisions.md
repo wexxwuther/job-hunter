@@ -4,6 +4,23 @@ Each entry: **what was decided**, **why** (the rationale that made this the choi
 **consequences** (what future-self needs to honor or know about). Decisions here are durable,
 they outlast the session that made them.
 
+## 2026-10-18, interview-prep description tells the model to load it instead of answering directly
+
+**Decision (owner-approved):** interview-prep 1.1.0's Use-when clause lists the short asks
+that were being answered directly (company research, practice answers, a mock interview,
+sounding experienced in a skill they lack) and adds "load it rather than answering from
+general knowledge, which can script experience they lack". The separate gate sentence was
+folded into the summary to stay within 1024 chars; the do-not-use clauses are unchanged.
+
+**Why:** naming the activities alone (draft v1) moved a family-only install from 1/9 to
+3/9; the explicit "load it rather than answering" clause took it to 9/9, with no negative
+collisions in the 86-query family routing run. A direct answer is the failure that matters
+here: without the skill the base model scripted unverified experience.
+
+**Consequences:** a later rewrite of this description must keep that clause (or show the
+same probe result without it), keep the do-not-use clauses (a test checks five of them),
+and re-run the probe in the family-only environment plus the family routing evals.
+
 ## 2026-10-18, interview-prep is a separate member; answers are blockquotes the gate checks
 
 **Decision:** interview prep ships as an 8th member (`interview-prep`), not a phase of

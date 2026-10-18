@@ -10,8 +10,8 @@ all the load-bearing context needed to continue the work. Designed to be self-co
 This file was last rewritten 2026-05-29. Everything since (Q regression fix, routing evals,
 parse_resume fix, portal registry, 2026-10-18 reviewer pass, 2026-10-18 interview-prep
 member) is recorded in `session-state.md`, which is current. The family now has 8 skills
-(orchestrator + 7 members incl. interview-prep). Current head of work: `c01d73c` +
-continuity commit. Full CI test command: see `.github/workflows/test.yml` (now includes
+(orchestrator + 7 members incl. interview-prep, now 1.1.0). Current head of work:
+`990a129` + continuity commit (session-state has the 2026-10-18 entries). Full CI test command: see `.github/workflows/test.yml` (now includes
 `interview-prep/tests`).
 
 ## ⚠ FIRST THING TO KNOW: where the active work lives

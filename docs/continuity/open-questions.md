@@ -5,21 +5,25 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ## Active (2026-10-18)
 
-### interview-prep does not trigger for some in-domain prompts in a plain install
+### interview-prep still under-triggers in a heavily loaded install
 
-**Status (2026-10-18 live outcome run):** with user hooks disabled, 3 of 6 outcome-eval
-prompts were answered by the base model without loading the skill ("Prep me for the
-Globex interview ... make me sound like I have", "Research Globex before my interview",
-"Mock interview me for the behavioral panel for my Globex interview"). The live routing
-run scored 16/16 because `run_routing_evals.py` allows only the Skill tool, so it
-measures which skill is chosen, not whether Claude answers directly instead. One sample
-each.
+**Status (2026-10-18, after 1.1.0):** with this machine's 319-skill install and hooks off,
+the three prompts that missed load the skill 3/9 (was 1/9); family-only install 9/9. The
+description is listed in full there (self-report check), so it is not truncation. The
+owner's sessions get ts-judge routing; public users with many other skills may not.
 
-**To answer:** decide whether to tune the description (e.g. name research and mock
-interviews for a tracked application explicitly) and/or add a routing mode with the
-normal tool set. Re-run with `tools/run_outcome_evals.py` (natural mode) and a few
-samples per prompt before and after. Description changes need re-running the family
-routing evals and a redeploy (installs + Q).
+**To answer:** decide whether that matters enough for another description pass (e.g. move
+the "load it rather than answering" clause to the front) or a skill-side nudge; measure with
+`docs/evals/trigger-2026-10-18-interview-prep/probe.py --env full`.
+
+### No tested routing mode with the normal tool set
+
+**Status:** `run_routing_evals.py` allows only the Skill tool (overstates triggering). The
+2026-10-18 natural-trigger probe lives in `docs/evals/trigger-2026-10-18-interview-prep/`
+as an evidence script with hard-coded paths and no tests.
+
+**To answer:** promote it into `tools/` (e.g. `run_outcome_evals.py --trigger-only
+--samples N --family-only`) with tests, then run it for the other members' outcome evals.
 
 ### Three copies of the gate
 
@@ -198,6 +202,22 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-18) interview-prep does not trigger for some in-domain prompts in a plain install
+
+**Resolution:** measured with 3 samples per prompt and the normal tool set: the miss was
+stable (1/9) in both the full and a family-only install. interview-prep 1.1.0
+(`854e29b`, owner-approved) names company research, practice answers, mock interviews and
+sounding experienced in a skill the user lacks, and says to load the skill rather than
+answer from general knowledge. Family-only install 9/9 (controls 3/3); post-deploy family
+routing: interview-prep 11/11 positive, 13/13 negative. The full 319-skill install reached
+3/9, kept open as "interview-prep still under-triggers in a heavily loaded install".
+Evidence: `docs/evals/trigger-2026-10-18-interview-prep/`,
+`docs/evals/routing-2026-10-18-interview-prep-desc/`. Original status: with user hooks
+disabled, 3 of 6 outcome-eval prompts ("Prep me for the Globex interview ... make me sound
+like I have", "Research Globex before my interview", "Mock interview me for the behavioral
+panel for my Globex interview") were answered by the base model without loading the skill
+(one sample each).
 
 ### (2026-10-18) Gate comma fix not deployed
 

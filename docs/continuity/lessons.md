@@ -4,6 +4,24 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, Naming the task in a description is not enough when the model can just answer
+
+**What happened:** three interview-prep prompts loaded the skill 1/9 in a natural-trigger
+probe. A description that named those exact tasks ("research the company", "a mock
+interview") reached only 3/9. Adding one clause, "load it rather than answering from
+general knowledge, which can script experience they lack", reached 9/9 in a family-only
+install, with no new false positives in the routing evals. In the 319-skill install the
+same text reached only 3/9.
+
+**Lesson:** for short asks the model feels it can answer itself, the description has to
+say why answering directly is wrong, not just list the task. Measure in an environment that
+looks like the user's: `--setting-sources project` with only the family in `.claude/skills`
+gives a clean public-like install; the owner's full install is a separate, harder case.
+
+**How to apply:** before tuning a description, probe the missed prompts with several
+samples and the normal tool set in both environments; change one thing per draft; keep
+each draft's results.
+
 ## 2026-10-18, A Skill-only routing runner overstates triggering
 
 **What happened:** the live routing run gave interview-prep 16/16. The first live outcome

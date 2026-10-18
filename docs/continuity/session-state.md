@@ -2,7 +2,46 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (gate comma fix deployed to 24 installs + Q from `3527358`; first live outcome-eval run: interview-prep 6 evals, `f02767a`; gate trailing-comma fix `cec398d`; earlier the same day: live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 interview-prep 1.1.0: natural-trigger fix (`854e29b`, evidence `990a129`)
+
+- Measured first: `docs/evals/trigger-2026-10-18-interview-prep/probe.py` (reuses
+  `tools/run_outcome_evals.py` loading, fixtures, normal tool allow-list, hooks off; turn 1
+  only; killed at the first Skill call), 3 samples per prompt. Two environments: "full"
+  (this machine, 319 skills) and "family" (`--setting-sources project`, cwd under a folder
+  whose `.claude/skills` holds only the 8 members; 21 skills, no plugins/MCP = closest to a
+  public install). Old description, cases 2/3/4: full 0/3, 0/3, 1/3; family 0/3, 0/3, 1/3;
+  family controls 1, 5, 6: 3/3. Stable miss, not caused by listing size. Base-model case-2
+  answers still scripted unverified experience ("I've built dashboards in [tool]").
+- Draft v1 (names research and mock interviews, "Use whenever ... even a quick ask"):
+  family 0/3, 1/3, 2/3. Draft v2 (adds "load it rather than answering from general
+  knowledge, which can script experience they lack"; gate sentence folded into "honest gap
+  answers checked by the family anti-fabrication gate"; 1017 chars; do-not-use clauses
+  unchanged): family 3/3, 3/3, 3/3, controls 3/3. Owner approved v2.
+- Shipped `854e29b`: interview-prep 1.1.0 (SKILL.md description, _meta version + notes,
+  member and root CHANGELOG). CI command 383 passed; validate.py 0 errors; CI "Tests" run
+  39163256084 green. Orchestrator description unchanged (it already routes interview prep).
+- Deployed `854e29b`: `E:\tmp\jh-interview\deploy_installs.py` (rollback
+  `E:\Git\job-hunter-installs-pre-854e29b.zip`): 309 files byte-match across 24 installs,
+  installed SKILL.md equals the repo in all 3 interview-prep installs, `_meta` 1.1.0. The
+  installer again copied `scripts/__pycache__/` into 21 installs; stripped by hand, 0 left.
+  Q: `E:\tmp\jh-interview\reship_q.py` (rollback `E:\Git\job-hunter-q-catalog-pre-854e29b.zip`):
+  34 zips, 761 entries byte-verified; Q interview-prep zip SKILL.md equals the repo;
+  `update-catalog.py` wrote 91 skills, job-hunter `in-sync` at `854e29b` (same unrelated
+  social-media-plugin drift warning).
+- After deploy (`990a129`): full install 1/3, 0/3, 2/3 = 3/9 (was 1/9). A self-report check
+  in the full environment quoted the whole 1.1.0 description from the listing, so it is
+  not truncated there; the gap is probably the larger context. On this machine the ts-judge
+  hook routes these prompts anyway. Family routing evals (86 queries, after deploy,
+  `docs/evals/routing-2026-10-18-interview-prep-desc/`): interview-prep 11/11 positive,
+  13/13 negative; overall 68/72 strict, 71/72 lenient; misses 29-31 same as 2026-10-12; 43
+  resampled 3x (job-hunter, resume-tailor, resume-tailor) = noise; 21 errored
+  `error_max_turns` (same subtype on 2026-10-12).
+- Cost (CLI-reported, completed calls only): probes $5.59 + $1.56, listing checks $0.79,
+  routing $3.54 plus 4 small reruns; early-stopped calls report none.
+- Not done: no tested routing/probe mode with the normal tool set in `tools/` (the probe is
+  an evidence script); heavily loaded installs still under-trigger (both open questions).
 
 ## 2026-10-18 gate comma fix deployed (source `3527358`, contains `cec398d`)
 
