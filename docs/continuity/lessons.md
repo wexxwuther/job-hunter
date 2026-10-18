@@ -4,6 +4,18 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, A strict trigger rate hides correct routing in a family
+
+**What happened:** the family-only probe for the other 7 members scored job-hunter 6/15 and
+career-profile 3/9, which reads as badly under-triggering. All 9 job-hunter misses loaded the
+member the job-hunter description tells single-step asks to use, and 5 of 6 career-profile
+misses loaded the orchestrator for prompts that literally say "job-hunter". Only 5/102
+samples loaded no skill at all.
+
+**Rule:** report three numbers per member: expected skill, another family member (check
+whether that route is what the descriptions ask for), and no skill. Only "no skill" is an
+under-trigger by itself; the middle column is an eval/description question.
+
 ## 2026-10-18, Fixture replays passed and 21/21 mutants died; one live call still found a bug
 
 **What happened:** `tools/run_trigger_probe.py` had 14 passing fixture tests and 21/21

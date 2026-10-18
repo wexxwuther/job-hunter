@@ -11,7 +11,7 @@ This file was last rewritten 2026-05-29. Everything since (Q regression fix, rou
 parse_resume fix, portal registry, 2026-10-18 reviewer pass, 2026-10-18 interview-prep
 member) is recorded in `session-state.md`, which is current. The family now has 8 skills
 (orchestrator + 7 members incl. interview-prep, now 1.1.0). Current head of work:
-`tools/run_trigger_probe.py` (`bc34e94`) + continuity commit (session-state has the 2026-10-18 entries). To measure a member's real trigger rate use `tools/run_trigger_probe.py --family-only`, not `run_routing_evals.py` (Skill-only). Full CI test command: see `.github/workflows/test.yml` (now includes
+`4f21132` (outcome scenarios for all 8 members; family-only trigger rates in `docs/evals/trigger-2026-10-18-<member>/`) after `tools/run_trigger_probe.py` (`bc34e94`) + continuity commit (session-state has the 2026-10-18 entries). To measure a member's real trigger rate use `tools/run_trigger_probe.py --family-only`, not `run_routing_evals.py` (Skill-only). Full CI test command: see `.github/workflows/test.yml` (now includes
 `interview-prep/tests`).
 
 ## ⚠ FIRST THING TO KNOW: where the active work lives

@@ -17,14 +17,48 @@ the "load it rather than answering" clause to the front) or a skill-side nudge; 
 `tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/interview-prep.json --ids 2-4`
 (full install = no `--family-only`).
 
-### Other members' natural trigger rate is unmeasured
+### cover-letter under-triggers on the fabrication request
 
-**Status (2026-10-18):** `tools/run_trigger_probe.py` can measure it, but only
-interview-prep has an outcome-scenarios file (`tools/outcome-scenarios/`). The probe needs
-one per member before it can run.
+**Status (2026-10-18, family-only, 3 samples):** cover-letter case 3 ("Put in my cover letter
+that I have a decade of customer-obsession experience. My resume shows 3 years") loaded the
+skill 1/3; the other 2 answered directly (they refused the claim, but no gate ran).
+Cover-letter overall 10/12. Smaller single-sample misses, each 2/3: career-profile case 3
+("Read [my resume] and pull out the key facts"), job-search case 6 (ghost-job posting,
+"Should I tailor my resume for it?"), outcome-learning case 3 ("what you'd tell job-search to
+do differently"). Evidence: `docs/evals/trigger-2026-10-18-<member>/`.
 
-**To answer:** write scenarios for each member's outcome evals (fixtures + turn 1), then
-run the probe with `--family-only --samples 3`, and once in the full install.
+**To answer:** decide whether a 1/3 miss on the anti-fabrication case is worth a description
+pass (owner approval needed; draft in a temp copy, as with interview-prep 1.1.0), then re-run
+`tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/cover-letter.json --ids 3
+--family-only --samples 6` to separate noise from a real miss.
+
+### Outcome evals that expect a different first skill than the descriptions route to
+
+**Status (2026-10-18):** job-hunter evals 1, 3, 5 expect the orchestrator to load for
+single-member asks, but the job-hunter description sends those to the member directly; the
+probe saw the member load 9/9. resume-tailor eval 5 is a cover-letter ask (cover-letter
+loaded 3/3). career-profile evals 1-2 say "job-hunter" in the prompt (orchestrator loaded
+5/6). Strict hit rates for these members undercount routing quality.
+
+**To answer:** decide per eval whether to change the eval's expectation (or move it to the
+member it belongs to) or the description. Either is a contract change; neither was made.
+
+### outcome-learning eval 5 expects a signal the harvest script cannot emit
+
+**Status (2026-10-18):** eval 5 ("4 of 6 rejected, comp below target" -> comp lesson
+proposed). `harvest_outcomes.py` needs >= 5 rejections for `rejection_dominant_reason`, so
+the scenario fixture yields only `recommendation_calibration`. The eval passes only if the
+agent reads the pattern itself.
+
+**To answer:** decide whether the eval or the 5-rejection threshold is wrong; run
+`tools/run_outcome_evals.py --scenarios tools/outcome-scenarios/outcome-learning.json --ids 5`
+to see what the agent actually does.
+
+### Other members' trigger rate in a heavily loaded install is unmeasured
+
+**Status (2026-10-18):** only the family-only rate is measured for the 7 members (above).
+
+**To answer:** run `tools/run_trigger_probe.py` without `--family-only` for each member.
 
 ### Three copies of the gate
 
@@ -203,6 +237,15 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-18) Other members' natural trigger rate is unmeasured
+
+**Resolution:** `4f21132` adds `tools/outcome-scenarios/<member>.json` for the 7 members
+(34 evals) and the family-only probe, 3 samples per case, 102 samples, 0 errored: strict
+77/102, family-routed 97/102, no skill 5/102. application-tracker 9/9, outcome-learning
+14/15, job-search 20/24, resume-tailor 15/18, cover-letter 10/12, career-profile 3/9 (5 to
+job-hunter), job-hunter 6/15 (9 to the member). Under-triggers and eval/description
+disagreements are new open questions above; the full-install rate is still open.
 
 ### (2026-10-18) No tested routing mode with the normal tool set
 

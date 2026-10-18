@@ -2,7 +2,46 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 outcome scenarios + family-only trigger rates for the other 7 members (`4f21132`)
+
+- New `tools/outcome-scenarios/<member>.json` for job-hunter (5 cases), career-profile (3),
+  job-search (8), resume-tailor (6), cover-letter (4), application-tracker (3),
+  outcome-learning (5): 34 evals, fictional people/companies, `.example` URLs, ASCII. Generated
+  by `E:\tmp\jh-scenarios\gen.py` (outside the repo; the JSON files are the record). Eval
+  parentheticals became files; hypothetical prompts (job-search 3, 5) became the user's own
+  ask. Text files stand in where an eval names a DOCX/PDF (career-profile 3, job-search 1,
+  resume-tailor, application-tracker 3), so the DOCX parse path is not exercised. Tracker
+  dates are fixed relative to 2026-10-18 and go stale with time.
+- Test `test_member_scenarios_cover_every_outcome_eval[<member>]` (7 params): ids match the
+  evals file, skill name matches, turns non-empty, file is ASCII. 2 mutants (dropped case,
+  non-ASCII turn) both failed it. CI command 404 passed (was 397).
+- Dry-run of all 7 (`--family-only --samples 3 --dry-run`): 34 cases, 8 members, nothing
+  written. `claude auth status`: claude.ai, Max plan. Estimate stated first: 102 calls,
+  ~$10-30 API-equivalent, ceiling $153. Actual CLI-reported floor $2.00 (most calls stopped
+  at the Skill call). 7 runs in parallel; 102 samples, 0 errored; model claude-opus-4-8[1m],
+  21 skills listed.
+- Results (`docs/evals/trigger-2026-10-18-<member>/` report.md, results.json, notes.md):
+
+  | member | strict (expected skill) | another family member | no skill (answered) |
+  |---|---|---|---|
+  | job-hunter | 6/15 | 9 (single-member asks went to the member) | 0 |
+  | career-profile | 3/9 | 5 (job-hunter; prompts say "job-hunter") | 1 (case 3) |
+  | job-search | 20/24 | 3 ("Find me a job" -> job-hunter) | 1 (case 6) |
+  | resume-tailor | 15/18 | 3 (case 5 is a cover-letter ask -> cover-letter) | 0 |
+  | cover-letter | 10/12 | 0 | 2 (case 3, the "decade" fabrication ask) |
+  | application-tracker | 9/9 | 0 | 0 |
+  | outcome-learning | 14/15 | 0 | 1 (case 3) |
+
+  Strict 77/102; family-routed 97/102; no skill 5/102. The 5 base-model answers were honest
+  (both cover-letter misses refused the inflated claim), but no family gate ran in them.
+- Found while building fixtures: outcome-learning eval 5 ("4 of 6 rejected, comp below
+  target" -> a comp lesson) cannot come from `harvest_outcomes.py`, which reports
+  `rejection_dominant_reason` only from 5 rejections; the fixture yields
+  `recommendation_calibration` only (noted in the scenario). Not changed.
+- No SKILL.md changed. Not done: full-install probe (no `--family-only`) for these members;
+  live outcome evals (`run_outcome_evals.py`) for them.
 
 ## 2026-10-18 natural-trigger probe promoted to a tested tool (`bc34e94`)
 
