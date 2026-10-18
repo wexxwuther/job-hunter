@@ -5,14 +5,6 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ## Active (2026-10-18)
 
-### Live routing check for interview-prep not run (CLI not logged in)
-
-**Status:** `run_routing_evals.py --ids 62,63,73-86` failed on every call with "Not logged
-in - Please run /login". Only the proxy check exists (18/18,
-`docs/evals/interview-prep-proxy-2026-10-18/`). Needed: `claude` CLI logged in, then re-run
-those ids (~$0.4-0.9 per query). Since `24eea6a` the runner exits 1 and lists errored
-calls instead of scoring them, and a rerun of the same `--out-dir` retries them.
-
 ### Three copies of the gate
 
 **Status:** `verify_no_fabrication.py` is now bundled in resume-tailor (canonical),
@@ -180,6 +172,13 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-18) Live routing check for interview-prep not run (CLI not logged in)
+
+**Resolution:** user logged the CLI in; `run_routing_evals.py --ids 62,63,73-86` (runner
+`24eea6a`) gave 16/16 as expected on model claude-opus-4-8[1m]: positive strict 11/11, negative 5/5, 0 errored; CLI-reported cost $1.46 for the 5 completed negatives, 11 early-stopped positives not reported
+(commit `9fd33e3`, `docs/evals/routing-2026-10-18-interview-prep/`). All negatives answered with no skill.
+One sample per query.
 
 ### (2026-10-18) Routing runner scores CLI errors as "(none)"
 

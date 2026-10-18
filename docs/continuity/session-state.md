@@ -2,7 +2,7 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (routing runner errored-case fix `24eea6a`; interview-prep v1.0.0 added as the 8th member, commit `c01d73c`; deployed to installs + Q)
+**Last updated:** 2026-10-18 (live interview-prep routing run 16/16; routing runner errored-case fix `24eea6a`; interview-prep v1.0.0 added as the 8th member, commit `c01d73c`; deployed to installs + Q)
 
 ## 2026-10-18 routing runner: CLI errors are errors (commit `24eea6a`)
 
@@ -13,8 +13,12 @@
 - Tests: 2 new in `tools/test_run_routing_evals.py` replay the real not-logged-in stream
   (from `E:\tmp\jh-interview\routing-live\raw\062.jsonl`) through `main()` with a fake CLI process;
   both failed on the old runner (exit 0; errored raw reused). CI command: 367 passed.
-- Still owed: the live interview-prep routing run (`--ids 62,63,73-86`, dry-run numbering
-  checked); `claude auth status` still reported `loggedIn: false` on 2026-10-18.
+- Live interview-prep routing run, after the user logged the CLI in: `--ids 62,63,73-86`
+  (dry-run numbering checked; interview-prep evals #11 and #12 dedupe into cases 19 and 56,
+  so they are not in these ids). 16/16 as expected on model claude-opus-4-8[1m]: positive strict 11/11, negative 5/5, 0 errored; CLI-reported cost $1.46 for the 5 completed negatives, 11 early-stopped positives not reported.
+  Raw transcripts spot-checked (real Skill tool calls). Results (commit `9fd33e3`) in
+  `docs/evals/routing-2026-10-18-interview-prep/` (report.md + results.json; raw/ and cwd/
+  not committed, same as earlier runs); proxy report links to it.
 
 ## 2026-10-18 interview-prep, 8th family member (commit `c01d73c`)
 
@@ -55,7 +59,7 @@
   34 zips, 761 entries byte-verified, INSTALL.md / NOTE-READ-ME-FIRST.txt rewritten for 8
   skills (ASCII), skill.json chain.members has interview-prep; update-catalog shows
   job-hunter in-sync.
-- Not done: live routing run (needs `claude` logged in); outcome evals not run in a real
+- Not done: (live routing run since done: 16/16, see the runner entry above); outcome evals not run in a real
   harness; mock mode not exercised live; family version stays 6.0.0 (same precedent as
   cover-letter); no persistent story bank (see rejected-ideas).
 - TypeSafe fit: declined (requirement-to-line matching is advisory and user-confirmed;
