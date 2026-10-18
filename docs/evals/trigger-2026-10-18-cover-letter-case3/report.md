@@ -15,7 +15,7 @@ change fix it without hurting the other cases?
   (resume.md) shows 3 years in support."
 - Draft: the same tool run from a temp clone of the repo (outside the repo) whose
   `cover-letter/SKILL.md` held the candidate description. The repo's `cover-letter/SKILL.md`
-  was NOT changed: a description change needs owner approval.
+  was not changed until the owner approved draft v1 (shipped as cover-letter 1.2.0, `123bc51`).
 - Cost (CLI-reported floor; calls stopped at a Skill call report none): $1.37, all from
   the 3 baseline misses. Auth: claude.ai Max subscription.
 
@@ -43,14 +43,20 @@ change fix it without hurting the other cases?
   - To fit the limit it shortens the output and handoff wording and replaces the em dash in
     "It never auto-sends - it drafts; the user sends" with "It drafts; the user sends."
 
-## Not measured here
+## After deploy (1.2.0 installed, `123bc51`; owner-approved 2026-10-18)
 
-- Collisions: no routing run on the draft. Its new "change a cover letter" and "add a
-  claim, skill, or amount of experience" wording could pull resume edits or other members'
-  prompts. After owner approval, run the family routing evals (positives and negatives) as
-  was done for interview-prep (`docs/evals/routing-2026-10-18-interview-prep-desc/`) before
-  deploying.
-- The full-install environment (this machine's ~319 skills) was not probed.
+| env | case 1 | case 2 | case 3 | case 4 |
+|---|---|---|---|---|
+| family-only (repo at `123bc51`) | 3/3 | 3/3 | **3/3** | 3/3 |
+| full install (319 skills, hooks off) | 3/3 | 3/3 | **3/3** | 3/3 |
+
+- 24/24, $0.00 CLI-reported (every call stopped at the Skill call). The full install had
+  not been probed for cover-letter before.
+- Collisions: family routing evals after the deploy (86 queries, full environment):
+  cover-letter 6/6 positives, resume-tailor positives all stayed on resume-tailor,
+  negatives 13/13. See `docs/evals/routing-2026-10-18-cover-letter-desc/`.
+- The routing runner loads the installed copies, so it could only measure the new text
+  after the deploy (same order as interview-prep 1.1.0); the rollback archives were ready.
 
 ## Files
 
@@ -58,4 +64,6 @@ change fix it without hurting the other cases?
 - `report-draft-v1.md`, `results-draft-v1.json`: draft v1, case 3 x6.
 - `report-draft-v1-ctl.md`, `results-draft-v1-ctl.json`: draft v1, cases 1, 2, 4 x3.
 - `draft-v1-description.txt`, `draft-v1-block.txt`: the candidate description.
+- `report-after-family.md`, `results-after-family.json`, `report-after-full.md`,
+  `results-after-full.json`: cases 1-4 x3 after the deploy.
 - Raw stream transcripts and the temp clone: outside the repo (`E:\tmp\jh-cl3\`).
