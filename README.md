@@ -10,7 +10,7 @@
 [![Trigger accuracy](https://img.shields.io/badge/trigger_accuracy-28%2F28-brightgreen)](job-hunter/evals/trigger-evals.json)
 [![Unit tests](https://img.shields.io/badge/unit_tests-226%2F226-brightgreen)](.)
 
-> **v6.0.0 is now a skill family.** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to five focused member skills — so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
+> **v6.0.0 is now a skill family.** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to seven focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
 >
 > | Skill | Role | What it does |
 > |---|---|---|
@@ -18,7 +18,9 @@
 > | **career-profile** | profile-intake | Captures your North-Star profile (5 questions) + parses your resume |
 > | **job-search** | search | Finds, dedupes, and scores postings 1-5 across 4 search tiers |
 > | **resume-tailor** | resume-tailor | Tightens (Mode A) or tailors (Mode B) your resume, with the verify-no-fabrication gate |
+> | **cover-letter** | cover-letter | Drafts a posting-tailored cover letter from your real facts, through the same gate |
 > | **application-tracker** | tracker | Tracks applications + drafts stale-application follow-ups |
+> | **interview-prep** | interview-prep | Preps you for a scheduled interview: stage questions, STAR answers from your real experience, gap answers, mock interview |
 > | **outcome-learning** | learning-loop | Learns from your outcomes; proposes opt-in lessons |
 >
 > Install them together with the family installer ([Install](#install) below).
@@ -195,8 +197,8 @@ No. It produces the tailored resume + cover letter + application tracker. You su
 **Does it send my resume or profile anywhere?**
 No. Your resume, your `.job-hunter-profile.md`, and every tailored output live in your workspace. The skill has no telemetry, no phone-home, no required API keys, and no required network calls beyond what your agent already does to search the web. See [SECURITY.md](SECURITY.md) for the full trust model.
 
-**Why isn't there an interview-prep feature?**
-Deliberately out of scope. Interview prep is a different workflow with different inputs and a different success criterion. If you want it, run a separate interview-prep skill alongside this one.
+**Does it help me prepare for interviews?**
+Yes, since 2026-10-18, through the separate `interview-prep` member. When an application reaches the interview stage, it reads the tracker entry plus the resume and cover letter you actually sent, and builds a prep pack for that stage (recruiter screen, hiring manager, skills test, panel, case, final round): likely questions mapped to your real examples in STAR form, honest answers for gaps (it will not script experience you do not have), questions to ask, and an optional mock interview. Every answer goes through the same `verify_no_fabrication.py` gate as your resume. It is for candidates; it does not write interview plans for hiring managers.
 
 **Does the skill learn from my interactions?**
 Yes, but entirely locally and opt-in. After 5+ closed-loop application outcomes, the skill surfaces patterns it noticed (e.g., "4 of 5 rejections cite comp, want me to remember this?") and asks you to confirm before adding any lesson. Confirmed lessons live in `<your-workspace>/.job-hunter/LESSONS.md` and adjust how sub-scores are graded for you. The scoring weights themselves stay constant. Nothing is uploaded or used for training. See the [learning loop](#the-learning-loop-v5) section above and `references/learning-loop-guide.md`.

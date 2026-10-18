@@ -10,12 +10,13 @@
     "resume-tailor",
     "application-tracker",
     "outcome-learning",
-    "cover-letter"
+    "cover-letter",
+    "interview-prep"
   ],
   "baseline_score": "100.0",
   "current_score": "100.0",
   "trigger_accuracy": 1.0,
-  "last_iteration": "2026-05-28",
+  "last_iteration": "2026-10-18",
   "last_review_due": "2026-08-26",
   "signals_observed": {
     "trigger_misses": 0,

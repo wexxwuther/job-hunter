@@ -9,8 +9,8 @@ description: >
   withdrawn). Maintains a small tracker.json and renders a self-contained ApplicationTracker.html
   with sortable rows, status pills, and (when scores are present) a colored score badge. Do not
   use for tailoring a resume (use resume-tailor), writing a cover letter (use cover-letter),
-  or finding or
-  scoring job postings (use job-search). It never auto-sends email — it drafts; the user sends.
+  preparing for an interview (use interview-prep), or finding or scoring job postings (use
+  job-search). It never auto-sends email - it drafts; the user sends.
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the tracker member of the job-hunter family; reads the shared .job-hunter/ workspace and postings.json if present and degrades gracefully if absent.
 metadata:
@@ -41,8 +41,8 @@ follow-up communication**:
 - "Mark the Acme application as interviewing" / "update my tracker"
 
 Do **not** use this skill for tailoring or optimizing a resume (use
-**resume-tailor**), writing a cover letter (use **cover-letter**), or for finding or scoring job
-postings (use **job-search**). For an end-to-end hunt that spans several of
+**resume-tailor**), writing a cover letter (use **cover-letter**), preparing for an interview
+(use **interview-prep**), or for finding or scoring job postings (use **job-search**). For an end-to-end hunt that spans several of
 these, the **job-hunter** orchestrator routes across the family.
 
 ## Inputs (workspace contract)

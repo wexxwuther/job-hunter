@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Live family-routing evals for the job-hunter family.
 
-Runs every unique trigger-eval query from the 7 members through the real
+Runs every unique trigger-eval query from the 8 members through the real
 `claude -p` CLI (the user's actual environment: all installed skills compete)
 and records which skill Claude actually invokes, from the stream-json tool
 calls, not from self-report.
@@ -37,7 +37,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 MEMBERS = ("job-hunter", "career-profile", "job-search", "resume-tailor",
-           "cover-letter", "application-tracker", "outcome-learning")
+           "cover-letter", "application-tracker", "outcome-learning", "interview-prep")
 ORCHESTRATOR = "job-hunter"
 ALLOWED_TOOLS = ["Skill"]
 DISALLOWED_TOOLS = ["Read", "Glob", "Grep", "Bash", "Write", "Edit", "NotebookEdit",

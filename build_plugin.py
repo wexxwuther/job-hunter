@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Generate the Claude Code plugin tree from the canonical family members.
 
-The 6 member skill dirs (job-hunter/, career-profile/, ...) are the SINGLE SOURCE
+The 8 member skill dirs (job-hunter/, career-profile/, ...) are the SINGLE SOURCE
 OF TRUTH. This script assembles them into the plugin layout Claude Code expects:
 
     plugin/                              <- marketplace root
       .claude-plugin/marketplace.json    <- committed (one entry -> ./job-hunter)
       job-hunter/                        <- the plugin
-        .claude-plugin/plugin.json       <- committed (manifest, 6 skills bundled)
+        .claude-plugin/plugin.json       <- committed (manifest, 8 skills bundled)
         skills/<member>/...              <- GENERATED copies (gitignored)
 
 Run:  python build_plugin.py
@@ -24,7 +24,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent
 MEMBERS = ["job-hunter", "career-profile", "job-search", "resume-tailor",
-           "cover-letter", "application-tracker", "outcome-learning"]
+           "cover-letter", "application-tracker", "outcome-learning", "interview-prep"]
 PLUGIN_INNER = REPO / "plugin" / "job-hunter"
 SKILLS = PLUGIN_INNER / "skills"
 STRIP_DIRS = ["tests", "docs/superpowers"]

@@ -2,6 +2,30 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## interview-prep member (2026-10-18, family v6.0.0 line)
+
+Signal: a competitive review of MadsLorentzen/ai-job-search (2026-10-18) ranked its
+`/interview` command as the most useful idea left after the reviewer pass, and interview
+prep had been a deferred candidate since v4 (sibling-collision risk with generic interview
+skills).
+
+What shipped:
+- **`interview-prep`, the 8th family skill.** It reads one tracked application (the
+  tracker entry plus the resume and cover letter that were actually sent) and the user's
+  confirmed lessons, and builds a stage-specific prep pack: likely questions mapped to the
+  user's real lines as STAR scaffolds, gap bridges that never claim missing experience,
+  questions to ask, and research that must carry a source the agent found itself (links
+  inside the posting are rejected). Optional mock interview. Every answer line goes through
+  the bundled `verify_no_fabrication.py` (byte-identical to resume-tailor's).
+- Description written for the candidate side only, with do-not-use clauses for hiring-side
+  interview plans, media interviews, thank-you notes, salary negotiation, resumes, and cover
+  letters; 12 trigger evals (5 positive, 7 negative incl. those collisions), 6 outcome evals.
+- Wired in: orchestrator routing and description, all siblings' `sister_skills`, the
+  workspace contract (re-synced into every member, now guarded by a byte-equality test),
+  application-tracker's do-not-use clause, both installers, `build_plugin.py`, the plugin
+  manifests, the routing-eval tooling, CI, and the README (which also gained the missing
+  cover-letter row).
+
 ## v6.0.0 (2026-05-28)
 
 The big one: job-hunter is now a **skill family**, not a single monolith.

@@ -10,7 +10,8 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent.parent
 MEMBERS = ["job-hunter", "career-profile", "job-search",
-           "resume-tailor", "cover-letter", "application-tracker", "outcome-learning"]
+           "resume-tailor", "cover-letter", "application-tracker", "outcome-learning",
+           "interview-prep"]
 SIBLINGS = [m for m in MEMBERS]
 
 
@@ -37,6 +38,15 @@ def test_every_member_ships_the_workspace_contract():
     for m in MEMBERS:
         contract = REPO / m / "references" / "workspace-contract.md"
         assert contract.exists(), f"{m} is missing references/workspace-contract.md (won't resolve post-install)"
+
+
+def test_every_members_contract_copy_matches_the_orchestrators():
+    """The orchestrator owns the canonical contract; a member copy that lags it
+    documents a family without the newest member (re-copy after every edit)."""
+    canonical = (REPO / "job-hunter" / "references" / "workspace-contract.md").read_bytes()
+    stale = [m for m in MEMBERS
+             if (REPO / m / "references" / "workspace-contract.md").read_bytes() != canonical]
+    assert not stale, f"workspace-contract.md copies out of sync with job-hunter's: {stale}"
 
 
 def test_each_member_skill_md_has_scripts_it_references():

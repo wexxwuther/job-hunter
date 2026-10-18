@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 # job-hunter family — one-shot installer for macOS / Linux
 #
-# Installs all 7 family skills (orchestrator + 6 members) into each supported
+# Installs all 8 family skills (orchestrator + 7 members) into each supported
 # agent-harness skills directory:
 #   ~/.claude/skills/<member>/     (Claude Code)
 #   ~/.agents/skills/<member>/     (OpenAI Codex AND OpenClaw — shared path)
 #   ~/.hermes/skills/<member>/     (Hermes Agent)
 #
 # Members: job-hunter (orchestrator), career-profile, job-search,
-#          resume-tailor, cover-letter, application-tracker, outcome-learning.
+#          resume-tailor, cover-letter, application-tracker, outcome-learning,
+#          interview-prep.
 #
-# TWO WAYS TO RUN — both install all 7 skills into all harnesses:
+# TWO WAYS TO RUN - both install all 8 skills into all harnesses:
 #   1. OFFLINE (from the unzipped family bundle — no GitHub needed):
 #        unzip job-hunter-FAMILY-installer-only-v6.0.0.zip
 #        bash job-hunter/install/install.sh
@@ -24,12 +25,12 @@ BRANCH="main"
 TMPDIR="$(mktemp -d)"
 trap 'rm -rf "$TMPDIR"' EXIT
 
-MEMBERS=(job-hunter career-profile job-search resume-tailor cover-letter application-tracker outcome-learning)
+MEMBERS=(job-hunter career-profile job-search resume-tailor cover-letter application-tracker outcome-learning interview-prep)
 HARNESS_ROOTS=(".claude/skills" ".agents/skills" ".hermes/skills")
 
 # --- Find the source: prefer LOCAL (running from the unzipped bundle), else clone. ---
 # When run from the bundle, this script is at <root>/job-hunter/install/install.sh, so the
-# family root (the dir that holds the 6 member dirs) is the script dir's parent.
+# family root (the dir that holds the member dirs) is the script dir's parent.
 SRC_ROOT=""
 if [ -n "${BASH_SOURCE:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -75,7 +76,7 @@ for member in "${MEMBERS[@]}"; do
 done
 
 echo ""
-echo "Done. Installed the job-hunter family (7 skills) to ~/.claude, ~/.agents (Codex+OpenClaw), and ~/.hermes."
+echo "Done. Installed the job-hunter family (8 skills) to ~/.claude, ~/.agents (Codex+OpenClaw), and ~/.hermes."
 echo "Restart your agent and try:"
 echo "  \"Help me run my whole job search.\"   (orchestrator routes to the right members)"
 echo "  \"Just tighten my resume.\"            (routes straight to resume-tailor)"

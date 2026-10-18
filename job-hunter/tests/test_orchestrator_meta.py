@@ -7,7 +7,7 @@ META = ROOT / "_meta.json"
 SKILL = ROOT / "SKILL.md"
 
 MEMBERS = ["career-profile", "job-search", "resume-tailor",
-           "cover-letter", "application-tracker", "outcome-learning"]
+           "cover-letter", "application-tracker", "outcome-learning", "interview-prep"]
 
 
 def test_orchestrator_declares_family():

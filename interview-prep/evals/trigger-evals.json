@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "query": "I have an interview with Globex on Thursday for the data analyst job I applied to. Help me prepare.",
+    "should_trigger": true,
+    "rationale": "Canonical case: a scheduled interview on a tracked application."
+  },
+  {
+    "id": 2,
+    "query": "Prep me for my phone screen tomorrow for the nursing position I applied for",
+    "should_trigger": true,
+    "rationale": "Recruiter/phone screen stage, non-tech role (generalist family)."
+  },
+  {
+    "id": 3,
+    "query": "Run a mock interview for my hiring manager round at Acme",
+    "should_trigger": true,
+    "rationale": "Mock-interview mode for a candidate."
+  },
+  {
+    "id": 4,
+    "query": "What questions will they ask in my panel interview for the welding supervisor job I applied to?",
+    "should_trigger": true,
+    "rationale": "Likely-questions request for a behavioral panel, trades role."
+  },
+  {
+    "id": 5,
+    "query": "Help me build STAR stories from my resume for my interview next week for the teaching job",
+    "should_trigger": true,
+    "rationale": "STAR examples grounded in the submitted resume are this member's core output."
+  },
+  {
+    "id": 6,
+    "query": "I'm the hiring manager. Write interview questions and a scorecard to evaluate candidates for our analyst opening",
+    "should_trigger": false,
+    "rationale": "Hiring side (interviewer prep), not the candidate. Collision guard against generic HR interview skills."
+  },
+  {
+    "id": 7,
+    "query": "Write a thank-you note to the interviewer from yesterday's phone screen",
+    "should_trigger": false,
+    "rationale": "Post-interview thank-you drafts belong to application-tracker."
+  },
+  {
+    "id": 8,
+    "query": "Mark the Acme application as interviewing",
+    "should_trigger": false,
+    "rationale": "Tracker status changes belong to application-tracker; interview-prep never writes tracker.json."
+  },
+  {
+    "id": 9,
+    "query": "Help me negotiate the salary on my offer from Globex",
+    "should_trigger": false,
+    "rationale": "Salary negotiation is out of scope for this member and the family."
+  },
+  {
+    "id": 10,
+    "query": "Prepare questions for a podcast interview I'm hosting next week",
+    "should_trigger": false,
+    "rationale": "Media/podcast interviews are not job interviews."
+  },
+  {
+    "id": 11,
+    "query": "Tailor my resume for this product manager role at Stripe",
+    "should_trigger": false,
+    "rationale": "Resume tailoring is resume-tailor's job."
+  },
+  {
+    "id": 12,
+    "query": "What's a good recipe for banana bread?",
+    "should_trigger": false,
+    "rationale": "Negative control - unrelated to job hunting."
+  },
+  {
+    "id": 13,
+    "query": "Help me practice answering 'tell me about yourself' for my interview at Acme on Monday",
+    "should_trigger": true,
+    "rationale": "Answer practice for a scheduled interview (mock-mode territory)."
+  },
+  {
+    "id": 14,
+    "query": "I got a second-round interview at the hospital I applied to. What should I ask them?",
+    "should_trigger": true,
+    "rationale": "Questions to ask is a core part of the prep pack; later-round stage."
+  },
+  {
+    "id": 15,
+    "query": "Explain how to run a structured behavioral interview when I'm the interviewer",
+    "should_trigger": false,
+    "rationale": "Interviewer technique, hiring side. Collision guard."
+  },
+  {
+    "id": 16,
+    "query": "I'm interviewing contractors to remodel my kitchen. What should I ask them?",
+    "should_trigger": false,
+    "rationale": "'Interviewing' outside a job search; negative control for the word alone."
+  }
+]

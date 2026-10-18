@@ -21,6 +21,13 @@
     {"query": "What's a good recipe for banana bread?", "expected": [], "allow_none": true, "why": "off-domain"},
     {"query": "Find me senior backend engineer roles in Seattle, $180k+.", "expected": ["job-search"], "allow_none": false, "why": "job search (trailing period variant)"},
     {"query": "Show me applications I should follow up on and draft check-in emails.", "expected": ["application-tracker"], "allow_none": false, "why": "follow-ups + check-in drafts"},
-    {"query": "How do I negotiate salary when I get an offer?", "expected": [], "allow_none": true, "why": "salary negotiation, out of family scope"}
+    {"query": "How do I negotiate salary when I get an offer?", "expected": [], "allow_none": true, "why": "salary negotiation, out of family scope"},
+    {"query": "I'm the hiring manager. Write interview questions and a scorecard to evaluate candidates for our analyst opening", "expected": [], "allow_none": true, "why": "hiring side; interview-prep#6 is the collision guard (candidate prep only)"},
+    {"query": "Write a thank-you note to the interviewer from yesterday's phone screen", "expected": ["application-tracker"], "allow_none": false, "why": "post-interview thank-you drafts (draft_followup.py thank_you)"},
+    {"query": "Mark the Acme application as interviewing", "expected": ["application-tracker"], "allow_none": false, "why": "tracker status change; interview-prep never writes tracker.json"},
+    {"query": "Help me negotiate the salary on my offer from Globex", "expected": [], "allow_none": true, "why": "salary negotiation, out of family scope"},
+    {"query": "Prepare questions for a podcast interview I'm hosting next week", "expected": [], "allow_none": true, "why": "media interview, not a job interview"},
+    {"query": "Explain how to run a structured behavioral interview when I'm the interviewer", "expected": [], "allow_none": true, "why": "hiring-side interview technique"},
+    {"query": "I'm interviewing contractors to remodel my kitchen. What should I ask them?", "expected": [], "allow_none": true, "why": "off-domain use of 'interviewing'"}
   ]
 }

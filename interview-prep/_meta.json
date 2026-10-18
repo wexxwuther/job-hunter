@@ -1,0 +1,39 @@
+{
+  "skill_name": "interview-prep",
+  "version": "1.0.0",
+  "license": "MIT",
+  "family": "job-hunter",
+  "family_role": "interview-prep",
+  "sister_skills": [
+    "job-hunter",
+    "career-profile",
+    "job-search",
+    "resume-tailor",
+    "cover-letter",
+    "application-tracker",
+    "outcome-learning"
+  ],
+  "baseline_score": "100.0",
+  "current_score": "100.0",
+  "trigger_accuracy": 1.0,
+  "last_iteration": "2026-10-18",
+  "last_review_due": "2027-01-16",
+  "signals_observed": {
+    "trigger_misses": 0,
+    "trigger_overfires": 0,
+    "repeated_work": 0,
+    "dead_refs": 0
+  },
+  "load_bearing_safety_tests": [
+    "test_fabrication_gate_is_bundled",
+    "test_gate_byte_identical_to_resume_tailor",
+    "test_gap_bridge_never_claims_the_missing_requirement",
+    "test_gate_catches_an_invented_tool_and_metric_in_a_filled_answer",
+    "test_research_from_a_posting_url_is_rejected",
+    "test_lessons_template_scaffolding_is_not_read_as_lessons",
+    "test_never_writes_the_tracker",
+    "test_tenure_requirement_is_never_keyword_matched_to_a_line",
+    "test_build_refuses_to_overwrite_a_filled_pack"
+  ],
+  "version_notes": "v1.0.0 (2026-10-18) adds interview-prep as the 8th job-hunter family member (idea borrowed from the ai-job-search /interview command, built on our own anti-fabrication rules). load_application.py reads one tracked application (tracker.json entry, the submitted resume and cover letter, posting text, confirmed LESSONS.md entries) without writing the tracker. build_prep_pack.py builds a stage-specific pack (6 stages) mapping posting requirements to the user's real lines, with STAR scaffolds, honest gap bridges, questions to ask, and source-checked research (posting URLs rejected, interviewer research kept professional). Every answer line is a blockquote; the claims subcommand extracts them for the bundled verify_no_fabrication gate (byte-identical to resume-tailor). Optional mock-interview mode. Never auto-sends or contacts anyone."
+}

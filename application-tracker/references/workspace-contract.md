@@ -30,10 +30,11 @@ between members, not persisted by default).
 |---|---|---|---|
 | `.job-hunter-profile.md` (North-Star profile) + parsed resume text | **career-profile** (`init_profile.py`, `parse_resume.py`) | job-search (match scoring), resume-tailor (base resume) | job-search scores on explicitly-provided criteria; resume-tailor works from a pasted resume |
 | `postings.json` (scored) | **job-search** (`score_posting.py` et al.) | resume-tailor (pick a posting to tailor for), application-tracker (seed tracked apps) | resume-tailor tailors for a JD the user pastes; tracker tracks manually-entered apps |
-| `Resume_[Company]_[Role].docx` (gated) | **resume-tailor** (`extract_ats_keywords.py`, `verify_no_fabrication.py`) | application-tracker (records the tailored-resume filename) | tracker records apps without a tailored file |
-| `CoverLetter_[Company]_[Role].md` (gated) | **cover-letter** (`draft_cover_letter.py`, `verify_no_fabrication.py`) | application-tracker (records the cover-letter filename) | cover-letter drafts from a pasted resume + posting if no workspace |
-| `tracker.json` → HTML | **application-tracker** (`generate_tracker_html.py`, `draft_followup.py`) | outcome-learning (reads closed outcomes) | outcome-learning cold-start guard (needs ≥5 closed) |
-| proposed LESSONS entries | **outcome-learning** (`harvest_outcomes.py`, `propose_lessons.py`) | the user (opt-in confirmation), future career-profile/job-search runs | no-op below the cold-start threshold |
+| `Resume_[Company]_[Role].docx` (gated) | **resume-tailor** (`extract_ats_keywords.py`, `verify_no_fabrication.py`) | application-tracker (records the tailored-resume filename), interview-prep (reads the submitted version) | tracker records apps without a tailored file; interview-prep asks for the resume that was sent |
+| `CoverLetter_[Company]_[Role].md` (gated) | **cover-letter** (`draft_cover_letter.py`, `verify_no_fabrication.py`) | application-tracker (records the cover-letter filename), interview-prep (reads the submitted version) | cover-letter drafts from a pasted resume + posting if no workspace |
+| `tracker.json` → HTML | **application-tracker** (`generate_tracker_html.py`, `draft_followup.py`) | outcome-learning (reads closed outcomes), interview-prep (reads one entry + its `resume_file` / `cover_letter_file`; never writes the tracker) | outcome-learning cold-start guard (needs ≥5 closed) |
+| proposed LESSONS entries | **outcome-learning** (`harvest_outcomes.py`, `propose_lessons.py`) | the user (opt-in confirmation), future career-profile/job-search runs, interview-prep (quotes confirmed lessons) | no-op below the cold-start threshold |
+| `InterviewPrep_[Company]_[Role]_[stage].md` (gated) | **interview-prep** (`load_application.py`, `build_prep_pack.py`, `verify_no_fabrication.py`) | the user (interview practice; nothing downstream reads it) | interview-prep works from a pasted posting + the resume the user sent if no tracker |
 
 ## `postings.json` scored shape (produced by job-search/score_posting.py)
 
