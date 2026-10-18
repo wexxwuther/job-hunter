@@ -4,6 +4,21 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, A real quote is not proof of support: run one live trial before trusting an LLM-output validator
+
+**What happened:** `review_pass.py check` passed 23 unit tests and 8/8 mutants. The first
+real reviewer reply still exposed a hole: for "5+ years" the reviewer quoted
+"Data Analyst, Acme Corp, 2021-2024", a real line, and the script marked the finding
+actionable. A drafter following `allowed_action` could have written the gap into the resume.
+
+**Lesson:** unit tests written from the same assumption as the code ("a verified quote
+means support") cannot find this. Exact-match checks prove existence, not meaning; any
+decision that needs meaning goes to the user (or a separate judgment) by default.
+
+**How to apply:** for any script that validates LLM output, run one live trial on a
+realistic case before calling it done, and turn each surprise into a regression test
+(`test_missed_requirement_with_real_but_insufficient_source_quote_still_asks_user`).
+
 ## 2026-10-11, A stale ancestor copy inside a generic publish pipeline will eventually overwrite the real release
 
 **What happened:** the frozen v4 copy at `E:\Git\skills\job-hunter` stayed enrolled in the `E:\Git\skills` -> `Q:\skills` sync/publish pipeline after v5+ moved to this repo. On 2026-06-06 a routine sync re-shipped it over the v6 family as "v0.1.0" (silent version fallback), and the zip cleanup glob deleted the v6 orchestrator zips. Nothing failed loudly; the continuity docs kept saying Q was v6 for four months.

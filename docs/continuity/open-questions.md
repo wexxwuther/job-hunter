@@ -3,6 +3,30 @@
 Unresolved questions that the current state can't answer. Each entry lists what we'd need to
 answer it. Move to "Closed" with the answer + date once resolved.
 
+## Active (2026-10-18)
+
+### ruff debt (18 findings) and gate phrase-run noise
+
+**Status:** `ruff check .` reports 18 pre-existing findings (unused imports including
+`Counter` in both copies of `verify_no_fabrication.py` and in `extract_ats_keywords.py`;
+unused variables; one E741). CI does not run ruff although CONTRIBUTING.md says it should
+pass. Fixing the gate copies needs both edited together (byte-identical test). Separately,
+the gate's `new_phrase_runs` joins lines, so reordered or adjacent lines produce many false
+runs (14 on a truthful revised draft in the 2026-10-18 trial).
+
+### Installer copies untracked caches
+
+**Status:** `install.ps1` copies the member working tree and strips only `tests/` and
+`docs/superpowers/`, so gitignored `.pytest_cache/` reaches installs (12 files before the
+2026-10-18 deploy). Cleaned by hand; fix = strip `.pytest_cache` and `__pycache__` in both
+installers, with an install test.
+
+### Reviewer pass not yet exercised end to end in a harness
+
+**Status:** outcome evals resume-tailor #6 and cover-letter #4 are written but not run; the
+no-subagent fallback and the second round are untested live. Needs a real `claude -p` run
+(see `tools/run_routing_evals.py` for the runner pattern).
+
 ## Active (2026-10-11)
 
 ### Retire E:\Git\skills\job-hunter entirely?

@@ -2,7 +2,47 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-13 (job-search v1.0.1: state portal registry re-verified; career-profile v1.1.0 parse_resume fix; both deployed + Q re-shipped)
+**Last updated:** 2026-10-18 (fresh-context reviewer pass: resume-tailor v1.1.0 + cover-letter v1.1.0; deployed to installs + Q)
+
+## 2026-10-18 fresh-context reviewer pass (resume-tailor v1.1.0, cover-letter v1.1.0, commit `b010256`)
+
+- Origin: competitive review of `MadsLorentzen/ai-job-search` (MIT, ~52K stars; checked safe
+  before cloning: no hooks, symlinks, submodules, LFS or lifecycle scripts; settings.json
+  only allow-lists commands). Verdict: do not adopt it (fork-and-own Claude Code template,
+  Danish portal CLIs, LaTeX-only output, tech/academic profile assumptions). Borrow ideas.
+  The clone is at `E:\tmp\ajs-clone` (nothing in it was run).
+- Built first: the drafter-reviewer pass. New `scripts/review_pass.py` (canonical in
+  resume-tailor, byte-identical in cover-letter, parity test). `packet` builds the reviewer
+  prompt with random per-packet block markers and the posting marked untrusted; `check`
+  validates the reviewer's JSON (quotes count only where they really appear; source
+  evidence only from the source). Statuses: actionable / needs_user / needs_verification /
+  dropped. Advisory only: `verify_no_fabrication.py` stays mandatory and runs last.
+- SKILL.md: resume-tailor Mode B gains step 5 (gate is now step 6, cover letter step 7 also
+  runs the pass); cover-letter gains step 3 (gate is now step 4, save step 5).
+- Live trial (real Sonnet subagent, fictional resume, `E:\tmp\jh-review\live\`): valid
+  JSON, all quotes verbatim, the injected posting instruction ignored. It found a real
+  hole: `missed_requirement` with a real but insufficient quote ("2021-2024" for "5+
+  years") came back actionable. Fixed: unaddressed requirements always go to the user.
+  Regression test added; re-run of the same reply gives 6 actionable / 3 needs_user.
+- Tests: 303 passed with the CI command (was 273; +26 resume-tailor, +4 cover-letter);
+  7 new load-bearing tests listed in resume-tailor `_meta.json`, 3 in cover-letter;
+  mutation check 9/9 killed (`E:\tmp\jh-review\mutate.py`). ruff clean on new files.
+  validate.py 0 errors and audit 11/15 on both members, identical to HEAD before the
+  change. CI green on `b010256`.
+- Deployed: installer to all 21 installs (rollback `E:\Git\job-hunter-installs-pre-b010256.zip`,
+  348 files), 273 files byte-verified against tracked source; installed `review_pass.py`
+  run from all 6 resume-tailor/cover-letter installs on the live-trial files. Q re-shipped
+  with a patched copy of the reship script (`E:\tmp\jh-review\reship_q.py`: dates no
+  longer hardcoded, README SHA regex, cache-entry guard): 30 zips, 677 entries
+  byte-verified, rollback `E:\Git\job-hunter-q-catalog-pre-b010256.zip`;
+  `update-catalog.py` shows job-hunter shipped 2026-10-18.
+- Cleaned during deploy: `.pytest_cache` dirs in 6 installs (the installer copies the
+  working tree; the pre-deploy archive already held 12 such files from earlier deploys).
+- Not done: Mode A (tighten) has no reviewer pass (gate-only, by design for now); the new
+  outcome evals (resume-tailor #6, cover-letter #4) were not run against a real harness;
+  the second review round and the no-subagent fallback were not exercised live.
+- TypeSafe fit: declined for this feature (public portable skill with resume PII and a
+  no-phone-home rule; evidence checks are exact substring logic; critique needs free text).
 
 ## 2026-10-13 state workforce portal check (job-search v1.0.1, commit `46b585e`)
 

@@ -4,6 +4,36 @@ Each entry: **what was decided**, **why** (the rationale that made this the choi
 **consequences** (what future-self needs to honor or know about). Decisions here are durable,
 they outlast the session that made them.
 
+## 2026-10-18, Reviewer pass is advisory; unaddressed requirements always go to the user
+
+**Decision:** resume-tailor (Mode B) and cover-letter run a fresh-context reviewer pass
+before the fabrication gate, via `scripts/review_pass.py`. The reviewer only advises; the
+gate stays mandatory and last. `missed_requirement` findings are always `needs_user`,
+even when a verified source quote is attached. ai-job-search is not adopted as a whole.
+
+**Why:**
+- The gate is lexical: it catches new nouns, numbers and phrase runs, but not a reworded
+  overstatement or a generic line, and its phrase-run output is noisy. A second agent
+  without the drafter's context catches meaning-level problems and explains them.
+- A script can prove a quote exists; it cannot prove the quote meets the requirement. The
+  first live trial showed exactly that ("2021-2024" offered for "5+ years").
+- Source evidence is checked against the source only. Accepting posting or draft text as
+  evidence would let a reviewer launder a requirement, or a fabricated line, into a claim.
+- Not adopting ai-job-search: its job boards are Danish, output is LaTeX-only, and it
+  assumes a tech/academic profile and a fork-per-user repo. Our generalist, multi-harness,
+  DOCX-first design (v4 decisions) still holds.
+- TypeSafe declined: a hosted judgment call would send resume data to a third party from a
+  public skill, against the no-phone-home rule in CONTRIBUTING.md.
+
+**Consequences:**
+- `review_pass.py` must stay byte-identical in both members (test enforces it); edit the
+  resume-tailor copy and re-copy.
+- Never make the reviewer pass a substitute for `verify_no_fabrication.py`.
+  `gate_still_required` and `auto_approved` are load-bearing constants.
+- Remaining ai-job-search ideas, in priority order: interview-prep member (reads the
+  tracker archive), rendered-output ATS text-layer check, robots.txt check for fetches,
+  approval-gated Gmail status sync, skill-gap learning plan.
+
 ## 2026-05-28, Continuity stack lives in the public repo; LF enforced; `_meta.json` compliance; Phase 3 reference wired
 
 **Decision:** Four related calls, all on the v5.2.0 source in THIS repo (`E:/Git/job-hunter-public/`):

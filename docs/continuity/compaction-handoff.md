@@ -5,6 +5,12 @@
 Purpose: a future session (or post-compaction continuation) can read THIS file alone and recover
 all the load-bearing context needed to continue the work. Designed to be self-contained.
 
+## 2026-10-18 note (read session-state.md first)
+
+This file was last rewritten 2026-05-29. Everything since (Q regression fix, routing evals,
+parse_resume fix, portal registry, 2026-10-18 reviewer pass) is recorded in
+`session-state.md`, which is current. Current head of work: `b010256` + continuity commit.
+
 ## ⚠ FIRST THING TO KNOW: where the active work lives
 
 **This file is in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.** All current development happens HERE. Remote: `https://github.com/wexxwuther/job-hunter` (**PUBLIC** as of 2026-05-29).
