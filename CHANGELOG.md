@@ -2,6 +2,25 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Natural-trigger probe promoted to a tested tool (2026-10-18, family v6.0.0 line)
+
+Signal: the probe that measured interview-prep's real trigger rate (1/9, then 9/9) was an
+untested evidence script with hard-coded paths; `run_routing_evals.py` allows only the
+Skill tool and overstates triggering, so other members had no honest way to be measured.
+
+What shipped:
+- **`tools/run_trigger_probe.py`**: turn 1 of each outcome case, `--samples N` fresh
+  sessions, normal tool set of `run_outcome_evals.py`, user hooks off, stream read until
+  the first Skill call. `--family-only` runs with `--setting-sources project` in a temp
+  folder whose `.claude/skills` holds only the 8 git-tracked members (no tests/), and
+  errors out if user skills or plugins leak into the listing. Outcomes: skill (hit or
+  other skill), answered, capped (max turns), errored (not scored, exit 1, retried on
+  rerun). `--dry-run` makes no calls and writes nothing.
+- `tools/test_run_trigger_probe.py` + `tools/trigger-fixtures/` (Skill hit, direct
+  answer, errored streams): 14 tests, 22/22 mutants killed. CI command 397 passed.
+- Live smoke (family-only, interview-prep cases 2-4, 1 sample each): 3/3, 21 skills
+  listed, matching the evidence probe.
+
 ## interview-prep description: trigger on research, mock and "sound experienced" asks (2026-10-18, family v6.0.0 line)
 
 Signal: the live outcome run showed natural routing missing 3/6 in-domain prompts. A

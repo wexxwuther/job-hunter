@@ -6,7 +6,8 @@ miss stable, and does a description change fix it?
 
 ## Method
 
-- `probe.py` (this folder; the exact script run, not a maintained tool) reuses
+- `probe.py` (this folder; the exact script run, not a maintained tool; the tested
+  successor is `tools/run_trigger_probe.py`, whose `--family-only` is the family env) reuses
   `tools/run_outcome_evals.py`: case loading from `tools/outcome-scenarios/interview-prep.json`,
   the fixture workspace, the tool allow-list (Skill, Read, Write, Edit, Glob, Grep,
   Bash(python/mkdir/ls), WebSearch, WebFetch) and `disableAllHooks`. It is NOT the
