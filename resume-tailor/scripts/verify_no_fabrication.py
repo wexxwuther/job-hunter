@@ -165,7 +165,9 @@ def _number_set(text: str) -> set[str]:
     documents, and (b) flagging years as "new numbers" produces noise."""
     out = set()
     for match in _NUMBER_PATTERN.finditer(text):
-        tok = match.group(0).strip()
+        # A comma right after a number is punctuation ("In 2023, we"), not part
+        # of it; "1,200" keeps its inner comma.
+        tok = match.group(0).strip().rstrip(",")
         # Skip plain 4-digit years, they're calendar dates, not fabricated stats
         if re.fullmatch(r"(?:19|20)\d{2}", tok):
             continue

@@ -1,5 +1,9 @@
 # Changelog — cover-letter
 
+## v1.1.1 (2026-10-18)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor): verify_no_fabrication.py: a comma right after a number ("In 2023, four new") was kept as part of the token, so a number or year already in the source was flagged as new ("2023,", "40,"). Trailing commas are now stripped; inner commas ("1,200") are kept and truly new numbers are still flagged. Found by the first live outcome-eval run of interview-prep (2026-10-18).
+
 ## v1.1.0 (2026-10-18)
 
 - New step 3: the same fresh-context reviewer pass as resume-tailor

@@ -155,6 +155,23 @@ def test_years_NOT_flagged_as_new_numbers():
     assert "2020" not in numbers
 
 
+def test_trailing_comma_does_not_make_a_known_number_new():
+    """Live outcome eval 2026-10-18 (interview-prep #1): 'In 2023, four new' and
+    'from 2021 to 2024, where' were flagged as new numbers '2023,' and '2024,'
+    although both years were in the source; the comma stuck to the token."""
+    original = "Data Analyst, Acme Corp, 2021-2024\nin 2023 I trained four new analysts\nwe hit 40 sites"
+    proposed = "From 2021 to 2024, I was at Acme. In 2023, four new analysts joined. We hit 40, then more."
+    numbers = [n["token"] for n in verify(original, proposed)["new_numbers"]]
+    assert numbers == []
+
+
+def test_trailing_comma_still_flags_a_truly_new_number():
+    original = "Managed the reporting team."
+    proposed = "Managed 12, then 15 analysts, and $5,000, of budget."
+    numbers = [n["token"] for n in verify(original, proposed)["new_numbers"]]
+    assert sorted(numbers) == ["$5,000", "12", "15"]
+
+
 # ---- New section headings --------------------------------------------------
 
 

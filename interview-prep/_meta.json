@@ -1,6 +1,6 @@
 {
   "skill_name": "interview-prep",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "family": "job-hunter",
   "family_role": "interview-prep",
@@ -35,5 +35,5 @@
     "test_tenure_requirement_is_never_keyword_matched_to_a_line",
     "test_build_refuses_to_overwrite_a_filled_pack"
   ],
-  "version_notes": "v1.0.0 (2026-10-18) adds interview-prep as the 8th job-hunter family member (idea borrowed from the ai-job-search /interview command, built on our own anti-fabrication rules). load_application.py reads one tracked application (tracker.json entry, the submitted resume and cover letter, posting text, confirmed LESSONS.md entries) without writing the tracker. build_prep_pack.py builds a stage-specific pack (6 stages) mapping posting requirements to the user's real lines, with STAR scaffolds, honest gap bridges, questions to ask, and source-checked research (posting URLs rejected, interviewer research kept professional). Every answer line is a blockquote; the claims subcommand extracts them for the bundled verify_no_fabrication gate (byte-identical to resume-tailor). Optional mock-interview mode. Never auto-sends or contacts anyone."
+  "version_notes": "v1.0.1 (2026-10-18): gate fix - verify_no_fabrication.py: a comma right after a number (\"In 2023, four new\") was kept as part of the token, so a number or year already in the source was flagged as new (\"2023,\", \"40,\"). Trailing commas are now stripped; inner commas (\"1,200\") are kept and truly new numbers are still flagged. Found by the first live outcome-eval run of interview-prep (2026-10-18). v1.0.0 (2026-10-18) adds interview-prep as the 8th job-hunter family member (idea borrowed from the ai-job-search /interview command, built on our own anti-fabrication rules). load_application.py reads one tracked application (tracker.json entry, the submitted resume and cover letter, posting text, confirmed LESSONS.md entries) without writing the tracker. build_prep_pack.py builds a stage-specific pack (6 stages) mapping posting requirements to the user's real lines, with STAR scaffolds, honest gap bridges, questions to ask, and source-checked research (posting URLs rejected, interviewer research kept professional). Every answer line is a blockquote; the claims subcommand extracts them for the bundled verify_no_fabrication gate (byte-identical to resume-tailor). Optional mock-interview mode. Never auto-sends or contacts anyone."
 }
