@@ -1,0 +1,44 @@
+[
+  {
+    "skill": "interview-prep",
+    "stopped_at_skill": true,
+    "tools_before": [],
+    "n_skills_loaded": 21,
+    "ip_in_listing": true,
+    "model": "claude-opus-4-8[1m]",
+    "error": null,
+    "cost_usd": null,
+    "final_text": "",
+    "id": 1,
+    "sample": 1,
+    "env": "draft"
+  },
+  {
+    "skill": "interview-prep",
+    "stopped_at_skill": true,
+    "tools_before": [],
+    "n_skills_loaded": 21,
+    "ip_in_listing": true,
+    "model": "claude-opus-4-8[1m]",
+    "error": null,
+    "cost_usd": null,
+    "final_text": "",
+    "id": 5,
+    "sample": 1,
+    "env": "draft"
+  },
+  {
+    "skill": "interview-prep",
+    "stopped_at_skill": true,
+    "tools_before": [],
+    "n_skills_loaded": 21,
+    "ip_in_listing": true,
+    "model": "claude-opus-4-8[1m]",
+    "error": null,
+    "cost_usd": null,
+    "final_text": "",
+    "id": 6,
+    "sample": 1,
+    "env": "draft"
+  }
+]

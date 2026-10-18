@@ -2,6 +2,22 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## interview-prep description: trigger on research, mock and "sound experienced" asks (2026-10-18, family v6.0.0 line)
+
+Signal: the live outcome run showed natural routing missing 3/6 in-domain prompts. A
+trigger probe with the normal tool set and user hooks off (3 samples each) confirmed it
+was stable: 1/9 loads in both a full install (319 skills) and a family-only install, and
+the base model scripted unverified experience for the user ("I've built dashboards in
+[tool]") without reading the resume.
+
+What shipped:
+- **interview-prep 1.1.0** (description only, owner-approved): names company research,
+  practice answers, mock interviews and "sounding experienced in a skill they lack", and
+  says to load the skill rather than answer from general knowledge. Do-not-use clauses
+  unchanged; 1017 chars.
+- Result in the family-only probe: 9/9 (was 1/9), controls 3/3. Evidence:
+  `docs/evals/trigger-2026-10-18-interview-prep/`.
+
 ## Live outcome evals + gate comma fix (2026-10-18, family v6.0.0 line)
 
 Signal: no family outcome eval had ever run in a real harness; interview-prep's 6 were

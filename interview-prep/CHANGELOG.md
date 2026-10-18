@@ -1,5 +1,9 @@
 # Changelog - interview-prep
 
+## v1.1.0 (2026-10-18)
+
+- Description only (owner-approved). Signal: with the normal tool set and no user hooks, three in-domain prompts ("make me sound like I have [a tool]", "Research Globex before my interview", "Mock interview me for the behavioral panel") loaded the skill in 1 of 9 samples, in both a full install and a family-only install, and the base model scripted unverified experience for the user. The description now names company research, practice answers, mock interviews and sounding experienced in a skill the user lacks, and says to load the skill rather than answer from general knowledge. Probe with the new text: 9/9 (controls 3/3). Do-not-use clauses unchanged. See `docs/evals/trigger-2026-10-18-interview-prep/`.
+
 ## v1.0.1 (2026-10-18)
 
 - Gate fix (bundled copy, re-synced byte-identical from resume-tailor): verify_no_fabrication.py: a comma right after a number ("In 2023, four new") was kept as part of the token, so a number or year already in the source was flagged as new ("2023,", "40,"). Trailing commas are now stripped; inner commas ("1,200") are kept and truly new numbers are still flagged. Found by the first live outcome-eval run of interview-prep (2026-10-18).
