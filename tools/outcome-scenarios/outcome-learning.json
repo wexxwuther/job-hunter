@@ -1,0 +1,71 @@
+{
+ "skill": "outcome-learning",
+ "evals_file": "outcome-learning/evals/outcome-evals.json",
+ "_comment": "Fictional workspace fixtures (fictional companies) for tools/run_outcome_evals.py and tools/run_trigger_probe.py. The .job-hunter/ files follow the job-hunter templates (append markers kept) in short form, so harvest_outcomes.py parses them.",
+ "fixtures": {
+  "no_workspace": {},
+  "rejected_ideas": {
+   ".job-hunter/OUTCOMES.md": "# Outcomes: what actually happened\n\n---\n\n<!-- Closed-loop outcomes appended below this line -->\n\n## Vandelay Industries, Senior Backend Engineer, 2026-07-01\n\n**Posting URL:** https://vandelayindustries.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target: offer was $150k against a $180k target\n**Lesson candidate?:** not_yet\n\n## Soylent Labs, Backend Engineer, 2026-07-08\n\n**Posting URL:** https://soylentlabs.example/jobs/backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target\n**Lesson candidate?:** not_yet\n\n## Wonka Systems, Senior Software Engineer, 2026-07-15\n\n**Posting URL:** https://wonkasystems.example/jobs/senior-software-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_onsite\n**Reason (yours or theirs):** comp below target; their band topped out at $160k\n**Lesson candidate?:** not_yet\n\n## Gringotts Tech, Platform Engineer, 2026-07-22\n\n**Posting URL:** https://gringottstech.example/jobs/platform-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target\n**Lesson candidate?:** not_yet\n\n## Umbrella Health, Senior Backend Engineer, 2026-08-01\n\n**Posting URL:** https://umbrellahealth.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** accepted_offer\n**Reason (yours or theirs):** good team, comp at target\n**Lesson candidate?:** not_yet\n\n## Stark Logistics, Backend Lead, 2026-08-10\n\n**Posting URL:** https://starklogistics.example/jobs/backend-lead\n**Agent recommendation at time of apply:** apply\n**Outcome:** accepted_offer\n**Reason (yours or theirs):** accepted, then the role was re-scoped and I went back to searching\n**Lesson candidate?:** not_yet\n\n",
+   ".job-hunter/LESSONS.md": "# Lessons: patterns about your job-search preferences\n\n---\n\n<!-- Confirmed lessons appended below this line -->\n",
+   ".job-hunter/REJECTED_IDEAS.md": "# Rejected Ideas: hard constraints\n\n---\n\n<!-- User-rejected ideas appended below this line -->\n\n## 2026-04-15: No government contractor or defense work\n\n**Rejected:** no government contractor or defense work\n**Reason:** cleared work blocked my last career change\n**Scope:** Hard filter\n",
+   ".job-hunter/DECISIONS.md": "# Decisions: your job search\n\n---\n\n<!-- Agent and user entries appended below this line -->\n"
+  },
+  "lessons": {
+   ".job-hunter/OUTCOMES.md": "# Outcomes: what actually happened\n\n---\n\n<!-- Closed-loop outcomes appended below this line -->\n\n## Megacorp Global, Senior Backend Engineer, 2026-02-02\n\n**Posting URL:** https://megacorpglobal.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_screen\n**Reason (yours or theirs):** too bureaucratic: 40,000 employees, six approval layers\n**Lesson candidate?:** not_yet\n\n## Initech Enterprise, Senior Backend Engineer, 2026-02-10\n\n**Posting URL:** https://initechenterprise.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** too political, 12,000 employees\n**Lesson candidate?:** not_yet\n\n## Omni Consumer Products, Senior Backend Engineer, 2026-02-18\n\n**Posting URL:** https://omniconsumerproducts.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_screen\n**Reason (yours or theirs):** too bureaucratic\n**Lesson candidate?:** not_yet\n\n## Cyberdyne Federal, Senior Backend Engineer, 2026-02-25\n\n**Posting URL:** https://cyberdynefederal.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** too political\n**Lesson candidate?:** not_yet\n\n## Massive Dynamic, Senior Backend Engineer, 2026-03-04\n\n**Posting URL:** https://massivedynamic.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_screen\n**Reason (yours or theirs):** too bureaucratic, 9,000 employees\n**Lesson candidate?:** not_yet\n\n## Tyrell Group, Senior Backend Engineer, 2026-03-11\n\n**Posting URL:** https://tyrellgroup.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** too political\n**Lesson candidate?:** not_yet\n\n## Weyland Holdings, Senior Backend Engineer, 2026-03-18\n\n**Posting URL:** https://weylandholdings.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_screen\n**Reason (yours or theirs):** too bureaucratic\n**Lesson candidate?:** not_yet\n\n## Pied Piper, Backend Engineer, 2026-03-25\n\n**Posting URL:** https://piedpiper.example/jobs/backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_onsite\n**Reason (yours or theirs):** they hired internally\n**Lesson candidate?:** not_yet\n\n## Aviato, Senior Engineer, 2026-04-01\n\n**Posting URL:** https://aviato.example/jobs/senior-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** accepted_offer\n**Reason (yours or theirs):** small team, fast decisions\n**Lesson candidate?:** not_yet\n\n",
+   ".job-hunter/LESSONS.md": "# Lessons: patterns about your job-search preferences\n\n---\n\n<!-- Confirmed lessons appended below this line -->\n\n## 2026-04-20: Skip companies over 5000 employees\n\n**Pattern:** user consistently rejects companies over 5000 employees\n**Evidence:** 7 of 9 closed-loop rejections in OUTCOMES.md cite too bureaucratic or too political\n**How it shapes scoring:** grade cultural_signals lower for companies over 5000 employees\n",
+   ".job-hunter/REJECTED_IDEAS.md": "# Rejected Ideas: hard constraints\n\n---\n\n<!-- User-rejected ideas appended below this line -->\n",
+   ".job-hunter/DECISIONS.md": "# Decisions: your job search\n\n---\n\n<!-- Agent and user entries appended below this line -->\n"
+  },
+  "three_outcomes": {
+   ".job-hunter/OUTCOMES.md": "# Outcomes: what actually happened\n\n---\n\n<!-- Closed-loop outcomes appended below this line -->\n\n## Vandelay Industries, Senior Backend Engineer, 2026-08-01\n\n**Posting URL:** https://vandelayindustries.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_screen\n**Reason (yours or theirs):** they wanted more Java\n**Lesson candidate?:** not_yet\n\n## Soylent Labs, Backend Engineer, 2026-08-12\n\n**Posting URL:** https://soylentlabs.example/jobs/backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** no_response_after_21d\n**Reason (yours or theirs):** no reply\n**Lesson candidate?:** not_yet\n\n## Wonka Systems, Senior Software Engineer, 2026-08-20\n\n**Posting URL:** https://wonkasystems.example/jobs/senior-software-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_onsite\n**Reason (yours or theirs):** team fit, per the recruiter\n**Lesson candidate?:** not_yet\n\n",
+   ".job-hunter/LESSONS.md": "# Lessons: patterns about your job-search preferences\n\n---\n\n<!-- Confirmed lessons appended below this line -->\n",
+   ".job-hunter/REJECTED_IDEAS.md": "# Rejected Ideas: hard constraints\n\n---\n\n<!-- User-rejected ideas appended below this line -->\n",
+   ".job-hunter/DECISIONS.md": "# Decisions: your job search\n\n---\n\n<!-- Agent and user entries appended below this line -->\n"
+  },
+  "six_outcomes": {
+   ".job-hunter/OUTCOMES.md": "# Outcomes: what actually happened\n\n---\n\n<!-- Closed-loop outcomes appended below this line -->\n\n## Vandelay Industries, Senior Backend Engineer, 2026-07-01\n\n**Posting URL:** https://vandelayindustries.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target: offer was $150k against a $180k target\n**Lesson candidate?:** not_yet\n\n## Soylent Labs, Backend Engineer, 2026-07-08\n\n**Posting URL:** https://soylentlabs.example/jobs/backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target\n**Lesson candidate?:** not_yet\n\n## Wonka Systems, Senior Software Engineer, 2026-07-15\n\n**Posting URL:** https://wonkasystems.example/jobs/senior-software-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_onsite\n**Reason (yours or theirs):** comp below target; their band topped out at $160k\n**Lesson candidate?:** not_yet\n\n## Gringotts Tech, Platform Engineer, 2026-07-22\n\n**Posting URL:** https://gringottstech.example/jobs/platform-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target\n**Lesson candidate?:** not_yet\n\n## Umbrella Health, Senior Backend Engineer, 2026-08-01\n\n**Posting URL:** https://umbrellahealth.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** accepted_offer\n**Reason (yours or theirs):** good team, comp at target\n**Lesson candidate?:** not_yet\n\n## Stark Logistics, Backend Lead, 2026-08-10\n\n**Posting URL:** https://starklogistics.example/jobs/backend-lead\n**Agent recommendation at time of apply:** apply\n**Outcome:** accepted_offer\n**Reason (yours or theirs):** accepted, then the role was re-scoped and I went back to searching\n**Lesson candidate?:** not_yet\n\n",
+   ".job-hunter/LESSONS.md": "# Lessons: patterns about your job-search preferences\n\n---\n\n<!-- Confirmed lessons appended below this line -->\n",
+   ".job-hunter/REJECTED_IDEAS.md": "# Rejected Ideas: hard constraints\n\n---\n\n<!-- User-rejected ideas appended below this line -->\n",
+   ".job-hunter/DECISIONS.md": "# Decisions: your job search\n\n---\n\n<!-- Agent and user entries appended below this line -->\n"
+  }
+ },
+ "cases": [
+  {
+   "id": 1,
+   "fixture": "no_workspace",
+   "turns": [
+    "What have you learned about me from my job search so far?"
+   ]
+  },
+  {
+   "id": 2,
+   "fixture": "rejected_ideas",
+   "turns": [
+    "What have you learned about me from my job search?"
+   ]
+  },
+  {
+   "id": 3,
+   "fixture": "lessons",
+   "note": "Turn 1 names job-search as the audience; job-search loading here would be routed elsewhere, not an outcome-learning under-trigger in the strict sense.",
+   "turns": [
+    "Summarize what you'd tell job-search to do differently for me."
+   ]
+  },
+  {
+   "id": 4,
+   "fixture": "three_outcomes",
+   "turns": [
+    "What have you learned about me?"
+   ]
+  },
+  {
+   "id": 5,
+   "fixture": "six_outcomes",
+   "note": "4 of 6 outcomes are rejections citing comp below target; 2 accepted offers. Measured 2026-10-18: harvest_outcomes.py reports rejection_dominant_reason only from 5 rejections up, so this fixture yields recommendation_calibration only; the comp lesson the eval expects is the agent's reading, not a script signal.",
+   "turns": [
+    "What have you learned about me?"
+   ]
+  }
+ ]
+}

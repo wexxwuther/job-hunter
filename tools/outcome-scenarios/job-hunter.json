@@ -1,0 +1,65 @@
+{
+ "skill": "job-hunter",
+ "evals_file": "job-hunter/evals/outcome-evals.json",
+ "_comment": "Fictional workspace fixtures (Sam Rivera, Initrode, Hooli; postings at .example domains) for tools/run_outcome_evals.py and tools/run_trigger_probe.py. Prompts are what the user would type; setup that the eval states in parentheses lives in files. Tracker dates are relative to 2026-10-18.",
+ "fixtures": {
+  "backend": {
+   "resume.md": "Sam Rivera\nAustin, TX\n\nSenior Backend Engineer, Initrode Payments, 2021-2026\n- Built and ran Python and Go services for card authorization on AWS\n- Moved the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\nBackend Engineer, Hooli, 2018-2021\n- Wrote Go services for a distributed job scheduler\n- Cut p99 latency of the scheduler API by 40%\n\nTechnical Skills: AWS, Kubernetes, Python, Go, PostgreSQL, distributed systems\nEducation: B.S. Computer Science, University of Texas at Austin, 2018\n",
+   ".job-hunter-profile.md": "# North-Star Profile\n\n**Created:** 2026-10-01\n**Last updated:** 2026-10-01\n\n## Target archetype\n\n**Answer:** Tech lead, hands-on\n\n## Deal-breakers\n\n**Answer:** No defense work, no commission-only\n\n## Company-size preference\n\n**Answer:** Series B-C or public mid-cap\n\n## Mission vs comp priority\n\n**Answer:** mission within 15% of comp\n\n## Tolerance dimensions\n\n**Answer:** on-call yes; travel no; office 2 days max\n\n## Notes (free-form, optional)\n\nAustin or remote. Target $180k base.\n",
+   "stripe_posting.txt": "Senior Backend Engineer - Stripe (Remote, US)\n\nYou will build the services that move money for millions of businesses.\n\nRequirements:\n- 6+ years building backend services\n- AWS, Kubernetes, Python\n- Pinecone vector database, Weaviate, LangChain\n- Experience with distributed systems at scale\n\nCompensation: $200k-$240k base\n"
+  },
+  "applications": {
+   "resume.md": "Sam Rivera\nAustin, TX\n\nSenior Backend Engineer, Initrode Payments, 2021-2026\n- Built and ran Python and Go services for card authorization on AWS\n- Moved the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\nBackend Engineer, Hooli, 2018-2021\n- Wrote Go services for a distributed job scheduler\n- Cut p99 latency of the scheduler API by 40%\n\nTechnical Skills: AWS, Kubernetes, Python, Go, PostgreSQL, distributed systems\nEducation: B.S. Computer Science, University of Texas at Austin, 2018\n",
+   "tracker.json": "[\n {\n  \"company\": \"Vandelay Industries\",\n  \"title\": \"Senior Backend Engineer\",\n  \"url\": \"https://vandelay.example/jobs/17\",\n  \"status\": \"applied\",\n  \"applied_date\": \"2026-10-02\",\n  \"resume_file\": \"Resume_Vandelay_SeniorBackend.md\"\n },\n {\n  \"company\": \"Soylent Labs\",\n  \"title\": \"Backend Engineer\",\n  \"url\": \"https://soylent.example/jobs/3\",\n  \"status\": \"applied\",\n  \"applied_date\": \"2026-10-15\",\n  \"resume_file\": \"Resume_Soylent_Backend.md\"\n },\n {\n  \"company\": \"Wonka Systems\",\n  \"title\": \"Senior Software Engineer\",\n  \"url\": \"https://wonka.example/jobs/88\",\n  \"status\": \"interviewing\",\n  \"applied_date\": \"2026-09-25\"\n }\n]\n"
+  },
+  "outcomes": {
+   "resume.md": "Sam Rivera\nAustin, TX\n\nSenior Backend Engineer, Initrode Payments, 2021-2026\n- Built and ran Python and Go services for card authorization on AWS\n- Moved the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\nBackend Engineer, Hooli, 2018-2021\n- Wrote Go services for a distributed job scheduler\n- Cut p99 latency of the scheduler API by 40%\n\nTechnical Skills: AWS, Kubernetes, Python, Go, PostgreSQL, distributed systems\nEducation: B.S. Computer Science, University of Texas at Austin, 2018\n",
+   ".job-hunter-profile.md": "# North-Star Profile\n\n**Created:** 2026-10-01\n**Last updated:** 2026-10-01\n\n## Target archetype\n\n**Answer:** Tech lead, hands-on\n\n## Deal-breakers\n\n**Answer:** No defense work, no commission-only\n\n## Company-size preference\n\n**Answer:** Series B-C or public mid-cap\n\n## Mission vs comp priority\n\n**Answer:** mission within 15% of comp\n\n## Tolerance dimensions\n\n**Answer:** on-call yes; travel no; office 2 days max\n\n## Notes (free-form, optional)\n\nAustin or remote. Target $180k base.\n",
+   ".job-hunter/OUTCOMES.md": "# Outcomes: what actually happened\n\n---\n\n<!-- Closed-loop outcomes appended below this line -->\n\n## Vandelay Industries, Senior Backend Engineer, 2026-07-01\n\n**Posting URL:** https://vandelayindustries.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target: offer was $150k against a $180k target\n**Lesson candidate?:** not_yet\n\n## Soylent Labs, Backend Engineer, 2026-07-08\n\n**Posting URL:** https://soylentlabs.example/jobs/backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target\n**Lesson candidate?:** not_yet\n\n## Wonka Systems, Senior Software Engineer, 2026-07-15\n\n**Posting URL:** https://wonkasystems.example/jobs/senior-software-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_after_onsite\n**Reason (yours or theirs):** comp below target; their band topped out at $160k\n**Lesson candidate?:** not_yet\n\n## Gringotts Tech, Platform Engineer, 2026-07-22\n\n**Posting URL:** https://gringottstech.example/jobs/platform-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** rejected_offer\n**Reason (yours or theirs):** comp below target\n**Lesson candidate?:** not_yet\n\n## Umbrella Health, Senior Backend Engineer, 2026-08-01\n\n**Posting URL:** https://umbrellahealth.example/jobs/senior-backend-engineer\n**Agent recommendation at time of apply:** apply\n**Outcome:** accepted_offer\n**Reason (yours or theirs):** good team, comp at target\n**Lesson candidate?:** not_yet\n\n## Stark Logistics, Backend Lead, 2026-08-10\n\n**Posting URL:** https://starklogistics.example/jobs/backend-lead\n**Agent recommendation at time of apply:** apply\n**Outcome:** accepted_offer\n**Reason (yours or theirs):** accepted, then the role was re-scoped and I went back to searching\n**Lesson candidate?:** not_yet\n\n",
+   ".job-hunter/LESSONS.md": "# Lessons: patterns about your job-search preferences\n\n---\n\n<!-- Confirmed lessons appended below this line -->\n",
+   ".job-hunter/REJECTED_IDEAS.md": "# Rejected Ideas: hard constraints\n\n---\n\n<!-- User-rejected ideas appended below this line -->\n",
+   ".job-hunter/DECISIONS.md": "# Decisions: your job search\n\n---\n\n<!-- Agent and user entries appended below this line -->\n"
+  },
+  "empty": {}
+ },
+ "cases": [
+  {
+   "id": 1,
+   "fixture": "backend",
+   "note": "A single-member ask: the job-hunter description says a single isolated step goes to its member directly, so resume-tailor loading here is a defensible outcome, not a routing failure.",
+   "turns": [
+    "Tailor my resume for this Senior Backend Engineer role at Stripe. The posting is in stripe_posting.txt and my resume is resume.md."
+   ]
+  },
+  {
+   "id": 2,
+   "fixture": "backend",
+   "turns": [
+    "Find me data-engineer jobs and tailor my resume for the top match. My resume is resume.md."
+   ]
+  },
+  {
+   "id": 3,
+   "fixture": "applications",
+   "note": "Single-member ask (application-tracker); see case 1. Vandelay is stale (16 days at applied), Soylent is not (3 days).",
+   "turns": [
+    "Where am I on my applications, and draft a follow-up for anything stale."
+   ]
+  },
+  {
+   "id": 4,
+   "fixture": "empty",
+   "turns": [
+    "I'm starting my job search today - set me up and find some roles."
+   ]
+  },
+  {
+   "id": 5,
+   "fixture": "outcomes",
+   "note": "Single-member ask (outcome-learning); see case 1. OUTCOMES.md holds 6 closed entries, so the cold-start guard passes.",
+   "turns": [
+    "What's working in my job search? Learn from my outcomes."
+   ]
+  }
+ ]
+}

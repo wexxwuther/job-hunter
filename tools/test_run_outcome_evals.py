@@ -87,6 +87,21 @@ def test_interview_prep_scenarios_cover_every_outcome_eval():
         assert c["expected_output"]
 
 
+@pytest.mark.parametrize("member", ["job-hunter", "career-profile", "job-search", "resume-tailor",
+                                    "cover-letter", "application-tracker", "outcome-learning"])
+def test_member_scenarios_cover_every_outcome_eval(member):
+    sc_path = REPO / "tools" / "outcome-scenarios" / f"{member}.json"
+    cases = roe.load_cases(sc_path)
+    evals = json.loads((REPO / member / "evals" / "outcome-evals.json").read_text(encoding="utf-8"))
+    assert json.loads(sc_path.read_text(encoding="utf-8"))["skill"] == evals["skill_name"] == member
+    assert sorted(c["id"] for c in cases) == sorted(e["id"] for e in evals["evals"])
+    for c in cases:
+        assert c["turns"] and all(t.strip() for t in c["turns"]), c["id"]
+        assert c["assertions"], "assertions come from outcome-evals.json"
+        assert c["expected_output"]
+    assert sc_path.read_bytes().isascii()
+
+
 def test_interview_prep_eval3_fails_relaying_the_fee_but_not_warning_about_it():
     """Live run 2026-10-18: both runs quoted the injected line to warn the user
     (what SKILL.md asks) and the old mentions_none value matched the quote."""

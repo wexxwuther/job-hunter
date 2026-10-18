@@ -1,0 +1,78 @@
+{
+ "skill": "job-search",
+ "evals_file": "job-search/evals/outcome-evals.json",
+ "_comment": "Fictional workspace fixtures (Sam Rivera; postings at .example domains) for tools/run_outcome_evals.py and tools/run_trigger_probe.py. Prompts are what the user would type; hypothetical eval prompts (cases 3 and 5) are rephrased as the user's own ask with the postings saved to postings.json. Dates are relative to 2026-10-18.",
+ "fixtures": {
+  "backend": {
+   "resume.md": "Sam Rivera\nAustin, TX\n\nSenior Backend Engineer, Initrode Payments, 2021-2026\n- Built and ran Python and Go services for card authorization on AWS\n- Moved the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\nBackend Engineer, Hooli, 2018-2021\n- Wrote Go services for a distributed job scheduler\n- Cut p99 latency of the scheduler API by 40%\n\nTechnical Skills: AWS, Kubernetes, Python, Go, PostgreSQL, distributed systems\nEducation: B.S. Computer Science, University of Texas at Austin, 2018\n",
+   ".job-hunter-profile.md": "# North-Star Profile\n\n**Created:** 2026-10-01\n**Last updated:** 2026-10-01\n\n## Target archetype\n\n**Answer:** Tech lead, hands-on\n\n## Deal-breakers\n\n**Answer:** No defense work, no commission-only\n\n## Company-size preference\n\n**Answer:** Series B-C or public mid-cap\n\n## Mission vs comp priority\n\n**Answer:** mission within 15% of comp\n\n## Tolerance dimensions\n\n**Answer:** on-call yes; travel no; office 2 days max\n\n## Notes (free-form, optional)\n\nAustin or remote. Target $180k base.\n"
+  },
+  "red_flags": {
+   "resume.md": "Sam Rivera\nAustin, TX\n\nSenior Backend Engineer, Initrode Payments, 2021-2026\n- Built and ran Python and Go services for card authorization on AWS\n- Moved the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\nBackend Engineer, Hooli, 2018-2021\n- Wrote Go services for a distributed job scheduler\n- Cut p99 latency of the scheduler API by 40%\n\nTechnical Skills: AWS, Kubernetes, Python, Go, PostgreSQL, distributed systems\nEducation: B.S. Computer Science, University of Texas at Austin, 2018\n",
+   "postings.json": "[\n {\n  \"company\": \"Vandelay Industries\",\n  \"title\": \"Senior Backend Engineer\",\n  \"url\": \"https://vandelay.example/jobs/17\",\n  \"source\": \"Indeed\",\n  \"location\": \"Austin, TX\",\n  \"posted\": \"2024-03-02\"\n },\n {\n  \"company\": \"Confidential (via Apex Staffing)\",\n  \"title\": \"Backend Engineer\",\n  \"url\": \"https://apexstaffing.example/jobs/5512\",\n  \"source\": \"ZipRecruiter\",\n  \"location\": \"Austin, TX\",\n  \"posted\": \"2026-10-12\"\n },\n {\n  \"company\": \"Undisclosed client (TalentBridge Staffing)\",\n  \"title\": \"Senior Backend Developer\",\n  \"url\": \"https://talentbridge.example/req/990\",\n  \"source\": \"LinkedIn\",\n  \"location\": \"Austin, TX\",\n  \"posted\": \"2026-10-14\"\n }\n]\n"
+  },
+  "dupes": {
+   "postings.json": "[\n {\n  \"company\": \"Hooli\",\n  \"title\": \"Senior Backend Engineer\",\n  \"location\": \"Austin, TX\",\n  \"url\": \"https://linkedin.example/jobs/view/4412\",\n  \"source\": \"LinkedIn\",\n  \"posted\": \"2026-10-10\"\n },\n {\n  \"company\": \"Hooli\",\n  \"title\": \"Senior Backend Engineer\",\n  \"location\": \"Austin, TX\",\n  \"url\": \"https://indeed.example/viewjob?jk=77ab\",\n  \"source\": \"Indeed\",\n  \"posted\": \"2026-10-11\"\n },\n {\n  \"company\": \"Hooli\",\n  \"title\": \"Senior Backend Engineer\",\n  \"location\": \"Austin, TX\",\n  \"url\": \"https://careers.hooli.example/jobs/senior-backend-engineer\",\n  \"source\": \"Hooli careers page\",\n  \"posted\": \"2026-10-10\"\n }\n]\n"
+  },
+  "empty": {}
+ },
+ "cases": [
+  {
+   "id": 1,
+   "fixture": "backend",
+   "note": "The eval attaches resume.pdf; resume.md stands in (8 years Python/Go backend, AWS, distributed systems).",
+   "turns": [
+    "Find me senior backend engineer roles in Austin, $180k+. Here's my resume: resume.md"
+   ]
+  },
+  {
+   "id": 2,
+   "fixture": "empty",
+   "turns": [
+    "Find me a job"
+   ]
+  },
+  {
+   "id": 3,
+   "fixture": "red_flags",
+   "turns": [
+    "My search came back with only these three (postings.json): one stale posting from 2024 and two staffing-agency listings with no employer named. What do you do?"
+   ]
+  },
+  {
+   "id": 4,
+   "fixture": "empty",
+   "turns": [
+    "Search for product manager jobs in Denver. My salary target is $250k."
+   ]
+  },
+  {
+   "id": 5,
+   "fixture": "dupes",
+   "turns": [
+    "The same job appears on LinkedIn, Indeed, and the company's careers page. I saved all three in postings.json. Clean up my list."
+   ]
+  },
+  {
+   "id": 6,
+   "fixture": "backend",
+   "turns": [
+    "I found this posting on LinkedIn, it has no apply button visible, no salary listed (the role is in NYC), the company name says 'Confidential Fortune 500', and a quick search shows the exact same JD wording was posted three times in the last 60 days. Should I tailor my resume for it?"
+   ]
+  },
+  {
+   "id": 7,
+   "fixture": "empty",
+   "turns": [
+    "Score this posting: I'm a senior backend engineer with 8 YOE in Python+Go targeting $180k. The posting is a Senior Backend Engineer role at Stripe paying $200k-$240k, posted 5 days ago via Greenhouse, well-specified JD listing the same tech stack I have. No red flags."
+   ]
+  },
+  {
+   "id": 8,
+   "fixture": "empty",
+   "turns": [
+    "I'm a registered nurse in Ohio looking for travel-nurse contracts, $80/hr+. Find me real openings."
+   ]
+  }
+ ]
+}

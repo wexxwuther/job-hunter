@@ -1,0 +1,46 @@
+{
+ "skill": "application-tracker",
+ "evals_file": "application-tracker/evals/outcome-evals.json",
+ "_comment": "Fictional workspace fixtures (Jordan Lee, Sam Rivera; .example domains) for tools/run_outcome_evals.py and tools/run_trigger_probe.py. Dates are relative to 2026-10-18: a run much later than that makes every applied entry stale. The evals name .docx resumes; fixtures are text, so .md files stand in.",
+ "fixtures": {
+  "five_entries": {
+   "tracker.json": "[\n {\n  \"company\": \"Vandelay Industries\",\n  \"title\": \"Senior Backend Engineer\",\n  \"url\": \"https://vandelay.example/jobs/17\",\n  \"status\": \"applied\",\n  \"applied_date\": \"2026-10-06\"\n },\n {\n  \"company\": \"Soylent Labs\",\n  \"title\": \"Backend Engineer\",\n  \"url\": \"https://soylent.example/jobs/3\",\n  \"status\": \"applied\",\n  \"applied_date\": \"2026-10-08\"\n },\n {\n  \"company\": \"Wonka Systems\",\n  \"title\": \"Senior Software Engineer\",\n  \"url\": \"https://wonka.example/jobs/88\",\n  \"status\": \"applied\",\n  \"applied_date\": \"2026-10-10\"\n },\n {\n  \"company\": \"Hooli\",\n  \"title\": \"Staff Engineer\",\n  \"url\": \"https://hooli.example/jobs/2\",\n  \"status\": \"interviewing\",\n  \"applied_date\": \"2026-09-28\"\n },\n {\n  \"company\": \"Pied Piper\",\n  \"title\": \"Backend Engineer\",\n  \"url\": \"https://piedpiper.example/jobs/1\",\n  \"status\": \"rejected\",\n  \"applied_date\": \"2026-09-20\"\n }\n]\n"
+  },
+  "acme_screen": {
+   "resume.md": "Sam Rivera\nAustin, TX\n\nSenior Backend Engineer, Initrode Payments, 2021-2026\n- Built and ran Python and Go services for card authorization on AWS\n- Moved the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\nBackend Engineer, Hooli, 2018-2021\n- Wrote Go services for a distributed job scheduler\n- Cut p99 latency of the scheduler API by 40%\n\nTechnical Skills: AWS, Kubernetes, Python, Go, PostgreSQL, distributed systems\nEducation: B.S. Computer Science, University of Texas at Austin, 2018\n",
+   "tracker.json": "[\n {\n  \"company\": \"Acme\",\n  \"title\": \"Senior Backend Engineer\",\n  \"url\": \"https://acme.example/jobs/12\",\n  \"status\": \"interviewing\",\n  \"applied_date\": \"2026-10-03\",\n  \"resume_file\": \"Resume_Acme_SeniorBackend.md\"\n }\n]\n"
+  },
+  "scored_postings": {
+   "postings.json": "[\n {\n  \"company\": \"Stripe\",\n  \"title\": \"Senior Product Manager, Payments\",\n  \"url\": \"https://stripe.example/jobs/listing/123\",\n  \"location\": \"Remote / US\",\n  \"salary\": \"$200k-260k\",\n  \"posted\": \"2026-10-09\",\n  \"score_breakdown\": {\n   \"cv_match\": 4.5,\n   \"comp_vs_target\": 4.5,\n   \"cultural_signals\": 4.0,\n   \"posting_legitimacy\": 5.0,\n   \"red_flags_penalty\": 0.0,\n   \"weighted_global\": 4.5,\n   \"recommendation\": \"apply\"\n  }\n },\n {\n  \"company\": \"Globex Corp\",\n  \"title\": \"Product Manager, Billing\",\n  \"url\": \"https://globex.example/jobs/51\",\n  \"location\": \"Denver, CO\",\n  \"salary\": \"$150k-180k\",\n  \"posted\": \"2026-10-12\",\n  \"score_breakdown\": {\n   \"cv_match\": 4.0,\n   \"comp_vs_target\": 3.5,\n   \"cultural_signals\": 3.5,\n   \"posting_legitimacy\": 4.5,\n   \"red_flags_penalty\": 0.0,\n   \"weighted_global\": 3.9,\n   \"recommendation\": \"apply\"\n  }\n },\n {\n  \"company\": \"Initech\",\n  \"title\": \"Senior Product Manager\",\n  \"url\": \"https://initech.example/jobs/9\",\n  \"location\": \"Remote / US\",\n  \"salary\": \"not listed\",\n  \"posted\": \"2026-10-02\",\n  \"score_breakdown\": {\n   \"cv_match\": 3.5,\n   \"comp_vs_target\": 3.0,\n   \"cultural_signals\": 3.0,\n   \"posting_legitimacy\": 4.0,\n   \"red_flags_penalty\": 0.5,\n   \"weighted_global\": 3.3,\n   \"recommendation\": \"apply_if_specific_reason\"\n  }\n }\n]\n",
+   "Resume_Stripe_SeniorPM.md": "Jordan Lee\nProduct Manager, Hooli, 2018-2026\n- Ran the quarterly roadmap for the billing team\n",
+   "Resume_Globex_PM.md": "Jordan Lee\nProduct Manager, Hooli, 2018-2026\n- Ran the quarterly roadmap for the billing team\n",
+   "Resume_Initech_SeniorPM.md": "Jordan Lee\nProduct Manager, Hooli, 2018-2026\n- Ran the quarterly roadmap for the billing team\n",
+   "CoverLetter_Stripe_SeniorPM.md": "Dear Stripe team, I ran the quarterly roadmap for the billing team at Hooli.\n"
+  }
+ },
+ "cases": [
+  {
+   "id": 1,
+   "fixture": "five_entries",
+   "note": "3 entries at applied 8-12 days before 2026-10-18, 1 interviewing, 1 rejected.",
+   "turns": [
+    "Show me applications I should follow up on."
+   ]
+  },
+  {
+   "id": 2,
+   "fixture": "acme_screen",
+   "turns": [
+    "I just had a phone screen yesterday with Acme. Help me write a thank-you note."
+   ]
+  },
+  {
+   "id": 3,
+   "fixture": "scored_postings",
+   "note": "No tracker.json yet; postings.json holds 3 scored postings and the tailored resumes sit beside it.",
+   "turns": [
+    "Build me an application tracker. I applied to all 3 postings in postings.json today, and the tailored resumes are in this folder."
+   ]
+  }
+ ]
+}

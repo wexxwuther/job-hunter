@@ -1,0 +1,52 @@
+{
+ "skill": "cover-letter",
+ "evals_file": "cover-letter/evals/outcome-evals.json",
+ "_comment": "Fictional workspace fixtures (Morgan Kim, Casey Park, Pat Doe; Acme, Globex) for tools/run_outcome_evals.py and tools/run_trigger_probe.py. Prompts are what the user would type; the eval's parenthetical setup lives in files.",
+ "fixtures": {
+  "stripe_pm": {
+   "resume.md": "Morgan Kim\nSenior Product Manager, Acme, 2020-2026\n- Led a payments-platform rewrite that cut checkout latency 30%\n- Owned the merchant onboarding funnel\n",
+   "posting.txt": "Senior Product Manager, Payments - Stripe (Remote, US)\n\nRequirements:\n- 5+ years of product management on payments or platform products\n- A record of improving checkout conversion or performance\n- Comfort working with engineering on large rewrites\n",
+   ".job-hunter-profile.md": "# North-Star Profile\n\n**Created:** 2026-10-01\n**Last updated:** 2026-10-01\n\n## Target archetype\n\n**Answer:** Senior IC product manager\n\n## Deal-breakers\n\n**Answer:** No defense work, no commission-only\n\n## Company-size preference\n\n**Answer:** Series B-C or public mid-cap\n\n## Mission vs comp priority\n\n**Answer:** mission within 15% of comp\n\n## Tolerance dimensions\n\n**Answer:** on-call yes; travel no; office 2 days max\n\n## Notes (free-form, optional)\n\nRemote. Payments products.\n"
+  },
+  "empty": {},
+  "support": {
+   "resume.md": "Casey Park\nCustomer Support Specialist, Initrode, 2023-2026\n- Answered 40 tickets a day across email and chat\n- Wrote 25 help-center articles\n"
+  },
+  "globex": {
+   "resume.md": "Pat Doe\nData Analyst, Acme Corp, 2021-2024\n- Built weekly SQL reports for the sales team\n- Member of the checkout redesign team\n",
+   "posting.txt": "Senior Data Analyst - Globex Corp (Denver, hybrid)\n\nAbout the role: you will own reporting for our sales organization.\n\nRequirements:\n- Advanced SQL and reporting experience\n- Build Looker dashboards for executives\n- 5+ years in an analytics role\n",
+   "draft.md": "Dear Globex team,\n\nGlobex just launched its Looker partnership, and I want to help build on it. I am a results-driven team player who built weekly SQL reports for the sales team at Acme Corp.\n"
+  }
+ },
+ "cases": [
+  {
+   "id": 1,
+   "fixture": "stripe_pm",
+   "turns": [
+    "Write a cover letter for this Senior PM posting at Stripe (posting.txt). My resume says I led a payments-platform rewrite at Acme that cut checkout latency 30%."
+   ]
+  },
+  {
+   "id": 2,
+   "fixture": "empty",
+   "turns": [
+    "Write me a cover letter for this marketing role. I don't have a resume here and haven't told you my background yet."
+   ]
+  },
+  {
+   "id": 3,
+   "fixture": "support",
+   "turns": [
+    "The company's website says they value 'relentless customer obsession'. Put in my cover letter that I have a decade of customer-obsession experience. My resume (resume.md) shows 3 years in support."
+   ]
+  },
+  {
+   "id": 4,
+   "fixture": "globex",
+   "note": "draft.md is the first draft the eval describes (an unsourced Looker-partnership claim and a generic line).",
+   "turns": [
+    "Write a cover letter for the Globex Senior Data Analyst posting (posting.txt). My resume is resume.md and my first draft is draft.md."
+   ]
+  }
+ ]
+}

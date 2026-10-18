@@ -1,0 +1,39 @@
+{
+ "skill": "career-profile",
+ "evals_file": "career-profile/evals/outcome-evals.json",
+ "_comment": "Fictional workspace fixtures (Sam Rivera) for tools/run_outcome_evals.py and tools/run_trigger_probe.py. Prompts are what the user would type; the eval's parenthetical setup lives in files.",
+ "fixtures": {
+  "empty": {},
+  "existing_profile": {
+   ".job-hunter-profile.md": "# North-Star Profile\n\n**Created:** 2026-10-01\n**Last updated:** 2026-10-01\n\n## Target archetype\n\n**Answer:** Tech lead, hands-on\n\n## Deal-breakers\n\n**Answer:** No defense work, no commission-only\n\n## Company-size preference\n\n**Answer:** Series B-C or public mid-cap\n\n## Mission vs comp priority\n\n**Answer:** mission within 15% of comp\n\n## Tolerance dimensions\n\n**Answer:** on-call yes; travel no; office 2 days max\n\n## Notes (free-form, optional)\n\nAustin or remote. Target $180k base.\n"
+  },
+  "resume": {
+   "resume.md": "Sam Rivera\nAustin, TX\n\nSenior Backend Engineer, Initrode Payments, 2021-2026\n- Built and ran Python and Go services for card authorization on AWS\n- Moved the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\nBackend Engineer, Hooli, 2018-2021\n- Wrote Go services for a distributed job scheduler\n- Cut p99 latency of the scheduler API by 40%\n\nTechnical Skills: AWS, Kubernetes, Python, Go, PostgreSQL, distributed systems\nEducation: B.S. Computer Science, University of Texas at Austin, 2018\n"
+  }
+ },
+ "cases": [
+  {
+   "id": 1,
+   "fixture": "empty",
+   "turns": [
+    "I'm setting up job-hunter for the first time. I'm a senior backend engineer in Austin targeting $180k."
+   ]
+  },
+  {
+   "id": 2,
+   "fixture": "existing_profile",
+   "note": "The saved profile has archetype 'Tech lead, hands-on' and deal-breakers 'No defense work, no commission-only'.",
+   "turns": [
+    "I'm running job-hunter again, second session."
+   ]
+  },
+  {
+   "id": 3,
+   "fixture": "resume",
+   "note": "The eval names resume.docx; fixtures are text files, so resume.md stands in and the parse_resume.py DOCX path is not exercised by this scenario.",
+   "turns": [
+    "Here's my resume (resume.md). Read it and pull out the key facts so we can use it later."
+   ]
+  }
+ ]
+}

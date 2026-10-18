@@ -2,6 +2,24 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Outcome scenarios and natural-trigger rates for the other 7 members (2026-10-18, family v6.0.0 line)
+
+Signal: only interview-prep had a scenarios file, so `tools/run_trigger_probe.py` could not
+measure any other member's description.
+
+What shipped:
+- `tools/outcome-scenarios/<member>.json` for job-hunter, career-profile, job-search,
+  resume-tailor, cover-letter, application-tracker and outcome-learning: fictional
+  fixtures plus turn-1 prompts for all 34 outcome evals, keyed by eval id. Text files
+  stand in where an eval names a DOCX/PDF. A parametrized test per file checks it covers
+  every eval id, matches the skill name and is ASCII (2 mutants killed). CI command 404
+  passed.
+- Family-only probe, 3 samples per case (`docs/evals/trigger-2026-10-18-<member>/`):
+  strict hits 77/102. Most misses loaded the family-correct member (single-member asks
+  went straight to that member; "job-hunter" or "find me a job" prompts loaded the
+  orchestrator). Only 5/102 answered with no skill, with cover-letter's
+  anti-fabrication case worst at 2/3. No SKILL.md changed.
+
 ## Natural-trigger probe promoted to a tested tool (2026-10-18, family v6.0.0 line)
 
 Signal: the probe that measured interview-prep's real trigger rate (1/9, then 9/9) was an
