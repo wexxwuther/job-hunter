@@ -17,28 +17,15 @@ the "load it rather than answering" clause to the front) or a skill-side nudge; 
 `tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/interview-prep.json --ids 2-4`
 (full install = no `--family-only`).
 
-### cover-letter under-triggers on the fabrication request
+### Single-sample 2/3 trigger misses in three members
 
-**Status (2026-10-18, family-only, 3 samples):** cover-letter case 3 ("Put in my cover letter
-that I have a decade of customer-obsession experience. My resume shows 3 years") loaded the
-skill 1/3; the other 2 answered directly (they refused the claim, but no gate ran).
-Cover-letter overall 10/12. Smaller single-sample misses, each 2/3: career-profile case 3
-("Read [my resume] and pull out the key facts"), job-search case 6 (ghost-job posting,
-"Should I tailor my resume for it?"), outcome-learning case 3 ("what you'd tell job-search to
-do differently"). Evidence: `docs/evals/trigger-2026-10-18-<member>/`.
+**Status (2026-10-18, family-only, 3 samples each):** career-profile case 3 ("Read [my resume]
+and pull out the key facts"), job-search case 6 (ghost-job posting, "Should I tailor my resume
+for it?"), outcome-learning case 3 ("what you'd tell job-search to do differently") each loaded
+the expected skill 2/3. Not re-measured. Evidence: `docs/evals/trigger-2026-10-18-<member>/`.
 
-**Re-measured (2026-10-18, family-only, 6 samples):** current description 3/6, so 4/9 across
-both runs: a real miss, not noise. All 3 misses refused the decade claim on their own; the
-gate still did not run. Draft v1 (temp clone only, interview-prep 1.1.0 pattern: "Use whenever
-... even a short ask (... add a claim, skill, or amount of experience the company says it
-values); load it rather than answering from general knowledge, which can state experience they
-lack", 1023 chars, ASCII): case 3 **6/6**, controls 1, 2, 4 **9/9**. `cover-letter/SKILL.md`
-NOT changed. Evidence and draft text: `docs/evals/trigger-2026-10-18-cover-letter-case3/`.
-
-**To answer:** owner approves (or edits) draft v1. Then: apply to `cover-letter/SKILL.md` with
-a version bump, run the family routing evals (positives and negatives; the draft was not
-checked for collisions with resume-tailor edits), redeploy, and re-run the probe on cases 1-4.
-The smaller 2/3 misses above are single samples and were not re-measured.
+**To answer:** re-run each with `tools/run_trigger_probe.py --family-only --samples 6 --ids <n>`
+to separate noise from a real miss (the cover-letter 1/3 turned out real: 4/9).
 
 ### Outcome evals that expect a different first skill than the descriptions route to
 
@@ -245,6 +232,17 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-18) cover-letter under-triggers on the fabrication request
+
+**Resolution:** real miss, fixed. Case 3 ("Put in my cover letter that I have a decade of
+customer-obsession experience. My resume shows 3 years") loaded cover-letter 4/9 family-only
+(1/3, then 3/6); the misses refused the claim but the gate never ran. Draft v1, measured in a
+temp clone (6/6, controls 9/9), was owner-approved and shipped as cover-letter 1.2.0
+(`123bc51`, CI run 39175377741 green), deployed to 24 installs + Q. After deploy: cases 1-4
+12/12 family-only and 12/12 full install (319 skills); family routing 86 queries, cover-letter
+6/6 positives, no collisions with resume-tailor, negatives 13/13. Evidence:
+`docs/evals/trigger-2026-10-18-cover-letter-case3/`, `docs/evals/routing-2026-10-18-cover-letter-desc/`.
 
 ### (2026-10-18) Other members' natural trigger rate is unmeasured
 

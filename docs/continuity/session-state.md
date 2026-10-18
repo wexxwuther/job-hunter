@@ -2,9 +2,35 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (cover-letter case 3 re-measure + draft description awaiting owner approval, `docs/evals/trigger-2026-10-18-cover-letter-case3/`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
 
-## 2026-10-18 cover-letter case 3 re-measure; draft description awaiting owner approval
+## 2026-10-18 cover-letter 1.2.0: fabrication-ask trigger fix (`123bc51`), deployed
+
+- Owner approved draft v1 (2026-10-18). Applied byte-identical to the measured temp-clone
+  SKILL.md; `_meta.json` 1.1.1 -> 1.2.0 (only version location), cover-letter and root
+  CHANGELOG entries. CI command 404 passed; removed-lines audit: only the old description
+  and old version lines. CI "Tests" run 39175377741 green on `123bc51` (9 OS/Python jobs).
+- Deployed: `E:\tmp\jh-cl3\deploy_installs.py` (copy of the 1.1.0 script, now also strips
+  installer-added `__pycache__`: 21 stripped, 0 pre-existing). Rollback
+  `E:\Git\job-hunter-installs-pre-123bc51.zip`. 309 files byte-match across 24 installs;
+  installed cover-letter SKILL.md equals the repo in all 3 roots, `_meta` 1.2.0. Q:
+  `E:\tmp\jh-cl3\reship_q.py` (rollback `E:\Git\job-hunter-q-catalog-pre-123bc51.zip`): 34
+  zips, 761 entries byte-verified; all 4 cover-letter zips and the PLUGIN zip carry the new
+  SKILL.md; `update-catalog.py` wrote 91 skills, job-hunter at `123bc51` (same unrelated
+  social-media-plugin drift warning). The reship's build dir stayed `E:\tmp\jh-rebuild4`
+  (a sed path swap did not apply; that folder only holds rebuild output).
+- Order note: the routing runner loads the installed copies, so collisions could only be
+  measured after the deploy (as for interview-prep 1.1.0), with the rollback archives ready.
+- After deploy: probe cases 1-4 x3: family-only 12/12, full install (319 skills, hooks off)
+  12/12, $0.00 CLI-reported. Family routing evals (86 queries, 0 errored, $3.01): strict
+  71/73, lenient 73/73, negatives 13/13; cover-letter 6/6 positives, resume-tailor positives
+  all stayed on resume-tailor, nothing else routed to cover-letter. Misses 29, 31 are the
+  known orchestrator-lenient job-search queries. Evidence:
+  `docs/evals/trigger-2026-10-18-cover-letter-case3/` (after-* files),
+  `docs/evals/routing-2026-10-18-cover-letter-desc/`.
+- Open question closed; the three single-sample 2/3 misses split into their own entry.
+
+## 2026-10-18 cover-letter case 3 re-measure (`126e5ce`); draft then awaiting owner approval
 
 - `claude auth status`: claude.ai, Max plan. Estimate stated first: baseline 6 calls (cap $9),
   draft 15 calls (cap $22.50). Actual CLI-reported floor $1.37 (the 3 baseline misses only).
