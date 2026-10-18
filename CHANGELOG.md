@@ -2,6 +2,24 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Live outcome evals + gate comma fix (2026-10-18, family v6.0.0 line)
+
+Signal: no family outcome eval had ever run in a real harness; interview-prep's 6 were
+the first (`docs/evals/outcome-2026-10-18-interview-prep/`).
+
+What shipped:
+- **`tools/run_outcome_evals.py`** + `tools/outcome-scenarios/interview-prep.json`: runs
+  each outcome eval through `claude -p` in a fresh fictional workspace (multi-turn via
+  --resume, user hooks disabled), grades the eval's assertions over the assistant's text
+  and tool inputs, and merges a manual verdict per case. `--invoke-skill` measures the
+  skill once loaded when natural routing misses.
+- **Gate fix** (resume-tailor 1.1.1, cover-letter 1.1.1, interview-prep 1.0.1): a comma
+  after a number made a known year or number look new ("In 2023, ..."). Found live.
+- interview-prep eval 3: the fee assertion no longer fails a warning that quotes the
+  injected line.
+- Result: with the skill loaded 6/6 meet expected_output; natural routing loaded it in
+  3/6 (open question: description vs. answering directly).
+
 ## interview-prep member (2026-10-18, family v6.0.0 line)
 
 Signal: a competitive review of MadsLorentzen/ai-job-search (2026-10-18) ranked its
