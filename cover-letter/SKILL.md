@@ -1,16 +1,18 @@
 ---
 name: cover-letter
 description: >
-  Drafts a tailored cover letter for a specific job posting from the user's REAL profile and
-  resume facts, then routes the draft through the family's anti-fabrication gate so it never
-  invents an accomplishment, employer, metric, or claim the user has not confirmed. Use when the
-  user wants to write a cover letter, draft a cover letter for a posting, generate or tailor a
-  cover letter to a job description, turn their resume into a cover letter, or write a letter of
-  interest / motivation letter for a role. Produces a CoverLetter_[Company]_[Role].md (and
-  optional .docx) saved to the workspace. Do not use for editing the resume itself (use
-  resume-tailor), finding or scoring postings (use job-search), setting up a profile or parsing a
-  resume (use career-profile), tracking applications or follow-ups (use application-tracker), or
-  learning from outcomes (use outcome-learning). It never auto-sends — it drafts; the user sends.
+  Drafts or edits a tailored cover letter for a specific job posting from the user's REAL profile
+  and resume facts; every claim about the user passes the family anti-fabrication gate, so it
+  never invents an accomplishment, employer, metric, or years of experience they have not
+  confirmed. Use whenever the user wants to write, tailor, or change a cover letter, letter of
+  interest, or motivation letter, even a short ask (turn the resume into a letter, match the
+  posting, or add a claim, skill, or amount of experience the company says it values); load it
+  rather than answering from general knowledge, which can state experience they lack. Produces
+  CoverLetter_[Company]_[Role].md (optional .docx) in the workspace. Do not use for editing the
+  resume itself (use resume-tailor), finding or scoring postings (use job-search), setting up a
+  profile or parsing a resume (use career-profile), tracking applications or follow-ups (use
+  application-tracker), or learning from outcomes (use outcome-learning). It drafts; the user
+  sends.
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the cover-letter member of the job-hunter family; reads the shared .job-hunter/ workspace (profile, parsed resume, scored postings) if present and degrades gracefully if absent.
 metadata:

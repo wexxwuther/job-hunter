@@ -2,6 +2,22 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## cover-letter description: trigger on the fabrication ask (2026-10-18, family v6.0.0 line)
+
+Signal: the family-only trigger probe loaded cover-letter for case 3 ("put a decade of
+customer-obsession experience in my cover letter; my resume shows 3 years") 1/3, then 3/6 on
+a 6-sample re-run (4/9). The base model refused the claim on its own, but the
+`verify_no_fabrication` gate never ran.
+
+What shipped:
+- **cover-letter 1.2.0** (description only, owner-approved): "Use whenever ... even a short
+  ask (... add a claim, skill, or amount of experience the company says it values); load it
+  rather than answering from general knowledge, which can state experience they lack". The
+  gate is in the first sentence. Do-not-use clauses unchanged; 1023 chars, ASCII (the old
+  em dash is gone).
+- Result in the family-only probe: case 3 6/6 (was 4/9), cases 1, 2, 4 9/9. Evidence:
+  `docs/evals/trigger-2026-10-18-cover-letter-case3/`.
+
 ## Outcome scenarios and natural-trigger rates for the other 7 members (2026-10-18, family v6.0.0 line)
 
 Signal: only interview-prep had a scenarios file, so `tools/run_trigger_probe.py` could not
