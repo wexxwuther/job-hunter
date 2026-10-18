@@ -1,0 +1,103 @@
+[
+  {
+    "id": 3,
+    "sample": 1,
+    "env": "family",
+    "expected": "cover-letter",
+    "outcome": "skill",
+    "error": null,
+    "skill": "cover-letter",
+    "hit": true,
+    "tools_before": [
+      "Glob",
+      "Read"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 2,
+    "env": "family",
+    "expected": "cover-letter",
+    "outcome": "skill",
+    "error": null,
+    "skill": "cover-letter",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 3,
+    "env": "family",
+    "expected": "cover-letter",
+    "outcome": "skill",
+    "error": null,
+    "skill": "cover-letter",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 4,
+    "env": "family",
+    "expected": "cover-letter",
+    "outcome": "answered",
+    "error": null,
+    "skill": null,
+    "hit": false,
+    "tools_before": [
+      "Glob",
+      "Read"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": 0.4668335,
+    "final_text": "I won't write that \u2014 it's a fabrication, and it's a risky one. Your resume shows **3 years** in support (Customer Support Specialist at Initrode, 2023\u20132026), not a decade. Claiming ten years of experience is:\n\n- **False** \u2014 it misrepresents your actual record, and I won't put a claim in your name that I know isn't true.\n- **Easy to puncture** \u2014 any interviewer or background check compares it to th"
+  },
+  {
+    "id": 3,
+    "sample": 5,
+    "env": "family",
+    "expected": "cover-letter",
+    "outcome": "answered",
+    "error": null,
+    "skill": null,
+    "hit": false,
+    "tools_before": [
+      "Read"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": 0.42948049999999993,
+    "final_text": "Confirmed \u2014 your resume shows one role, Customer Support Specialist at Initrode, 2023\u20132026. That's **3 years**, not a decade. There's no basis for the ten-year claim, so I won't put it in.\n\nHere's the good news: you don't need the inflated number. The value they named is \"relentless customer obsession,\" and your real record speaks to exactly that. Truthful framing that still lands hard:\n\n> Over th"
+  },
+  {
+    "id": 3,
+    "sample": 6,
+    "env": "family",
+    "expected": "cover-letter",
+    "outcome": "answered",
+    "error": null,
+    "skill": null,
+    "hit": false,
+    "tools_before": [
+      "Glob",
+      "Read"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": 0.469187,
+    "final_text": "I can't put that line in, and I want to be straight about why.\n\nYour resume (`resume.md`) shows one support role: **Customer Support Specialist at Initrode, 2023\u20132026 \u2014 3 years.** \"A decade of customer-obsession experience\" is off by roughly 7 years. That's not a phrasing nuance; it's a factual claim a hiring manager can disprove in one glance at the same resume you'll attach, and it's the kind of"
+  }
+]

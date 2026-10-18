@@ -1,0 +1,13 @@
+description: >
+  Drafts or edits a tailored cover letter for a specific job posting from the user's REAL profile
+  and resume facts; every claim about the user passes the family anti-fabrication gate, so it
+  never invents an accomplishment, employer, metric, or years of experience they have not
+  confirmed. Use whenever the user wants to write, tailor, or change a cover letter, letter of
+  interest, or motivation letter, even a short ask (turn the resume into a letter, match the
+  posting, or add a claim, skill, or amount of experience the company says it values); load it
+  rather than answering from general knowledge, which can state experience they lack. Produces
+  CoverLetter_[Company]_[Role].md (optional .docx) in the workspace. Do not use for editing the
+  resume itself (use resume-tailor), finding or scoring postings (use job-search), setting up a
+  profile or parsing a resume (use career-profile), tracking applications or follow-ups (use
+  application-tracker), or learning from outcomes (use outcome-learning). It drafts; the user
+  sends.
