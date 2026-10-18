@@ -2,7 +2,27 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (first live outcome-eval run: interview-prep 6 evals, `f02767a`; gate trailing-comma fix `cec398d`; earlier the same day: live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (gate comma fix deployed to 24 installs + Q from `3527358`; first live outcome-eval run: interview-prep 6 evals, `f02767a`; gate trailing-comma fix `cec398d`; earlier the same day: live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 gate comma fix deployed (source `3527358`, contains `cec398d`)
+
+- Gate: CI "Tests" run 39158597052 green on `3527358` (= origin/main, tree clean).
+- Installs: `E:\tmp\jh-interview\deploy_installs.py` (rollback
+  `E:\Git\job-hunter-installs-pre-3527358.zip`, 378 files, testzip clean) ran
+  `install/install.ps1` to all 24 installs; 309 files byte-match git-tracked source, no
+  missing/differing/extra. `verify_no_fabrication.py` byte-identical to the repo in all 9
+  resume-tailor/cover-letter/interview-prep installs; `_meta.json` versions 1.1.1 / 1.1.1 /
+  1.0.1. Runtime check: on the `cec398d` regression-test input the pre-fix gate (from the
+  rollback zip) flags `2023,`, `2024,`, `40,`; all 9 installed gates flag none.
+- The installer again copied the repo's untracked `scripts/__pycache__/` into 21 installs;
+  stripped by hand, 0 cache dirs left (open question "Installer copies untracked caches").
+- Q: `E:\tmp\jh-interview\reship_q.py` (rollback
+  `E:\Git\job-hunter-q-catalog-pre-3527358.zip`, 44 files): 34 zips rebuilt, 761 entries
+  byte-verified; independently re-checked that all 34 Q zips equal the build output, pass
+  testzip, carry no caches, and their 18 gate copies equal the repo. skill.json
+  `family_source_commit` 3527358; `update-catalog.py` (91 skills) shows job-hunter
+  `in-sync`. Unrelated catalog warning seen: social-media-plugin source drift (not touched).
+- Not done: the natural-routing description change (open question) is still undecided.
 
 ## 2026-10-18 live interview-prep outcome evals (commits `cec398d`, `f02767a`)
 
@@ -32,8 +52,7 @@
 - CI command: 383 passed (was 367). ruff clean on the new tools files; runner parses
   on Python 3.10.
 - NOT done: description change for the natural-routing misses (needs a decision; see
-  open-questions); gate fix NOT deployed to installs or Q (installs still run the pre-fix
-  gate, which only over-flags); one sample per case; raw transcripts and workspaces kept
+  open-questions); gate fix deploy (since done from `3527358`, see the entry above); one sample per case; raw transcripts and workspaces kept
   at `E:\tmp\jh-interview\outcome-live\` (run/, run-invoked/), not committed.
 - Hooks note: on this machine the ts-judge UserPromptSubmit hook injects "load
   interview-prep" for these prompts, so the user's own sessions likely route correctly;

@@ -21,12 +21,6 @@ normal tool set. Re-run with `tools/run_outcome_evals.py` (natural mode) and a f
 samples per prompt before and after. Description changes need re-running the family
 routing evals and a redeploy (installs + Q).
 
-### Gate comma fix not deployed
-
-**Status:** `cec398d` is in the repo; the 24 installs and Q still carry the pre-fix
-`verify_no_fabrication.py` (it over-flags numbers followed by a comma; it does not miss
-fabrications). Deploy with the usual installer + Q reship runbook.
-
 ### Three copies of the gate
 
 **Status:** `verify_no_fabrication.py` is now bundled in resume-tailor (canonical),
@@ -47,7 +41,9 @@ runs (14 on a truthful revised draft in the 2026-10-18 trial).
 **Status:** `install.ps1` copies the member working tree and strips only `tests/` and
 `docs/superpowers/`, so gitignored `.pytest_cache/` reaches installs (12 files before the
 2026-10-18 deploy). Cleaned by hand; fix = strip `.pytest_cache` and `__pycache__` in both
-installers, with an install test.
+installers, with an install test. Still open: the 2026-10-18 gate-fix deploy (`3527358`)
+again copied the repo's `scripts/__pycache__/` into 21 installs (all but interview-prep);
+stripped by hand, 0 left.
 
 ### Reviewer pass not yet exercised end to end in a harness
 
@@ -202,6 +198,16 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-18) Gate comma fix not deployed
+
+**Resolution:** deployed `3527358` (contains `cec398d`; CI "Tests" run 39158597052 green)
+to all 24 installs and Q. Rollbacks: `E:\Git\job-hunter-installs-pre-3527358.zip` (378
+files), `E:\Git\job-hunter-q-catalog-pre-3527358.zip` (44 files). Installed gate
+byte-identical to the repo in all 9 resume-tailor/cover-letter/interview-prep installs;
+on the regression-test input the pre-fix gate flags `2023,`, `2024,`, `40,` and every
+installed gate flags nothing. Q: 34 zips, 761 entries byte-verified, 18 gate copies equal
+the repo; catalog `in-sync` at `3527358`.
 
 ### (2026-10-18) Live routing check for interview-prep not run (CLI not logged in)
 
