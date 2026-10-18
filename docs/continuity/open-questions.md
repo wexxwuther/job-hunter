@@ -27,10 +27,18 @@ Cover-letter overall 10/12. Smaller single-sample misses, each 2/3: career-profi
 "Should I tailor my resume for it?"), outcome-learning case 3 ("what you'd tell job-search to
 do differently"). Evidence: `docs/evals/trigger-2026-10-18-<member>/`.
 
-**To answer:** decide whether a 1/3 miss on the anti-fabrication case is worth a description
-pass (owner approval needed; draft in a temp copy, as with interview-prep 1.1.0), then re-run
-`tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/cover-letter.json --ids 3
---family-only --samples 6` to separate noise from a real miss.
+**Re-measured (2026-10-18, family-only, 6 samples):** current description 3/6, so 4/9 across
+both runs: a real miss, not noise. All 3 misses refused the decade claim on their own; the
+gate still did not run. Draft v1 (temp clone only, interview-prep 1.1.0 pattern: "Use whenever
+... even a short ask (... add a claim, skill, or amount of experience the company says it
+values); load it rather than answering from general knowledge, which can state experience they
+lack", 1023 chars, ASCII): case 3 **6/6**, controls 1, 2, 4 **9/9**. `cover-letter/SKILL.md`
+NOT changed. Evidence and draft text: `docs/evals/trigger-2026-10-18-cover-letter-case3/`.
+
+**To answer:** owner approves (or edits) draft v1. Then: apply to `cover-letter/SKILL.md` with
+a version bump, run the family routing evals (positives and negatives; the draft was not
+checked for collisions with resume-tailor edits), redeploy, and re-run the probe on cases 1-4.
+The smaller 2/3 misses above are single samples and were not re-measured.
 
 ### Outcome evals that expect a different first skill than the descriptions route to
 

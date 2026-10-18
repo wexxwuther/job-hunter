@@ -2,7 +2,22 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (cover-letter case 3 re-measure + draft description awaiting owner approval, `docs/evals/trigger-2026-10-18-cover-letter-case3/`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 cover-letter case 3 re-measure; draft description awaiting owner approval
+
+- `claude auth status`: claude.ai, Max plan. Estimate stated first: baseline 6 calls (cap $9),
+  draft 15 calls (cap $22.50). Actual CLI-reported floor $1.37 (the 3 baseline misses only).
+- `tools/run_trigger_probe.py --family-only`, cover-letter case 3 x6, current description:
+  **3/6** (earlier run 1/3; 4/9 total), so the miss is real. All 3 misses read `resume.md` and
+  refused the decade claim; no gate ran.
+- Draft v1 in a temp clone (`E:\tmp\jh-cl3\draft-repo`, outside the repo; same tool run from
+  there): case 3 **6/6**, controls 1, 2, 4 **9/9**. 1023 chars, ASCII, interview-prep 1.1.0
+  pattern ("Use whenever ... even a short ask"; "load it rather than answering from general
+  knowledge"). Drops the old description's em dash.
+- `cover-letter/SKILL.md` NOT changed (owner approval needed). Not done: routing/collision
+  evals on the draft, full-install probe. Evidence: `docs/evals/trigger-2026-10-18-cover-letter-case3/`.
+  Open question updated in `open-questions.md`.
 
 ## 2026-10-18 outcome scenarios + family-only trigger rates for the other 7 members (`4f21132`)
 
