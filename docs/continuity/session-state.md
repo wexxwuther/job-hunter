@@ -27,7 +27,8 @@
   (`skill-hit.jsonl`, `direct-answer.jsonl`, `errored.jsonl`; synthetic, shaped like the
   2026-10-18 raw streams, no local paths) through a fake Popen; the family-env test uses
   the real `git ls-files`. Mutation check `E:\tmp\jh-trigger\mutate.py`: 22/22 killed. CI command
-  397 passed (was 383); ruff clean on the new files.
+  397 passed (was 383); ruff clean on the new files. CI "Tests" run 39170085388 green on
+  `ecd9a18` (all 9 OS/Python jobs).
 - Dry-run, interview-prep `--ids 2-4 --samples 3 --family-only`: cases 2, 3, 4 with their
   turn-1 prompts; env = 8 members, 103 files.
 - Live smoke (`claude auth status`: claude.ai, Max plan; estimate stated first: under $1,
