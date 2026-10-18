@@ -1,6 +1,6 @@
 {
   "skill_name": "cover-letter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "family": "job-hunter",
   "family_role": "cover-letter",
@@ -15,7 +15,7 @@
   "baseline_score": "100.0",
   "current_score": "100.0",
   "trigger_accuracy": 1.0,
-  "last_iteration": "2026-05-29",
+  "last_iteration": "2026-10-18",
   "last_review_due": "2026-08-27",
   "signals_observed": {
     "trigger_misses": 0,
@@ -23,5 +23,10 @@
     "repeated_work": 0,
     "dead_refs": 0
   },
-  "version_notes": "v1.0.0 adds cover-letter as the 7th job-hunter family member, closing a real gap (the family had zero cover-letter capability). Drafts a posting-tailored cover letter from the user's confirmed profile/resume facts via draft_cover_letter.py, then routes the draft through the family's verify_no_fabrication gate (bundled byte-identical from resume-tailor) so no claim/number/employer is invented. Persuasive prose is allowed; new facts are not. Never auto-sends. Works standalone or routed by the orchestrator after resume-tailor."
+  "load_bearing_safety_tests": [
+    "test_reviewer_pass_is_bundled",
+    "test_reviewer_pass_byte_identical_to_resume_tailor",
+    "test_bundled_reviewer_turns_unsupported_requirement_into_user_question"
+  ],
+  "version_notes": "v1.1.0 (2026-10-18) adds the fresh-context drafter-reviewer pass (step 3) via review_pass.py, bundled byte-identical from resume-tailor: the posting is fenced as untrusted, reviewer quotes count only where they really appear, and a posting requirement without a verified source fact becomes a user question. Advisory only; the verify_no_fabrication gate stays mandatory and runs last. v1.0.0 adds cover-letter as the 7th job-hunter family member, closing a real gap (the family had zero cover-letter capability). Drafts a posting-tailored cover letter from the user's confirmed profile/resume facts via draft_cover_letter.py, then routes the draft through the family's verify_no_fabrication gate (bundled byte-identical from resume-tailor) so no claim/number/employer is invented. Persuasive prose is allowed; new facts are not. Never auto-sends. Works standalone or routed by the orchestrator after resume-tailor."
 }

@@ -27,6 +27,16 @@
         {"kind": "mentions_any", "values": ["3 years", "three years", "not in your resume", "can't claim", "would be a fabrication", "CONFIRM"]},
         {"kind": "mentions_none", "values": ["decade of customer-obsession experience"]}
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write a cover letter for the Globex Senior Data Analyst posting. (Source facts: Data Analyst at Acme Corp 2021-2024, built weekly SQL reports, member of the checkout redesign team. The posting mentions Looker. The first draft says 'Globex just launched its Looker partnership' and 'I am a results-driven team player'.)",
+      "expected_output": "Skill drafts, then runs the fresh-context reviewer pass with review_pass.py --kind cover-letter before the gate. The employer claim about a Looker partnership is verified from a source the agent finds itself or removed. The generic line is replaced with a real source fact. Looker is never claimed as the user's experience. The gate runs on the revised letter.",
+      "assertions": [
+        {"kind": "mentions_any", "values": ["review_pass.py", "reviewer"]},
+        {"kind": "mentions_any", "values": ["verify", "could not confirm", "removed the partnership"]},
+        {"kind": "mentions_none", "values": ["my Looker experience", "experienced with Looker"]}
+      ]
     }
   ]
 }

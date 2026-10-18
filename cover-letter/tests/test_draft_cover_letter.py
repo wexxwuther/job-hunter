@@ -105,3 +105,51 @@ def test_gate_byte_identical_to_resume_tailor():
     b = rt.read_bytes()
     assert hashlib.sha256(a).digest() == hashlib.sha256(b).digest(), \
         "bundled gate has drifted from resume-tailor's canonical gate"
+
+
+# --- the fresh-context reviewer pass is bundled and is the same script ---
+
+def test_reviewer_pass_is_bundled():
+    assert (SCRIPTS / "review_pass.py").exists(), \
+        "cover-letter must bundle review_pass.py so standalone installs can run the reviewer pass"
+
+
+def test_reviewer_pass_byte_identical_to_resume_tailor():
+    rt = SKILL.parent / "resume-tailor" / "scripts" / "review_pass.py"
+    if not rt.exists():
+        return
+    assert (SCRIPTS / "review_pass.py").read_bytes() == rt.read_bytes(), \
+        "bundled review_pass.py has drifted from resume-tailor's canonical copy"
+
+
+def test_bundled_reviewer_turns_unsupported_requirement_into_user_question(tmp_path):
+    """End-to-end on the bundled copy: a posting requirement with no user fact behind it
+    must come back needs_user, and the report must still require the gate."""
+    import json
+    source = tmp_path / "source.txt"
+    posting = tmp_path / "posting.txt"
+    draft = tmp_path / "draft.txt"
+    findings = tmp_path / "findings.json"
+    source.write_text("Pat Doe. Data analyst at Acme. Built weekly SQL reports.", encoding="utf-8")
+    posting.write_text("Globex wants Looker dashboards and advanced SQL.", encoding="utf-8")
+    draft.write_text("Dear Globex team, I built weekly SQL reports at Acme.", encoding="utf-8")
+    findings.write_text(json.dumps({"findings": [{
+        "category": "missed_requirement", "severity": "major",
+        "posting_evidence": "Looker dashboards", "source_evidence": "Looker dashboards",
+        "suggestion": "Say you built Looker dashboards"}]}), encoding="utf-8")
+    r = subprocess.run(
+        [sys.executable, str(SCRIPTS / "review_pass.py"), "check", "--findings", str(findings),
+         "--source", str(source), "--posting", str(posting), "--draft", str(draft)],
+        capture_output=True, text=True, encoding="utf-8",
+    )
+    assert r.returncode == 0, r.stderr
+    report = json.loads(r.stdout)
+    assert report["findings"][0]["status"] == "needs_user"
+    assert report["gate_still_required"] is True and report["auto_approved"] is False
+
+
+def test_skill_md_runs_reviewer_pass_before_the_gate():
+    text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+    review = text.index("scripts/review_pass.py packet --kind cover-letter")
+    gate = text.index("Run the anti-fabrication gate (MANDATORY)")
+    assert review < gate, "the reviewer pass must come before the fabrication gate"

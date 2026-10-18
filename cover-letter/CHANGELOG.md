@@ -1,5 +1,14 @@
 # Changelog — cover-letter
 
+## v1.1.0 (2026-10-18)
+
+- New step 3: the same fresh-context reviewer pass as resume-tailor
+  (`scripts/review_pass.py`, bundled byte-identical; a test guards the copy). Focus for
+  letters: invented anecdotes or metrics, employer claims (verified or removed), and
+  generic lines. Advisory only. The anti-fabrication gate (now step 4) stays mandatory
+  and runs on the revised letter.
+- 4 new tests, 1 new outcome eval.
+
 ## v1.0.0 — 2026-05-29
 
 Initial release. Added as the 7th member of the job-hunter family, closing a real

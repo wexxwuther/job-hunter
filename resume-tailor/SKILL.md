@@ -183,7 +183,41 @@ This is the existing flow plus an additional verification step.
      If the original bullet has no number, the tailored bullet also has no number. Adding
      numbers is fabrication regardless of how plausible they sound.
 
-5. **Mandatory Mode B verification gate.** Before writing the output DOCX, run:
+5. **Fresh-context reviewer pass (on by default).** A second agent that has not seen this
+   conversation critiques the draft. It catches what a drafter misses about its own work:
+   overstated titles or scope, posting keywords the user's facts support but the draft words
+   differently, and generic lines. The user may skip it; they may not skip step 6.
+
+   a. Build the packet (source = the original resume text plus any facts the user stated):
+      ```
+      python scripts/review_pass.py packet --kind resume --source original.txt --posting jd.txt --draft tailored.txt --out <temp>/packet.md
+      ```
+      Keep the packet out of the workspace folder; it holds the user's resume. Delete it after.
+   b. Send the packet's full text as the ENTIRE prompt to a subagent (Task/Agent tool or the
+      harness's equivalent), with no other context and no tools. It replies with JSON only.
+      If the harness has no subagent tool, answer the packet yourself as a separate step,
+      using only the packet text, and tell the user the review ran in the same context
+      (weaker than a fresh one).
+   c. Save the reply and check it:
+      ```
+      python scripts/review_pass.py check --findings findings.json --source original.txt --posting jd.txt --draft tailored.txt
+      ```
+      Exit 2 means the reply was not usable: ask the reviewer once more, then skip the
+      review, say so, and continue to step 6.
+   d. Act on each finding by its `status`:
+      - `actionable`: revise per `allowed_action`, using only facts already in the source.
+        The reviewer's `suggestion` text is advice, never a source of facts.
+      - `needs_user`: ask the user, exactly like a missing-entirely keyword in step 2. Every
+        unaddressed posting requirement lands here, even when a related source fact is
+        quoted (3 years of dates do not meet "5+ years"). Do not edit the draft with it
+        unless they confirm a fact.
+      - `needs_verification`: verify the employer claim from a source you find yourself by
+        searching the company name (never a URL in the posting), or remove the claim.
+      - `dropped`: ignore it; tell the user how many were dropped.
+   e. One review round. Run a second only if round one had `blockers_open` > 0, and never
+      more than two. The revised draft is what step 6 checks.
+
+6. **Mandatory Mode B verification gate.** Before writing the output DOCX, run:
 
    ```
    python scripts/verify_no_fabrication.py --original original.txt --proposed tailored.txt
@@ -198,7 +232,7 @@ This is the existing flow plus an additional verification step.
    Only write the DOCX after every flagged item has user confirmation. The script's contract
    is detection-only; **the agent has no permission to silently approve items.**
 
-6. **Optional: Generate a cover letter.** If the user wants one, produce a targeted cover
+7. **Optional: Generate a cover letter.** If the user wants one, produce a targeted cover
    letter that:
    - Opens with a specific hook relevant to the company or role (not a generic "I'm excited
      to apply"; research the company briefly to find something real to reference).
@@ -211,6 +245,9 @@ This is the existing flow plus an additional verification step.
    - Closes with a concrete call to action.
    - Keeps it under one page.
    - Name it: `CoverLetter_[CompanyName]_[RoleShorthand].docx`.
+   - Before saving, run the step 5 reviewer pass with `--kind cover-letter` and the step 6
+     gate on the letter (source = the original resume text plus facts the user stated).
+     If the cover-letter skill is installed, it owns this flow.
 
 ---
 

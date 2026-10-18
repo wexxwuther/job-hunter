@@ -18,6 +18,17 @@ def test_load_bearing_safety_tests_present_after_move():
                  "test_real_world_pattern_detects_multiple_categories",
                  "test_years_NOT_flagged_as_new_numbers"]:
         assert name in t, f"load-bearing safety test {name} lost in the split"
+def test_every_declared_load_bearing_test_exists():
+    m = json.loads((ROOT / "_meta.json").read_text(encoding="utf-8"))
+    all_tests = "".join(p.read_text(encoding="utf-8") for p in (ROOT / "tests").glob("test_*.py"))
+    for name in m["load_bearing_safety_tests"]:
+        assert f"def {name}(" in all_tests, f"declared load-bearing test {name} is missing"
+def test_skill_md_runs_reviewer_pass_before_the_gate():
+    text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    review = text.index("scripts/review_pass.py packet --kind resume")
+    gate = text.index("Mandatory Mode B verification gate")
+    assert review < gate, "the reviewer pass must come before the fabrication gate"
+    assert "never a source of facts" in text
 def test_skill_md_preserves_hard_gate_and_modes():
     text = (ROOT / "SKILL.md").read_text(encoding="utf-8").lower()
     assert "hard gate" in text or "truth-preservation" in text

@@ -1,6 +1,6 @@
 {
   "skill_name": "resume-tailor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "family": "job-hunter",
   "family_role": "resume-tailor",
@@ -15,7 +15,7 @@
   "baseline_score": "100.0",
   "current_score": "100.0",
   "trigger_accuracy": 1.0,
-  "last_iteration": "2026-05-28",
+  "last_iteration": "2026-10-18",
   "last_review_due": "2026-08-26",
   "signals_observed": {
     "trigger_misses": 0,
@@ -28,7 +28,14 @@
     "test_auto_approved_field_is_always_false_on_dirty_input",
     "test_script_exports_only_detection_no_approval_helpers",
     "test_real_world_pattern_detects_multiple_categories",
-    "test_years_NOT_flagged_as_new_numbers"
+    "test_years_NOT_flagged_as_new_numbers",
+    "test_posting_requirement_without_source_fact_is_never_actionable",
+    "test_source_evidence_found_only_in_posting_is_not_verified",
+    "test_source_evidence_found_only_in_draft_is_not_verified",
+    "test_gate_still_required_and_never_auto_approved",
+    "test_script_exports_no_approval_or_edit_helpers",
+    "test_packet_fences_posting_as_untrusted_with_random_marker",
+    "test_missed_requirement_with_real_but_insufficient_source_quote_still_asks_user"
   ],
-  "version_notes": "v1.0.0 is the job-hunter family resume-tailor member, carved from the v5.2.0 monolith's Phase 3 (Tailor Application Materials). THE MOST SAFETY-CRITICAL member: it carries the anti-fabrication HARD GATE. Owns verify_no_fabrication.py (the detection-only fabrication gate, guarded by 5 load-bearing safety tests listed above) plus extract_ats_keywords.py (eval-only, the three-category ATS keyword-gap analysis). Splits Mode A (Tighten/Copyedit, zero-fabrication contract) from Mode B (Tailor for a specific posting, with the mandatory verify_no_fabrication gate). Reads original resume + JD; produces a gated Resume_[Company]_[Role].docx per the family workspace-contract only after every new claim has explicit per-claim user confirmation. The script NEVER auto-approves; auto_approved is always False."
+  "version_notes": "v1.1.0 (2026-10-18) adds the fresh-context drafter-reviewer pass (Mode B step 5): review_pass.py builds a reviewer packet with the posting fenced as untrusted, and checks the reviewer's JSON findings so a quote counts only where it really appears; a posting requirement without a verified source fact becomes a user question, never an edit. Advisory only; verify_no_fabrication stays mandatory and runs last. Ships byte-identical in cover-letter. v1.0.0 is the job-hunter family resume-tailor member, carved from the v5.2.0 monolith's Phase 3 (Tailor Application Materials). THE MOST SAFETY-CRITICAL member: it carries the anti-fabrication HARD GATE. Owns verify_no_fabrication.py (the detection-only fabrication gate, guarded by 5 load-bearing safety tests listed above) plus extract_ats_keywords.py (eval-only, the three-category ATS keyword-gap analysis). Splits Mode A (Tighten/Copyedit, zero-fabrication contract) from Mode B (Tailor for a specific posting, with the mandatory verify_no_fabrication gate). Reads original resume + JD; produces a gated Resume_[Company]_[Role].docx per the family workspace-contract only after every new claim has explicit per-claim user confirmation. The script NEVER auto-approves; auto_approved is always False."
 }

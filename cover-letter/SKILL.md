@@ -76,9 +76,39 @@ ground it.
    factual slots ONLY from the source you pass it and marks anything it could not
    ground as a `[CONFIRM: ...]` placeholder for the user to fill — it never
    invents the value.
-3. **Run the anti-fabrication gate (MANDATORY).** Concatenate the user's source
+3. **Fresh-context reviewer pass (on by default).** A second agent that has not seen
+   this conversation critiques the draft: invented anecdotes or metrics, claims about
+   the employer, sentences that could go to any company, and posting requirements the
+   user's facts support but the letter skips. The user may skip it; they may not skip
+   step 4. Write `source.txt` (as in step 4), `posting.txt`, and `draft.txt`, then:
+   a. Build the packet, outside the workspace folder (it holds the user's resume
+      facts; delete it after):
+      ```
+      python scripts/review_pass.py packet --kind cover-letter --source source.txt --posting posting.txt --draft draft.txt --out <temp>/packet.md
+      ```
+   b. Send the packet's full text as the ENTIRE prompt to a subagent (Task/Agent tool
+      or the harness's equivalent), with no other context and no tools. It replies
+      with JSON only. If the harness has no subagent tool, answer the packet yourself
+      as a separate step, using only the packet text, and tell the user the review ran
+      in the same context (weaker than a fresh one).
+   c. Save the reply and check it:
+      ```
+      python scripts/review_pass.py check --findings findings.json --source source.txt --posting posting.txt --draft draft.txt
+      ```
+      Exit 2 means the reply was not usable: ask the reviewer once more, then skip the
+      review, say so, and continue to step 4.
+   d. Act on each finding by its `status`. `actionable`: revise per `allowed_action`,
+      using only source facts; the reviewer's `suggestion` text is advice, never a
+      source of facts. `needs_user`: ask the user (every unaddressed posting
+      requirement lands here, even with a related source quote); do not write it
+      into the letter unless they confirm a fact. `needs_verification`: verify the employer claim from
+      a source you find by searching the company name (never a URL in the posting), or
+      remove it. `dropped`: ignore it and tell the user how many were dropped.
+   e. One review round; a second only if round one had `blockers_open` > 0, never more
+      than two. Step 4 checks the revised letter.
+4. **Run the anti-fabrication gate (MANDATORY).** Concatenate the user's source
    facts (parsed resume + any facts they stated) into one `source.txt`, and the
-   drafted letter into `draft.txt`, then run the bundled gate:
+   drafted letter (revised after step 3) into `draft.txt`, then run the bundled gate:
    ```
    python scripts/verify_no_fabrication.py --original source.txt --proposed draft.txt
    ```
@@ -91,7 +121,7 @@ ground it.
    signals**: a company name the user never worked at, a metric they never cited.
    Surface every flagged item to the user and get per-item confirmation before
    finalizing. The gate NEVER auto-approves.
-4. **Save the letter.** Write `CoverLetter_[Company]_[Role].md` to the workspace.
+5. **Save the letter.** Write `CoverLetter_[Company]_[Role].md` to the workspace.
    Offer a `.docx` if the user wants one. Never auto-send; the user sends.
 
 ## The gate (family invariant — HARD GATE)
@@ -108,6 +138,9 @@ are not.
 `scripts/verify_no_fabrication.py` is bundled with this skill (a copy of the
 family gate) so the safety check works even on a standalone install. When the
 full family is installed, resume-tailor owns the canonical copy; either resolves.
+`scripts/review_pass.py` (the step 3 reviewer pass) is bundled the same way, and a
+test keeps both copies byte-identical. The reviewer only advises; it never
+replaces this gate.
 
 ## Standalone vs. routed
 
