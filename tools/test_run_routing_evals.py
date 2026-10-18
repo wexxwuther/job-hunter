@@ -1,5 +1,6 @@
 """Unit tests for the routing-eval parser and scorer (no live calls)."""
 import importlib.util
+import json
 from pathlib import Path
 
 _spec = importlib.util.spec_from_file_location(
@@ -89,3 +90,70 @@ def test_unclaimed_query_without_label_is_rejected(tmp_path):
         assert "Brand new unlabeled negative" in str(exc)
     else:
         raise AssertionError("unlabeled unclaimed query was accepted")
+
+
+# Real tail of a `claude -p` stream when the CLI is not logged in (2026-10-18).
+# Note subtype "success" with is_error true: the subtype alone does not flag it.
+_NOT_LOGGED_IN = "Not logged in \u00b7 Please run /login"
+_NOT_LOGGED_IN_STREAM = [
+    {"type": "system", "subtype": "init", "model": "claude-opus-5-5"},
+    {"type": "assistant", "error": "authentication_failed", "message": {
+        "model": "<synthetic>", "content": [{"type": "text", "text": _NOT_LOGGED_IN}]}},
+    {"type": "result", "subtype": "success", "is_error": True, "num_turns": 1,
+     "result": _NOT_LOGGED_IN, "total_cost_usd": 0},
+]
+
+
+class _FakeProc:
+    """Stands in for the claude CLI process: replays a fixed stream."""
+    pid = 0
+
+    def __init__(self, events):
+        import io
+        self.stdin = io.StringIO()
+        self.stdout = iter(json.dumps(e) + "\n" for e in events)
+
+    def poll(self):
+        return 0
+
+
+def _fake_claude(monkeypatch, events):
+    calls = []
+    monkeypatch.setattr(rre.shutil, "which", lambda name: "claude")
+
+    def popen(cmd, **kw):
+        calls.append(cmd)
+        return _FakeProc(events)
+    monkeypatch.setattr(rre.subprocess, "Popen", popen)
+    return calls
+
+
+def test_not_logged_in_result_is_errored_not_scored(tmp_path, monkeypatch, capsys):
+    _fake_claude(monkeypatch, _NOT_LOGGED_IN_STREAM)
+    # case 1 is a positive (expected non-empty); old code scored it "routed (none)"
+    rc = rre.main(["--out-dir", str(tmp_path), "--ids", "1", "--workers", "1"])
+    assert rc != 0, "an errored CLI call must fail the run"
+    row = json.loads((tmp_path / "results.json").read_text(encoding="utf-8"))[0]
+    assert row["errored"] is True
+    assert row["error"] == _NOT_LOGGED_IN
+    report = (tmp_path / "report.md").read_text(encoding="utf-8")
+    assert "Positive strict: 0/0" in report
+    assert "Negative (no family skill): 0/0" in report
+    assert "## Errored" in report and "Not logged in" in report
+    misses = report.split("## Misses", 1)[1].split("##", 1)[0]
+    assert "| 1 |" not in misses, "errored case must not be listed as a routing miss"
+
+
+def test_errored_raw_is_retried_on_resume(tmp_path, monkeypatch):
+    raw = tmp_path / "raw"
+    raw.mkdir()
+    (raw / "001.jsonl").write_text(
+        "".join(json.dumps(e) + "\n" for e in _NOT_LOGGED_IN_STREAM), encoding="utf-8")
+    ok = [{"type": "system", "subtype": "init", "model": "m"},
+          _assistant(("Skill", {"skill": "job-search"}))]
+    calls = _fake_claude(monkeypatch, ok)
+    rc = rre.main(["--out-dir", str(tmp_path), "--ids", "1", "--workers", "1"])
+    assert len(calls) == 1, "an errored raw result must be re-run, not reused"
+    row = json.loads((tmp_path / "results.json").read_text(encoding="utf-8"))[0]
+    assert row["errored"] is False and row["routed"] == "job-search"
+    assert rc == 0

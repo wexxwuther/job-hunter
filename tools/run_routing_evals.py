@@ -13,6 +13,8 @@ Scoring per query:
     lenient pass: routed skill in expected or the orchestrator (job-hunter),
                   since the orchestrator legitimately routes onward
   negative (expected empty): pass if no family skill was routed
+  errored (CLI result has is_error, e.g. "Not logged in"): not scored, listed
+    separately, and the run exits 1. Reruns retry errored queries.
 
 Usage:
   python tools/run_routing_evals.py --out-dir <dir> --dry-run
@@ -151,8 +153,22 @@ def _kill_tree(proc: subprocess.Popen) -> None:
         proc.kill()
 
 
+def result_error(events: list[dict]) -> str | None:
+    """Error text if the CLI's result event is an error, else None.
+
+    An auth failure arrives as subtype "success" with is_error true, so the
+    subtype alone does not show it.
+    """
+    for e in events:
+        if e.get("type") == "result" and e.get("is_error"):
+            return str(e.get("result") or e.get("subtype") or "error")
+    return None
+
+
 def _is_done(events: list[dict]) -> bool:
-    return any(e.get("type") in ("result", "routing_stop") for e in events)
+    """A finished, non-errored call (errored ones are retried on rerun)."""
+    return result_error(events) is None and any(
+        e.get("type") in ("result", "routing_stop") for e in events)
 
 
 def run_case(case: dict, idx: int, raw_dir: Path, cwd: Path, timeout: int) -> dict:
@@ -193,11 +209,13 @@ def run_case(case: dict, idx: int, raw_dir: Path, cwd: Path, timeout: int) -> di
             raw.write_text("".join(lines), encoding="utf-8")
         events = parse_stream(raw.read_text(encoding="utf-8"))
     routed, seen = routed_skill(events)
+    error = result_error(events)
     result = next((e for e in events if e.get("type") == "result"), {})
     init = next((e for e in events if e.get("type") == "system" and e.get("subtype") == "init"), {})
     return {
         "id": idx, **case, "routed": routed, "all_skills_invoked": seen,
         **score(case, routed),
+        "errored": error is not None, "error": error,
         "completed": _is_done(events),
         "result_subtype": result.get("subtype") or ("routing_stop" if _is_done(events) else None),
         "cost_usd": result.get("total_cost_usd") or 0.0,
@@ -206,15 +224,18 @@ def run_case(case: dict, idx: int, raw_dir: Path, cwd: Path, timeout: int) -> di
 
 
 def render_report(rows: list[dict]) -> str:
-    pos = [r for r in rows if r["expected"]]
-    neg = [r for r in rows if not r["expected"]]  # off-domain: no family skill wanted
+    errored = [r for r in rows if r["errored"]]
+    scored = [r for r in rows if not r["errored"]]
+    pos = [r for r in scored if r["expected"]]
+    neg = [r for r in scored if not r["expected"]]  # off-domain: no family skill wanted
     def pct(n, d):
         return f"{n}/{d} ({(100 * n / d):.0f}%)" if d else "0/0"
     models = sorted({r["model"] for r in rows if r["model"]})
     lines = [
         "# job-hunter family routing evals (live claude -p)", "",
         f"- Model(s): {', '.join(models) or 'unknown'}",
-        f"- Queries: {len(rows)} ({len(pos)} positive, {len(neg)} negative); completed: {sum(r['completed'] for r in rows)}",
+        f"- Queries: {len(rows)} ({len(pos)} positive, {len(neg)} negative scored; "
+        f"{len(errored)} errored, not scored); completed: {sum(r['completed'] for r in rows)}",
         f"- Positive strict: {pct(sum(r['strict'] for r in pos), len(pos))}; lenient (orchestrator ok): {pct(sum(r['lenient'] for r in pos), len(pos))}",
         f"- Negative (no family skill): {pct(sum(r['strict'] for r in neg), len(neg))}",
         f"- Cost (CLI-reported, completed calls only): ${sum(r['cost_usd'] for r in rows):.2f}; "
@@ -223,11 +244,17 @@ def render_report(rows: list[dict]) -> str:
         "| # | query | expected | routed | lenient | sources |",
         "|---|---|---|---|---|---|",
     ]
-    for r in rows:
+    for r in scored:
         if not r["strict"]:
             q = r["query"].replace("|", "/")[:90]
             lines.append(f"| {r['id']} | {q} | {', '.join(r['expected']) or '(none)'} | "
                          f"{r['routed'] or '(none)'} | {'yes' if r['lenient'] else 'NO'} | {'; '.join(r['sources'])} |")
+    if errored:
+        lines += ["", "## Errored (CLI error result; excluded from all scores)", "",
+                  "| # | query | error |", "|---|---|---|"]
+        for r in errored:
+            q = r["query"].replace("|", "/")[:90]
+            lines.append(f"| {r['id']} | {q} | {r['error'].replace('|', '/')} |")
     lines += ["", "## Conflicts in eval expectations (query claimed by >1 member)", ""]
     for r in rows:
         if len(r["expected"]) > 1:
@@ -269,6 +296,11 @@ def main(argv: list[str] | None = None) -> int:
     report = render_report(rows)
     (out / "report.md").write_text(report, encoding="utf-8")
     print(report)
+    n_err = sum(r["errored"] for r in rows)
+    if n_err:
+        print(f"ERROR: {n_err}/{len(rows)} queries errored (see '## Errored'); "
+              "rerun the same --out-dir to retry them", file=sys.stderr)
+        return 1
     return 0
 
 
