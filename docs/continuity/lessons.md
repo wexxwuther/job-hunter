@@ -32,8 +32,8 @@ catastrophic description failure.
 **Lesson:** a measurement tool that turns an infrastructure error into a score produces a
 believable wrong answer. Check one raw transcript before believing a surprising eval.
 
-**How to apply:** open one raw `.jsonl` when results look extreme. Fix pending in
-open-questions (treat `is_error` results as errors, not routing outcomes).
+**How to apply:** open one raw `.jsonl` when results look extreme. Fixed in `24eea6a`:
+`is_error` results are now errors (excluded from scores, run exits 1), not routing outcomes.
 
 ## 2026-10-18, A real quote is not proof of support: run one live trial before trusting an LLM-output validator
 

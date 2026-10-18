@@ -10,13 +10,8 @@ answer it. Move to "Closed" with the answer + date once resolved.
 **Status:** `run_routing_evals.py --ids 62,63,73-86` failed on every call with "Not logged
 in - Please run /login". Only the proxy check exists (18/18,
 `docs/evals/interview-prep-proxy-2026-10-18/`). Needed: `claude` CLI logged in, then re-run
-those ids (~$0.4-0.9 per query).
-
-### Routing runner scores CLI errors as "(none)"
-
-**Status:** `tools/run_routing_evals.py` treats a `result` event with `is_error: true` as
-a completed run that routed nowhere. Fix: count such cases as errors, exclude them from the
-score, and print the error text; add a unit test with a "Not logged in" result event.
+those ids (~$0.4-0.9 per query). Since `24eea6a` the runner exits 1 and lists errored
+calls instead of scoring them, and a rerun of the same `--out-dir` retries them.
 
 ### Three copies of the gate
 
@@ -185,6 +180,14 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-18) Routing runner scores CLI errors as "(none)"
+
+**Resolution:** fixed in `24eea6a`. A `result` event with `is_error: true` (the auth
+failure arrives as subtype "success") now marks the case `errored`: excluded from strict,
+lenient and negative scores, listed in an "Errored" report section with the error text,
+run exit code 1, and retried on rerun instead of reused. Two tests replay the real
+not-logged-in stream through `main()`; both failed on the old runner. CI command: 367 passed.
 
 ### (2026-10-12) Republish Q:\skills\job-hunter from this repo?
 

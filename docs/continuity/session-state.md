@@ -2,7 +2,19 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (interview-prep v1.0.0 added as the 8th member, commit `c01d73c`; deployed to installs + Q)
+**Last updated:** 2026-10-18 (routing runner errored-case fix `24eea6a`; interview-prep v1.0.0 added as the 8th member, commit `c01d73c`; deployed to installs + Q)
+
+## 2026-10-18 routing runner: CLI errors are errors (commit `24eea6a`)
+
+- `tools/run_routing_evals.py`: a `result` event with `is_error: true` (e.g. "Not logged
+  in - Please run /login", subtype "success") now gives `errored: true` + `error` text;
+  such cases are excluded from strict/lenient/negative scores, listed under "## Errored",
+  make the run exit 1, and are re-run (not reused) when the same `--out-dir` is rerun.
+- Tests: 2 new in `tools/test_run_routing_evals.py` replay the real not-logged-in stream
+  (from `E:\tmp\jh-interview\routing-live\raw\062.jsonl`) through `main()` with a fake CLI process;
+  both failed on the old runner (exit 0; errored raw reused). CI command: 367 passed.
+- Still owed: the live interview-prep routing run (`--ids 62,63,73-86`, dry-run numbering
+  checked); `claude auth status` still reported `loggedIn: false` on 2026-10-18.
 
 ## 2026-10-18 interview-prep, 8th family member (commit `c01d73c`)
 
