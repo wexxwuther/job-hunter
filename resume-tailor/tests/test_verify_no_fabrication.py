@@ -389,3 +389,109 @@ def test_real_world_pattern_detects_multiple_categories():
     assert len(numbers) >= 2
     # auto_approved stays False
     assert report["auto_approved"] is False
+
+
+# ---- Mode A reformat noise (owner run 2026-10-19) --------------------------
+# Synthetic fixture, invented for this test. A tighten-only reformat that adds
+# no claims: the one-per-line competency list is joined with " | " and a
+# bullet that the source export wrapped mid-sentence is rejoined.
+
+_REFORMAT_ORIGINAL = (
+    "JORDAN AVERY\n"
+    "Field Operations Coordinator\n\n"
+    "CORE COMPETENCIES\n"
+    "Scheduling\n"
+    "Budgeting\n"
+    "Vendor Relations\n"
+    "Fleet Safety\n"
+    "Team Leadership\n\n"
+    "EXPERIENCE\n"
+    "Operations Coordinator, Harbor Lane Freight (2018 - 2024)\n"
+    "- Coordinated 200+ deliveries per week across three depots.\n"
+    "- Supervised a crew of 20\n"
+    "Mechanics and drivers on rotating shifts.\n"
+    "- Ran weekly sales and safety reviews with depot leads.\n"
+)
+
+_REFORMAT_PROPOSED = (
+    "JORDAN AVERY\n"
+    "Field Operations Coordinator\n\n"
+    "CORE COMPETENCIES\n"
+    "Scheduling | Budgeting | Vendor Relations | Fleet Safety | Team Leadership\n\n"
+    "EXPERIENCE\n"
+    "Operations Coordinator, Harbor Lane Freight (2018 - 2024)\n"
+    "- Coordinated 200+ deliveries per week across three depots.\n"
+    "- Supervised a crew of 20 mechanics and drivers on rotating shifts.\n"
+    "- Ran weekly Sales and Safety reviews with depot leads.\n"
+)
+
+
+def test_mode_a_reformat_with_no_new_claims_flags_no_nouns_or_numbers():
+    """Owner run 2026-10-19: a Mode A reformat with no new claims got 14-19
+    new_proper_nouns (Budgeting, Sales, Team, ...) and a new number '20'."""
+    report = verify(_REFORMAT_ORIGINAL, _REFORMAT_PROPOSED)
+    assert [n["token"] for n in report["new_proper_nouns"]] == []
+    assert [n["token"] for n in report["new_numbers"]] == []
+
+
+def test_line_joined_list_items_not_flagged_as_new_proper_nouns():
+    original = "SKILLS\nBudgeting\nForecasting\nTeam Leadership\n"
+    proposed = "SKILLS\nBudgeting | Forecasting | Team Leadership\n"
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert nouns == []
+
+
+def test_capitalized_word_present_in_original_in_lowercase_not_flagged():
+    original = "Led weekly sales reviews."
+    proposed = "Led weekly Sales reviews."
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert nouns == []
+
+
+def test_number_does_not_absorb_first_letter_of_next_word():
+    from verify_no_fabrication import _number_set
+
+    assert _number_set("a crew of 20 Mechanics") == {"20"}
+    assert _number_set("a crew of 20\nMechanics") == {"20"}
+    assert _number_set("ran 6 Kubernetes clusters") == {"6"}
+    assert _number_set("20 members") == {"20"}
+
+
+def test_number_unit_suffixes_still_tokenized():
+    from verify_no_fabrication import _number_set
+
+    assert _number_set("reached 5M users") == {"5M"}
+    assert _number_set("a $120k budget") == {"$120k"}
+    assert _number_set("grew 3x in a year") == {"3x"}
+    assert _number_set("served 200+ clients") == {"200+"}
+
+
+def test_number_context_is_the_number_itself_not_a_longer_number():
+    """'20' used to get the context of '200+' because the snippet came from
+    str.find, which matches inside the longer number."""
+    filler = "Kept every depot inspection on schedule for the full contract. " * 3
+    original = "Served 200+ clients.\n" + filler
+    proposed = "Served 200+ clients.\n" + filler + "Led 20 dispatchers."
+    new = verify(original, proposed)["new_numbers"]
+    assert [n["token"] for n in new] == ["20"]
+    assert "Led 20 dispatchers" in new[0]["context"]
+    assert "200+" not in new[0]["context"]
+
+
+def test_reformat_still_flags_new_tool_employer_and_number():
+    """Load-bearing: the same reformat plus three real new claims. All three
+    must still be flagged after the noise fixes."""
+    proposed = (
+        _REFORMAT_PROPOSED.replace("Harbor Lane Freight", "Northwind Logistics")
+        .replace("200+", "300+")
+        .replace("rotating shifts.", "rotating shifts in Salesforce.")
+    )
+    report = verify(_REFORMAT_ORIGINAL, proposed)
+    nouns = [n["token"] for n in report["new_proper_nouns"]]
+    numbers = [n["token"] for n in report["new_numbers"]]
+    assert "Northwind" in nouns
+    assert "Logistics" in nouns
+    assert "Salesforce" in nouns
+    assert "300+" in numbers
+    assert report["summary"]["verdict"] == "review_required"
+    assert report["auto_approved"] is False

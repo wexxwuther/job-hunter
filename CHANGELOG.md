@@ -2,6 +2,28 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Gate: fewer false flags on a tighten-only reformat (2026-10-19, family v6.0.0 line)
+
+Signal: the owner ran resume-tailor Mode A (tighten only, no new claims) on their real
+resume, 9 pages down to about 3.5. The gate returned review_required with 14-19
+new_proper_nouns that were all words already in the resume, plus a new number "20". Every
+flag was a formatting artifact or a fact the owner confirmed, but the list was long and hard
+to read.
+
+What shipped (`verify_no_fabrication.py`, canonical in resume-tailor, byte-identical in
+cover-letter and interview-prep):
+- **Proper nouns:** a capitalized word in the proposed text is new only if the source does
+  not contain it anywhere, in any case. Joining a one-per-line competency list with " | "
+  no longer flags Budgeting, Sales, Team and the like.
+- **Numbers:** a unit letter (k, M, b) counts only when no letter follows it, so "20
+  Mechanics" and a wrapped "20" / "Mechanics" are both "20", not "20 M". The context
+  snippet now comes from a whole-token match, so a new "20" no longer shows the context of
+  "200+". ("200+" was already one token; the split seen in the report came from the
+  context lookup.)
+- 7 new tests on an invented resume; one is load-bearing (a new tool, employer and number
+  added to the same reformat must still flag). resume-tailor 1.1.2, cover-letter 1.2.1,
+  interview-prep 1.1.1. Not deployed to installs yet.
+
 ## cover-letter description: trigger on the fabrication ask (2026-10-18, family v6.0.0 line)
 
 Signal: the family-only trigger probe loaded cover-letter for case 3 ("put a decade of

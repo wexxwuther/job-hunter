@@ -1,5 +1,9 @@
 # Changelog — cover-letter
 
+## v1.2.1 (2026-10-19)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor): verify_no_fabrication.py: two kinds of reformat noise. (1) A word already in the source was flagged as a new proper noun when a reformat moved it mid-line or capitalized it (one-per-line competencies joined with " | ": Budgeting, Sales, Team). Proposed proper nouns are now compared case-insensitively against every word of the source, wherever it sits. (2) A unit letter (k, M, b) took the first letter of the next word, even across a line break ("20 Mechanics" -> "20 M"), so a rewrapped line changed the token and an old number was flagged as new; the context snippet then came from the first substring match, so "20" showed the context of "200+". Units now count only when no letter follows, and context is taken from a whole-token match. "200+" was already one token. New tools, employers and numbers still flag. Found by the owner's Mode A run (2026-10-19).
+
 ## v1.2.0 (2026-10-18)
 
 - Description only (owner-approved). A family-only trigger probe loaded the skill 4 of 9

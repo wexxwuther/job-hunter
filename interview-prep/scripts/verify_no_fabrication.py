@@ -95,12 +95,15 @@ _PROPER_NOUN_STOPWORDS = {
 # A "number token" is anything that looks like a quantity: integers, decimals,
 # percentages, dollar amounts, ranges, abbreviated thousands/millions.
 # Examples: "60", "60/week", "$120k", "20+", "5,000", "1.2M", "$1M+", "85%"
+# A unit letter counts only when no letter follows it, so "20 Mechanics" and
+# "20" + newline + "Mechanics" are both "20": a reflowed line must not change
+# the token.
 _NUMBER_PATTERN = re.compile(
     r"""
     (?:
-        \$[\d,]+(?:\.\d+)? (?:k|K|m|M|b|B|MM|MM\+)? \+? |  # $1M+, $120k, $5,000
-        \d[\d,]* (?:\.\d+)? \s* (?:k|K|m|M|b|B|MM)? \+? % |  # 85%, 20%+
-        \d[\d,]* (?:\.\d+)? \s* (?:k|K|m|M|b|B|MM)? \+? (?:/\w+|x\b)? |  # 60/week, 10x
+        \$[\d,]+(?:\.\d+)? (?:(?:MM|k|K|m|M|b|B)(?![A-Za-z]))? \+? |  # $1M+, $120k, $5,000
+        \d[\d,]* (?:\.\d+)? [ \t]* (?:(?:MM|k|K|m|M|b|B)(?![A-Za-z]))? \+? % |  # 85%, 20%+
+        \d[\d,]* (?:\.\d+)? (?:[ \t]* (?:MM|k|K|m|M|b|B)(?![A-Za-z]))? \+? (?:/\w+|x\b)? |  # 60/week, 10x
         \d{4}                                                # year tokens (2023, 1992)
     )
     """,
@@ -159,6 +162,14 @@ def _proper_noun_set(text: str) -> set[str]:
     return out
 
 
+def _word_set_lower(text: str) -> set[str]:
+    """Every word in the text, lowercased, wherever it sits on the line. The
+    original's side of the proper-noun comparison: a word the original already
+    has (as a list item at line start, or in lowercase) is not a new claim when
+    a reformat moves it mid-line ("Budgeting | Forecasting") or capitalizes it."""
+    return {w.lower() for w in _tokenize_words(text)}
+
+
 def _number_set(text: str) -> set[str]:
     """Return the set of all number-tokens in the text. Years are special-cased
     because (a) employment dates are always year-tokens that mirror across both
@@ -215,8 +226,10 @@ def _phrase_runs(text: str, n: int = 5) -> set[str]:
 
 
 def _context_for_token(text: str, token: str, max_chars: int = 100) -> str:
-    """Return a short context window around the first occurrence of token in text."""
-    idx = text.find(token)
+    """Return a short context window around the first whole-token occurrence of
+    token in text. Whole-token, so "20" is not shown in the context of "200+"."""
+    m = re.search(r"(?<![\w$.,])" + re.escape(token) + r"(?![\w+%])", text)
+    idx = m.start() if m else text.find(token)
     if idx < 0:
         return ""
     start = max(0, idx - max_chars // 2)
@@ -231,9 +244,9 @@ def verify(original: str, proposed: str, phrase_run_length: int = 5) -> dict:
     is a fabrication, that's the user's call."""
 
     # New proper nouns
-    orig_nouns = _proper_noun_set(original)
+    orig_words = _word_set_lower(original)
     prop_nouns = _proper_noun_set(proposed)
-    new_nouns = sorted(prop_nouns - orig_nouns)
+    new_nouns = sorted(t for t in prop_nouns if t.lower() not in orig_words)
     new_proper_nouns = [
         {"token": tok, "context": _context_for_token(proposed, tok)}
         for tok in new_nouns

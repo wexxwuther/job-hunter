@@ -1,5 +1,9 @@
 # Changelog - interview-prep
 
+## v1.1.1 (2026-10-19)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor): verify_no_fabrication.py: two kinds of reformat noise. (1) A word already in the source was flagged as a new proper noun when a reformat moved it mid-line or capitalized it (one-per-line competencies joined with " | ": Budgeting, Sales, Team). Proposed proper nouns are now compared case-insensitively against every word of the source, wherever it sits. (2) A unit letter (k, M, b) took the first letter of the next word, even across a line break ("20 Mechanics" -> "20 M"), so a rewrapped line changed the token and an old number was flagged as new; the context snippet then came from the first substring match, so "20" showed the context of "200+". Units now count only when no letter follows, and context is taken from a whole-token match. "200+" was already one token. New tools, employers and numbers still flag. Found by the owner's Mode A run (2026-10-19).
+
 ## v1.1.0 (2026-10-18)
 
 - Description only (owner-approved). Signal: with the normal tool set and no user hooks, three in-domain prompts ("make me sound like I have [a tool]", "Research Globex before my interview", "Mock interview me for the behavioral panel") loaded the skill in 1 of 9 samples, in both a full install and a family-only install, and the base model scripted unverified experience for the user. The description now names company research, practice answers, mock interviews and sounding experienced in a skill the user lacks, and says to load the skill rather than answer from general knowledge. Probe with the new text: 9/9 (controls 3/3). Do-not-use clauses unchanged. See `docs/evals/trigger-2026-10-18-interview-prep/`.

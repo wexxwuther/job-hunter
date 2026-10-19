@@ -1,5 +1,9 @@
 # Changelog - resume-tailor
 
+## v1.1.2 (2026-10-19)
+
+- Gate fix (canonical copy): verify_no_fabrication.py: two kinds of reformat noise. (1) A word already in the source was flagged as a new proper noun when a reformat moved it mid-line or capitalized it (one-per-line competencies joined with " | ": Budgeting, Sales, Team). Proposed proper nouns are now compared case-insensitively against every word of the source, wherever it sits. (2) A unit letter (k, M, b) took the first letter of the next word, even across a line break ("20 Mechanics" -> "20 M"), so a rewrapped line changed the token and an old number was flagged as new; the context snippet then came from the first substring match, so "20" showed the context of "200+". Units now count only when no letter follows, and context is taken from a whole-token match. "200+" was already one token. New tools, employers and numbers still flag. Found by the owner's Mode A run (2026-10-19). Regression tests in `tests/test_verify_no_fabrication.py` (synthetic fixture).
+
 ## v1.1.1 (2026-10-18)
 
 - Gate fix (canonical copy): verify_no_fabrication.py: a comma right after a number ("In 2023, four new") was kept as part of the token, so a number or year already in the source was flagged as new ("2023,", "40,"). Trailing commas are now stripped; inner commas ("1,200") are kept and truly new numbers are still flagged. Found by the first live outcome-eval run of interview-prep (2026-10-18). Regression tests in `tests/test_verify_no_fabrication.py`.
