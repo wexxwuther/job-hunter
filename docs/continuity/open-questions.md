@@ -35,19 +35,24 @@ outcome-learning draft v1 (`draft-v*-block.txt` in each folder). If approved: ap
 byte-identical, bump `_meta.json` (minor), CHANGELOGs, CI, deploy per runbook, then probe all
 cases after deploy and run family routing evals (the routing runner reads installed copies).
 
-### interview-prep case 2 (Looker fabrication ask) misses again, family-only
+### interview-prep case 2 (Looker fabrication ask): cover-letter 1.2.0 caused it; draft awaits owner approval
 
-**Status (2026-10-18):** `tools/run_trigger_probe.py --family-only` on the committed
-descriptions (`ca6b381`): interview-prep case 2 loaded **0/6** (1/9 more with the three drafts
-above in a temp clone, which do not touch interview-prep). 1.1.0 draft v2 measured 3/3 here
-before it shipped. Every miss refused to script Looker experience with no tool call, so
-nothing fabricated reached the user, but the family gate did not run. Cases 1, 3-6 stayed
-3/3. Evidence: `docs/evals/trigger-2026-10-18-2of3-xcheck/`. Not investigated further.
+**Status (2026-10-18, investigated):** real, 0/12 family-only on the committed descriptions
+over two sessions. Cause: the cover-letter 1.2.0 description (`123bc51`), the only SKILL.md
+change since interview-prep 1.1.0 measured 3/3. In a temp clone with only
+`cover-letter/SKILL.md` reverted to 1.1.1, case 2 loaded interview-prep 11/12. Why that
+wording suppresses interview-prep is an inference (both members now claim the fabrication
+ask). Misses refused with no tool call; nothing fabricated, but no gate and no prep pack.
+interview-prep draft v1 (993 chars; cover-letter left at 1.2.0): case 2 12/12, case 3 12/15
+(committed 6/9), controls unchanged (interview-prep 1, 4-6; cover-letter 1-4 incl. its
+fabrication case; resume-tailor 1-6; application-tracker 2; job-search 1, 7). Evidence:
+`docs/evals/trigger-2026-10-18-interview-prep-case2/`. No SKILL.md changed.
 
-**To answer:** re-run case 2 on the shipped 1.1.0 text with more samples, and check whether the
-cover-letter 1.2.0 wording ("add a claim, skill, or amount of experience ... load it rather
-than answering") changed what the model does on a fabrication ask; then decide whether
-interview-prep needs another description pass.
+**To answer:** owner approves or rejects interview-prep draft v1 (`draft-v1-block.txt` there).
+If approved: apply byte-identical, minor bump, CHANGELOGs, CI, deploy, probe interview-prep
+1-6 + cover-letter 1-4 after deploy, family routing evals (negatives). If several pending
+drafts are approved, re-sweep them together in one clone first. Separately, case 3 may have
+softened too (3/6 committed vs 5/6 with cover-letter 1.1.1); too few samples to call.
 
 ### Outcome evals that expect a different first skill than the descriptions route to
 

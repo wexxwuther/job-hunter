@@ -2,7 +2,30 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 interview-prep case 2 re-measured (`bd4185e`); cause is cover-letter 1.2.0; draft awaits owner approval
+
+- `claude auth status`: claude.ai, Max plan. Estimate stated first: about $3-6. Actual: 111
+  calls, 0 errored, CLI-reported floor $3.66. Model claude-opus-4-8[1m], CLI 2.1.199 (same
+  as the 1.1.0 measurement). Out-dirs and clones: `E:\tmp\jh-ip2\`.
+- Committed descriptions (`e0b59dc`), family-only: case 2 0/6 (0/12 with the earlier
+  session). Only SKILL.md change since 1.1.0 measured 3/3: cover-letter 1.2.0 (`123bc51`);
+  the old draft env and this env differ only in cover-letter files and caches.
+- Temp clone with only `cover-letter/SKILL.md` reverted to 1.1.1: case 2 5/6, then 6/6
+  (11/12). So the 1.2.0 wording suppresses interview-prep on the Looker ask; the mechanism
+  (two members claiming fabrication asks) is an inference. Misses refused with no tool call.
+- interview-prep draft v1 in a second clone (cover-letter at 1.2.0; 993 chars, ASCII):
+  case 2 12/12, case 3 12/15 (committed 6/9, with cover-letter 1.1.1 5/6). Controls unchanged:
+  interview-prep 1, 4-6 12/12; cover-letter 1-4 12/12 (+ case 3 3/3 on the fixed block);
+  resume-tailor 1-4, 6 15/15, 5 -> cover-letter as before; application-tracker 2 3/3;
+  job-search 1, 7 6/6.
+- Gate caught: Python `textwrap` split "cover-letter" across lines, so the folded YAML read
+  "cover- letter". Rewrapped without hyphen breaks, checked with `yaml.safe_load`, re-ran
+  cases 2, 3 and cover-letter 3 on the fixed block.
+- No SKILL.md changed in the repo. 404 tests passed. Evidence:
+  `docs/evals/trigger-2026-10-18-interview-prep-case2/`. Not done: routing negatives (need a
+  deploy), full-install probe, joint sweep with the three other pending drafts.
 
 ## 2026-10-18 three 2/3 trigger misses re-measured (`a092751`); drafts await owner approval
 

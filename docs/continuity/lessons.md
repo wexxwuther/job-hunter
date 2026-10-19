@@ -4,6 +4,17 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, A shipped description can switch off a sibling's case without stealing it
+
+**What happened:** cover-letter 1.2.0 fixed its own fabrication case (4/9 to 12/12) and its
+routing evals showed no collision, because no prompt moved TO cover-letter. But interview-prep
+case 2 (an interview fabrication ask) went from 3/3 to 0/12: the model loaded no skill at all
+and refused on its own. Reverting only the cover-letter description restored it (11/12).
+
+**Rule:** a collision check that looks only for prompts routed to the changed member misses
+suppression. After a description change, re-probe every member's cases that share its
+trigger theme (here: fabrication asks), and treat a rise in "no skill" as a collision too.
+
 ## 2026-10-18, A draft that fixes its own case can steal another member's case
 
 **What happened:** career-profile draft v1 ("whenever they share a resume file ... to read,
