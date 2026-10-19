@@ -4,6 +4,20 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-18, A draft that fixes its own case can steal another member's case
+
+**What happened:** career-profile draft v1 ("whenever they share a resume file ... to read,
+parse, or pull key facts from") took its target case from 6/9 to 6/6 and kept its own
+controls, but job-search case 1 ("Find me roles ... Here's my resume") then loaded
+career-profile 2 of 9 times (current text: 9/9 job-search). Only a sweep of the OTHER
+members' scenarios in the temp clone showed it. Draft v2 ("only to have it read, parsed, or
+summarized") kept 6/6 and removed the collision.
+
+**Rule:** a "Use whenever ... even a short ask" clause about an artifact that other members
+also receive (a resume, a posting) needs a qualifier that excludes multi-step asks. Before
+proposing a draft, run every family scenario that shares that artifact from the clone, not
+just the member's own controls; it costs about nothing because hits stop at the Skill call.
+
 ## 2026-10-18, A strict trigger rate hides correct routing in a family
 
 **What happened:** the family-only probe for the other 7 members scored job-hunter 6/15 and

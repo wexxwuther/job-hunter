@@ -2,7 +2,35 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-18 (three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-18 three 2/3 trigger misses re-measured (`a092751`); drafts await owner approval
+
+- `claude auth status`: claude.ai, Max plan. Estimate stated first: 3 cases x 6 calls, cap
+  $1.50 each ($27 worst case). Whole session 219 calls, CLI-reported floor $5.73.
+- `tools/run_trigger_probe.py --family-only --samples 6` at `ca6b381` (out-dirs
+  `E:\tmp\jh-2of3\`): career-profile case 3 4/6 (6/9 with the earlier run), job-search case 6
+  5/6 (7/9), outcome-learning case 3 3/6 (5/9). All real. Misses answered from the files or
+  general knowledge with no fabrication, but skipped what the skill adds (saved profile,
+  legitimacy score, cold-start guard + confirm step).
+- Drafts in a temp clone (`E:\tmp\jh-2of3\draft-repo`, all three at once): each target 6/6.
+  Own controls: job-search 17/21 strict (case 2 -> job-hunter as before, case 1 see next),
+  outcome-learning 12/12, career-profile 1-2 -> job-hunter 6/6 (as before).
+- Gate caught: career-profile draft v1 ("whenever they share a resume file") pulled job-search
+  case 1 ("Find me roles... Here's my resume") to career-profile 2/9 (current 9/9 job-search).
+  Draft v2 ("only to have it read, parsed, or summarized") -> 0/6 career-profile there (5/6
+  job-search, 1/6 job-hunter); case 3 still 6/6. Rejected v1.
+- Cross-member sweep on the drafts: resume-tailor, cover-letter, application-tracker,
+  job-hunter unchanged (job-hunter case 2 dipped 2/3 under v1, 6/6 on both current and v2:
+  noise). New separate finding: interview-prep case 2 (Looker) 0/6 on the COMMITTED
+  descriptions (1.1.0 measured 3/3 before ship); misses refused without tools. Logged as an
+  open question, not investigated.
+- Drafts (ASCII, <=1024): career-profile v2 1014, job-search v1 1023, outcome-learning v1 1014
+  (drops the existing em dash). Removed-lines audit in the clone: only the three description
+  blocks. No repo SKILL.md changed. Evidence: `docs/evals/trigger-2026-10-18-career-profile-case3/`,
+  `-job-search-case6/`, `-outcome-learning-case3/`, `-2of3-xcheck/`.
+- Not done: routing/collision evals on the drafts (the routing runner reads installed copies,
+  so only after an approved deploy), full-install probe.
 
 ## 2026-10-18 cover-letter 1.2.0: fabrication-ask trigger fix (`123bc51`), deployed
 

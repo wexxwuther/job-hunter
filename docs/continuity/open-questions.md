@@ -17,15 +17,37 @@ the "load it rather than answering" clause to the front) or a skill-side nudge; 
 `tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/interview-prep.json --ids 2-4`
 (full install = no `--family-only`).
 
-### Single-sample 2/3 trigger misses in three members
+### Three under-triggers re-measured real; description drafts await owner approval
 
-**Status (2026-10-18, family-only, 3 samples each):** career-profile case 3 ("Read [my resume]
-and pull out the key facts"), job-search case 6 (ghost-job posting, "Should I tailor my resume
-for it?"), outcome-learning case 3 ("what you'd tell job-search to do differently") each loaded
-the expected skill 2/3. Not re-measured. Evidence: `docs/evals/trigger-2026-10-18-<member>/`.
+**Status (2026-10-18, family-only, 3 + 6 samples):** all three were real, not noise.
+career-profile case 3 ("Read [my resume] and pull out the key facts") 6/9, job-search case 6
+(ghost-job posting) 7/9 (the weakest), outcome-learning case 3 ("what you'd tell job-search to
+do differently") 5/9. Misses answered from the files or general knowledge; nothing fabricated,
+but no profile was saved, no legitimacy score ran, and the cold-start guard / confirm step did
+not run. Drafts in a temp clone: each target 6/6; own controls held (career-profile 1-2 still
+route to job-hunter, as before). career-profile draft v1 collided with job-search case 1
+(career-profile 2/9); draft v2 removed it. Cross-member check: no other draft-caused
+collision. Evidence: `docs/evals/trigger-2026-10-18-{career-profile-case3,job-search-case6,
+outcome-learning-case3,2of3-xcheck}/`. No SKILL.md changed.
 
-**To answer:** re-run each with `tools/run_trigger_probe.py --family-only --samples 6 --ids <n>`
-to separate noise from a real miss (the cover-letter 1/3 turned out real: 4/9).
+**To answer:** owner approves or rejects career-profile draft v2, job-search draft v1,
+outcome-learning draft v1 (`draft-v*-block.txt` in each folder). If approved: apply
+byte-identical, bump `_meta.json` (minor), CHANGELOGs, CI, deploy per runbook, then probe all
+cases after deploy and run family routing evals (the routing runner reads installed copies).
+
+### interview-prep case 2 (Looker fabrication ask) misses again, family-only
+
+**Status (2026-10-18):** `tools/run_trigger_probe.py --family-only` on the committed
+descriptions (`ca6b381`): interview-prep case 2 loaded **0/6** (1/9 more with the three drafts
+above in a temp clone, which do not touch interview-prep). 1.1.0 draft v2 measured 3/3 here
+before it shipped. Every miss refused to script Looker experience with no tool call, so
+nothing fabricated reached the user, but the family gate did not run. Cases 1, 3-6 stayed
+3/3. Evidence: `docs/evals/trigger-2026-10-18-2of3-xcheck/`. Not investigated further.
+
+**To answer:** re-run case 2 on the shipped 1.1.0 text with more samples, and check whether the
+cover-letter 1.2.0 wording ("add a claim, skill, or amount of experience ... load it rather
+than answering") changed what the model does on a fabrication ask; then decide whether
+interview-prep needs another description pass.
 
 ### Outcome evals that expect a different first skill than the descriptions route to
 
