@@ -2,6 +2,26 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Gate: catch a new word on its own line (2026-10-19, family v6.0.0 line)
+
+Signal: while verifying the 26d7738 reformat fix, a pre-existing safety gap turned up. The
+gate skipped any capitalized word after a line break as a "sentence start", so a new tool
+added as a bare line in a one-per-line list (`SKILLS` / `Budgeting` / `Scheduling` /
+`Salesforce`) gave verdict `clean`: no proper noun, and too few words for a phrase run.
+Bullet lines (`- X`) and mid-line words were already caught.
+
+What shipped (`verify_no_fabrication.py`, canonical in resume-tailor, byte-identical in
+cover-letter and interview-prep):
+- A word that starts a line, the first line included, is now a proper-noun candidate unless
+  the text before it (across blank lines) ends with . ! or ?. Sentence starts, such as a
+  cover-letter paragraph after a full stop, stay skipped.
+- Since 26d7738 a candidate flags only if the source has it nowhere, in any case, so the
+  reformat fixture still gives zero new proper nouns.
+- 7 new tests on invented fixtures (new list item, CRLF list item, new job-title line, new
+  name line, new first line; reordered list and sentence starts stay quiet); 5 failed
+  before the fix. Mutation-checked (6 mutants killed). resume-tailor 1.1.3, cover-letter
+  1.2.2, interview-prep 1.1.2. Not deployed to installs yet.
+
 ## Gate: fewer false flags on a tighten-only reformat (2026-10-19, family v6.0.0 line)
 
 Signal: the owner ran resume-tailor Mode A (tighten only, no new claims) on their real

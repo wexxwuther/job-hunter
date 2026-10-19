@@ -133,7 +133,9 @@ def _tokenize_words(text: str) -> list[str]:
 def _proper_noun_set(text: str) -> set[str]:
     """Return the set of all proper-noun-candidate tokens in the text.
     Proper noun = starts uppercase, len >= 2, not in stopword set,
-    not at the start of a sentence (we approximate by checking the prior char)."""
+    not at the start of a sentence (we approximate by checking the prior char).
+    A word that starts a line is a candidate unless the text before it ends a
+    sentence, so a new item on its own line in a one-per-line list is caught."""
     out = set()
     # Walk character-by-character so we know what precedes each token
     for match in re.finditer(r"[A-Z][A-Za-z0-9\-\']+", text):
@@ -142,21 +144,17 @@ def _proper_noun_set(text: str) -> set[str]:
             continue
         if len(token) < 2:
             continue
-        # Reject token if it's at the start of a sentence (preceded by . ! ? \n or BOF)
+        # Reject token if it's at the start of a sentence (preceded by . ! ?,
+        # on the same line or at the end of an earlier line).
         # This is a heuristic, proper nouns at sentence starts will be missed,
         # but the cost of false positives (capitalized sentence-start words flagged
         # as proper nouns) is higher than the cost of missing some real ones.
-        start = match.start()
-        if start == 0:
-            continue
-        # Look backwards for the first non-whitespace char
-        i = start - 1
-        while i >= 0 and text[i] in " \t":
+        # Look backwards across whitespace and line breaks for the first
+        # non-whitespace char; the start of the text counts as a line start.
+        i = match.start() - 1
+        while i >= 0 and text[i] in " \t\r\n":
             i -= 1
-        if i < 0:
-            continue
-        prev = text[i]
-        if prev in ".!?\n\r":
+        if i >= 0 and text[i] in ".!?":
             continue
         out.add(token)
     return out

@@ -495,3 +495,78 @@ def test_reformat_still_flags_new_tool_employer_and_number():
     assert "300+" in numbers
     assert report["summary"]["verdict"] == "review_required"
     assert report["auto_approved"] is False
+
+
+# ---- New word that starts a bare line (gap closed 2026-10-19) --------------
+# Invented fixtures. Before this fix any word after a newline was skipped as a
+# "sentence start", so a new item on its own line in a one-per-line list gave
+# verdict "clean". Bullet lines ("- X") and mid-line words were already caught.
+
+
+def test_new_bare_list_item_flagged():
+    original = "SKILLS\nBudgeting\nScheduling\n"
+    proposed = "SKILLS\nBudgeting\nScheduling\nSalesforce\n"
+    report = verify(original, proposed)
+    assert [n["token"] for n in report["new_proper_nouns"]] == ["Salesforce"]
+    assert report["summary"]["verdict"] == "review_required"
+    assert report["auto_approved"] is False
+
+
+def test_new_bare_list_item_flagged_with_crlf_line_endings():
+    original = "SKILLS\r\nBudgeting\r\nScheduling\r\n"
+    proposed = "SKILLS\r\nBudgeting\r\nScheduling\r\nSalesforce\r\n"
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert nouns == ["Salesforce"]
+
+
+def test_new_job_title_line_flagged():
+    original = (
+        "EXPERIENCE\n"
+        "Harbor Lane Freight (2018 - 2024)\n"
+        "Operations Coordinator\n"
+        "- Coordinated deliveries across three depots.\n"
+    )
+    proposed = original.replace(
+        "Operations Coordinator\n", "Dispatch Supervisor\n"
+    )
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert "Dispatch" in nouns
+    assert "Supervisor" in nouns
+
+
+def test_new_name_line_flagged():
+    original = "REFERENCES\nAvailable on request\n"
+    proposed = "REFERENCES\nMorgan Ellery\nAvailable on request\n"
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert "Morgan" in nouns
+    assert "Ellery" in nouns
+
+
+def test_new_word_on_first_line_flagged():
+    """The first line is a line start too (the name header of a resume)."""
+    original = "JORDAN AVERY\nField Operations Coordinator\n"
+    proposed = "Casey Avery\nField Operations Coordinator\n"
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert nouns == ["Casey"]
+
+
+def test_reordered_bare_list_items_not_flagged():
+    original = "SKILLS\nBudgeting\nScheduling\nVendor Relations\n"
+    proposed = "SKILLS\nVendor Relations\nScheduling\nBudgeting\n"
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert nouns == []
+
+
+def test_sentence_start_on_a_new_line_still_not_flagged():
+    """A line that follows a line ending in . ! or ? starts a sentence, as in
+    a cover-letter paragraph. Those stay skipped, like mid-line sentence
+    starts."""
+    original = "Built systems.\n"
+    proposed = "Built systems.\nDesigned APIs.\n\nThanks again!\nRegards"
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert "Designed" not in nouns
+    assert "Regards" not in nouns
+    crlf = proposed.replace("\n", "\r\n")
+    nouns = [n["token"] for n in verify(original, crlf)["new_proper_nouns"]]
+    assert "Designed" not in nouns
+    assert "Regards" not in nouns

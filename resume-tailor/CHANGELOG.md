@@ -1,5 +1,9 @@
 # Changelog - resume-tailor
 
+## v1.1.3 (2026-10-19)
+
+- Gate fix (canonical copy): verify_no_fabrication.py: a new word that starts a bare line was never a proper-noun candidate, because any word after a line break was skipped as a sentence start. So a new tool added as its own line in a one-per-line list (`SKILLS` / `Budgeting` / `Scheduling` / `Salesforce`) gave verdict `clean`. A word that starts a line, the first line included, is now a candidate unless the text before it ends with . ! or ?; it flags only if the source has it nowhere, in any case, so a truthful reformat stays quiet. Bullet lines and mid-line words were already caught. Pre-existing gap, found while verifying the 26d7738 fix. Regression tests in `tests/test_verify_no_fabrication.py` (invented fixtures).
+
 ## v1.1.2 (2026-10-19)
 
 - Gate fix (canonical copy): verify_no_fabrication.py: two kinds of reformat noise. (1) A word already in the source was flagged as a new proper noun when a reformat moved it mid-line or capitalized it (one-per-line competencies joined with " | ": Budgeting, Sales, Team). Proposed proper nouns are now compared case-insensitively against every word of the source, wherever it sits. (2) A unit letter (k, M, b) took the first letter of the next word, even across a line break ("20 Mechanics" -> "20 M"), so a rewrapped line changed the token and an old number was flagged as new; the context snippet then came from the first substring match, so "20" showed the context of "200+". Units now count only when no letter follows, and context is taken from a whole-token match. "200+" was already one token. New tools, employers and numbers still flag. Found by the owner's Mode A run (2026-10-19). Regression tests in `tests/test_verify_no_fabrication.py` (synthetic fixture).
