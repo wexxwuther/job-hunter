@@ -4,6 +4,16 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-19, A gate report's context can mislead about which token is wrong
+
+**What happened:** a report showed new number "20" with the context of "200+", and the
+diagnosis was that "200+" was split. It was not: "200+" was one token. The "20" came from a
+different spot, where a unit letter had taken the next word's initial ("20 M"), and the
+context lookup used `str.find`, which matched inside "200+".
+
+**Rule:** reproduce a gate false positive on the token functions directly before fixing it;
+do not infer the cause from the context string. Context lookups must match whole tokens.
+
 ## 2026-10-18, A shipped description can switch off a sibling's case without stealing it
 
 **What happened:** cover-letter 1.2.0 fixed its own fabrication case (4/9 to 12/12) and its

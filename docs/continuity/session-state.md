@@ -2,7 +2,38 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-18 (interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-19 (gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-19 gate: fewer false flags on a tighten-only reformat (`26d7738`), not deployed
+
+- Signal: the owner's resume-tailor Mode A run (9 pages to about 3.5, no new claims) got
+  review_required with 14-19 new_proper_nouns, all existing words, plus a new number "20".
+  The owner's resume text was not used; the fixture is an invented resume in
+  `resume-tailor/tests/test_verify_no_fabrication.py`.
+- Cause 1, confirmed: line-start words were never proper-noun candidates, but the source's
+  side of the comparison held only mid-line capitals. Joining one-per-line competencies with
+  " | " made them mid-line, so they looked new. Fix: a proposed candidate is new only if the
+  source has the word nowhere, in any case (`_word_set_lower`).
+- Cause 2, the brief's diagnosis was wrong: "200+" was already one token (brute force over
+  every adjacent character: never split). Real cause: the unit suffix (k, M, b) after
+  optional whitespace took the next word's initial, even across a newline, so "20" +
+  newline + "Mechanics" was `20\nM` and the reflowed "20 mechanics" was "20 m". The new
+  token's context came from `str.find`, which matched inside "200+". Fix: a unit counts only
+  when no letter follows; context from a whole-token match (falls back to `str.find`).
+- Tests first: 7 new, 5 failed before the fix; the old code on the fixture gave 5 false nouns
+  (Budgeting, Fleet, Sales, Team, Vendor) and "20 m". Load-bearing (added to `_meta.json`):
+  the same reformat plus a new employer, tool and number must still flag. Mutation check:
+  reverting each part fails its tests (noun compare 3, unit lookahead 2, context 1; disabling
+  the noun check fails 6).
+- Canonical resume-tailor, re-copied byte-identical to cover-letter and interview-prep
+  (parity tests pass). resume-tailor 1.1.2, cover-letter 1.2.1, interview-prep 1.1.1;
+  CHANGELOGs (3 members + root). CI command: 411 passed (was 404). Removed-lines audit: only
+  intended lines; no non-ASCII added. `plugin/` is untracked build output and was not
+  touched.
+- Found, not fixed (open questions): a new word on its own bare line (a new list item such
+  as "Salesforce") gives verdict clean, before and after this change; and the trade-off that
+  a new name matching any source word (any case) no longer flags. Not done: deploy to
+  installs (separate step per the runbook), phrase-run noise, ruff debt.
 
 ## 2026-10-18 interview-prep case 2 re-measured (`bd4185e`); cause is cover-letter 1.2.0; draft awaits owner approval
 

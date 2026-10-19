@@ -3,7 +3,36 @@
 Unresolved questions that the current state can't answer. Each entry lists what we'd need to
 answer it. Move to "Closed" with the answer + date once resolved.
 
-## Active (2026-10-18)
+## Active (2026-10-19)
+
+### Gate misses a new word that starts a bare line (pre-existing safety gap)
+
+**Status (2026-10-19, verified on the code before and after `26d7738`):** proper-noun
+candidates skip any word that starts a line or a sentence. A new tool added as its own line
+in a one-per-line list (`SKILLS` / `Budgeting` / `Scheduling` / `Salesforce`) gives verdict
+`clean`: no proper noun, and the list is too short for a 5-word phrase run. Bullet lines are
+not affected (the `- ` comes first), nor are mid-line words.
+
+**To answer:** decide whether to count line-start words on the proposed side when the word is
+nowhere in the source (any case). The 2026-10-19 change made that cheap in noise: words the
+source already has no longer flag. Sentence-start words would stay skipped. Needs tests for
+a new list item, a new title line and a new name line, plus a check that a truthful reformat
+stays quiet.
+
+### Gate fix 26d7738 not deployed to installs
+
+**Status (2026-10-19):** resume-tailor 1.1.2, cover-letter 1.2.1, interview-prep 1.1.1 are
+committed and pushed but not copied to installs. Follow the deploy runbook (and strip
+`__pycache__`, see "Installer copies untracked caches").
+
+### Gate proper-noun check: accepted trade-off of the 2026-10-19 change
+
+**Status (2026-10-19):** a proposed capitalized word now counts as new only if the source has
+it nowhere, in any case. So a new name that matches any source word does not flag (source
+"weekly apex reviews", proposed "reviews at Apex": the old gate flagged `Apex`, the new one
+does not). Accepted to stop reformat noise; multi-word names usually have another new word.
+Revisit if a real fabrication slips through this way.
+
 
 ### interview-prep still under-triggers in a heavily loaded install
 
@@ -91,11 +120,14 @@ re-copied to both (parity tests in each).
 ### ruff debt (18 findings) and gate phrase-run noise
 
 **Status:** `ruff check .` reports 18 pre-existing findings (unused imports including
-`Counter` in both copies of `verify_no_fabrication.py` and in `extract_ats_keywords.py`;
+`Counter` in all three copies of `verify_no_fabrication.py` and in `extract_ats_keywords.py`;
 unused variables; one E741). CI does not run ruff although CONTRIBUTING.md says it should
-pass. Fixing the gate copies needs both edited together (byte-identical test). Separately,
-the gate's `new_phrase_runs` joins lines, so reordered or adjacent lines produce many false
-runs (14 on a truthful revised draft in the 2026-10-18 trial).
+pass. Fixing the gate copies needs all three edited together (byte-identical tests).
+Separately, the gate's `new_phrase_runs` joins lines, so reordered or adjacent lines produce
+many false runs (14 on a truthful revised draft in the 2026-10-18 trial). A line join in the
+same order adds no runs (punctuation such as " | " is dropped). The other two kinds of
+reformat noise (proper nouns moved mid-line, unit letters taking the next word's initial)
+were fixed 2026-10-19 in `26d7738`; phrase runs and ruff were not touched.
 
 ### Installer copies untracked caches
 

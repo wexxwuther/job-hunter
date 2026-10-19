@@ -7,6 +7,11 @@ all the load-bearing context needed to continue the work. Designed to be self-co
 
 ## 2026-10-18 note (read session-state.md first)
 
+2026-10-19: gate reformat false-positive fix `26d7738` (resume-tailor 1.1.2, cover-letter
+1.2.1, interview-prep 1.1.1), committed and pushed, not deployed to installs. Details and the
+new open gate gap (a new word on its own bare line is not flagged) are in session-state.md
+and open-questions.md.
+
 This file was last rewritten 2026-05-29. Everything since (Q regression fix, routing evals,
 parse_resume fix, portal registry, 2026-10-18 reviewer pass, 2026-10-18 interview-prep
 member) is recorded in `session-state.md`, which is current. The family now has 8 skills
