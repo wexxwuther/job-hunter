@@ -2,7 +2,35 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-19 (gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-19 (gate bare-line gap closed `e02cd7e`, not deployed; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-19 gate: a new word on its own bare line now flags (`e02cd7e`), not deployed
+
+- Gap (pre-existing, logged while verifying `26d7738`): `_proper_noun_set` skipped any word
+  after a newline as a sentence start, so `SKILLS\nBudgeting\nScheduling\n` + `Salesforce\n`
+  gave verdict clean. Bullet lines and mid-line words were already caught.
+- Fix: the lookback for the previous character now crosses spaces, tabs and line breaks; the
+  word is skipped only if that character is . ! or ?. The start of the text counts as a line
+  start (was skipped). Only the proposed side uses `_proper_noun_set`; the source side is the
+  any-case word set from `26d7738`, so words the source has stay quiet.
+- Tests first, invented fixtures only (no owner resume text): 7 new; 5 failed before the fix
+  (new list item, CRLF list item, new job-title line `Dispatch Supervisor` (the line-start
+  `Dispatch` was missed; mid-line `Supervisor` was already caught), new name line, new first
+  line). Guards that passed before and after: reordered list stays quiet; a line after a
+  full stop or "!" stays skipped, LF and CRLF. `_REFORMAT_*` fixture: still zero new proper
+  nouns. `test_new_bare_list_item_flagged` added to resume-tailor's load-bearing list.
+- Mutation check (script kept in the session notes folder, not the repo): 6 mutants killed
+  (lookback without CR, without LF, same-line only; no sentence-end skip; first line skipped
+  again; the full pre-fix logic fails the 4 bare-line tests). "Newline counts as sentence
+  end" alone is an equivalent mutant (the lookback skips line breaks, so it never sees one).
+- Canonical resume-tailor, re-copied byte-identical to cover-letter and interview-prep.
+  resume-tailor 1.1.3, cover-letter 1.2.2, interview-prep 1.1.2; CHANGELOGs (3 members +
+  root). CI command: 418 passed (was 411). Removed-lines audit clean; no non-ASCII added.
+- Gate caught: Git Bash here collapses `\\` to `\` even in a quoted heredoc (`<<'EOF'`,
+  checked with `od -c`), so a Python `"\\n"` in an inline edit became a real line break in a
+  test string. Found by checking the bytes; later edits used the file tool.
+- Accepted trade-offs and the residual (new word on a line after a full stop) are in
+  open-questions.md. Not done: deploy to installs (separate step per the runbook).
 
 ## 2026-10-19 gate: fewer false flags on a tighten-only reformat (`26d7738`), not deployed
 

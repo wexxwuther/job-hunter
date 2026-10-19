@@ -5,25 +5,27 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ## Active (2026-10-19)
 
-### Gate misses a new word that starts a bare line (pre-existing safety gap)
+### Gate still skips a new word on a line after a full stop (narrow residual of the bare-line fix)
 
-**Status (2026-10-19, verified on the code before and after `26d7738`):** proper-noun
-candidates skip any word that starts a line or a sentence. A new tool added as its own line
-in a one-per-line list (`SKILLS` / `Budgeting` / `Scheduling` / `Salesforce`) gives verdict
-`clean`: no proper noun, and the list is too short for a 5-word phrase run. Bullet lines are
-not affected (the `- ` comes first), nor are mid-line words.
+**Status (2026-10-19, `e02cd7e`):** a line-start word is a proper-noun candidate unless the
+text before it, across blank lines, ends with . ! or ?. So a new tool on its own line right
+after a line ending in a full stop (`Coordinated deliveries.` / `Salesforce`) is still
+skipped, the same as a mid-line sentence start ("Built systems. Salesforce ..."). Kept on
+purpose: counting those would flag the first word of every cover-letter and interview-answer
+paragraph that the resume lacks. Related noise accepted by the same fix: a first line or a
+line after a comma now counts, so a letter's "Dear" (first line) and "Thank" (line after
+"Dear Hiring Manager,") flag if the resume lacks them (checked on an invented letter).
+Mid-line "Hiring" already flagged before.
 
-**To answer:** decide whether to count line-start words on the proposed side when the word is
-nowhere in the source (any case). The 2026-10-19 change made that cheap in noise: words the
-source already has no longer flag. Sentence-start words would stay skipped. Needs tests for
-a new list item, a new title line and a new name line, plus a check that a truthful reformat
-stays quiet.
+**To answer:** only if a real fabrication slips through this way, or the owner finds the
+letter-opening noise too much. Any change needs the sentence-start tests in
+`resume-tailor/tests/test_verify_no_fabrication.py` kept green or deliberately changed.
 
-### Gate fix 26d7738 not deployed to installs
+### Gate fixes 26d7738 and e02cd7e not deployed to installs
 
-**Status (2026-10-19):** resume-tailor 1.1.2, cover-letter 1.2.1, interview-prep 1.1.1 are
-committed and pushed but not copied to installs. Follow the deploy runbook (and strip
-`__pycache__`, see "Installer copies untracked caches").
+**Status (2026-10-19):** resume-tailor 1.1.3, cover-letter 1.2.2, interview-prep 1.1.2
+(both gate fixes) are committed and pushed but not copied to installs. Follow the deploy
+runbook (and strip `__pycache__`, see "Installer copies untracked caches").
 
 ### Gate proper-noun check: accepted trade-off of the 2026-10-19 change
 
@@ -291,6 +293,18 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-19) Gate misses a new word that starts a bare line (pre-existing safety gap)
+
+**Resolution:** fixed in `e02cd7e` (resume-tailor 1.1.3, cover-letter 1.2.2, interview-prep
+1.1.2; not deployed). Before: any word after a line break was skipped as a sentence start,
+so `SKILLS` / `Budgeting` / `Scheduling` + a new `Salesforce` line gave verdict `clean`. Now
+a word that starts a line, the first line included, is a candidate unless the text before it
+ends with . ! or ?; with the 26d7738 any-case source compare, words the source has stay
+quiet. 7 tests on invented fixtures (new list item, CRLF, new title line, new name line, new
+first line flag; reordered list and sentence starts stay quiet), 5 failed before the fix; the
+`_REFORMAT_*` fixture still gives zero new proper nouns. 6 mutants killed. Residual: see
+"Gate still skips a new word on a line after a full stop" above.
 
 ### (2026-10-18) cover-letter under-triggers on the fabrication request
 

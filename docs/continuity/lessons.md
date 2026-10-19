@@ -4,6 +4,16 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-19, Git Bash heredocs here collapse double backslashes
+
+**What happened:** an inline `python - <<'EOF'` edit wrote `"\\n"` into a test file, and it
+landed as a real line break inside a string literal. A mutation script built the same way
+could not find its own anchor text. `od -c` showed `a\\b` coming out of `cat <<'EOF'` as
+`a\b`, even with the quoted delimiter.
+
+**Rule:** for any edit or script that contains backslashes, use the file tool (or a script
+file written with it), not a heredoc; then check the bytes of the changed lines.
+
 ## 2026-10-19, A gate report's context can mislead about which token is wrong
 
 **What happened:** a report showed new number "20" with the context of "200+", and the
