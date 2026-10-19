@@ -1,0 +1,97 @@
+[
+  {
+    "id": 3,
+    "sample": 1,
+    "env": "family",
+    "expected": "career-profile",
+    "outcome": "skill",
+    "error": null,
+    "skill": "career-profile",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 2,
+    "env": "family",
+    "expected": "career-profile",
+    "outcome": "answered",
+    "error": null,
+    "skill": null,
+    "hit": false,
+    "tools_before": [
+      "Glob",
+      "Read"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": 0.44973349999999995,
+    "final_text": "Key facts from `resume.md`:\n\n**Identity**\n- Name: Sam Rivera\n- Location: Austin, TX\n- Education: B.S. Computer Science, University of Texas at Austin, 2018\n\n**Current role**\n- Senior Backend Engineer, Initrode Payments (2021\u20132026)\n  - Built/ran Python and Go services for card authorization on AWS\n  - Migrated the ledger service to Kubernetes with zero customer-facing downtime\n  - Mentored three en"
+  },
+  {
+    "id": 3,
+    "sample": 3,
+    "env": "family",
+    "expected": "career-profile",
+    "outcome": "skill",
+    "error": null,
+    "skill": "career-profile",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 4,
+    "env": "family",
+    "expected": "career-profile",
+    "outcome": "skill",
+    "error": null,
+    "skill": "career-profile",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 5,
+    "env": "family",
+    "expected": "career-profile",
+    "outcome": "answered",
+    "error": null,
+    "skill": null,
+    "hit": false,
+    "tools_before": [
+      "Read"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": 0.4127755,
+    "final_text": "Key facts from the resume:\n\n**Candidate:** Sam Rivera \u2014 Austin, TX\n\n**Current role:** Senior Backend Engineer, Initrode Payments (2021\u20132026)\n- Python and Go services for card authorization on AWS\n- Migrated the ledger service to Kubernetes with zero customer-facing downtime\n- Mentored three engineers on the on-call rotation\n\n**Prior role:** Backend Engineer, Hooli (2018\u20132021)\n- Go services for a d"
+  },
+  {
+    "id": 3,
+    "sample": 6,
+    "env": "family",
+    "expected": "career-profile",
+    "outcome": "skill",
+    "error": null,
+    "skill": "career-profile",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "sample": 1,
+    "env": "family",
+    "expected": "job-search",
+    "outcome": "skill",
+    "error": null,
+    "skill": "job-search",
+    "hit": true,
+    "tools_before": [
+      "Bash"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 1,
+    "sample": 2,
+    "env": "family",
+    "expected": "job-search",
+    "outcome": "skill",
+    "error": null,
+    "skill": "job-search",
+    "hit": true,
+    "tools_before": [
+      "Bash",
+      "Read",
+      "Read"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 1,
+    "sample": 3,
+    "env": "family",
+    "expected": "job-search",
+    "outcome": "skill",
+    "error": null,
+    "skill": "job-search",
+    "hit": true,
+    "tools_before": [
+      "Glob"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 1,
+    "sample": 4,
+    "env": "family",
+    "expected": "job-search",
+    "outcome": "skill",
+    "error": null,
+    "skill": "job-search",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 1,
+    "sample": 5,
+    "env": "family",
+    "expected": "job-search",
+    "outcome": "skill",
+    "error": null,
+    "skill": "job-search",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 1,
+    "sample": 6,
+    "env": "family",
+    "expected": "job-search",
+    "outcome": "skill",
+    "error": null,
+    "skill": "job-search",
+    "hit": true,
+    "tools_before": [
+      "Glob"
+    ],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  }
+]

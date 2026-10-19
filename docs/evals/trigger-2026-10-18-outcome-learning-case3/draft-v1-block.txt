@@ -1,0 +1,12 @@
+description: >
+  Closes the per-user learning loop for the job hunt: harvests patterns from real application
+  outcomes and proposes durable lessons the user confirms. Use whenever the user wants to learn
+  from their job-search outcomes, asks "what's working in my search", "what have you learned
+  about me", or what another member (job-search, resume-tailor) should do differently for them,
+  wants to close the loop on applications, harvest lessons from rejections and offers, reset
+  what is remembered about their preferences, or review the DECISIONS / LESSONS / OUTCOMES /
+  REJECTED_IDEAS notes in their workspace, even a short ask; load it rather than reading those
+  files and answering yourself, which skips the 5-closed-outcome cold-start guard and the opt-in
+  confirmation step (it never auto-writes). Do not use for searching jobs (use job-search),
+  tracking applications or drafting follow-ups (use application-tracker), tailoring a resume to
+  a posting (use resume-tailor), or setting up the North-Star profile (use career-profile).
