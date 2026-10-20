@@ -23,9 +23,23 @@ Detection categories:
   - new_sections          : markdown headings or all-caps section labels in
                             proposed that aren't in original. Catches structural
                             changes (e.g., promoting a project to its own
-                            Professional Experience entry).
+                            Professional Experience entry). Also short Title
+                            Case lines that contain a resume-section word
+                            ("Earlier Experience", "Volunteer Work"), the
+                            shape of a DOCX heading in Normal style; those
+                            count as new only if no original line has the
+                            same text in any case. A Title Case heading with
+                            no section word is not detected.
   - new_bullets           : count delta of bullet lines per detected section.
-                            Catches whole-new-bullet additions.
+                            Catches whole-new-bullet additions. When either
+                            document has no "-", "*" or bullet-glyph markers
+                            (DOCX text: Word list bullets are a style, not a
+                            character), every non-blank line under a heading
+                            counts as an item in both documents, so a new
+                            markerless bullet is still counted; a reflow that
+                            splits one line into two then counts too. Lines
+                            before the first heading are not counted then (a
+                            headingless letter is not a list of bullets).
   - new_phrase_runs       : 5+-word runs in proposed not found in original.
                             The semantic-fabrication catch. Lossy (paraphrasing
                             triggers false positives), but useful as a final pass.
@@ -124,6 +138,25 @@ _SECTION_HEADING_PATTERN = re.compile(
     re.VERBOSE | re.MULTILINE,
 )
 
+# A DOCX heading in Normal style reaches the gate as a plain Title Case line.
+# Job titles, employers, names and one-per-line skills look the same, so a
+# Title Case line is a heading only if it also has a resume-section word.
+_TITLE_CASE_HEADING_PATTERN = re.compile(
+    r"[A-Z][A-Za-z'\-]*(?:[ \t]+(?:[A-Z][A-Za-z'\-]*|&|and|of|the|for|in)){0,4}:?"
+)
+_SECTION_WORDS = {
+    "experience", "employment", "history", "education", "training", "skills",
+    "competencies", "expertise", "qualifications", "summary", "profile",
+    "objective", "highlights", "certifications", "certificates", "licenses",
+    "projects", "awards", "honors", "achievements", "accomplishments",
+    "publications", "references", "volunteer", "volunteering",
+    "affiliations", "memberships", "activities", "interests", "languages",
+    "coursework",
+}
+
+# -, *, bullet (U+2022) or triangle (U+25B8), then whitespace.
+_BULLET_LINE = re.compile(r"^[-*\u2022\u25b8]\s")
+
 
 def _tokenize_words(text: str) -> list[str]:
     """Tokenize on whitespace and punctuation boundaries, preserving case."""
@@ -189,20 +222,51 @@ def _section_headings(text: str) -> list[str]:
     return [m.group(0).strip() for m in _SECTION_HEADING_PATTERN.finditer(text)]
 
 
-def _bullet_count_by_section(text: str) -> dict[str, int]:
+def _is_title_case_heading(line: str) -> bool:
+    """A short Title Case line (1-5 words, optional trailing colon) with at
+    least one resume-section word: "Earlier Experience", "Volunteer Work:"."""
+    stripped = line.strip()
+    if not _TITLE_CASE_HEADING_PATTERN.fullmatch(stripped):
+        return False
+    return any(w.lower() in _SECTION_WORDS for w in _tokenize_words(stripped))
+
+
+def _title_case_headings(text: str) -> list[str]:
+    """Title Case heading lines, in order. Kept apart from _section_headings
+    because they are compared against every original line, not only headings."""
+    return [line.strip() for line in text.splitlines() if _is_title_case_heading(line)]
+
+
+def _normalized_line(line: str) -> str:
+    """Line text for heading comparison: no markdown or bold markers, no
+    trailing colon, lowercased, single spaces."""
+    text = line.strip().strip("#*").strip().rstrip(":").strip()
+    return " ".join(text.lower().split())
+
+
+def _has_bullet_markers(text: str) -> bool:
+    return any(_BULLET_LINE.match(line.strip()) for line in text.splitlines())
+
+
+def _bullet_count_by_section(text: str, markers_only: bool = True) -> dict[str, int]:
     """Walk the document, count bullet lines per section. A bullet is any line
-    starting with -, *, or • or ▸ after optional whitespace."""
+    starting with -, *, a bullet glyph or a triangle glyph after optional
+    whitespace. With markers_only=False (text without markers, such as DOCX
+    paragraph text) every non-blank line under a heading counts. Lines before
+    the first heading do not, so a headingless cover letter or claims list
+    (cover-letter, interview-prep) is not read as a pile of new bullets."""
     counts: dict[str, int] = {}
     current_section = "(preamble)"
     for line in text.splitlines():
         stripped = line.strip()
         # Detect section transition
-        if _SECTION_HEADING_PATTERN.fullmatch(line):
+        if _SECTION_HEADING_PATTERN.fullmatch(line) or _is_title_case_heading(line):
             current_section = stripped
             counts.setdefault(current_section, 0)
             continue
         # Bullet line?
-        if re.match(r"^[-*•▸]\s", stripped):
+        in_section = current_section != "(preamble)"
+        if _BULLET_LINE.match(stripped) or (stripped and in_section and not markers_only):
             counts.setdefault(current_section, 0)
             counts[current_section] += 1
     return counts
@@ -267,10 +331,20 @@ def verify(original: str, proposed: str, phrase_run_length: int = 5) -> dict:
         if h not in orig_sections and h not in seen:
             new_sections.append(h)
             seen.add(h)
+    # Title Case headings (DOCX Normal style): new only if no original line has
+    # the same text in any case, so re-casing EDUCATION to Education is quiet.
+    orig_lines = {_normalized_line(line) for line in original.splitlines()}
+    for h in _title_case_headings(proposed):
+        if _normalized_line(h) not in orig_lines and h not in seen:
+            new_sections.append(h)
+            seen.add(h)
 
-    # Bullet count delta per section (only report sections with positive delta)
-    orig_bullets = _bullet_count_by_section(original)
-    prop_bullets = _bullet_count_by_section(proposed)
+    # Bullet count delta per section (only report sections with positive delta).
+    # If either side has no bullet markers (DOCX text), count every item line
+    # on both sides; counting markers alone would see zero and miss a new one.
+    markers_only = _has_bullet_markers(original) and _has_bullet_markers(proposed)
+    orig_bullets = _bullet_count_by_section(original, markers_only)
+    prop_bullets = _bullet_count_by_section(proposed, markers_only)
     bullet_deltas: dict[str, int] = {}
     for section, count in prop_bullets.items():
         delta = count - orig_bullets.get(section, 0)

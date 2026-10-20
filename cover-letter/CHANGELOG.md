@@ -1,5 +1,9 @@
 # Changelog — cover-letter
 
+## v1.2.3 (2026-10-20)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.4): verify_no_fabrication.py, DOCX-shaped text (python-docx paragraph text has no bullet markers, and headings are plain Title Case lines in Normal style). (1) A new Title Case heading (`Earlier Experience`) was not reported: only markdown and ALL CAPS headings were. A short Title Case line (1-5 words, optional colon) with a resume-section word (Experience, Education, Skills, ...) now counts as a heading, and is new only if no source line has the same text in any case. Job-title, employer and skill lines are not headings; a heading with no section word is still missed. (2) `new_bullets` counted only lines that start with a marker, so a new markerless bullet was never counted. When either document has no markers, every non-blank line under a heading now counts in both; lines before the first heading do not, so a headingless letter or claims list stays quiet. Found by the owner's resume reassessment (2026-10-20).
+
 ## v1.2.2 (2026-10-19)
 
 - Gate fix (bundled copy, re-synced byte-identical from resume-tailor): verify_no_fabrication.py: a new word that starts a bare line was never a proper-noun candidate, because any word after a line break was skipped as a sentence start. So a new tool added as its own line in a one-per-line list (`SKILLS` / `Budgeting` / `Scheduling` / `Salesforce`) gave verdict `clean`. A word that starts a line, the first line included, is now a candidate unless the text before it ends with . ! or ?; it flags only if the source has it nowhere, in any case, so a truthful reformat stays quiet. Bullet lines and mid-line words were already caught. Pre-existing gap, found while verifying the 26d7738 fix.

@@ -2,6 +2,29 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Gate: DOCX headings and markerless bullets (2026-10-20, family v6.0.0 line)
+
+Signal: the owner's resume reassessment (2026-10-20) ran the installed resume-tailor 1.1.1
+gate on DOCX text (python-docx paragraph text: no bullet markers, headings as plain Title
+Case lines). It reported 41 flags, 17 of them proper nouns the resume already had, and did
+not report a new `Earlier Experience` heading. The proper-noun noise and the "20" context
+bug were already fixed in 1.1.2 (26d7738) but never deployed. Two gaps were still open:
+
+What shipped (`verify_no_fabrication.py`, canonical in resume-tailor, byte-identical in
+cover-letter and interview-prep):
+- A short Title Case line (1-5 words, optional colon) with a resume-section word counts as
+  a heading, and is new only if no source line has the same text in any case. Job-title,
+  employer and skill lines are not headings. A heading with no section word is still missed.
+- `new_bullets`: when either document has no markers, every non-blank line under a heading
+  counts in both. Lines before the first heading do not, so a headingless cover letter or
+  interview claims list stays quiet.
+- 13 new tests on an invented DOCX-shaped fixture; 7 failed before the fix. One guard (a
+  headingless letter gives no bullets) was added after a first version of the fix counted
+  a letter's lines as bullets; it failed on that version. 10 mutants killed. On
+  the owner's real resume pair (counts only): 17 proper nouns to 1 (a confirmed new word),
+  `Earlier Experience` now reported, its 11 moved lines counted; 41 flags to 37.
+  resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1.
+
 ## Four description fixes for natural-trigger misses (2026-10-20, family v6.0.0 line)
 
 Signal: family-only natural-trigger probes (normal tool set, hooks off) found four in-domain

@@ -570,3 +570,202 @@ def test_sentence_start_on_a_new_line_still_not_flagged():
     nouns = [n["token"] for n in verify(original, crlf)["new_proper_nouns"]]
     assert "Designed" not in nouns
     assert "Regards" not in nouns
+
+
+# ---- DOCX-shaped text (owner run 2026-10-20) --------------------------------
+# Invented fixture. python-docx paragraph.text gives no bullet markers (Word
+# list bullets are a paragraph style) and headings are plain Title Case lines
+# in Normal style. Before 1.1.4 a new Title Case heading was not reported and
+# a new markerless bullet was never counted.
+
+_DOCX_ORIGINAL = (
+    "Jordan Avery\n"
+    "Field Operations Coordinator\n"
+    "Summary\n"
+    "Operations lead for regional freight depots.\n"
+    "Core Competencies\n"
+    "Scheduling\n"
+    "Customer Service\n"
+    "Fleet Safety\n"
+    "Experience\n"
+    "Operations Coordinator\n"
+    "Harbor Lane Freight\n"
+    "Coordinated deliveries across three depots.\n"
+    "Ran weekly safety reviews with depot leads.\n"
+    "Dispatcher\n"
+    "Bay Road Transit\n"
+    "Scheduled drivers for morning routes.\n"
+    "Education\n"
+    "Coastal Community College\n"
+)
+
+_DOCX_TIGHTENED = (
+    "Jordan Avery\n"
+    "Field Operations Coordinator\n"
+    "Summary\n"
+    "Operations lead for regional freight depots.\n"
+    "Core Competencies\n"
+    "Scheduling | Customer Service | Fleet Safety\n"
+    "Experience\n"
+    "Operations Coordinator | Harbor Lane Freight\n"
+    "Coordinated deliveries across three depots.\n"
+    "Ran weekly safety reviews with depot leads.\n"
+    "Dispatcher | Bay Road Transit\n"
+    "Scheduled drivers for morning routes.\n"
+    "Education\n"
+    "Coastal Community College\n"
+)
+
+
+def test_docx_title_and_employer_joined_on_one_line_not_flagged():
+    """Owner run 2026-10-20 on the installed 1.1.1 copy: 17 of 17 flagged
+    proper nouns were words the original already had at line start. Fixed in
+    1.1.2 (26d7738); this pins the DOCX shapes (title + employer joined with
+    a pipe, one-per-line list joined with pipes)."""
+    report = verify(_DOCX_ORIGINAL, _DOCX_TIGHTENED)
+    assert [n["token"] for n in report["new_proper_nouns"]] == []
+    assert [n["token"] for n in report["new_numbers"]] == []
+
+
+def test_new_title_case_heading_flagged():
+    proposed = _DOCX_ORIGINAL.replace(
+        "Dispatcher\n", "Earlier Experience\nDispatcher\n"
+    )
+    report = verify(_DOCX_ORIGINAL, proposed)
+    assert report["new_sections"] == ["Earlier Experience"]
+    assert report["summary"]["verdict"] == "review_required"
+    assert report["auto_approved"] is False
+
+
+def test_new_title_case_heading_flagged_with_crlf_and_trailing_colon():
+    original = _DOCX_ORIGINAL.replace("\n", "\r\n")
+    proposed = _DOCX_ORIGINAL.replace(
+        "Dispatcher\n", "Volunteer Work:\nDispatcher\n"
+    ).replace("\n", "\r\n")
+    assert verify(original, proposed)["new_sections"] == ["Volunteer Work:"]
+
+
+def test_docx_tighten_reports_no_sections_or_bullets():
+    """Job-title, employer and skill lines are short Title Case lines too.
+    They are not headings (no section word), and a tighten that joins lines
+    adds no items."""
+    report = verify(_DOCX_ORIGINAL, _DOCX_TIGHTENED)
+    assert report["new_sections"] == []
+    assert report["new_bullets"] == {}
+    assert verify(_DOCX_ORIGINAL, _DOCX_ORIGINAL)["summary"]["verdict"] == "clean"
+
+
+def test_recased_or_reordered_title_case_heading_not_flagged():
+    """A heading the original already had as its own line, in any case, is
+    not new (EDUCATION -> Education is formatting, not a new section)."""
+    original = _DOCX_ORIGINAL.replace("Education\n", "EDUCATION\n")
+    assert verify(original, _DOCX_ORIGINAL)["new_sections"] == []
+    original = _DOCX_ORIGINAL.replace("Experience\n", "Experience:\n")
+    assert verify(original, _DOCX_ORIGINAL)["new_sections"] == []
+
+
+def test_title_case_heading_text_only_inside_a_sentence_is_still_new():
+    """Only a whole original line suppresses the flag, not the same words
+    inside a sentence."""
+    original = _DOCX_ORIGINAL.replace(
+        "Operations lead for regional freight depots.",
+        "Operations lead with earlier experience in transit.",
+    )
+    proposed = original.replace("Dispatcher\n", "Earlier Experience\nDispatcher\n")
+    assert verify(original, proposed)["new_sections"] == ["Earlier Experience"]
+
+
+def test_title_case_heading_needs_a_section_word():
+    """Short Title Case lines without a resume-section word (job titles,
+    employers, names, skills) are not headings, so they are never reported
+    as sections. New ones are still flagged as proper nouns."""
+    proposed = _DOCX_ORIGINAL.replace(
+        "Dispatcher\n", "Route Planner\nNorthwind Logistics\n"
+    )
+    report = verify(_DOCX_ORIGINAL, proposed)
+    assert report["new_sections"] == []
+    nouns = [n["token"] for n in report["new_proper_nouns"]]
+    assert "Northwind" in nouns
+
+
+def test_new_markerless_bullet_counted_in_its_section():
+    proposed = _DOCX_ORIGINAL.replace(
+        "Ran weekly safety reviews with depot leads.\n",
+        "Ran weekly safety reviews with depot leads.\n"
+        "Cut fuel costs across the fleet.\n",
+    )
+    report = verify(_DOCX_ORIGINAL, proposed)
+    assert report["new_bullets"] == {"Experience": 1}
+    assert report["summary"]["verdict"] == "review_required"
+
+
+def test_new_markerless_bullet_counted_with_crlf_line_endings():
+    original = _DOCX_ORIGINAL.replace("\n", "\r\n")
+    proposed = _DOCX_ORIGINAL.replace(
+        "Scheduled drivers for morning routes.\n",
+        "Scheduled drivers for morning routes.\nTrained new drivers.\n",
+    ).replace("\n", "\r\n")
+    assert verify(original, proposed)["new_bullets"] == {"Experience": 1}
+
+
+def test_new_markerless_items_under_a_new_title_case_heading_counted():
+    proposed = _DOCX_ORIGINAL.replace(
+        "Dispatcher\n", "Earlier Experience\nDispatcher\n"
+    )
+    report = verify(_DOCX_ORIGINAL, proposed)
+    assert report["new_bullets"] == {"Earlier Experience": 3}
+
+
+def test_headingless_letter_against_docx_resume_counts_no_bullets():
+    """cover-letter and interview-prep run the same gate on a letter or a
+    claims list: plain lines with no heading. Line counting covers only lines
+    under a heading, so those lines are not reported as new bullets."""
+    letter = (
+        "Dear Hiring Manager,\n"
+        "I coordinated deliveries across three depots at Harbor Lane Freight.\n"
+        "I ran weekly safety reviews with depot leads.\n"
+        "I would welcome the chance to talk.\n"
+        "Sincerely,\n"
+        "Jordan Avery\n"
+    )
+    assert verify(_DOCX_ORIGINAL, letter)["new_bullets"] == {}
+    marked_source = _DOCX_ORIGINAL.replace(
+        "Coordinated deliveries", "- Coordinated deliveries"
+    )
+    assert verify(marked_source, letter)["new_bullets"] == {}
+
+
+def test_markers_dropped_in_proposed_still_counts_new_bullet():
+    """Original exported with "- " markers, proposed from DOCX without them:
+    counting only marker lines would see 0 in proposed and miss the new one."""
+    original = (
+        "## Experience\n"
+        "Operations Coordinator\n"
+        "- Coordinated deliveries across three depots.\n"
+        "- Ran weekly safety reviews.\n"
+    )
+    proposed = (
+        "## Experience\n"
+        "Operations Coordinator\n"
+        "Coordinated deliveries across three depots.\n"
+        "Ran weekly safety reviews.\n"
+        "Cut fuel costs across the fleet.\n"
+    )
+    assert verify(original, proposed)["new_bullets"] == {"## Experience": 1}
+
+
+def test_marker_mode_unchanged_when_both_documents_have_markers():
+    """Both documents use markers: only marker lines count, so rewrapping a
+    plain line does not count as a new bullet."""
+    original = (
+        "## Experience\n"
+        "Operations Coordinator, Harbor Lane Freight\n"
+        "- Coordinated deliveries across three depots.\n"
+    )
+    proposed = (
+        "## Experience\n"
+        "Operations Coordinator,\n"
+        "Harbor Lane Freight\n"
+        "- Coordinated deliveries across three depots.\n"
+    )
+    assert verify(original, proposed)["new_bullets"] == {}

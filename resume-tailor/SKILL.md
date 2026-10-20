@@ -229,6 +229,12 @@ This is the existing flow plus an additional verification step.
    - "Is this number accurate?" (for new quantification)
    - "Did you want this restructuring?" (for new sections or bullet additions)
 
+   DOCX text has no bullet markers and its headings are plain lines. The gate then reads
+   a short Title Case line with a section word ("Earlier Experience") as a heading and
+   counts every line under a heading as a bullet, so moved or split lines show up in
+   `new_bullets` too. A new heading with no section word is not caught; check the
+   heading list by eye.
+
    Only write the DOCX after every flagged item has user confirmation. The script's contract
    is detection-only; **the agent has no permission to silently approve items.**
 

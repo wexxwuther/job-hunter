@@ -1,5 +1,9 @@
 # Changelog - interview-prep
 
+## v1.2.1 (2026-10-20)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.4): verify_no_fabrication.py, DOCX-shaped text (python-docx paragraph text has no bullet markers, and headings are plain Title Case lines in Normal style). (1) A new Title Case heading (`Earlier Experience`) was not reported: only markdown and ALL CAPS headings were. A short Title Case line (1-5 words, optional colon) with a resume-section word (Experience, Education, Skills, ...) now counts as a heading, and is new only if no source line has the same text in any case. Job-title, employer and skill lines are not headings; a heading with no section word is still missed. (2) `new_bullets` counted only lines that start with a marker, so a new markerless bullet was never counted. When either document has no markers, every non-blank line under a heading now counts in both; lines before the first heading do not, so a headingless letter or claims list stays quiet. Found by the owner's resume reassessment (2026-10-20).
+
 ## v1.2.0 (2026-10-20)
 
 - Description only (owner-approved 2026-10-20). Signal: after cover-letter 1.2.0, the "make me sound like I know Looker" interview ask loaded interview-prep 0/12 in a family-only install (3/3 before); reverting only cover-letter restored it to 11/12. The description now claims the ask to sound experienced in a skill the user lacks in an interview, and says to load the skill rather than answer or refuse from general knowledge. Draft probe: case 2 12/12; joint sweep 18/18 (+3/3 more on cases 2, 3). Evidence: docs/evals/trigger-2026-10-18-interview-prep-case2/.
