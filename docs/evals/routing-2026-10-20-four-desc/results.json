@@ -1,0 +1,2026 @@
+[
+  {
+    "id": 1,
+    "query": "Help me run my whole job search from scratch",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#1:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 2,
+    "query": "I need to find a job \u2014 can you help me through the whole process?",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#2:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 3,
+    "query": "Find me some backend roles and tailor my resume for the best one",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#3:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 4,
+    "query": "Set up my job search, find openings, and track my applications",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#4:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 5,
+    "query": "I'm starting a job hunt and want to do it properly end to end",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#5:T"
+    ],
+    "label": null,
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": false,
+    "lenient": false,
+    "errored": false,
+    "error": null,
+    "completed": false,
+    "result_subtype": null,
+    "cost_usd": 0.0,
+    "model": null
+  },
+  {
+    "id": 6,
+    "query": "Manage my job applications and figure out what's working",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#6:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 7,
+    "query": "Export my job-search workspace so I can move to a new laptop",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#7:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 8,
+    "query": "Restore my job-hunter workspace on this machine",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#8:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 9,
+    "query": "Review this Python pull request for bugs",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "job-hunter#9:F"
+    ],
+    "label": "off-domain",
+    "routed": "code-review",
+    "all_skills_invoked": [
+      "code-review"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 10,
+    "query": "What's the weather tomorrow?",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "job-hunter#10:F"
+    ],
+    "label": "off-domain",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2489655,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 11,
+    "query": "Write a blog post about career growth",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "job-hunter#11:F"
+    ],
+    "label": "off-domain content writing",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2878305,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 12,
+    "query": "Plan my social media posts for the week",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "job-hunter#12:F"
+    ],
+    "label": "off-domain",
+    "routed": "social-media-orchestrator",
+    "all_skills_invoked": [
+      "social-media-orchestrator"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 13,
+    "query": "Set up my job-search profile before we start looking for jobs",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#1:T"
+    ],
+    "label": null,
+    "routed": "career-profile",
+    "all_skills_invoked": [
+      "career-profile"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 14,
+    "query": "Let me tell you about myself and what kind of role I actually want before we search",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#2:T"
+    ],
+    "label": null,
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": false,
+    "lenient": false,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2545255,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 15,
+    "query": "Here's my resume DOCX - can you read it and pull out my experience?",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#3:T"
+    ],
+    "label": null,
+    "routed": "career-profile",
+    "all_skills_invoked": [
+      "career-profile"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 16,
+    "query": "Extract the text from my resume PDF so we can use it",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#4:T"
+    ],
+    "label": null,
+    "routed": "pdf",
+    "all_skills_invoked": [
+      "pdf"
+    ],
+    "strict": false,
+    "lenient": false,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 17,
+    "query": "I set up my profile a few months ago - can we refresh it?",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#5:T"
+    ],
+    "label": null,
+    "routed": "career-profile",
+    "all_skills_invoked": [
+      "career-profile"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 18,
+    "query": "Capture my deal-breakers: no on-call, no defense work, no relocation",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#6:T"
+    ],
+    "label": null,
+    "routed": "career-profile",
+    "all_skills_invoked": [
+      "career-profile"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 19,
+    "query": "Tailor my resume for this product manager role at Stripe",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#7:F",
+      "job-search#13:F",
+      "application-tracker#8:F",
+      "interview-prep#11:F"
+    ],
+    "label": "resume tailoring for a named posting",
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 20,
+    "query": "Find me senior backend engineer roles in Seattle, $180k+",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#8:F",
+      "job-search#1:T",
+      "resume-tailor#9:F",
+      "application-tracker#9:F"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 21,
+    "query": "Review my resume and tell me what's wrong with it",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": true,
+    "sources": [
+      "career-profile#9:F"
+    ],
+    "label": "generic critique: career-profile excludes it; resume-tailor Mode A is acceptable, so is answering directly",
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 22,
+    "query": "Should I become a product manager?",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "career-profile#10:F",
+      "outcome-learning#10:F"
+    ],
+    "label": "career coaching, out of family scope",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2701605,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 23,
+    "query": "What jobs match my resume?",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#2:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": false,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 24,
+    "query": "Look for openings near me, I'm a marketing manager",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#3:T"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 25,
+    "query": "Search local jobs in Austin for a data analyst",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#4:T"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 26,
+    "query": "Find companies hiring software engineers in Boston",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#5:T"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 27,
+    "query": "I'm looking for remote DevOps jobs that pay at least $150k",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#6:T"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 28,
+    "query": "Search Indeed and LinkedIn for nursing positions in Phoenix",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#7:T"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 29,
+    "query": "Find me a job",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#8:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": false,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 30,
+    "query": "Help me find work as a freelance graphic designer in NYC",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#9:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": false,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 31,
+    "query": "Are there any state government jobs in Texas I'd qualify for?",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#10:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": false,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 32,
+    "query": "Is this posting legit or is it a ghost job? [pastes a LinkedIn posting with no apply button, confidential employer, reposted 3x in 60 days]",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#11:T"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 33,
+    "query": "Score this Senior Backend Engineer posting at Stripe against my profile",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#12:T"
+    ],
+    "label": null,
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 34,
+    "query": "Set up my job-search profile and parse my resume",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#14:F"
+    ],
+    "label": "profile + resume parsing",
+    "routed": "career-profile",
+    "all_skills_invoked": [
+      "career-profile"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 35,
+    "query": "What's the weather like in Seattle today?",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "job-search#15:F",
+      "resume-tailor#12:F",
+      "application-tracker#10:F",
+      "outcome-learning#11:F"
+    ],
+    "label": "off-domain",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2490505,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 36,
+    "query": "Can you tailor my resume for this product manager role at Stripe?",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#1:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 37,
+    "query": "Tighten up my resume and clean up the formatting",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#2:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 38,
+    "query": "Optimize my resume for ATS systems",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#3:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 39,
+    "query": "Optimize my resume for this senior backend engineer role at Acme",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#4:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 40,
+    "query": "What's the keyword gap between my resume and this job description?",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#5:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 41,
+    "query": "Rewrite my resume bullets to mirror this posting's language",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#6:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 42,
+    "query": "Write me a cover letter for the Anthropic research engineer position",
+    "expected": [
+      "cover-letter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#7:F"
+    ],
+    "label": "resume-tailor#7 (now F since 2026-10-12): cover letters moved to cover-letter on 2026-05-29",
+    "routed": "cover-letter",
+    "all_skills_invoked": [
+      "cover-letter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 43,
+    "query": "Help me with my resume",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#8:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 44,
+    "query": "Set up my job-search profile and parse my resume into facts",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#10:F"
+    ],
+    "label": "profile + resume parsing",
+    "routed": "career-profile",
+    "all_skills_invoked": [
+      "career-profile"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 45,
+    "query": "Is this LinkedIn posting a real job or a ghost job?",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#11:F"
+    ],
+    "label": "posting legitimacy scoring lives in job-search",
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 46,
+    "query": "Run my resume through a resume optimizer",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#13:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 47,
+    "query": "I need a resume optimization tool to optimize my resume for ATS",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "resume-tailor#14:T"
+    ],
+    "label": null,
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 48,
+    "query": "Write a cover letter for this product manager role at Stripe",
+    "expected": [
+      "cover-letter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#1:T"
+    ],
+    "label": null,
+    "routed": "cover-letter",
+    "all_skills_invoked": [
+      "cover-letter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 49,
+    "query": "Can you draft a cover letter for this job posting?",
+    "expected": [
+      "cover-letter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#2:T"
+    ],
+    "label": null,
+    "routed": "cover-letter",
+    "all_skills_invoked": [
+      "cover-letter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 50,
+    "query": "Turn my resume into a cover letter for this role",
+    "expected": [
+      "cover-letter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#3:T"
+    ],
+    "label": null,
+    "routed": "cover-letter",
+    "all_skills_invoked": [
+      "cover-letter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 51,
+    "query": "Write a letter of interest for the analyst opening",
+    "expected": [
+      "cover-letter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#4:T"
+    ],
+    "label": null,
+    "routed": "cover-letter",
+    "all_skills_invoked": [
+      "cover-letter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 52,
+    "query": "Tailor my cover letter to this job description",
+    "expected": [
+      "cover-letter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#5:T"
+    ],
+    "label": null,
+    "routed": "cover-letter",
+    "all_skills_invoked": [
+      "cover-letter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 53,
+    "query": "Tighten up my resume and fix the formatting",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#6:F"
+    ],
+    "label": "resume-tailor Mode A",
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 54,
+    "query": "Find me product manager jobs in Denver",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#7:F"
+    ],
+    "label": "job search",
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 55,
+    "query": "What should I follow up on this week?",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "cover-letter#8:F"
+    ],
+    "label": "follow-ups",
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 56,
+    "query": "What's a good recipe for banana bread?",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "cover-letter#9:F",
+      "interview-prep#12:F"
+    ],
+    "label": "off-domain",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2587755,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 57,
+    "query": "Track my applications",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#1:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 58,
+    "query": "Where am I on all my applications?",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#2:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 59,
+    "query": "Build me an application tracker from these postings",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#3:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 60,
+    "query": "What should I follow up on?",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#4:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 61,
+    "query": "Draft a follow-up for the Stripe application, it's been two weeks with no reply",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#5:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 62,
+    "query": "I had a phone screen with Acme yesterday, help me write a thank-you note",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#6:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 63,
+    "query": "Mark the Acme application as interviewing and update my tracker",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "application-tracker#7:T"
+    ],
+    "label": null,
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 64,
+    "query": "What have you learned about me from my job search so far?",
+    "expected": [
+      "outcome-learning"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#1:T"
+    ],
+    "label": null,
+    "routed": "outcome-learning",
+    "all_skills_invoked": [
+      "outcome-learning"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 65,
+    "query": "What's working in my job search? What patterns do you see?",
+    "expected": [
+      "outcome-learning"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#2:T"
+    ],
+    "label": null,
+    "routed": "outcome-learning",
+    "all_skills_invoked": [
+      "outcome-learning"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 66,
+    "query": "Close the loop on my applications and harvest any lessons.",
+    "expected": [
+      "outcome-learning"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#3:T"
+    ],
+    "label": null,
+    "routed": "outcome-learning",
+    "all_skills_invoked": [
+      "outcome-learning"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 67,
+    "query": "Show me my application outcomes so far.",
+    "expected": [
+      "outcome-learning",
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#4:T"
+    ],
+    "label": "ambiguous: outcome-learning reads OUTCOMES.md, application-tracker shows statuses (offer/rejected are outcomes); live run 2026-10-12 chose application-tracker",
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 68,
+    "query": "Reset what the job hunter has learned about my job-search preferences.",
+    "expected": [
+      "outcome-learning"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#5:T"
+    ],
+    "label": null,
+    "routed": "outcome-learning",
+    "all_skills_invoked": [
+      "outcome-learning"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 69,
+    "query": "Find me senior backend engineer roles in Seattle, $180k+.",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#6:F"
+    ],
+    "label": "job search (trailing period variant)",
+    "routed": "job-search",
+    "all_skills_invoked": [
+      "job-search"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 70,
+    "query": "Tailor my resume for this product manager role at Stripe.",
+    "expected": [
+      "resume-tailor"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#7:F"
+    ],
+    "label": "resume tailoring for a named posting",
+    "routed": "resume-tailor",
+    "all_skills_invoked": [
+      "resume-tailor"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 71,
+    "query": "Show me applications I should follow up on and draft check-in emails.",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "outcome-learning#8:F"
+    ],
+    "label": "follow-ups + check-in drafts",
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 72,
+    "query": "How do I negotiate salary when I get an offer?",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "outcome-learning#9:F"
+    ],
+    "label": "salary negotiation, out of family scope",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2726605,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 73,
+    "query": "I have an interview with Globex on Thursday for the data analyst job I applied to. Help me prepare.",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#1:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 74,
+    "query": "Prep me for my phone screen tomorrow for the nursing position I applied for",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#2:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 75,
+    "query": "Run a mock interview for my hiring manager round at Acme",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#3:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 76,
+    "query": "What questions will they ask in my panel interview for the welding supervisor job I applied to?",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#4:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 77,
+    "query": "Help me build STAR stories from my resume for my interview next week for the teaching job",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#5:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 78,
+    "query": "I'm the hiring manager. Write interview questions and a scorecard to evaluate candidates for our analyst opening",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#6:F"
+    ],
+    "label": "hiring side; interview-prep#6 is the collision guard (candidate prep only)",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.3180505,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 79,
+    "query": "Write a thank-you note to the interviewer from yesterday's phone screen",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#7:F"
+    ],
+    "label": "post-interview thank-you drafts (draft_followup.py thank_you)",
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 80,
+    "query": "Mark the Acme application as interviewing",
+    "expected": [
+      "application-tracker"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#8:F"
+    ],
+    "label": "tracker status change; interview-prep never writes tracker.json",
+    "routed": "application-tracker",
+    "all_skills_invoked": [
+      "application-tracker"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 81,
+    "query": "Help me negotiate the salary on my offer from Globex",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#9:F"
+    ],
+    "label": "salary negotiation, out of family scope",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.27687550000000005,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 82,
+    "query": "Prepare questions for a podcast interview I'm hosting next week",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#10:F"
+    ],
+    "label": "media interview, not a job interview",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2594555,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 83,
+    "query": "Help me practice answering 'tell me about yourself' for my interview at Acme on Monday",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#13:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 84,
+    "query": "I got a second-round interview at the hospital I applied to. What should I ask them?",
+    "expected": [
+      "interview-prep"
+    ],
+    "allow_none": false,
+    "sources": [
+      "interview-prep#14:T"
+    ],
+    "label": null,
+    "routed": "interview-prep",
+    "all_skills_invoked": [
+      "interview-prep"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 85,
+    "query": "Explain how to run a structured behavioral interview when I'm the interviewer",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#15:F"
+    ],
+    "label": "hiring-side interview technique",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.2925305,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 86,
+    "query": "I'm interviewing contractors to remodel my kitchen. What should I ask them?",
+    "expected": [],
+    "allow_none": true,
+    "sources": [
+      "interview-prep#16:F"
+    ],
+    "label": "off-domain use of 'interviewing'",
+    "routed": null,
+    "all_skills_invoked": [],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "success",
+    "cost_usd": 0.27425049999999995,
+    "model": "claude-opus-4-8[1m]"
+  }
+]

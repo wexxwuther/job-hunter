@@ -41,6 +41,23 @@ shipping.
   eval-expectation mismatches (open question "Outcome evals that expect a different first skill
   than the descriptions route to"), unchanged.
 
+## After deploy: full install (319 skills, hooks off)
+
+`63640df` deployed to the installs; `tools/run_trigger_probe.py` without `--family-only`,
+3 samples per target case (`report-full-after-*.md`):
+
+| case | loaded |
+|---|---|
+| interview-prep 2 | 3/3 |
+| interview-prep 3 | 2/3 (1 answered directly) |
+| career-profile 3 | 3/3 |
+| job-search 6 | 3/3 |
+| job-search 1 | 1/3 (2 to job-hunter; no earlier full-install baseline) |
+| outcome-learning 3 | 3/3 |
+
+Targets 14/15. Cost $0.26 CLI-reported. Family routing evals after the deploy:
+`docs/evals/routing-2026-10-20-four-desc/`.
+
 ## Files
 
 `report-<member>.md` / `results-<member>.json` (40-case sweep);

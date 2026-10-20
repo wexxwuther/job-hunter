@@ -1,0 +1,98 @@
+[
+  {
+    "id": 5,
+    "query": "I'm starting a job hunt and want to do it properly end to end",
+    "expected": [
+      "job-hunter"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-hunter#5:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 14,
+    "query": "Let me tell you about myself and what kind of role I actually want before we search",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#2:T"
+    ],
+    "label": null,
+    "routed": "career-profile",
+    "all_skills_invoked": [
+      "career-profile"
+    ],
+    "strict": true,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 16,
+    "query": "Extract the text from my resume PDF so we can use it",
+    "expected": [
+      "career-profile"
+    ],
+    "allow_none": false,
+    "sources": [
+      "career-profile#4:T"
+    ],
+    "label": null,
+    "routed": "pdf",
+    "all_skills_invoked": [
+      "pdf"
+    ],
+    "strict": false,
+    "lenient": false,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  },
+  {
+    "id": 23,
+    "query": "What jobs match my resume?",
+    "expected": [
+      "job-search"
+    ],
+    "allow_none": false,
+    "sources": [
+      "job-search#2:T"
+    ],
+    "label": null,
+    "routed": "job-hunter",
+    "all_skills_invoked": [
+      "job-hunter"
+    ],
+    "strict": false,
+    "lenient": true,
+    "errored": false,
+    "error": null,
+    "completed": true,
+    "result_subtype": "routing_stop",
+    "cost_usd": 0.0,
+    "model": "claude-opus-4-8[1m]"
+  }
+]
