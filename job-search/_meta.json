@@ -1,6 +1,6 @@
 {
   "skill_name": "job-search",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "license": "MIT",
   "family": "job-hunter",
   "family_role": "search",
@@ -29,5 +29,5 @@
     "test_red_flag_torpedoes_perfect_score",
     "test_thresholds_match_career_ops_block_g"
   ],
-  "version_notes": "v1.0.0 is the job-hunter family search member, carved from the v5.2.0 monolith's Phase 2 (4-tier search) + Phase 2.5 (deterministic scoring). Owns build_search_queries / expand_role_synonyms / normalize_salary / dedupe_postings (eval-only, no unit tests) + score_posting (3 load-bearing semantic tests). Reads .job-hunter-profile.md for match scoring if present; degrades to explicit user criteria. Produces scored postings.json per the family workspace-contract."
+  "version_notes": "v1.1.0 (2026-10-20): Description only (owner-approved 2026-10-20). Signal: a possible ghost-job posting (no apply button, no salary) loaded job-search 7/9 in a family-only install; misses answered without the legitimacy score. Draft v1: case 6 6/6; joint sweep 3/3 (+3/3). Evidence: docs/evals/trigger-2026-10-18-job-search-case6/. Joint family-only sweep with all four 2026-10-20 description changes applied together: all 40 outcome-eval turn-1 cases x3 match the earlier per-member probes except job-search case 1 (7/9, the 2 misses routed to the job-hunter orchestrator; 9/9 before). v1.0.0 is the job-hunter family search member, carved from the v5.2.0 monolith's Phase 2 (4-tier search) + Phase 2.5 (deterministic scoring). Owns build_search_queries / expand_role_synonyms / normalize_salary / dedupe_postings (eval-only, no unit tests) + score_posting (3 load-bearing semantic tests). Reads .job-hunter-profile.md for match scoring if present; degrades to explicit user criteria. Produces scored postings.json per the family workspace-contract."
 }

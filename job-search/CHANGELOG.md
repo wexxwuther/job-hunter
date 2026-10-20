@@ -1,5 +1,10 @@
 # Changelog - job-search
 
+## v1.1.0 (2026-10-20)
+
+- Description only (owner-approved 2026-10-20). Signal: a possible ghost-job posting (no apply button, no salary) loaded job-search 7/9 in a family-only install; misses answered without the legitimacy score. Draft v1: case 6 6/6; joint sweep 3/3 (+3/3). Evidence: docs/evals/trigger-2026-10-18-job-search-case6/.
+- Joint family-only sweep with all four 2026-10-20 description changes applied together: all 40 outcome-eval turn-1 cases x3 match the earlier per-member probes except job-search case 1 (7/9, the 2 misses routed to the job-hunter orchestrator; 9/9 before).
+
 ## v1.0.1 (2026-10-13)
 
 State workforce portal registry re-verified (all 51 entries, 2026-10-13):

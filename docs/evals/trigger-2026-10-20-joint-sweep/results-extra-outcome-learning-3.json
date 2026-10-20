@@ -1,0 +1,47 @@
+[
+  {
+    "id": 3,
+    "sample": 1,
+    "env": "family",
+    "expected": "outcome-learning",
+    "outcome": "skill",
+    "error": null,
+    "skill": "outcome-learning",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 2,
+    "env": "family",
+    "expected": "outcome-learning",
+    "outcome": "skill",
+    "error": null,
+    "skill": "outcome-learning",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  },
+  {
+    "id": 3,
+    "sample": 3,
+    "env": "family",
+    "expected": "outcome-learning",
+    "outcome": "skill",
+    "error": null,
+    "skill": "outcome-learning",
+    "hit": true,
+    "tools_before": [],
+    "n_skills_listed": 21,
+    "model": "claude-opus-4-8[1m]",
+    "cost_usd": null,
+    "final_text": ""
+  }
+]

@@ -2,17 +2,17 @@
 name: career-profile
 description: >
   Sets up the user's job-search profile and reads their resume so the rest of a job hunt has
-  real context to work from. Use when the user wants to set up or update their job-search
-  profile, capture who they are beyond their resume (target role archetype, deal-breakers,
-  company-size preference, mission-vs-comp priority, on-call/travel/in-office tolerance),
-  tell the assistant about themselves, answer the North-Star intake questions, read, parse,
-  or extract text from their resume file (DOCX, PDF, MD, TXT, HTML) so it can be used
-  downstream (for a resume, prefer this over a generic DOCX or PDF skill), or refresh a
-  stale profile from a previous session. Produces a local
-  .job-hunter-profile.md and parsed-resume text. Do not use for tailoring a resume to a
-  specific posting or running a keyword-gap analysis (use resume-tailor), for finding or
-  scoring job postings (use job-search), for tracking applications or follow-ups (use
-  application-tracker), or for generic resume critique with no job search underway.
+  real context. Use whenever the user wants to set up or update their job-search profile, tell
+  the assistant about themselves, answer the North-Star intake questions (role archetype,
+  deal-breakers, company size, mission vs comp, on-call/travel/office tolerance), or refresh a
+  stale profile, or shares a resume file (DOCX, PDF, MD, TXT, HTML) only to have it read,
+  parsed, or summarized into key facts for later, even a short ask; load it rather than
+  summarizing the file yourself, which saves no profile for later steps (for a resume, prefer
+  this over a generic DOCX or PDF skill). Produces a local .job-hunter-profile.md and
+  parsed-resume text. Do not use for tailoring a resume to a specific posting or running a
+  keyword-gap analysis (use resume-tailor), finding or scoring job postings (use job-search),
+  tracking applications or follow-ups (use application-tracker), or generic resume critique with
+  no job search underway.
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the profile-intake member routed to by the job-hunter orchestrator.
 metadata:

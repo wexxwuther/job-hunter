@@ -1,6 +1,18 @@
 ---
 name: job-search
-description: Finds, expands, normalizes, deduplicates, and deterministically scores real job postings. Use when the user wants to find jobs, search for openings or positions or work, look for roles near them or remote, find companies hiring in a field, score or rank job postings, find roles matching their resume, detect ghost jobs or fake postings, or sanity-check whether a posting is worth applying to. Searches across major boards (LinkedIn, Indeed, Glassdoor, ZipRecruiter), industry niche boards, 50-state workforce commissions and local sources, and direct company career pages, then scores each posting on five sub-scores (cv_match, comp_vs_target, cultural_signals, posting_legitimacy, red_flags_penalty). Do not use for tailoring a resume to a posting (use resume-tailor), setting up a profile or parsing a resume (use career-profile), tracking applications or follow-ups (use application-tracker), or learning from outcomes (use outcome-learning).
+description: >
+  Finds, expands, normalizes, deduplicates, and deterministically scores real job postings. Use
+  whenever the user wants to find jobs, openings, positions, or work near them or remote, find
+  companies hiring in a field, score or rank postings, find roles matching their resume, detect
+  ghost jobs or fake postings, or judge whether one posting is real or worth applying or
+  tailoring for, even a short ask; load it rather than judging a posting from general knowledge,
+  which skips the legitimacy score. Searches major boards (LinkedIn, Indeed, Glassdoor,
+  ZipRecruiter), niche boards, 50-state workforce commissions, local sources, and company career
+  pages, then scores each posting on five sub-scores (cv_match, comp_vs_target,
+  cultural_signals, posting_legitimacy, red_flags_penalty). Do not use for tailoring a resume to
+  a posting (use resume-tailor), setting up a profile or parsing a resume (use career-profile),
+  tracking applications or follow-ups (use application-tracker), or learning from outcomes (use
+  outcome-learning).
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the search member of the job-hunter family; reads the shared .job-hunter/ workspace if present and degrades gracefully if absent.
 metadata:

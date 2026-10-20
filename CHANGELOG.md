@@ -2,6 +2,21 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Four description fixes for natural-trigger misses (2026-10-20, family v6.0.0 line)
+
+Signal: family-only natural-trigger probes (normal tool set, hooks off) found four in-domain
+asks that did not load their member: interview-prep's "make me sound like I know Looker"
+(0/12, caused by the cover-letter 1.2.0 description), career-profile's "read my resume and
+pull out the key facts" (6/9), job-search's possible ghost-job posting (7/9) and
+outcome-learning's "what you'd tell job-search to do differently" (5/9).
+
+What shipped (descriptions only, owner-approved 2026-10-20; do-not-use clauses kept):
+- **interview-prep 1.2.0**, **career-profile 1.2.0**, **job-search 1.1.0**,
+  **outcome-learning 1.1.0**.
+- Swept together in one clone before shipping (`docs/evals/trigger-2026-10-20-joint-sweep/`):
+  every target case 6/6; the other members unchanged except job-search case 1, 7/9 with both
+  misses routed to the job-hunter orchestrator (9/9 before).
+
 ## Gate: catch a new word on its own line (2026-10-19, family v6.0.0 line)
 
 Signal: while verifying the 26d7738 reformat fix, a pre-existing safety gap turned up. The

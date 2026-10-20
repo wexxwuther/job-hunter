@@ -1,6 +1,6 @@
 {
   "skill_name": "career-profile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "family": "job-hunter",
   "family_role": "profile-intake",
@@ -24,5 +24,5 @@
     "repeated_work": 0,
     "dead_refs": 0
   },
-  "version_notes": "v1.0.0 establishes career-profile as the profile-intake member of the job-hunter family (split out of the v5.2.0 monolith). It owns the North-Star profile lifecycle (init_profile.py) and resume parsing (parse_resume.py), producing .job-hunter-profile.md plus parsed-resume text per the family workspace-contract. Works standalone; the orchestrator routes to it for Phase 1 understand-the-user."
+  "version_notes": "v1.2.0 (2026-10-20): Description only (owner-approved 2026-10-20). Signal: \"Read [my resume] and pull out the key facts\" loaded career-profile 6/9 in a family-only install; misses read the file directly and saved no profile. Draft v2 (v1 collided with job-search case 1): case 3 6/6; joint sweep 3/3 (+3/3); cases 1-2 still route to job-hunter as before. Evidence: docs/evals/trigger-2026-10-18-career-profile-case3/. Joint family-only sweep with all four 2026-10-20 description changes applied together: all 40 outcome-eval turn-1 cases x3 match the earlier per-member probes except job-search case 1 (7/9, the 2 misses routed to the job-hunter orchestrator; 9/9 before). v1.0.0 establishes career-profile as the profile-intake member of the job-hunter family (split out of the v5.2.0 monolith). It owns the North-Star profile lifecycle (init_profile.py) and resume parsing (parse_resume.py), producing .job-hunter-profile.md plus parsed-resume text per the family workspace-contract. Works standalone; the orchestrator routes to it for Phase 1 understand-the-user."
 }

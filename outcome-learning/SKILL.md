@@ -1,6 +1,17 @@
 ---
 name: outcome-learning
-description: Closes the per-user learning loop for the job hunt — harvests patterns from real application outcomes and proposes durable lessons the user confirms. Use when the user wants to learn from their job-search outcomes, asks "what's working in my search" or "what have you learned about me", wants to close the loop on applications, harvest lessons from rejections and offers, surface patterns across closed-loop outcomes, reset what the skill remembers about their preferences, or review the accumulated DECISIONS / LESSONS / OUTCOMES / REJECTED_IDEAS notes in their workspace. Reads the user's local .job-hunter/ learning-loop files and translates signals into suggested lessons, gated behind a 5-closed-outcome cold-start guard and an opt-in confirmation step (never auto-writes). Do not use for searching jobs (use job-search), tracking applications or drafting follow-ups (use application-tracker), tailoring a resume to a posting (use resume-tailor), or setting up the North-Star profile (use career-profile).
+description: >
+  Closes the per-user learning loop for the job hunt: harvests patterns from real application
+  outcomes and proposes durable lessons the user confirms. Use whenever the user wants to learn
+  from their job-search outcomes, asks "what's working in my search", "what have you learned
+  about me", or what another member (job-search, resume-tailor) should do differently for them,
+  wants to close the loop on applications, harvest lessons from rejections and offers, reset
+  what is remembered about their preferences, or review the DECISIONS / LESSONS / OUTCOMES /
+  REJECTED_IDEAS notes in their workspace, even a short ask; load it rather than reading those
+  files and answering yourself, which skips the 5-closed-outcome cold-start guard and the opt-in
+  confirmation step (it never auto-writes). Do not use for searching jobs (use job-search),
+  tracking applications or drafting follow-ups (use application-tracker), tailoring a resume to
+  a posting (use resume-tailor), or setting up the North-Star profile (use career-profile).
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the learning-loop member of the job-hunter family; reads the shared .job-hunter/ workspace if present and reports honestly when it is absent or under the cold-start threshold.
 metadata:

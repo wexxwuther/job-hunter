@@ -1,5 +1,10 @@
 # Changelog - career-profile
 
+## v1.2.0 (2026-10-20)
+
+- Description only (owner-approved 2026-10-20). Signal: "Read [my resume] and pull out the key facts" loaded career-profile 6/9 in a family-only install; misses read the file directly and saved no profile. Draft v2 (v1 collided with job-search case 1): case 3 6/6; joint sweep 3/3 (+3/3); cases 1-2 still route to job-hunter as before. Evidence: docs/evals/trigger-2026-10-18-career-profile-case3/.
+- Joint family-only sweep with all four 2026-10-20 description changes applied together: all 40 outcome-eval turn-1 cases x3 match the earlier per-member probes except job-search case 1 (7/9, the 2 misses routed to the job-hunter orchestrator; 9/9 before).
+
 ## v1.1.0 (2026-10-13)
 
 `parse_resume.py` fixes found by testing on Word-authored DOCX/PDF resumes:

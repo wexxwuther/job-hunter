@@ -1,18 +1,18 @@
 ---
 name: interview-prep
 description: >
-  Prepares a job seeker for an interview on a job they applied to, from their real files
-  (tracker entry, documents they sent, confirmed lessons). Builds a stage-specific prep pack
-  (recruiter screen, hiring manager, skills test, panel, case, final round): likely questions
-  mapped to their real STAR examples, honest gap answers checked by the family
-  anti-fabrication gate, questions to ask, and a mock interview. Use whenever the candidate
-  has an interview or phone screen coming up for a job they applied to, even a short ask
-  (prep, company research, practice answers, a mock interview, or sounding experienced in a
-  skill they lack); load it rather than answering from general knowledge, which can script
-  experience they lack. Do not use for the hiring side (interview plans, questions, or
-  scorecards for candidates), media or podcast interviews, post-interview thank-you notes or
-  status updates (use application-tracker), salary negotiation, editing the resume (use
-  resume-tailor), or cover letters (use cover-letter).
+  Prepares a job seeker for an interview on a job they applied to, from their real files: a
+  stage-specific prep pack (recruiter screen, hiring manager, skills test, panel, final round)
+  with likely questions mapped to their real STAR examples, honest gap answers checked by the
+  family anti-fabrication gate, questions to ask, and a mock interview. Use whenever the
+  candidate has an interview or phone screen coming up, even a short ask (prep, company
+  research, practice answers, a mock interview), and especially when they ask to sound
+  experienced in, or fake, a tool or skill the posting wants that they lack; load it rather
+  than answering or refusing from general knowledge, which can script experience they lack. Do
+  not use for the hiring side (interview plans or scorecards for candidates), media or podcast
+  interviews, post-interview thank-you notes or status updates (use application-tracker),
+  salary negotiation, editing the resume (use resume-tailor), or cover letters (use
+  cover-letter).
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the interview-prep member of the job-hunter family; reads the shared workspace (tracker.json, submitted documents, .job-hunter/LESSONS.md) if present and degrades gracefully if absent.
 metadata:

@@ -1,5 +1,10 @@
 # Changelog - interview-prep
 
+## v1.2.0 (2026-10-20)
+
+- Description only (owner-approved 2026-10-20). Signal: after cover-letter 1.2.0, the "make me sound like I know Looker" interview ask loaded interview-prep 0/12 in a family-only install (3/3 before); reverting only cover-letter restored it to 11/12. The description now claims the ask to sound experienced in a skill the user lacks in an interview, and says to load the skill rather than answer or refuse from general knowledge. Draft probe: case 2 12/12; joint sweep 18/18 (+3/3 more on cases 2, 3). Evidence: docs/evals/trigger-2026-10-18-interview-prep-case2/.
+- Joint family-only sweep with all four 2026-10-20 description changes applied together: all 40 outcome-eval turn-1 cases x3 match the earlier per-member probes except job-search case 1 (7/9, the 2 misses routed to the job-hunter orchestrator; 9/9 before).
+
 ## v1.1.2 (2026-10-19)
 
 - Gate fix (bundled copy, re-synced byte-identical from resume-tailor): verify_no_fabrication.py: a new word that starts a bare line was never a proper-noun candidate, because any word after a line break was skipped as a sentence start. So a new tool added as its own line in a one-per-line list (`SKILLS` / `Budgeting` / `Scheduling` / `Salesforce`) gave verdict `clean`. A word that starts a line, the first line included, is now a candidate unless the text before it ends with . ! or ?; it flags only if the source has it nowhere, in any case, so a truthful reformat stays quiet. Bullet lines and mid-line words were already caught. Pre-existing gap, found while verifying the 26d7738 fix.
