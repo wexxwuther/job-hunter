@@ -35,12 +35,6 @@ Mid-line "Hiring" already flagged before.
 letter-opening noise too much. Any change needs the sentence-start tests in
 `resume-tailor/tests/test_verify_no_fabrication.py` kept green or deliberately changed.
 
-### Gate fixes 26d7738 and e02cd7e not deployed to installs
-
-**Status (2026-10-19):** resume-tailor 1.1.3, cover-letter 1.2.2, interview-prep 1.1.2
-(both gate fixes) are committed and pushed but not copied to installs. Follow the deploy
-runbook (and strip `__pycache__`, see "Installer copies untracked caches").
-
 ### Gate proper-noun check: accepted trade-off of the 2026-10-19 change
 
 **Status (2026-10-19):** a proposed capitalized word now counts as new only if the source has
@@ -62,42 +56,31 @@ the "load it rather than answering" clause to the front) or a skill-side nudge; 
 `tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/interview-prep.json --ids 2-4`
 (full install = no `--family-only`).
 
-### Three under-triggers re-measured real; description drafts await owner approval
+### job-search case 1 softened by the 2026-10-20 descriptions
 
-**Status (2026-10-18, family-only, 3 + 6 samples):** all three were real, not noise.
-career-profile case 3 ("Read [my resume] and pull out the key facts") 6/9, job-search case 6
-(ghost-job posting) 7/9 (the weakest), outcome-learning case 3 ("what you'd tell job-search to
-do differently") 5/9. Misses answered from the files or general knowledge; nothing fabricated,
-but no profile was saved, no legitimacy score ran, and the cold-start guard / confirm step did
-not run. Drafts in a temp clone: each target 6/6; own controls held (career-profile 1-2 still
-route to job-hunter, as before). career-profile draft v1 collided with job-search case 1
-(career-profile 2/9); draft v2 removed it. Cross-member check: no other draft-caused
-collision. Evidence: `docs/evals/trigger-2026-10-18-{career-profile-case3,job-search-case6,
-outcome-learning-case3,2of3-xcheck}/`. No SKILL.md changed.
+**Status (2026-10-20):** "Find me senior backend engineer roles in Austin, $180k+. Here's my
+resume ..." loaded job-search 9/9 with the earlier descriptions, 7/9 in the family-only joint
+sweep and 1/3 in the full install after the deploy (no earlier full-install baseline); every
+miss routed to the job-hunter orchestrator, which routes on to job-search (lenient pass).
+Probably career-profile 1.2.0's "shares a resume file" wording pulling the ask toward the
+orchestrator.
 
-**To answer:** owner approves or rejects career-profile draft v2, job-search draft v1,
-outcome-learning draft v1 (`draft-v*-block.txt` in each folder). If approved: apply
-byte-identical, bump `_meta.json` (minor), CHANGELOGs, CI, deploy per runbook, then probe all
-cases after deploy and run family routing evals (the routing runner reads installed copies).
+**To answer:** decide whether a find-plus-resume ask should go to the orchestrator (it is two
+steps) or to job-search; if job-search, measure a narrower career-profile phrase.
 
-### interview-prep case 2 (Looker fabrication ask): cover-letter 1.2.0 caused it; draft awaits owner approval
+### career-profile routing after 1.2.0: "extract text" PDF ask and "tell you about myself"
 
-**Status (2026-10-18, investigated):** real, 0/12 family-only on the committed descriptions
-over two sessions. Cause: the cover-letter 1.2.0 description (`123bc51`), the only SKILL.md
-change since interview-prep 1.1.0 measured 3/3. In a temp clone with only
-`cover-letter/SKILL.md` reverted to 1.1.1, case 2 loaded interview-prep 11/12. Why that
-wording suppresses interview-prep is an inference (both members now claim the fabrication
-ask). Misses refused with no tool call; nothing fabricated, but no gate and no prep pack.
-interview-prep draft v1 (993 chars; cover-letter left at 1.2.0): case 2 12/12, case 3 12/15
-(committed 6/9), controls unchanged (interview-prep 1, 4-6; cover-letter 1-4 incl. its
-fabrication case; resume-tailor 1-6; application-tracker 2; job-search 1, 7). Evidence:
-`docs/evals/trigger-2026-10-18-interview-prep-case2/`. No SKILL.md changed.
+**Status (2026-10-20, routing evals with the owner's hooks on, 4 samples each):** query 16
+"Extract the text from my resume PDF so we can use it" went to `document-skills:pdf` 3/4
+(career-profile 3/3 with hooks off, so the owner's ts-judge hook directs it; 1.2.0 dropped
+"extract text from" from the description). Query 14 "Let me tell you about myself and what
+kind of role I actually want before we search" answered directly 2/4. Query 23 "What jobs
+match my resume?" went to job-hunter 2/4 (lenient). All passed in the 2026-10-18 runs.
+Evidence: `docs/evals/routing-2026-10-20-four-desc/`.
 
-**To answer:** owner approves or rejects interview-prep draft v1 (`draft-v1-block.txt` there).
-If approved: apply byte-identical, minor bump, CHANGELOGs, CI, deploy, probe interview-prep
-1-6 + cover-letter 1-4 after deploy, family routing evals (negatives). If several pending
-drafts are approved, re-sweep them together in one clone first. Separately, case 3 may have
-softened too (3/6 committed vs 5/6 with cover-letter 1.1.1); too few samples to call.
+**To answer:** whether to put "extract text from" back into the career-profile description
+(needs owner approval, re-probe case 3 and job-search case 1) or treat 16 as a ts-judge index
+issue on this machine only; whether 14 needs a "load it rather than chatting" nudge.
 
 ### Outcome evals that expect a different first skill than the descriptions route to
 
@@ -307,6 +290,21 @@ current niche-boards reference.
 `build_search_queries.py`. Not blocking; speculative until requested.
 
 ## Closed
+
+### (2026-10-20) Three under-triggers + interview-prep case 2: drafts approved and shipped
+
+**Resolution:** owner approved all four drafts; shipped together as `63640df`
+(interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0) after a
+joint family-only sweep (`docs/evals/trigger-2026-10-20-joint-sweep/`): every target case 6/6,
+other members unchanged except job-search case 1 (now its own open question). Deployed to 24
+installs and Q. Full install after deploy: targets 14/15. Original entries: career-profile
+case 3 6/9, job-search case 6 7/9, outcome-learning case 3 5/9; interview-prep case 2 0/12
+after cover-letter 1.2.0 (cover-letter 1.1.1 restored it to 11/12).
+
+### (2026-10-20) Gate fixes 26d7738 and e02cd7e not deployed to installs
+
+**Resolution:** deployed with `63640df` (from a clean clone) to all 24 installs and Q; the
+installed resume-tailor gate equals `63640df` in all 3 roots.
 
 ### (2026-10-19) Gate misses a new word that starts a bare line (pre-existing safety gap)
 

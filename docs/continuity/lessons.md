@@ -4,6 +4,22 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-20, Deploy from a clean clone when another session shares the working tree
+
+**What happened:** `deploy_installs.py` refused to run because another session had
+uncommitted gate edits in `E:\Git\job-hunter-public`; the installer copies the working tree,
+so deploying from there would have shipped that session's unfinished work. Deployed from a
+clean clone of the pushed commit instead. The same run showed that `run_routing_evals.py`
+keeps the user's hooks on: a "routing miss" to `document-skills:pdf` came from the ts-judge
+hook (the model said "as directed") and disappeared with hooks off.
+
+**Lesson:** the source of a deploy is the commit, not the folder. Before blaming a
+description for a routing miss, re-run the query with hooks off.
+
+**How to apply:** clone the pushed commit and point the deploy scripts' SRC at it whenever
+the shared tree is dirty or busy; read the transcript of any new routing miss and re-run it
+with `--settings '{"disableAllHooks": true}'`.
+
 ## 2026-10-20, A gate defect report may come from an installed copy that lags the repo
 
 **What happened:** a resume reassessment reported gate noise (line-start proper nouns, a

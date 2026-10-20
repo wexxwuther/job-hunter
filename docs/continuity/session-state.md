@@ -2,7 +2,43 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-20 (gate DOCX headings + markerless bullets `110b182`, resume-tailor 1.1.4 / cover-letter 1.2.3 / interview-prep 1.2.1, deploy status in the section below; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-20 (four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; gate 1.1.4 `110b182` committed by another session, not deployed. 2026-10-20 (gate DOCX headings + markerless bullets `110b182`, resume-tailor 1.1.4 / cover-letter 1.2.3 / interview-prep 1.2.1, deploy status in the section below; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-20 four description fixes shipped together (`63640df`)
+
+- Owner approved all four pending drafts on 2026-10-20: interview-prep draft v1
+  (`trigger-2026-10-18-interview-prep-case2/`), career-profile draft v2, job-search draft v1,
+  outcome-learning draft v1. Applied byte-identical to the evidence blocks (the interview-prep
+  block file had CRLF in the working tree; normalized to LF), YAML read-back equal to each
+  draft description, all other frontmatter unchanged.
+- Joint sweep first (`docs/evals/trigger-2026-10-20-joint-sweep/`): a clone of `5f93a00` with
+  all four applied, `tools/run_trigger_probe.py --family-only --samples 3` over all 40 cases
+  of the 8 scenario files, plus 3 more samples per target and 6 more on job-search case 1.
+  Every target case 6/6 (interview-prep 2 and 3, career-profile 3, job-search 6,
+  outcome-learning 3); every other member matched its per-member probe except job-search
+  case 1: 7/9, both misses to the job-hunter orchestrator (committed descriptions 9/9; the
+  earlier cross-check with career-profile v2 alone saw 5/6). Recorded, not blocking (lenient
+  pass). Every sweep call loaded a skill, so no CLI cost was reported.
+- Versions: interview-prep 1.1.2 -> 1.2.0, career-profile 1.1.0 -> 1.2.0, job-search 1.0.1 ->
+  1.1.0, outcome-learning 1.0.0 -> 1.1.0 (_meta notes, member + root CHANGELOG). CI command
+  418 passed; validate.py 0 errors on the four; CI "Tests" run 39503253239 green on `63640df`.
+- Deploy: another session (gate work, later `110b182`) had uncommitted gate edits in this
+  working tree, and `deploy_installs.py` refused the dirty tree. Deployed instead from a clean
+  clone of `63640df` (`E:\tmp\jh-joint\deploy-src`, scripts `E:\tmp\jh-joint\deploy_installs.py`
+  and `reship_q.py` = the runbook scripts with SRC repointed). Installs: rollback
+  `E:\Git\job-hunter-installs-pre-63640df.zip`; 309 files byte-match across 24 installs; the
+  four SKILL.md and the resume-tailor gate equal `63640df` in all 3 roots; 0 `__pycache__`
+  (the clean clone had none). This deploy also ships gate fixes `26d7738` and `e02cd7e`.
+  Q: rollback `E:\Git\job-hunter-q-catalog-pre-63640df.zip`; 34 zips, 761 entries
+  byte-verified; the four Q claude-code zips carry the new SKILL.md; catalog job-hunter
+  `in-sync` at `63640df`.
+- After deploy, full install (319 skills, hooks off; `tools/run_trigger_probe.py` without
+  `--family-only`): interview-prep case 2 3/3, case 3 2/3 (1 answered); career-profile 3 3/3;
+  job-search 6 3/3, job-search 1 1/3 (2 to job-hunter); outcome-learning 3 3/3. No full-install
+  baseline exists for job-search case 1. Cost $0.26 CLI-reported.
+- Family routing evals after deploy (86 queries, user hooks ON as always for this runner; `docs/evals/routing-2026-10-20-four-desc/`): 66/73 strict, 70/73 lenient, negatives 13/13. New misses resampled 3x: 5 noise (1/4); 14 career-profile -> direct answer 2/4; 16 "Extract the text from my resume PDF" -> document-skills:pdf 3/4, but career-profile 3/3 with hooks off (the owner's ts-judge hook directs it; career-profile 1.2.0 lost "extract text from"); 23 job-search -> job-hunter 2/4 (lenient). Logged as an open question; no description changed without approval. CLI-reported $3.26 plus resamples.
+- `110b182` (gate 1.1.4: resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1) was
+  committed by the gate session on top of `63640df`; it said it will deploy after these checks.
 
 ## 2026-10-20 gate: DOCX Title Case headings and markerless bullets (`110b182`)
 
