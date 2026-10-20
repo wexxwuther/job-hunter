@@ -2,7 +2,7 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-20 (four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; gate 1.1.4 `110b182` committed by another session, not deployed. 2026-10-20 (gate DOCX headings + markerless bullets `110b182`, resume-tailor 1.1.4 / cover-letter 1.2.3 / interview-prep 1.2.1, deploy status in the section below; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-20 (gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
 
 ## 2026-10-20 four description fixes shipped together (`63640df`)
 
@@ -38,7 +38,8 @@
   baseline exists for job-search case 1. Cost $0.26 CLI-reported.
 - Family routing evals after deploy (86 queries, user hooks ON as always for this runner; `docs/evals/routing-2026-10-20-four-desc/`): 66/73 strict, 70/73 lenient, negatives 13/13. New misses resampled 3x: 5 noise (1/4); 14 career-profile -> direct answer 2/4; 16 "Extract the text from my resume PDF" -> document-skills:pdf 3/4, but career-profile 3/3 with hooks off (the owner's ts-judge hook directs it; career-profile 1.2.0 lost "extract text from"); 23 job-search -> job-hunter 2/4 (lenient). Logged as an open question; no description changed without approval. CLI-reported $3.26 plus resamples.
 - `110b182` (gate 1.1.4: resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1) was
-  committed by the gate session on top of `63640df`; it said it will deploy after these checks.
+  committed by the gate session on top of `63640df` and deployed with `81900da` after these
+  checks finished (see the gate section below). Descriptions unchanged by it.
 
 ## 2026-10-20 gate: DOCX Title Case headings and markerless bullets (`110b182`)
 
@@ -65,7 +66,7 @@
   failed on the first draft. Mutation check (`mutate_gate_1_1_4.py`, kept in the side-session
   notes folder, not the repo): 10 mutants, 10 killed (one survivor, trailing-colon
   normalization, was killed by an added assertion). CI command 431 passed (was 418).
-- Real pair, counts only (resume text not copied anywhere): installed 1.1.1 gave nouns 17,
+- Real pair, counts only (text extracted to a temp folder for the run, deleted after): installed 1.1.1 gave nouns 17,
   numbers 4, sections 0, bullets 0, runs 20, total 41; new gate nouns 1 (`Mastery-level`, a
   user-confirmed new word), numbers 4 (the "20" context is now the right sentence), sections
   `Earlier Experience`, bullets `Earlier Experience: 11` (moved lines), runs 20, total 37.
@@ -74,8 +75,21 @@
   residual; two tests added to the load-bearing list. Removed-lines audit clean; no non-ASCII
   added.
 - Not done here: the resume files were not touched (out of scope).
-- Deploy: pending at this commit. Held until the other session's 63640df deploy finishes its
-  post-deploy routing run (it reads the installed copies). Deploy record goes here.
+- Deploy (2026-10-20, about 19:05): held until the 63640df session's post-deploy routing run
+  finished (it reads the installed copies), then deployed `81900da` from a clean clone
+  (`E:\tmp\jh-gate114\deploy-src`; scripts `E:\tmp\jh-gate114\deploy_installs.py`,
+  `reship_q.py`, `post_deploy_check.py`; same runbook scripts, SRC repointed). CI "Tests" run
+  39508606503 green on `110b182`.
+  Installs: rollback `E:\Git\job-hunter-installs-pre-81900da.zip` (309 files); 309 files
+  byte-match `81900da` across 24 installs; 0 `__pycache__`/`.pytest_cache`. Post-deploy:
+  all 9 installed gates equal the repo gate, `_meta` 1.1.4 / 1.2.3 / 1.2.1; the repo gate test
+  file passes against each installed gate (53 passed x 9); the installed gate on the real
+  pair gives nouns 1, sections 1, total 37, auto_approved False.
+  Q: rollback `E:\Git\job-hunter-q-catalog-pre-81900da.zip` (44 files); 34 zips, 761 entries
+  byte-verified; all 34 Q zips equal the build output and pass testzip; 18 gate copies equal
+  the repo; skill.json `family_source_commit` 81900da; `update-catalog.py` wrote 91 skills
+  (same unrelated social-media-plugin drift warning). No routing re-run: no description
+  changed.
 
 ## 2026-10-19 gate: a new word on its own bare line now flags (`e02cd7e`), not deployed
 
