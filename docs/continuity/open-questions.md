@@ -3,6 +3,20 @@
 Unresolved questions that the current state can't answer. Each entry lists what we'd need to
 answer it. Move to "Closed" with the answer + date once resolved.
 
+## Active (2026-10-20)
+
+### Gate misses a Title Case heading with no section word; line counting is coarse
+
+**Status (2026-10-20, `110b182`):** a DOCX heading in Normal style is detected only when it
+has a resume-section word (Experience, Education, Skills, Projects, Volunteer, ...; list in
+`_SECTION_WORDS`). A new heading such as "Leadership" or "Military Service" is not reported
+as a section (its words still go through the proper-noun check). In markerless text every
+line under a heading counts as a bullet, so lines moved under a new heading or a line split
+in two show up in `new_bullets`; a new line before the first heading is not counted.
+
+**To answer:** only if a real new heading slips through or the owner finds the line counts
+too noisy. Options considered and set aside are in rejected-ideas.md (2026-10-20).
+
 ## Active (2026-10-19)
 
 ### Gate still skips a new word on a line after a full stop (narrow residual of the bare-line fix)

@@ -4,6 +4,16 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-20, A gate defect report may come from an installed copy that lags the repo
+
+**What happened:** a resume reassessment reported gate noise (line-start proper nouns, a
+"20" shown with the context of "200+") that the repo had fixed the day before in 1.1.2. The
+run used the installed 1.1.1 copy; "not deployed" had sat in open-questions.md for a day.
+
+**Rule:** before fixing a reported gate defect, compare the installed `_meta.json` version
+(and the script hash) with the repo, and reproduce on the canonical script. A fix is not
+done for the user until it is deployed; do not leave "not deployed" open across sessions.
+
 ## 2026-10-19, Git Bash heredocs here collapse double backslashes
 
 **What happened:** an inline `python - <<'EOF'` edit wrote `"\\n"` into a test file, and it

@@ -4,6 +4,21 @@ Approaches we considered and decided against, with the reason and a reconsider-i
 Recording these prevents future sessions from re-litigating settled debates and re-spending
 effort on paths that already turned out badly.
 
+## 2026-10-20, Other ways to see DOCX headings in the gate
+
+**Rejected:** (a) a `--headings` CLI flag listing heading lines; (b) reading heading style or
+bold from the DOCX inside the gate; (c) any short Title Case line counts as a heading.
+
+**Why rejected:** (a) needs every caller (three members' SKILL.md flows) to pass it, and an
+agent that forgets gets the old blind spot silently. (b) the owner's resume uses Normal
+style for headings, and the gate takes plain text by contract; it would add a python-docx
+dependency to a script that has none. (c) job titles, employers and one-per-line skills are
+short Title Case lines too, so a tighten that splits "Title | Employer" would report every
+piece as a new section.
+
+**Reconsider if:** a real new heading without a section word slips through (then (a) as an
+optional extra input, not a replacement), or the gate starts taking DOCX directly.
+
 ## 2026-10-18, Persistent STAR story bank (`.job-hunter/STORIES.md`) in interview-prep v1.0.0
 
 **Deferred:** saving the user's confirmed STAR stories to a new workspace file so later

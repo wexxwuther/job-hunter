@@ -2,7 +2,44 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-19 (gate bare-line gap closed `e02cd7e`, not deployed; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-20 (gate DOCX headings + markerless bullets `110b182`, resume-tailor 1.1.4 / cover-letter 1.2.3 / interview-prep 1.2.1, deploy status in the section below; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-20 gate: DOCX Title Case headings and markerless bullets (`110b182`)
+
+- Signal: the owner's resume reassessment (April vs October resume, both DOCX, text from
+  python-docx `paragraph.text`) got review_required with 41 flags. 17 of 17 proper nouns were
+  words the April resume already had; a new `Earlier Experience` heading was not reported.
+- Root cause of the noise: the reassessment ran the INSTALLED copy, resume-tailor 1.1.1. The
+  line-start proper-noun noise and the "20"/"200+" context bug were already fixed in 1.1.2
+  (`26d7738`) but not deployed. A new DOCX-shaped test fails on the installed 1.1.1 gate and
+  passes on canonical. The 63640df deploy by another session (2026-10-20, about 18:20)
+  brought the installs to 1.1.3.
+- Still open in canonical, fixed here: (1) headings were only markdown or ALL CAPS, so a
+  Title Case heading in Normal style was invisible; (2) `new_bullets` counted only marker
+  lines, and DOCX text has none (Word list bullets are a style).
+- Fix: a short Title Case line (1-5 words, optional colon) with a resume-section word is a
+  heading, new only if no source line has the same text in any case. When either side has no
+  markers, every non-blank line under a heading counts on both sides; lines before the first
+  heading do not. Bullet glyphs in the regex are now `\u` escapes (gate is all ASCII).
+- Gate caught: the first draft counted lines before any heading too, which made a
+  headingless cover letter or interview claims list report `(preamble): 4` new bullets.
+  Checked cover-letter and interview-prep SKILL.md and `build_prep_pack.py claims` (plain
+  lines, no headings) before syncing; added the letter guard test, then the preamble rule.
+- Tests first, invented fixture only: 13 new; 7 failed before the fix; the letter guard
+  failed on the first draft. Mutation check (`mutate_gate_1_1_4.py`, kept in the side-session
+  notes folder, not the repo): 10 mutants, 10 killed (one survivor, trailing-colon
+  normalization, was killed by an added assertion). CI command 431 passed (was 418).
+- Real pair, counts only (resume text not copied anywhere): installed 1.1.1 gave nouns 17,
+  numbers 4, sections 0, bullets 0, runs 20, total 41; new gate nouns 1 (`Mastery-level`, a
+  user-confirmed new word), numbers 4 (the "20" context is now the right sentence), sections
+  `Earlier Experience`, bullets `Earlier Experience: 11` (moved lines), runs 20, total 37.
+- Canonical resume-tailor, re-copied byte-identical to cover-letter and interview-prep;
+  CHANGELOGs (3 members + root); resume-tailor SKILL.md step 6 notes the DOCX behavior and the
+  residual; two tests added to the load-bearing list. Removed-lines audit clean; no non-ASCII
+  added.
+- Not done here: the resume files were not touched (out of scope).
+- Deploy: pending at this commit. Held until the other session's 63640df deploy finishes its
+  post-deploy routing run (it reads the installed copies). Deploy record goes here.
 
 ## 2026-10-19 gate: a new word on its own bare line now flags (`e02cd7e`), not deployed
 

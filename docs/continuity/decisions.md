@@ -4,6 +4,24 @@ Each entry: **what was decided**, **why** (the rationale that made this the choi
 **consequences** (what future-self needs to honor or know about). Decisions here are durable,
 they outlast the session that made them.
 
+## 2026-10-20, Gate reads DOCX headings by section word, and counts markerless lines only under headings
+
+**Decision:** `verify_no_fabrication.py` treats a short Title Case line as a heading only if
+it has a resume-section word, and compares it against every source line (any case). When
+either document lacks bullet markers it counts every non-blank line under a heading as a
+bullet on both sides, but never lines before the first heading.
+
+**Why:** in python-docx text, job titles, employers, names and one-per-line skills are also
+short Title Case lines; without the section word every one of them would be a "section".
+Requiring both sides to lack markers would miss a Markdown original against a DOCX draft.
+Counting preamble lines turned every headingless cover letter or interview claims list
+(the same gate runs in cover-letter and interview-prep) into a pile of new bullets.
+
+**Consequences:** the gate stays one script for three members; any heading or bullet change
+must keep `test_headingless_letter_against_docx_resume_counts_no_bullets` green. Extending
+`_SECTION_WORDS` must not add words that are also common skill or job-title words
+("Service", "Leadership", "Work").
+
 ## 2026-10-18, interview-prep description tells the model to load it instead of answering directly
 
 **Decision (owner-approved):** interview-prep 1.1.0's Use-when clause lists the short asks
