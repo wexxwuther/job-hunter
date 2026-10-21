@@ -2,6 +2,23 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Unreleased: ChatGPT and OpenClaw compatibility packages (2026-10-21)
+
+Signal: the catalog had no ChatGPT upload and the orchestrator required Claude's
+`Task` fan-out. The missing-member fallback assumed resources that were not bundled.
+
+- Reproducible, standard-library package builder: a single ChatGPT skill with all
+  seven member workflows/resources, and an OpenClaw archive with eight skills.
+- Generated manifests omit Claude-only fields; unchanged scripts and gates are
+  bundled with licenses, host guidance and per-file SHA-256 inventories.
+- Sequential fallback, explicit resource discovery, hosted session persistence and
+  privacy rules; missing tools cannot be represented as passed checks.
+- Correct OpenClaw workspace path and document default-state versus custom-state
+  discovery. Add ChatGPT upload instructions and acceptance checks.
+- Local tests exercise ZIP contents, links, gate parity, extracted execution,
+  workspace export/restore, reproducibility and refusal to overwrite.
+- Live host acceptance remains pending. No global installs, publishing or release.
+
 ## v6.1.0: first GitHub release of the 8-skill family; GitHub plugin install fixed; docs brought current (2026-10-21)
 
 Signal: the documented Claude Code install `/plugin marketplace add wexxwuther/job-hunter`

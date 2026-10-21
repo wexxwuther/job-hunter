@@ -527,3 +527,11 @@ proxy for real triggering behavior, not the thing itself.
 **Lesson:** Use mock runner to drive iteration intent and catch regressions. Before declaring
 "done," run at least one pass with `--runner claude` to confirm real-world behavior matches
 the mock approximation. v3 hasn't had this pass yet, flagged in `open-questions.md`.
+
+## 2026-10-21 compatibility packaging lesson
+
+A generated description containing `: ` must be quoted as a YAML scalar. Substring
+checks missed the malformed header; independent PyYAML parsing caught it. The
+builder now JSON-quotes its replacement scalar and tests decode it. Validate actual
+archive resources outside the repo, and separate local script proof from live host
+acceptance. See [compatibility handoff](compatibility-2026-10-21.md).

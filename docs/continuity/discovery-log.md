@@ -206,3 +206,11 @@ its own sub-score (rather than burying it as a soft red flag).
 | `E:\Git\skill-builder-workdir\` | Parent dir of this skill's working copy. Created as a holding area for working-copy-not-yet-installed skills. |
 | `E:\Git\skill-builder-workdir\job-hunter\.git\` | **Local git repo** for the working copy. Branch `main`, HEAD `171347d`, no remote. |
 | `E:\Git\skill-builder-workdir\job-hunter-install-pkg\job-hunter\` | Transient packaging staging directory (output of `package_skill.py`). Re-created on each install. Safe to delete. |
+## 2026-10-21 ChatGPT and OpenClaw compatibility discovery
+
+ChatGPT has a native skill upload on eligible workspaces. OpenClaw default-state
+personal skills include `~/.agents/skills`; workspace roots are `skills` and
+`.agents/skills`, while custom states exclude the home personal root. Current
+official docs and local package evidence are linked in
+[compatibility-2026-10-21.md](compatibility-2026-10-21.md). Local source adapters
+are tested; host execution, installation and publishing remain unverified.

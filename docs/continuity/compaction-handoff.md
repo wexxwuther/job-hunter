@@ -1,5 +1,12 @@
 # Compaction Handoff, job-hunter (PUBLIC REPO, v6 family active source of truth)
 
+## Latest local work: 2026-10-21 compatibility adapters
+
+Read [compatibility-2026-10-21.md](compatibility-2026-10-21.md). Local builder,
+ChatGPT single-skill family upload and OpenClaw eight-skill archive implemented;
+461 tests pass. No host acceptance or release/install deployment claimed.
+Elsie MCP and vault unavailable; ledger writes and credential verification pending.
+
 **Updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging; repo PUBLIC). Prior milestone: 2026-05-28 v6.0.0 family split shipped + redeployed.
 
 Purpose: a future session (or post-compaction continuation) can read THIS file alone and recover

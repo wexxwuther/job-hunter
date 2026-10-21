@@ -76,8 +76,22 @@ job-hunter is a family of 8 skills. Install all 8; the orchestrator routes betwe
 |---|---|---|
 | **Claude Code** | the `job-hunter` plugin, or `~/.claude/skills/<skill>/` | [install/claude-code.md](install/claude-code.md) |
 | **OpenAI Codex** | `~/.agents/skills/<skill>/` | [install/codex.md](install/codex.md) |
+| **ChatGPT** | One upload containing the family and member resources; subject to workspace skill availability | [install/chatgpt.md](install/chatgpt.md) |
 | **OpenClaw** | `~/.agents/skills/<skill>/` (shared with Codex) | [install/openclaw.md](install/openclaw.md) |
 | **Hermes Agent** | `~/.hermes/skills/<skill>/` | [install/hermes.md](install/hermes.md) |
+
+### ChatGPT and OpenClaw compatibility builds (local, unreleased)
+
+Run `python tools/build_runtime_packages.py` to generate target ZIPs in
+`dist/compatibility/`. ChatGPT gets one skill containing all member workflows;
+OpenClaw gets eight standalone skill directories. These adapters use the host's
+available tools, support sequential work without Claude's `Task` tool, and explain
+session storage and missing-capability behavior. Local archive/script tests are
+available; live ChatGPT upload and OpenClaw session acceptance remain pending.
+
+The local-only privacy claims elsewhere in this README describe local agents.
+Files supplied to ChatGPT are processed under that product's account/workspace
+settings; download state and outputs before ending a hosted session.
 
 ### Claude Code: the plugin (all 8 in one step)
 

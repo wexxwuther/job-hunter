@@ -24,13 +24,36 @@ Download `job-hunter-FAMILY-installer-only-v6.1.0.zip` from the
 
 ## Project-scoped install
 
-OpenClaw also reads project-scoped skills from `<workspace>/.openclaw/skills/`. To scope the
-family to one workspace, copy the 8 skill folders there instead.
+OpenClaw reads workspace skills from `<workspace>/skills/` and project agent skills
+from `<workspace>/.agents/skills/`. To scope the family to one workspace, copy the
+8 skill folders into either supported root, preserving their names.
+
+For the compatibility build with Claude-only frontmatter removed:
+
+```sh
+python tools/build_runtime_packages.py --target openclaw
+```
+
+Extract the eight skill folders from `dist/compatibility/job-hunter-v6.1.0-openclaw.zip`
+into `<workspace>/skills/` or the active state's managed `skills/` directory
+(`~/.openclaw/skills/` by default). The archive also includes a root `bundle.json`
+with file hashes; it is not a skill directory. This build is local, not an asset
+of the existing GitHub release. Existing directories should be backed up and
+compared before replacement.
+
+With a custom `OPENCLAW_STATE_DIR`, home-scoped `~/.agents/skills/` is excluded;
+use workspace skills or that state's managed directory instead. See
+[OpenClaw's loading order](https://docs.openclaw.ai/tools/skills).
 
 ## Verify
 
-Start a new OpenClaw session and ask it to find jobs matching your background. If the skills
-load and you are asked the profile questions, you're set.
+Run `openclaw skills list`, `openclaw skills info job-hunter`, and
+`openclaw skills check` in the intended profile. Check that all eight family names
+are eligible, then start a new session. Ask for profile intake and a supplied
+posting, exercise the fabrication gate with an invented claim, and export/restore
+the workspace. Python, file access and browsing depend on the active agent's tool
+policy. Discovery alone does not prove the full workflow works. See the
+[runtime guide](runtime-guide.md) and [OpenClaw CLI reference](https://docs.openclaw.ai/cli/skills).
 
 ## Uninstall
 

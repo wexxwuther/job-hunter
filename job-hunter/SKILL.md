@@ -7,7 +7,7 @@ metadata:
   spec_version: "agentskills.io (living spec; tracked 2026-05-28)"
   family: "job-hunter"
   family_role: "orchestrator"
-  dispatch_mode_note: "context:fork is set because orchestration benefits from context isolation - the orchestrator routes + merges and returns one consolidated result to the parent context. For 1-2-member needs it routes inline; for 3+ members or a full end-to-end hunt it routes via Task fan-out to the member specialists."
+  dispatch_mode_note: "Claude may use context:fork for isolation. Use available subagents for independent member work; otherwise read member workflows and run sequentially, preserving dependencies and confirmation gates."
 allowed-tools: Read Write Edit Bash(python:*) Glob Grep Task
 context: fork
 ---
@@ -44,8 +44,12 @@ single coherent voice across the whole hunt.
 
 1. Read the request and classify which member jobs it needs.
 2. **1-2 members:** route inline (call the member's flow directly).
-3. **3+ members or a full end-to-end hunt:** route via `Task` fan-out to the
-   member specialists, then merge their outputs into one result.
+3. **3+ members or a full end-to-end hunt:** use the host's available subagent
+   tool for independent member work, then merge their outputs. If the host has
+   no subagent tool, read each needed member's instructions and run sequentially
+   in this conversation. Preserve dependency order: profile before search,
+   selected posting before tailoring, approved documents before tracking. Never
+   claim a fresh-context review or parallel execution when none occurred.
 4. Pass the shared workspace through: every routed member reads `.job-hunter/`
    artifacts if present (see `references/workspace-contract.md`) and degrades
    gracefully if absent, so a single-member invocation still works standalone.
@@ -92,8 +96,10 @@ interview answers.
 
 ## Standalone fallback
 
-If a member skill is not installed in the active harness, the orchestrator
-states which member it would route to and runs that member's documented flow
-inline using the bundled scripts where available. The family installs together
+If a member skill is not installed in the active harness, use its bundled
+workflow and scripts only if they are actually present (as in the ChatGPT
+package). Otherwise state which member is missing and request that member's
+package before doing dependent work. Do not invent its instructions or claim
+its checks ran. The family installs together
 (see the repo `install/` directory) across `~/.claude/skills/`,
 `~/.agents/skills/` (Codex + OpenClaw), and `~/.hermes/skills/`.
