@@ -13,8 +13,8 @@ One or two sentences. What changes, why, who benefits.
 
 ## Checklist
 
-- [ ] `pytest tests/` passes locally
-- [ ] If I changed `SKILL.md` `description:`, I ran the trigger evals and trigger accuracy held
+- [ ] The CI test command (see `.github/workflows/test.yml`, every member's `tests/` plus `install` and `tools`) passes locally
+- [ ] If I changed a member's `SKILL.md` `description:`, I ran the trigger evals (`tools/run_trigger_probe.py --family-only`) and the trigger rate held
 - [ ] If I added behavior, I added a test that proves it works
 - [ ] If I removed or modified a load-bearing safety test, I explained why in the description above
 - [ ] CHANGELOG.md has a one-line entry under `[Unreleased]`

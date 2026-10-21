@@ -54,3 +54,11 @@ If the family ever needs to be rolled back to the monolith:
 git checkout v5.2.0-monolith-archive    # or unzip the archive zip
 ```
 The v6.0.0 family lives on `main` from the merge commit onward; the monolith lives at the `v5.2.0-monolith-archive` tag.
+
+## Later status (added 2026-10-21)
+
+Both "NOT done" items above have since happened: the family was pushed to
+`github.com/wexxwuther/job-hunter` (public since 2026-05-29) and redeployed to the installed
+skill paths (see `docs/continuity/session-state.md` for each deploy). The family has grown
+from 6 to 8 skills (`cover-letter` 2026-05-29, `interview-prep` 2026-10-18). This file stays
+as the record of the 2026-05-28 cutover itself.

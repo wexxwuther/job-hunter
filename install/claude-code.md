@@ -1,21 +1,25 @@
 # Install: Claude Code
 
-`job-hunter` is an agentskills.io-compliant skill. Claude Code auto-loads any skill placed in `~/.claude/skills/`.
+job-hunter is a family of 8 agentskills.io skills: the `job-hunter` orchestrator plus
+`career-profile`, `job-search`, `resume-tailor`, `cover-letter`, `application-tracker`,
+`interview-prep`, and `outcome-learning`. Install all 8.
 
-## Option 1, Clone
+## Option 1, the plugin (recommended)
 
-```bash
-mkdir -p ~/.claude/skills
-git clone https://github.com/wexxwuther/job-hunter.git ~/.claude/skills/job-hunter
+Inside Claude Code:
+
+```
+/plugin marketplace add wexxwuther/job-hunter
+/plugin install job-hunter@gdk-skills
 ```
 
-## Option 2, Download the zip
+That installs all 8 skills as `/job-hunter:job-hunter`, `/job-hunter:career-profile`, and so
+on. Update later with `/plugin marketplace update gdk-skills`.
 
-1. Go to the [latest Release](https://github.com/wexxwuther/job-hunter/releases/latest).
-2. Download `job-hunter-vX.Y.Z.zip`.
-3. Extract it into `~/.claude/skills/` so the final path is `~/.claude/skills/job-hunter/SKILL.md`.
+## Option 2, one-shot installer
 
-## Option 3, One-shot installer
+Copies all 8 skills to `~/.claude/skills/<skill>/` (and to the Codex/OpenClaw and Hermes
+directories too):
 
 ```bash
 # macOS / Linux
@@ -27,20 +31,45 @@ curl -fsSL https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/
 iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
 ```
 
+Offline: download `job-hunter-FAMILY-installer-only-v6.0.0.zip` from the
+[latest release](https://github.com/wexxwuther/job-hunter/releases/latest), unzip it, and run
+`bash job-hunter/install/install.sh` (Windows: `install\install.ps1` in the same folder).
+
+## Option 3, one session without installing
+
+Download `job-hunter-PLUGIN-v6.0.0.zip` from the latest release, then:
+
+```bash
+claude --plugin-dir job-hunter-PLUGIN-v6.0.0.zip
+```
+
+## Claude.ai or Claude Desktop
+
+Their skill uploader takes one skill per zip. From the latest release, upload the 8
+`-claude-code.zip` files one at a time (the orchestrator is
+`job-hunter-orchestrator-v6.0.0-claude-code.zip`).
+
 ## Verify
 
-Restart Claude Code, then ask:
+Start a new session and ask:
 
 ```
 Find me senior software engineering jobs in Boston, remote-friendly, $200k+
 ```
 
-The skill should auto-activate. You'll know it worked when Claude starts walking you through the North-Star profile questions on first use.
+The skills should load on their own. On first use you are walked through the North-Star
+profile questions.
 
 ## Uninstall
 
+Plugin: `/plugin uninstall job-hunter@gdk-skills`.
+
+Installer copies:
+
 ```bash
-rm -rf ~/.claude/skills/job-hunter
+for s in job-hunter career-profile job-search resume-tailor cover-letter application-tracker interview-prep outcome-learning; do rm -rf ~/.claude/skills/$s; done
 ```
 
-Your `.job-hunter-profile.md` lives in your **workspace**, not in the skill folder, so uninstalling the skill does not delete your profile. To remove that too, delete `.job-hunter-profile.md` from each workspace where you used the skill.
+Your `.job-hunter-profile.md` and `.job-hunter/` folder live in your **workspace**, not in
+the skill folders, so uninstalling does not delete them. Delete them from each workspace
+yourself if you want them gone.

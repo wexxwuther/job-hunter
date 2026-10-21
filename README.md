@@ -7,8 +7,7 @@
 [![Tests](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml/badge.svg)](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/agentskills.io-open_standard-blue)](https://agentskills.io)
-[![Trigger accuracy](https://img.shields.io/badge/trigger_accuracy-28%2F28-brightgreen)](job-hunter/evals/trigger-evals.json)
-[![Unit tests](https://img.shields.io/badge/unit_tests-226%2F226-brightgreen)](.)
+[![Unit tests](https://img.shields.io/badge/unit_tests-455%2F455-brightgreen)](.)
 
 > **v6.0.0 is now a skill family.** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to seven focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
 >
@@ -23,7 +22,7 @@
 > | **interview-prep** | interview-prep | Preps you for a scheduled interview: stage questions, STAR answers from your real experience, gap answers, mock interview |
 > | **outcome-learning** | learning-loop | Learns from your outcomes; proposes opt-in lessons |
 >
-> Install them together with the family installer ([Install](#install) below).
+> Install all 8 together: the Claude Code plugin or the one-shot installer ([Install](#install) below). Each member also works on its own.
 [![GitHub Release](https://img.shields.io/github/v/release/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/releases/latest)
 [![GitHub stars](https://img.shields.io/github/stars/wexxwuther/job-hunter?style=social)](https://github.com/wexxwuther/job-hunter/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/commits/main)
@@ -64,23 +63,34 @@ The skill auto-activates, walks you through 5 quick profile questions on first u
 3. **Score**, every posting gets a 1-5 across 5 sub-scores (CV match, comp vs target, cultural signals, posting legitimacy, red flags)
 4. **Tailor**, ATS-optimized DOCX resume + cover letter per role you want to pursue
 5. **Track**, interactive HTML tracker with sort/filter, sub-score breakdown, and weighted global score
+6. **Prep**, a stage-specific interview prep pack built from the resume and cover letter you actually sent
+7. **Learn**, after 5+ closed outcomes, opt-in lessons about what is working for you
 
 ---
 
 ## Install
 
-Pick your harness. All four install paths are first-class.
+job-hunter is a family of 8 skills. Install all 8; the orchestrator routes between them.
 
-| Harness | Skills directory | Install guide |
+| Harness | Where the skills go | Install guide |
 |---|---|---|
-| **Claude Code** | `~/.claude/skills/` | [install/claude-code.md](install/claude-code.md) |
-| **OpenAI Codex** | `~/.codex/skills/` | [install/codex.md](install/codex.md) |
-| **OpenClaw** | `~/.openclaw/skills/` | [install/openclaw.md](install/openclaw.md) |
-| **Hermes Agent** | `~/.hermes/skills/` | [install/hermes.md](install/hermes.md) |
+| **Claude Code** | the `job-hunter` plugin, or `~/.claude/skills/<skill>/` | [install/claude-code.md](install/claude-code.md) |
+| **OpenAI Codex** | `~/.agents/skills/<skill>/` | [install/codex.md](install/codex.md) |
+| **OpenClaw** | `~/.agents/skills/<skill>/` (shared with Codex) | [install/openclaw.md](install/openclaw.md) |
+| **Hermes Agent** | `~/.hermes/skills/<skill>/` | [install/hermes.md](install/hermes.md) |
 
-### One-shot installers
+### Claude Code: the plugin (all 8 in one step)
 
-If you just want it working in 10 seconds:
+```
+/plugin marketplace add wexxwuther/job-hunter
+/plugin install job-hunter@gdk-skills
+```
+
+You get `/job-hunter:job-hunter` (the orchestrator) plus `/job-hunter:career-profile`, `:job-search`, `:resume-tailor`, `:cover-letter`, `:application-tracker`, `:interview-prep`, and `:outcome-learning`.
+
+### One-shot installers (every harness)
+
+Installs all 8 skills into `~/.claude/skills/`, `~/.agents/skills/` (Codex and OpenClaw), and `~/.hermes/skills/`:
 
 ```bash
 # macOS / Linux
@@ -92,9 +102,15 @@ curl -fsSL https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/
 iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
 ```
 
-### Skip the line, download the zip
+### Offline, or the Claude.ai / Claude Desktop uploader
 
-Prefer not to clone? Grab the latest release zip from the [Releases page](https://github.com/wexxwuther/job-hunter/releases/latest) and extract it into your agent's skills directory. Done.
+The [latest release](https://github.com/wexxwuther/job-hunter/releases/latest) has:
+
+- `job-hunter-FAMILY-installer-only-v6.0.0.zip`: unzip, then run `bash job-hunter/install/install.sh` (or `install\install.ps1` on Windows). No internet needed.
+- `<skill>-v6.0.0-claude-code.zip` (8 files, the orchestrator is `job-hunter-orchestrator-...`): the Claude.ai / Desktop skill uploader takes one skill per zip, so upload all 8. `-codex`, `-cursor`, and `-portable` sets exist for those uploaders.
+- `job-hunter-PLUGIN-v6.0.0.zip`: the Claude Code plugin for `claude --plugin-dir`.
+
+Releases before v6.0.0 are the retired single-skill version.
 
 ---
 
@@ -110,35 +126,29 @@ Every job posting gets scored across **five sub-scores** (1-5 each) with documen
 | `posting_legitimacy` | 0.20 | Ghost-job rubric (re-posts, vague specs, missing recruiter) |
 | `red_flags_penalty` | **multiplier** | Pays-in-equity, asks-for-SSN-pre-offer, fee-to-apply, torpedoes the score |
 
-A single severe red flag can take an otherwise-perfect posting from 5.0 to 1.0. Read the full rubrics in [references/posting-legitimacy-rubric.md](references/posting-legitimacy-rubric.md) and [references/match-quality-rubric.md](references/match-quality-rubric.md).
+A single severe red flag can take an otherwise-perfect posting from 5.0 to 1.0. Read the full rubrics in [job-search/references/posting-legitimacy-rubric.md](job-search/references/posting-legitimacy-rubric.md) and [job-search/references/match-quality-rubric.md](job-search/references/match-quality-rubric.md).
 
 ---
 
 ## What you get out of the box
 
+Each member is a self-contained skill folder (`SKILL.md`, `scripts/`, `references/`, `tests/`, `evals/`). Scripts are standard-library Python with no network calls; DOCX and PDF reading (`career-profile`, `interview-prep`) uses `python-docx` / `pypdf` when installed.
+
 ```
-job-hunter/
-├── SKILL.md                          # The skill itself (agentskills.io spec)
-├── scripts/                          # 15 production Python scripts (no network deps)
-│   ├── score_posting.py              # Deterministic 1-5 scoring
-│   ├── parse_resume.py               # DOCX/PDF/text resume parser
-│   ├── extract_ats_keywords.py       # Keyword-gap analysis
-│   ├── build_search_queries.py       # Multi-board query builder
-│   ├── expand_role_synonyms.py       # Role-title synonyms (SDE = SWE = Engineer)
-│   ├── normalize_salary.py           # $120k/yr = $10k/mo = $60/hr
-│   ├── dedupe_postings.py            # Cross-board dedup
-│   ├── generate_tracker_html.py      # Interactive HTML tracker
-│   ├── init_profile.py               # North-Star profile management
-│   ├── init_workspace.py             # Sets up the .job-hunter/ learning loop
-│   ├── harvest_outcomes.py           # Reads outcomes, finds patterns
-│   ├── propose_lessons.py            # Suggests lessons for you to confirm
-│   ├── draft_followup.py             # Check-in + thank-you email drafts
-│   ├── export_workspace.py           # Bundle your state to a zip
-│   └── import_workspace.py           # Restore from a zip on a new machine
-├── references/                       # 9 reference docs the skill consults
-├── assets/templates/                 # Template files + tracker CSS
-├── tests/                            # 177 unit tests
-└── evals/                            # Trigger + outcome eval suites
+.claude-plugin/                       # Claude Code marketplace + plugin manifest (lists the 8 dirs)
+job-hunter/                           # orchestrator: routing + the shared .job-hunter/ workspace
+  scripts/                            #   init_workspace, export_workspace, import_workspace
+career-profile/scripts/               # init_profile (North-Star profile), parse_resume (DOCX/PDF/text)
+job-search/scripts/                   # build_search_queries, expand_role_synonyms, normalize_salary,
+                                      #   dedupe_postings, score_posting (deterministic 1-5)
+resume-tailor/scripts/                # extract_ats_keywords, review_pass, verify_no_fabrication (the gate)
+cover-letter/scripts/                 # draft_cover_letter, review_pass, verify_no_fabrication (same gate)
+application-tracker/scripts/          # generate_tracker_html, draft_followup (check-in + thank-you drafts)
+interview-prep/scripts/               # load_application, build_prep_pack, verify_no_fabrication (same gate)
+outcome-learning/scripts/             # harvest_outcomes, propose_lessons
+install/                              # one-shot installers (sh + ps1) and per-harness guides
+tools/                                # routing, trigger, and outcome eval runners; repo guards
+docs/                                 # continuity notes and eval evidence
 ```
 
 No API keys required. No telemetry. No phoning home. Your `.job-hunter-profile.md` stays in **your** workspace.
@@ -156,30 +166,32 @@ Job-hunter keeps a small, per-user memory of decisions, outcomes, and confirmed 
 | `OUTCOMES.md` | What actually happened (accepted, rejected after onsite, no response after 21 days) |
 | `REJECTED_IDEAS.md` | Hard constraints, "no defense contractors", "no commission-only", agent never re-asks |
 
-The cycle: as you apply and outcomes land, `scripts/harvest_outcomes.py` looks for patterns. When ≥5 closed-loop outcomes exist, `scripts/propose_lessons.py` translates the signals into suggested lessons. The agent surfaces each suggestion with evidence and asks **"want me to remember this?"**, only confirmed lessons get added to `LESSONS.md`.
+The cycle: as you apply and outcomes land, `outcome-learning/scripts/harvest_outcomes.py` looks for patterns. When ≥5 closed-loop outcomes exist, `outcome-learning/scripts/propose_lessons.py` translates the signals into suggested lessons. The agent surfaces each suggestion with evidence and asks **"want me to remember this?"**, only confirmed lessons get added to `LESSONS.md`.
 
 **Six guardrails keep it honest:**
 1. **Cold-start guard**: no lessons proposed until ≥5 closed-loop outcomes (no pattern detection from thin data)
 2. **Opt-in only**: the agent never auto-writes lessons; every entry is user-confirmed
 3. **Deterministic translation**: same input → same suggestion; reasons are anchored in evidence, not paraphrased
-4. **Bounded influence**: lessons adjust how sub-scores are *graded* for you; the scoring weights in `score_posting.py` stay constant for all users
+4. **Bounded influence**: lessons adjust how sub-scores are *graded* for you; the scoring weights in `job-search/scripts/score_posting.py` stay constant for all users
 5. **Plain markdown**: every file is readable, editable, deletable by you, no black-box weights
 6. **Local-only**: no telemetry, no phone-home, no upload
 
-Delete `.job-hunter/` to start over. The skill re-initializes it on next run. See `references/learning-loop-guide.md` for the full design and trust model.
+Delete `.job-hunter/` to start over. The skill re-initializes it on next run. See `outcome-learning/references/learning-loop-guide.md` for the full design and trust model.
 
 ---
 
 ## Tested
 
 ```bash
-cd job-hunter
-pip install pytest                   # only dependency
-pytest tests/
-# 177 passed
+pip install pytest python-docx pypdf
+python -m pytest --import-mode=importlib \
+  job-hunter/tests career-profile/tests job-search/tests resume-tailor/tests \
+  cover-letter/tests application-tracker/tests outcome-learning/tests \
+  interview-prep/tests install tools
+# 455 passed
 ```
 
-CI runs the full suite on every push across Python 3.10/3.11/3.12 on Ubuntu, macOS, and Windows.
+CI ([.github/workflows/test.yml](.github/workflows/test.yml)) runs the same command on every push across Python 3.10/3.11/3.12 on Ubuntu, macOS, and Windows. Routing, trigger, and outcome eval results live in [docs/evals/](docs/evals/).
 
 ---
 
@@ -201,22 +213,22 @@ No. Your resume, your `.job-hunter-profile.md`, and every tailored output live i
 Yes, since 2026-10-18, through the separate `interview-prep` member. When an application reaches the interview stage, it reads the tracker entry plus the resume and cover letter you actually sent, and builds a prep pack for that stage (recruiter screen, hiring manager, skills test, panel, case, final round): likely questions mapped to your real examples in STAR form, honest answers for gaps (it will not script experience you do not have), questions to ask, and an optional mock interview. Every answer goes through the same `verify_no_fabrication.py` gate as your resume. It is for candidates; it does not write interview plans for hiring managers.
 
 **Does the skill learn from my interactions?**
-Yes, but entirely locally and opt-in. After 5+ closed-loop application outcomes, the skill surfaces patterns it noticed (e.g., "4 of 5 rejections cite comp, want me to remember this?") and asks you to confirm before adding any lesson. Confirmed lessons live in `<your-workspace>/.job-hunter/LESSONS.md` and adjust how sub-scores are graded for you. The scoring weights themselves stay constant. Nothing is uploaded or used for training. See the [learning loop](#the-learning-loop-v5) section above and `references/learning-loop-guide.md`.
+Yes, but entirely locally and opt-in. After 5+ closed-loop application outcomes, the skill surfaces patterns it noticed (e.g., "4 of 5 rejections cite comp, want me to remember this?") and asks you to confirm before adding any lesson. Confirmed lessons live in `<your-workspace>/.job-hunter/LESSONS.md` and adjust how sub-scores are graded for you. The scoring weights themselves stay constant. Nothing is uploaded or used for training. See the [learning loop](#the-learning-loop-v5) section above and `outcome-learning/references/learning-loop-guide.md`.
 
 **Can I reset what the skill has learned about me?**
 Yes, delete `<your-workspace>/.job-hunter/`. The next run will re-initialize empty templates. You can also edit any of the four files directly (LESSONS.md, DECISIONS.md, OUTCOMES.md, REJECTED_IDEAS.md) since they're plain markdown.
 
 **Will the skill help me follow up on applications?**
-Yes. `scripts/draft_followup.py` has two templates: `check_in` (7-10 days after applying with no response) and `thank_you` (24-48 hours after an interview). The skill scans your `tracker.json` for applications stale at `status=applied` for 7+ days and offers to draft polite check-in emails. It also drafts thank-you notes after you report an interview. **The skill never sends the email**, that's by design, and a load-bearing safety test enforces it. You copy-paste. See `references/followup-templates.md` for the patterns and cited sources.
+Yes. The `application-tracker` member's `scripts/draft_followup.py` has two templates: `check_in` (7-10 days after applying with no response) and `thank_you` (24-48 hours after an interview). The skill scans your `tracker.json` for applications stale at `status=applied` for 7+ days and offers to draft polite check-in emails. It also drafts thank-you notes after you report an interview. **The skill never sends the email**, that's by design, and a load-bearing safety test enforces it. You copy-paste. See `application-tracker/references/followup-templates.md` for the patterns and cited sources.
 
 **Can I move my job-hunter state to a different machine?**
-Yes. `scripts/export_workspace.py` bundles your profile + `.job-hunter/` learning loop + `tracker.json` (and optionally your tailored DOCX outputs) into a single zip. `scripts/import_workspace.py` restores them on a new machine. The export refuses to write to cloud-sync directories (Dropbox, OneDrive, iCloud) by default; pass `--allow-cloud` if you intentionally want that. Roundtrip preserves all files byte-for-byte. The import path-sanitizes the archive to reject any traversal payloads.
+Yes. The orchestrator's `job-hunter/scripts/export_workspace.py` bundles your profile + `.job-hunter/` learning loop + `tracker.json` (and optionally your tailored DOCX outputs) into a single zip. `job-hunter/scripts/import_workspace.py` restores them on a new machine. The export refuses to write to cloud-sync directories (Dropbox, OneDrive, iCloud) by default; pass `--allow-cloud` if you intentionally want that. Roundtrip preserves all files byte-for-byte. The import path-sanitizes the archive to reject any traversal payloads.
 
 **Does this work for non-tech careers?**
-Yes, this is the explicit design goal. `references/niche-boards-by-industry.md` includes verified entries for healthcare (Vivian Health, Nurse.com, Health eCareers, AlliedTravelCareers, state nursing board portals), trades (iHireConstruction, AllTrucking, IBEW/UA local hall search patterns, SkillBridge for military-to-trades), legal (LawCrossing, BCG Attorney Search, state bar career pages), education (HigherEdJobs, SchoolSpring, K12JobSpot), government (USAJobs, GovernmentJobs.com, NEOGOV-hosted municipal portals, state civil-service exams), and more. The agent picks the right tier-2 boards based on your role.
+Yes, this is the explicit design goal. `job-search/references/niche-boards-by-industry.md` includes verified entries for healthcare (Vivian Health, Nurse.com, Health eCareers, AlliedTravelCareers, state nursing board portals), trades (iHireConstruction, AllTrucking, IBEW/UA local hall search patterns, SkillBridge for military-to-trades), legal (LawCrossing, BCG Attorney Search, state bar career pages), education (HigherEdJobs, SchoolSpring, K12JobSpot), government (USAJobs, GovernmentJobs.com, NEOGOV-hosted municipal portals, state civil-service exams), and more. The agent picks the right tier-2 boards based on your role.
 
 **I asked it to tighten my resume and it added things I didn't say. What went wrong?**
-That's a real bug we fixed in v5.2.0. Earlier versions of Phase 3 had truth-preservation listed as a Key Principle near the bottom of the SKILL.md, while the actual phase instructions said things like "push for numbers and outcomes." LLMs follow active instructions over passive guardrails, so the skill added quantification and content the user hadn't given it. v5.2.0 splits Phase 3 into two explicit modes: **Mode A (Tighten/Copyedit)** is a zero-fabrication contract that may not add numbers, change job titles, or pull content from external websites, and **Mode B (Tailor for a posting)** runs a mandatory verification gate (`scripts/verify_no_fabrication.py`) that surfaces every new claim before any output file is written. If you ever see the skill add something you didn't say, that's still a bug; please open an issue.
+That's a real bug we fixed in v5.2.0, and the fix lives on in the `resume-tailor` member. Earlier versions of Phase 3 had truth-preservation listed as a Key Principle near the bottom of the SKILL.md, while the actual phase instructions said things like "push for numbers and outcomes." LLMs follow active instructions over passive guardrails, so the skill added quantification and content the user hadn't given it. v5.2.0 splits Phase 3 into two explicit modes: **Mode A (Tighten/Copyedit)** is a zero-fabrication contract that may not add numbers, change job titles, or pull content from external websites, and **Mode B (Tailor for a posting)** runs a mandatory verification gate (`resume-tailor/scripts/verify_no_fabrication.py`, bundled byte-identical in `cover-letter` and `interview-prep`) that surfaces every new claim before any output file is written. If you ever see the skill add something you didn't say, that's still a bug; please open an issue.
 
 ---
 

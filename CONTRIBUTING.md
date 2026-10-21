@@ -12,9 +12,9 @@ Thanks for considering a contribution. This skill is designed to help real peopl
 ## PR workflow
 
 1. **Fork** the repo and create a topic branch off `main`.
-2. **Read [SKILL.md](SKILL.md)** end-to-end. The skill behavior is the product; PRs that change behavior must update the relevant section.
-3. **Run the tests**, `pytest tests/` must pass. Add new tests for new behavior.
-4. **Run the trigger evals** if you touch the SKILL.md `description` field, even small wording changes can shift trigger accuracy. The eval definitions are in [evals/trigger-evals.json](evals/trigger-evals.json).
+2. **Read the `SKILL.md` of every member you touch** end-to-end. This repo is a family of 8 skills (`job-hunter/` orchestrator plus `career-profile/`, `job-search/`, `resume-tailor/`, `cover-letter/`, `application-tracker/`, `interview-prep/`, `outcome-learning/`). The skill behavior is the product; PRs that change behavior must update the relevant section. The shared workspace contract is `job-hunter/references/workspace-contract.md` (each member bundles a copy).
+3. **Run the tests**, the same command CI runs in [.github/workflows/test.yml](.github/workflows/test.yml) must pass (`python -m pytest --import-mode=importlib <every member>/tests install tools`). Add new tests for new behavior. `verify_no_fabrication.py` is canonical in `resume-tailor/` and must stay byte-identical in `cover-letter/` and `interview-prep/` (a test enforces it).
+4. **Run the trigger evals** if you touch a `SKILL.md` `description` field, even small wording changes can shift which skill loads. Each member's cases are in `<member>/evals/trigger-evals.json`; measure a member's real trigger rate with `python tools/run_trigger_probe.py --family-only` and family routing with `tools/run_routing_evals.py`.
 5. **Update CHANGELOG.md** with a one-line entry under an `[Unreleased]` section.
 6. **Open the PR**, use the [PR template](.github/PULL_REQUEST_TEMPLATE.md).
 
@@ -44,9 +44,9 @@ Thanks for considering a contribution. This skill is designed to help real peopl
 
 Some tests have comments calling them "load-bearing safety tests." These encode design constraints that future-you (or future-contributor) will be tempted to break. They include:
 
-- `test_no_sample_profile_in_skill_directory`, the `.job-hunter-profile.md` template is **not** in the repo. It's generated into the user's workspace. This prevents a PII vector.
-- `test_red_flag_torpedoes_perfect_score`, red flags are a multiplier, not additive. A pays-in-equity posting cannot score 5.0.
-- `test_cv_match_is_heaviest_weight`, fit matters more than comp. Tuning weights to invert this is a behavior change requiring discussion.
+- `test_no_sample_profile_in_skill_directory` (`career-profile/tests/`), the `.job-hunter-profile.md` template is **not** in the repo. It's generated into the user's workspace. This prevents a PII vector.
+- `test_red_flag_torpedoes_perfect_score` (`job-search/tests/`), red flags are a multiplier, not additive. A pays-in-equity posting cannot score 5.0.
+- `test_cv_match_is_heaviest_weight` (`job-search/tests/`), fit matters more than comp. Tuning weights to invert this is a behavior change requiring discussion.
 
 If a PR removes or modifies a load-bearing test, explain in the PR description why the design constraint no longer applies.
 

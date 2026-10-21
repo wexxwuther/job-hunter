@@ -1,30 +1,37 @@
 # Install: Hermes Agent
 
-Hermes Agent loads agentskills.io-compliant skills from `~/.hermes/skills/` ([docs](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills)).
+Hermes Agent loads agentskills.io skills from `~/.hermes/skills/`
+([docs](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills)). job-hunter is
+a family of 8 skills (the `job-hunter` orchestrator plus 7 members); install all 8.
 
-## Option 1, Clone
+## Option 1, one-shot installer (recommended)
+
+Copies all 8 skills to `~/.hermes/skills/<skill>/` (and to the Claude Code and Codex/OpenClaw
+directories too):
 
 ```bash
-mkdir -p ~/.hermes/skills
-git clone https://github.com/wexxwuther/job-hunter.git ~/.hermes/skills/job-hunter
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.sh | bash
 ```
 
-## Option 2, Download the zip
+```powershell
+# Windows
+iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
+```
 
-1. Go to the [latest Release](https://github.com/wexxwuther/job-hunter/releases/latest).
-2. Download `job-hunter-vX.Y.Z.zip`.
-3. Extract it into `~/.hermes/skills/` so the final path is `~/.hermes/skills/job-hunter/SKILL.md`.
+## Option 2, offline
 
-## Option 3, One-shot installer
-
-The cross-platform installers at [install/install.sh](install.sh) and [install/install.ps1](install.ps1) install to all four supported harness paths by default, including Hermes Agent.
+Download `job-hunter-FAMILY-installer-only-v6.0.0.zip` from the
+[latest release](https://github.com/wexxwuther/job-hunter/releases/latest), unzip it, and run
+`bash job-hunter/install/install.sh` (Windows: `install\install.ps1` in the same folder).
 
 ## Verify
 
-Restart your Hermes session and ask it to find jobs matching your background. If the skill auto-activates and walks you through the profile questions, you're set.
+Start a new Hermes session and ask it to find jobs matching your background. If the skills
+load and you are asked the profile questions, you're set.
 
 ## Uninstall
 
 ```bash
-rm -rf ~/.hermes/skills/job-hunter
+for s in job-hunter career-profile job-search resume-tailor cover-letter application-tracker interview-prep outcome-learning; do rm -rf ~/.hermes/skills/$s; done
 ```

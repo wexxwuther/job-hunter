@@ -2,6 +2,26 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## GitHub plugin install fixed; public docs brought to the v6 family (2026-10-21, family v6.0.0 line)
+
+Signal: the documented Claude Code install `/plugin marketplace add wexxwuther/job-hunter`
+failed from GitHub with "Marketplace file not found at ...\.claude-plugin\marketplace.json":
+the marketplace lived under `plugin/`, and that plugin's `skills/` tree is generated and
+gitignored. The README and the four install guides still described the v5 single skill
+(clone into `~/.claude/skills/job-hunter`, `~/.codex/skills`, "177 passed"), SUPPORT.md
+still called interview prep out of scope, and GitHub's latest release was v5.2.0.
+
+What shipped:
+- Repo-root `.claude-plugin/marketplace.json` (source `./`) and `plugin.json` listing the 8
+  member dirs as `skills`. Checked from a clean clone in a throwaway Claude config:
+  `claude plugin details` shows Skills (8). `plugin/` still builds the plugin zip.
+- `tools/test_plugin_manifest.py`: 7 tests (all failed before the root manifest existed),
+  6 of 6 mutants killed (dropped or duplicated skill, version or description drift, wrong
+  source, renamed marketplace).
+- README, `install/*.md`, CONTRIBUTING, PR template, SUPPORT, SECURITY, CUTOVER: the 8-skill
+  layout, real install paths (`~/.claude/skills`, `~/.agents/skills` for Codex and OpenClaw,
+  `~/.hermes/skills`), the CI test command (455 passed), member-relative script paths.
+
 ## Gate: Title Case headings without a section word (2026-10-20, family v6.0.0 line)
 
 Signal: the residual logged with 1.1.4. In DOCX resume text a heading is a plain Title Case

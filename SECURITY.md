@@ -29,7 +29,7 @@ You'll get an acknowledgment within 72 hours. Confirmed issues get patched on `m
 
 ## Supported versions
 
-Only the latest release is supported. The skill is small enough that a fix means "upgrade to latest", no LTS branches.
+Only the latest release (the v6 skill family) and `main` are supported. The retired v5 single-skill releases get no fixes. The project is small enough that a fix means "upgrade to latest", no LTS branches.
 
 ## Trust model
 

@@ -33,7 +33,7 @@ I work on this on the side. Expect a day or two for issues, sometimes a week. Di
 
 If you're looking for help with these, you'll get a faster answer elsewhere:
 - General career advice (no posting in hand)
-- Interview prep, out of scope for this skill by design
+- Interviewing candidates (the hiring side); the `interview-prep` member is for job seekers only
 - Salary negotiation strategy, different trust model, different skill
 - Auto-applying to jobs, never going to be a feature
 

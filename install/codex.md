@@ -1,42 +1,52 @@
 # Install: OpenAI Codex
 
-Codex loads agentskills.io-compliant skills from `~/.codex/skills/`.
+Codex loads agentskills.io skills from `~/.agents/skills/`. job-hunter is a family of 8
+skills (the `job-hunter` orchestrator plus 7 members); install all 8.
 
-## Option 1, Clone
+## Option 1, one-shot installer (recommended)
+
+Copies all 8 skills to `~/.agents/skills/<skill>/` (and to the Claude Code and Hermes
+directories too):
 
 ```bash
-mkdir -p ~/.codex/skills
-git clone https://github.com/wexxwuther/job-hunter.git ~/.codex/skills/job-hunter
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.sh | bash
 ```
 
-## Option 2, Download the zip
+```powershell
+# Windows
+iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
+```
 
-1. Go to the [latest Release](https://github.com/wexxwuther/job-hunter/releases/latest).
-2. Download `job-hunter-vX.Y.Z.zip`.
-3. Extract it into `~/.codex/skills/` so the final path is `~/.codex/skills/job-hunter/SKILL.md`.
+## Option 2, offline
 
-## Option 3, One-shot installer
+Download `job-hunter-FAMILY-installer-only-v6.0.0.zip` from the
+[latest release](https://github.com/wexxwuther/job-hunter/releases/latest), unzip it, and run
+`bash job-hunter/install/install.sh` (Windows: `install\install.ps1` in the same folder).
 
-The cross-platform installer scripts at [install/install.sh](install.sh) and [install/install.ps1](install.ps1) install to **all four** supported harness paths (`~/.claude/skills/`, `~/.codex/skills/`, `~/.openclaw/skills/`, `~/.hermes/skills/`) by default, so they cover Codex automatically.
+For an in-app uploader, the release also has 8 `-codex.zip` files, one skill each.
 
 ## Verify
 
-Restart your Codex session and ask:
+Start a new Codex session and ask:
 
 ```
 What nurse practitioner jobs near Austin would I be a strong fit for?
 ```
 
-You should be prompted for the 5 North-Star profile questions on first use.
+You should be asked the North-Star profile questions on first use.
 
 ## Notes on Codex compatibility
 
-- The skill uses no Codex-specific APIs, anything labeled "agentskills.io 2025-12-18" should run identically here.
-- If your Codex install has a different skills directory, replace `~/.codex/skills/` with that path.
-- Reach out via Issues if you hit a Codex-specific bug.
+- The skills use no Codex-specific APIs.
+- If your Codex reads a different skills directory, copy the 8 folders from
+  `~/.agents/skills/` there.
+- Open an Issue if you hit a Codex-specific bug.
 
 ## Uninstall
 
 ```bash
-rm -rf ~/.codex/skills/job-hunter
+for s in job-hunter career-profile job-search resume-tailor cover-letter application-tracker interview-prep outcome-learning; do rm -rf ~/.agents/skills/$s; done
 ```
+
+This also removes them from OpenClaw, which shares `~/.agents/skills/`.

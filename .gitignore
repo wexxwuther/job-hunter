@@ -13,12 +13,12 @@ Thumbs.db
 
 # PII vector — user's North-Star profile lives in their workspace, NEVER in the repo
 # This is a load-bearing safety guard. Do not remove without reading
-# tests/test_init_profile.py::test_no_sample_profile_in_skill_directory
+# career-profile/tests/test_init_profile.py::test_no_sample_profile_in_skill_directory
 .job-hunter-profile.md
 
 # PII vector — user's per-workspace learning loop (DECISIONS, LESSONS, OUTCOMES, REJECTED_IDEAS)
 # This is a load-bearing safety guard. Do not remove without reading
-# tests/test_init_workspace.py::test_no_job_hunter_directory_in_skill_dir
+# job-hunter/tests/test_init_workspace.py::test_no_job_hunter_directory_in_skill_dir
 .job-hunter/
 
 # Build artifacts
