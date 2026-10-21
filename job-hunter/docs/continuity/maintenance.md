@@ -1,5 +1,11 @@
 # Maintenance, job-hunter family (orchestrator-owned shared stack)
 
+> **Frozen 2026-05-28, superseded.** This orchestrator-level stack recorded the v6.0.0 split and
+> has not been updated since. The maintained continuity stack is the repo-root `docs/continuity/`
+> (https://github.com/wexxwuther/job-hunter/tree/main/docs/continuity). Statements below such as
+> "not yet merged" or "6-skill family" describe 2026-05-28, not the current state (8 skills,
+> first released as v6.1.0 on 2026-10-21).
+
 Recurring tasks + freshness checks for the whole family (orchestrator + 5 members). Each has a
 cadence, a trigger, and the exact commands or manual steps. Run on the schedule even if nothing
 seems broken, staleness compounds quietly. The state-portal / niche-board freshness tasks below

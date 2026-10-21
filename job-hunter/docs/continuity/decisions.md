@@ -1,5 +1,11 @@
 # Decisions, job-hunter family (orchestrator-owned shared stack)
 
+> **Frozen 2026-05-28, superseded.** This orchestrator-level stack recorded the v6.0.0 split and
+> has not been updated since. The maintained continuity stack is the repo-root `docs/continuity/`
+> (https://github.com/wexxwuther/job-hunter/tree/main/docs/continuity). Statements below such as
+> "not yet merged" or "6-skill family" describe 2026-05-28, not the current state (8 skills,
+> first released as v6.1.0 on 2026-10-21).
+
 Each entry: **what was decided**, **why** (the rationale that made this the choice), and
 **consequences** (what future-self needs to honor or know about). Decisions here are durable,
 they outlast the session that made them. This is the shared decisions log for the whole

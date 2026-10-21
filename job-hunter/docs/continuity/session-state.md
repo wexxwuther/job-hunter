@@ -1,5 +1,11 @@
 # Session State, job-hunter FAMILY (v6.0.0, branch family-split, not yet merged/deployed)
 
+> **Frozen 2026-05-28, superseded.** This orchestrator-level stack recorded the v6.0.0 split and
+> has not been updated since. The maintained continuity stack is the repo-root `docs/continuity/`
+> (https://github.com/wexxwuther/job-hunter/tree/main/docs/continuity). Statements below such as
+> "not yet merged" or "6-skill family" describe 2026-05-28, not the current state (8 skills,
+> first released as v6.1.0 on 2026-10-21).
+
 **This file lives in `E:\Git\job-hunter-public\job-hunter\docs\continuity\`, the orchestrator-owned shared continuity stack for the whole 6-skill family.**
 
 **Last updated:** 2026-05-28 (family continuity stack built at the orchestrator; the v6.0.0 6-skill family is on branch `family-split`, not yet merged to `main`, not yet deployed)

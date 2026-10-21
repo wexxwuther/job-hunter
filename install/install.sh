@@ -13,7 +13,7 @@
 #
 # TWO WAYS TO RUN - both install all 8 skills into all harnesses:
 #   1. OFFLINE (from the unzipped family bundle — no GitHub needed):
-#        unzip job-hunter-FAMILY-installer-only-v6.0.0.zip
+#        unzip job-hunter-FAMILY-installer-only-v6.1.0.zip
 #        bash job-hunter/install/install.sh
 #   2. ONLINE (clones the repo; needs access to the GitHub repo):
 #        curl -fsSL https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.sh | bash

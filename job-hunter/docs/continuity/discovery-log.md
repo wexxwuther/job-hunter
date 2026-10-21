@@ -1,5 +1,11 @@
 # Discovery Log, job-hunter family (orchestrator-owned shared stack)
 
+> **Frozen 2026-05-28, superseded.** This orchestrator-level stack recorded the v6.0.0 split and
+> has not been updated since. The maintained continuity stack is the repo-root `docs/continuity/`
+> (https://github.com/wexxwuther/job-hunter/tree/main/docs/continuity). Statements below such as
+> "not yet merged" or "6-skill family" describe 2026-05-28, not the current state (8 skills,
+> first released as v6.1.0 on 2026-10-21).
+
 Where things live on disk + which files are load-bearing for which questions. A future session
 looking for "where is X?" should find the answer here before grepping.
 

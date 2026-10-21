@@ -2,7 +2,7 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
-## GitHub plugin install fixed; public docs brought to the v6 family (2026-10-21, family v6.0.0 line)
+## v6.1.0: first GitHub release of the 8-skill family; GitHub plugin install fixed; docs brought current (2026-10-21)
 
 Signal: the documented Claude Code install `/plugin marketplace add wexxwuther/job-hunter`
 failed from GitHub with "Marketplace file not found at ...\.claude-plugin\marketplace.json":
@@ -21,6 +21,11 @@ What shipped:
 - README, `install/*.md`, CONTRIBUTING, PR template, SUPPORT, SECURITY, CUTOVER: the 8-skill
   layout, real install paths (`~/.claude/skills`, `~/.agents/skills` for Codex and OpenClaw,
   `~/.hermes/skills`), the CI test command (455 passed), member-relative script paths.
+- Family version 6.0.0 -> 6.1.0 (orchestrator `_meta.json`, both `plugin.json`, release zip
+  names). The public `v6.0.0` tag stays where it is (9642fe0, the 2026-05-28 6-member split,
+  never released); the 8-skill family is released as `v6.1.0`. Member versions unchanged.
+- `job-hunter/docs/continuity/` (shipped with the orchestrator, frozen since 2026-05-28) is
+  marked superseded; the member continuity stubs now point to the repo-root `docs/continuity/`.
 
 ## Gate: Title Case headings without a section word (2026-10-20, family v6.0.0 line)
 

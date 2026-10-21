@@ -9,7 +9,7 @@
 [![Agent Skill](https://img.shields.io/badge/agentskills.io-open_standard-blue)](https://agentskills.io)
 [![Unit tests](https://img.shields.io/badge/unit_tests-455%2F455-brightgreen)](.)
 
-> **v6.0.0 is now a skill family.** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to seven focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
+> **job-hunter is a skill family (since v6.0.0; first released as v6.1.0).** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to seven focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
 >
 > | Skill | Role | What it does |
 > |---|---|---|
@@ -106,11 +106,11 @@ iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install
 
 The [latest release](https://github.com/wexxwuther/job-hunter/releases/latest) has:
 
-- `job-hunter-FAMILY-installer-only-v6.0.0.zip`: unzip, then run `bash job-hunter/install/install.sh` (or `install\install.ps1` on Windows). No internet needed.
-- `<skill>-v6.0.0-claude-code.zip` (8 files, the orchestrator is `job-hunter-orchestrator-...`): the Claude.ai / Desktop skill uploader takes one skill per zip, so upload all 8. `-codex`, `-cursor`, and `-portable` sets exist for those uploaders.
-- `job-hunter-PLUGIN-v6.0.0.zip`: the Claude Code plugin for `claude --plugin-dir`.
+- `job-hunter-FAMILY-installer-only-v6.1.0.zip`: unzip, then run `bash job-hunter/install/install.sh` (or `install\install.ps1` on Windows). No internet needed.
+- `<skill>-v6.1.0-claude-code.zip` (8 files, the orchestrator is `job-hunter-orchestrator-...`): the Claude.ai / Desktop skill uploader takes one skill per zip, so upload all 8. `-codex`, `-cursor`, and `-portable` sets exist for those uploaders.
+- `job-hunter-PLUGIN-v6.1.0.zip`: the Claude Code plugin for `claude --plugin-dir`.
 
-Releases before v6.0.0 are the retired single-skill version.
+Releases v4.0.0 to v5.2.0 are the retired single-skill version; v6.1.0 is the first release of the family.
 
 ---
 

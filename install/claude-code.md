@@ -31,23 +31,23 @@ curl -fsSL https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/
 iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
 ```
 
-Offline: download `job-hunter-FAMILY-installer-only-v6.0.0.zip` from the
+Offline: download `job-hunter-FAMILY-installer-only-v6.1.0.zip` from the
 [latest release](https://github.com/wexxwuther/job-hunter/releases/latest), unzip it, and run
 `bash job-hunter/install/install.sh` (Windows: `install\install.ps1` in the same folder).
 
 ## Option 3, one session without installing
 
-Download `job-hunter-PLUGIN-v6.0.0.zip` from the latest release, then:
+Download `job-hunter-PLUGIN-v6.1.0.zip` from the latest release, then:
 
 ```bash
-claude --plugin-dir job-hunter-PLUGIN-v6.0.0.zip
+claude --plugin-dir job-hunter-PLUGIN-v6.1.0.zip
 ```
 
 ## Claude.ai or Claude Desktop
 
 Their skill uploader takes one skill per zip. From the latest release, upload the 8
 `-claude-code.zip` files one at a time (the orchestrator is
-`job-hunter-orchestrator-v6.0.0-claude-code.zip`).
+`job-hunter-orchestrator-v6.1.0-claude-code.zip`).
 
 ## Verify
 

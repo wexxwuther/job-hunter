@@ -1,25 +1,17 @@
-# Continuity Docs - job-hunter family (orchestrator-owned shared stack)
+# Continuity Docs - job-hunter family (orchestrator copy, frozen 2026-05-28)
 
-This is the **single shared continuity stack for the whole job-hunter family** (the
-orchestrator `job-hunter/` plus the five members: `career-profile/`, `job-search/`,
-`resume-tailor/`, `application-tracker/`, `outcome-learning/`). The members are
-co-developed, so they share ONE continuity stack rather than carrying 6x duplication.
-Each member has a one-line stub at `<member>/docs/continuity/README.md` that points back
-here.
+The maintained continuity stack for the whole job-hunter family is the repo-root
+`docs/continuity/` (https://github.com/wexxwuther/job-hunter/tree/main/docs/continuity). Start
+with its `session-state.md`.
 
-Read these files at the start of a new session before changing behavior, scripts, evals,
-routing, the workspace contract, or public docs. Update only the files touched by the work;
-keep entries short, dated, and evidence linked.
+The other files in this folder are the stack written at the orchestrator during the
+2026-05-28 v6.0.0 split. They were not updated after that and are kept as history; each one
+carries a "Frozen 2026-05-28" note. Do not record new work here.
 
-Reload order: `session-state.md`, `compaction-handoff.md`, `reload-protocol.md`,
-`decisions.md`, `rejected-ideas.md`, `lessons.md`, `memory.md`, `discovery-log.md`,
-`open-questions.md`, `maintenance.md`.
+Reload order: follow the repo-root `docs/continuity/README.md`. Read the files here only for
+the history of the 2026-05-28 split.
 
 Rules:
 
-- Keep entries source-backed and dated.
-- Update `compaction-handoff.md` before handoff or compaction.
-- Promote durable notes into the specific continuity file.
-- Promote chain-wide truths (apply to >1 skill) to `_designs/CHAIN_LESSONS.md` in addition
-  to the family-local `lessons.md`.
-- Do not store secrets, credentials, private user data, or raw transcripts here.
+- Record new work only in the repo-root stack.
+- Do not store secrets, credentials, private user data, or raw transcripts in either stack.

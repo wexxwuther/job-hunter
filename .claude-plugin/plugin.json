@@ -1,7 +1,7 @@
 {
   "name": "job-hunter",
   "displayName": "Job Hunter (family)",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "End-to-end job-search & resume-tailoring family: an orchestrator that routes to career-profile, job-search, resume-tailor, cover-letter, application-tracker, interview-prep, and outcome-learning. Installs all 8 skills in one action.",
   "author": {
     "name": "GDK Digital",

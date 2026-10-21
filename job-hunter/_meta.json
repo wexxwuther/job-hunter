@@ -1,6 +1,6 @@
 {
   "skill_name": "job-hunter",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "license": "MIT",
   "family": "job-hunter",
   "family_role": "orchestrator",
@@ -16,7 +16,7 @@
   "baseline_score": "100.0",
   "current_score": "100.0",
   "trigger_accuracy": 1.0,
-  "last_iteration": "2026-10-18",
+  "last_iteration": "2026-10-21",
   "last_review_due": "2026-08-26",
   "signals_observed": {
     "trigger_misses": 0,
@@ -24,5 +24,5 @@
     "repeated_work": 0,
     "dead_refs": 0
   },
-  "version_notes": "v6.0.0 splits the v5.2.0 monolith into a 6-skill family. This is the orchestrator: it owns the .job-hunter/ workspace lifecycle (init/export/import), routes a job-search task to the right member specialists (career-profile, job-search, resume-tailor, application-tracker, outcome-learning), and enforces the anti-fabrication family invariant. Members each work standalone; the orchestrator routes + merges."
+  "version_notes": "v6.1.0 (2026-10-21) is the first GitHub release of the 8-skill family: v6.0.0 (2026-05-28) split the v5.2.0 monolith into an orchestrator plus 5 members, and cover-letter (2026-05-29) and interview-prep (2026-10-18) joined later. This is the orchestrator: it owns the .job-hunter/ workspace lifecycle (init/export/import), routes a job-search task to the right member specialists (career-profile, job-search, resume-tailor, cover-letter, application-tracker, interview-prep, outcome-learning), and enforces the anti-fabrication family invariant. Members each work standalone; the orchestrator routes + merges."
 }

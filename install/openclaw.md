@@ -18,7 +18,7 @@ iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install
 
 ## Option 2, offline
 
-Download `job-hunter-FAMILY-installer-only-v6.0.0.zip` from the
+Download `job-hunter-FAMILY-installer-only-v6.1.0.zip` from the
 [latest release](https://github.com/wexxwuther/job-hunter/releases/latest), unzip it, and run
 `bash job-hunter/install/install.sh` (Windows: `install\install.ps1` in the same folder).
 

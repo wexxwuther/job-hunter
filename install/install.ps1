@@ -12,7 +12,7 @@
 #
 # TWO WAYS TO RUN - both install all 8 skills into all harnesses:
 #   1. OFFLINE (from the unzipped family bundle - no GitHub needed):
-#        Expand-Archive job-hunter-FAMILY-installer-only-v6.0.0.zip -DestinationPath .
+#        Expand-Archive job-hunter-FAMILY-installer-only-v6.1.0.zip -DestinationPath .
 #        .\job-hunter\install\install.ps1
 #   2. ONLINE (clones the repo; needs access to the GitHub repo):
 #        iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install.ps1 -UseBasicParsing | iex
