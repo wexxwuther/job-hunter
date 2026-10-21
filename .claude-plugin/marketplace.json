@@ -1,0 +1,14 @@
+{
+  "name": "gdk-skills",
+  "owner": {
+    "name": "GDK Digital"
+  },
+  "description": "GDK Digital skills marketplace \u2014 distributable agent skills and skill families.",
+  "plugins": [
+    {
+      "name": "job-hunter",
+      "source": "./",
+      "description": "Job-hunter 8-skill family (orchestrator + 7 members)."
+    }
+  ]
+}

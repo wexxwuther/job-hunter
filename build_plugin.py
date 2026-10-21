@@ -16,6 +16,11 @@ Install test: claude plugin marketplace add ./plugin ; claude plugin install job
 
 The generated skills/ tree is gitignored so it never drifts from the member dirs;
 regenerate it any time with this script.
+
+This tree feeds the plugin zip and `claude --plugin-dir`. The GitHub install
+(`/plugin marketplace add wexxwuther/job-hunter`) does not use it: it reads the
+repo-root `.claude-plugin/` (marketplace.json + plugin.json listing the 8 member
+dirs directly). tools/test_plugin_manifest.py keeps the two manifests in step.
 """
 from __future__ import annotations
 import shutil
