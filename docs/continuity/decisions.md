@@ -4,6 +4,14 @@ Each entry: **what was decided**, **why** (the rationale that made this the choi
 **consequences** (what future-self needs to honor or know about). Decisions here are durable,
 they outlast the session that made them.
 
+## 2026-10-20, Gate also lists new Title Case lines with no section word (DOCX layout only)
+
+**Decision:** amends the entry below. When the proposed text has a Title Case section-word heading, `new_sections` also lists any other new short Title Case line unless the source has it as a whole line or a separated segment of a line. Bullet counting still starts sections only at section-word headings.
+
+**Why:** the owner asked to close the "Leadership" gap. The split-line noise that made option (c) in rejected-ideas.md unworkable is handled by the segment check, and a changed job title built from known words now flags (it did not before). The layout condition keeps letters and claims lists quiet.
+
+**Consequences:** a new or changed job title, employer or skill line can appear under `new_sections`; resume-tailor SKILL.md step 6 says to ask whichever question fits. Keep `test_letter_address_block_not_listed_as_sections` and `test_split_title_and_employer_line_not_flagged` green.
+
 ## 2026-10-20, Gate reads DOCX headings by section word, and counts markerless lines only under headings
 
 **Decision:** `verify_no_fabrication.py` treats a short Title Case line as a heading only if

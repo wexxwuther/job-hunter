@@ -2,7 +2,39 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-20 (gate 1.1.6 UTF-8 stdin + ASCII stdout JSON `e55f63e` (resume-tailor 1.1.6, cover-letter 1.2.5, interview-prep 1.2.3), deployed to 24 installs + Q; gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-20 (gate 1.1.7 new Title Case lines without a section word `cc7ac5c` (resume-tailor 1.1.7, cover-letter 1.2.6, interview-prep 1.2.4), deployed to 24 installs + Q; gate 1.1.6 UTF-8 stdin + ASCII stdout JSON `e55f63e` (resume-tailor 1.1.6, cover-letter 1.2.5, interview-prep 1.2.3), deployed to 24 installs + Q; gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-20 gate: new Title Case lines without a section word (`cc7ac5c`), deployed
+
+- Signal: the residual logged with `110b182` (open question). 1.1.4 recognized a DOCX Title
+  Case heading only with a resume-section word, so a new "Leadership" heading was not
+  reported. Found on the way: a job title changed using only words already in the resume
+  ("Operations Manager" for "Operations Coordinator") was not flagged anywhere (no new proper
+  noun, under 5 words for a phrase run).
+- Fix: when the proposed text has at least one Title Case section-word heading (DOCX resume
+  layout), `new_sections` also lists any other new short Title Case line, unless the source
+  has it as a whole line or as one piece of a line split on | , ; / bullet glyphs or a spaced
+  dash (`_LINE_SEGMENT_SPLIT`; normalized like headings: case, colon). Bullet counting still
+  uses section-word headings only.
+- Gate caught: the first version applied the rule to every document; a drafted cover letter
+  (`cover-letter/scripts/draft_cover_letter.py` output plus a typical address block) then
+  listed "Hiring Team", "Globex Corporation", "Springfield Office" as sections. Added the
+  layout condition and a letter guard test; the letter now gives the same flags as 1.1.6.
+- Tests first: 8 new (4 failed before the fix: Leadership with "Team Leadership" in the
+  source, Military Service: with CRLF, a changed title from known words, title/employer lines
+  listed); `test_title_case_heading_needs_a_section_word` pinned the old rule and was changed
+  on purpose. One wrong assertion of mine (expected no bullets where one line became two) was
+  corrected, not the code. Mutation check (`mutate_gate_1_1_7.py`, side-session notes
+  folder): 9/9 killed; a redundant "not a section-word heading" condition survived the first
+  run and was removed. CI command 448 passed; CI run 39528110919 green on `cc7ac5c`.
+- Owner's real resume pairs (temp text, deleted): April -> October `Earlier Experience` only
+  (unchanged), October pre-projects -> final none (unchanged).
+- Deploy `cc7ac5c`: installs rollback `E:\Git\job-hunter-installs-pre-cc7ac5c.zip`, 309 files
+  byte-match across 24 installs, 0 caches; 9 installed gates equal the repo, pass the gate
+  tests (70 x 9) and runtime checks (iOS/vCard, cp1252 pipe, Leadership flagged + letter
+  address block quiet). Q rollback `E:\Git\job-hunter-q-catalog-pre-cc7ac5c.zip`; 34 zips /
+  761 entries byte-verified, 18 gate copies equal the repo, skill.json
+  `family_source_commit` cc7ac5c; catalog refreshed.
 
 ## 2026-10-20 gate: UTF-8 stdin, ASCII stdout JSON (`e55f63e`), deployed
 

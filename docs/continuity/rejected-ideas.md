@@ -16,6 +16,8 @@ dependency to a script that has none. (c) job titles, employers and one-per-line
 short Title Case lines too, so a tighten that splits "Title | Employer" would report every
 piece as a new section.
 
+**Update (2026-10-20, gate 1.1.7):** (c) adopted in a narrower form at the owner's request: only in a document with Title Case section headings, and only lines whose text is not a whole line or a separated segment of a source line (see decisions.md). (a) and (b) stay rejected.
+
 **Reconsider if:** a real new heading without a section word slips through (then (a) as an
 optional extra input, not a replacement), or the gate starts taking DOCX directly.
 

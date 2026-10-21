@@ -20,7 +20,9 @@ the gate is next touched.
 
 ### Gate misses a Title Case heading with no section word; line counting is coarse
 
-**Status (2026-10-20, `110b182`):** a DOCX heading in Normal style is detected only when it
+**Resolved in part (2026-10-20, gate 1.1.7 `cc7ac5c`):** in a document with Title Case section headings, a new short Title Case line with no section word is now listed in `new_sections` (see session-state.md). Still true: markerless line counts include moved or split lines, and a new line before the first heading is not counted.
+
+**Original status (2026-10-20, `110b182`):** a DOCX heading in Normal style is detected only when it
 has a resume-section word (Experience, Education, Skills, Projects, Volunteer, ...; list in
 `_SECTION_WORDS`). A new heading such as "Leadership" or "Military Service" is not reported
 as a section (its words still go through the proper-noun check). In markerless text every
