@@ -4,6 +4,23 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-21, A local-path plugin install does not prove the GitHub install
+
+**What happened:** since 2026-05-29 the docs recommended `/plugin marketplace add
+wexxwuther/job-hunter`. It had only been tested as `claude plugin marketplace add ./plugin`
+from a working tree where `build_plugin.py` had generated the gitignored skills. From GitHub it
+failed: `Marketplace file not found at ...\.claude-plugin\marketplace.json` (wrong folder),
+and the plugin's `skills/` would have been empty anyway (gitignored).
+
+**Lesson:** test a distribution path the way a user runs it: from the public source, with
+only tracked files, in a clean config.
+
+**How to apply:** after any plugin or install change, push, then run
+`CLAUDE_CONFIG_DIR=$(mktemp -d) claude plugin marketplace add wexxwuther/job-hunter`,
+`claude plugin install job-hunter@gdk-skills` and `claude plugin details job-hunter@gdk-skills`
+(expect Skills (8)), and delete the temp dir. Before a push, test a `git clone` of the commit,
+not the working tree.
+
 ## 2026-10-20, Deploy from a clean clone when another session shares the working tree
 
 **What happened:** `deploy_installs.py` refused to run because another session had

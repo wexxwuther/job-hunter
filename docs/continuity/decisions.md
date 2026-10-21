@@ -4,6 +4,22 @@ Each entry: **what was decided**, **why** (the rationale that made this the choi
 **consequences** (what future-self needs to honor or know about). Decisions here are durable,
 they outlast the session that made them.
 
+## 2026-10-21, Release the 8-skill family as v6.1.0; GitHub plugin reads the repo-root manifest
+
+**Decision:** (owner, 2026-10-21) the family is released as `v6.1.0`. The public `v6.0.0` tag
+stays at `9642fe0` (the 2026-05-28 split, never released) and is not moved. The Claude Code
+GitHub install uses a repo-root `.claude-plugin/` whose `plugin.json` lists the 8 member
+dirs as `skills`; `plugin/` stays only to build the plugin zip.
+
+**Why:** moving a published tag needs a force-push and leaves anyone who fetched it with the
+old one. Listing the member dirs avoids committing a generated copy of every skill (which
+would drift); `claude plugin details` from a clean clone showed all 8 skills.
+
+**Consequences:** a family version bump changes the orchestrator `_meta.json`, both
+`plugin.json` files (a test keeps them equal), and the zip names in README, `install/*.md`,
+the installer comments and the reship script. A new member must be added to
+`build_plugin.py` MEMBERS and the root `plugin.json` (the test fails until both list it).
+
 ## 2026-10-20, Gate also lists new Title Case lines with no section word (DOCX layout only)
 
 **Decision:** amends the entry below. When the proposed text has a Title Case section-word heading, `new_sections` also lists any other new short Title Case line unless the source has it as a whole line or a separated segment of a line. Bullet counting still starts sections only at section-word headings.

@@ -5,7 +5,16 @@
 Purpose: a future session (or post-compaction continuation) can read THIS file alone and recover
 all the load-bearing context needed to continue the work. Designed to be self-contained.
 
-## 2026-10-18 note (read session-state.md first)
+## 2026-10-21 note (read session-state.md first)
+
+Current: family v6.1.0, 8 skills, released on GitHub as `v6.1.0` (Latest) at `ced9fcc` and
+deployed to 24 installs + Q. Member versions: resume-tailor 1.1.7, cover-letter 1.2.6,
+interview-prep 1.2.4, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0,
+application-tracker 1.0.0. Claude Code installs from GitHub through the repo-root
+`.claude-plugin/` (`tools/test_plugin_manifest.py` guards it). CI command: 455 tests. The
+2026-10-18 note below and the older sections are history; session-state.md is current.
+
+## 2026-10-18 note (historical)
 
 2026-10-19: gate reformat false-positive fix `26d7738`, then the bare-line gap closed in
 `e02cd7e` (a new word on its own line now flags). Current: resume-tailor 1.1.3, cover-letter
@@ -60,7 +69,7 @@ If the user says "work on job-hunter," they mean THIS repo. Verify by checking t
 
 **Original symptom RESOLVED:** "resume optimizer not part of skill set" was diagnosed as STALE INSTALLS (the live copies predated v5.2.0 and lacked `verify_no_fabrication.py`), NOT a broken chain. Resume optimization is Phase 3 / the `resume-tailor` member — never a separate component. The v6.0.0 redeploy fixes it.
 
-**Exact next action:** nothing technical is pending. The only open items are USER-GATED: cut a GitHub `v6.0.0` release tag (only `v5.2.0-monolith-archive` exists as a tag), and flip remote visibility PRIVATE→PUBLIC. Do neither without explicit authorization.
+**Exact next action (HISTORICAL, DONE):** the repo went public on 2026-05-29, and the family was released on 2026-10-21 as `v6.1.0` (the `v6.0.0` tag was left at the 2026-05-28 split). Original text: nothing technical is pending. The only open items are USER-GATED: cut a GitHub `v6.0.0` release tag (only `v5.2.0-monolith-archive` exists as a tag), and flip remote visibility PRIVATE→PUBLIC. Do neither without explicit authorization.
 
 **How to resume (v6.0.0 family):**
 1. `cd E:/Git/job-hunter-public`; `git status` (expect clean, branch `main`, HEAD `31b90d2`).

@@ -3,7 +3,7 @@
 Where things live on disk + which files are load-bearing for which questions. A future session
 looking for "where is X?" should find the answer here before grepping.
 
-## ⚠ THIS is the v5+/v6 source-of-truth repo — FAMILY MONOREPO, 8 skills (v6.0.0, updated 2026-10-18)
+## ⚠ THIS is the v5+/v6 source-of-truth repo — FAMILY MONOREPO, 8 skills (v6.1.0, updated 2026-10-21)
 
 job-hunter is developed in THIS repo, `E:\Git\job-hunter-public\` (remote `https://github.com/wexxwuther/job-hunter`, **PUBLIC** as of 2026-05-29). The `skill-builder-workdir/job-hunter/` copy is the frozen v4 ancestor (separate git history, no merge path). See `session-state.md` and `decisions.md` for the full rationale. **Current version: v6.0.0 family, 8 skills (orchestrator + 7 members; interview-prep added 2026-10-18, head `c01d73c`).**
 
@@ -18,7 +18,9 @@ job-hunter is developed in THIS repo, `E:\Git\job-hunter-public\` (remote `https
   - `application-tracker/` — submit+track (`generate_tracker_html`, `draft_followup`, `assets/templates/tracker.css`)
   - `outcome-learning/` — learning loop (`harvest_outcomes`, `propose_lessons`)
   - `interview-prep/` - NEW 2026-10-18: prep for a scheduled interview (`load_application` reads one tracker entry + submitted documents + confirmed lessons; `build_prep_pack` with `stages`/`build`/`source`/`questions`/`claims`) + bundled byte-identical `verify_no_fabrication`. Live trial workspace and mutation/deploy/reship scripts: `E:\tmp\jh-interview\`. Proxy routing evidence: `docs/evals/interview-prep-proxy-2026-10-18/`.
-- Claude Code PLUGIN: `plugin/.claude-plugin/marketplace.json` (local marketplace `gdk-skills`) → plugin at `plugin/job-hunter/.claude-plugin/plugin.json` + `plugin/job-hunter/skills/<7>/`. Built by `build_plugin.py` from the canonical member dirs; **`plugin/job-hunter/skills/` is GITIGNORED** (generated, regenerate with `python build_plugin.py`). The committed parts are the 2 manifests + the generator.
+- Claude Code GitHub install (2026-10-21): repo-root `.claude-plugin/marketplace.json` (marketplace `gdk-skills`, plugin source `./`) + `.claude-plugin/plugin.json` whose `skills` lists the 8 member dirs. This is what `/plugin marketplace add wexxwuther/job-hunter` reads. Guard: `tools/test_plugin_manifest.py` (root and `plugin/` manifests equal apart from `skills`; version equals the orchestrator `_meta.json`).
+- Releases: `v6.1.0` (2026-10-21, Latest, 34 zips) is the first family release; `v6.0.0` tag = 2026-05-28 split, no release; v4.0.0 to v5.2.0 = retired single skill.
+- Claude Code PLUGIN zip source: `plugin/.claude-plugin/marketplace.json` (local marketplace `gdk-skills`) → plugin at `plugin/job-hunter/.claude-plugin/plugin.json` + `plugin/job-hunter/skills/<7>/`. Built by `build_plugin.py` from the canonical member dirs; **`plugin/job-hunter/skills/` is GITIGNORED** (generated, regenerate with `python build_plugin.py`). The committed parts are the 2 manifests + the generator.
 - Workspace contract (single source of truth for typed hand-offs): `job-hunter/references/workspace-contract.md`; a COPY is shipped into every sibling member so each is self-contained post-install (byte-equality test since 2026-10-18).
 - Install-readiness guards: `job-hunter/tests/test_install_readiness.py` (3 guards: no monorepo-path sibling refs, every member ships the contract, every member owns the scripts its SKILL.md names). Member list now includes cover-letter.
 - Cutover doc: `docs/CUTOVER.md` (archive + E2E/parity + what was removed + recovery).

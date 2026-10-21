@@ -122,7 +122,7 @@ have changed (e.g., `--results` vs `--out-dir`), update the maintenance.md comma
 **Cadence:** triggered, not recurring. Run after committing changes in THIS repo when you want
 the installed `job-hunter` copy to reflect the new state.
 
-**Why:** The installed copies (the 6 family members under `~/.claude/skills/`, `~/.agents/skills/`,
+**Why:** The installed copies (the 8 family members under `~/.claude/skills/`, `~/.agents/skills/`,
 `~/.hermes/skills/`) are packaged snapshots, NOT symlinks or a live view of the repo. Repo edits
 don't propagate automatically. **As of 2026-05-28 the installs are CURRENT (v6.0.0 family,
 redeployed + stale copies cleaned); the earlier "stale / missing verify_no_fabrication.py" state
@@ -134,7 +134,7 @@ cd E:\Git\job-hunter-public
 # 1. Confirm clean + audit/tests pass before deploying
 git status --short
 python C:\Users\Owner\.claude\skills\self-improving-skills\scripts\audit_existing.py --skill .
-python -m pytest tests\ -q            # expect 201 passed (v5.2.0)
+python -m pytest --import-mode=importlib job-hunter/tests career-profile/tests job-search/tests resume-tailor/tests cover-letter/tests application-tracker/tests outcome-learning/tests interview-prep/tests install tools   # expect 455 passed (2026-10-21)
 
 # 2. Run the public-repo installer, deploys whatever is on main to ~/.claude/skills/job-hunter/
 powershell -ExecutionPolicy Bypass -File install\install.ps1

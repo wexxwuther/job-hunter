@@ -2,7 +2,55 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-20 (gate 1.1.7 new Title Case lines without a section word `cc7ac5c` (resume-tailor 1.1.7, cover-letter 1.2.6, interview-prep 1.2.4), deployed to 24 installs + Q; gate 1.1.6 UTF-8 stdin + ASCII stdout JSON `e55f63e` (resume-tailor 1.1.6, cover-letter 1.2.5, interview-prep 1.2.3), deployed to 24 installs + Q; gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-21 (v6.1.0 released: GitHub plugin install fixed `cdb2651`, public docs brought current `91c52e8`, family 6.1.0 `ced9fcc`, deployed to 24 installs + Q, GitHub release v6.1.0 Latest; earlier: 2026-10-20 gate 1.1.7 new Title Case lines without a section word `cc7ac5c` (resume-tailor 1.1.7, cover-letter 1.2.6, interview-prep 1.2.4), deployed to 24 installs + Q; gate 1.1.6 UTF-8 stdin + ASCII stdout JSON `e55f63e` (resume-tailor 1.1.6, cover-letter 1.2.5, interview-prep 1.2.3), deployed to 24 installs + Q; gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-21 v6.1.0 released; GitHub plugin install fixed; docs current (`cdb2651`, `91c52e8`, `ced9fcc`)
+
+- Asked: push to the public repo and make every doc match the current state. `main` was
+  already pushed (`5c1caaa` == origin/main), so the work was the doc drift.
+- Found: (1) `/plugin marketplace add wexxwuther/job-hunter` failed from GitHub with
+  `Marketplace file not found at ...\.claude-plugin\marketplace.json`: the marketplace lived
+  under `plugin/`, and `plugin/job-hunter/skills/` is gitignored. Earlier "verified" plugin
+  installs used the local `./plugin` path, which hid both problems. (2) README and the four
+  install guides described the v5 single skill (clone to `~/.claude/skills/job-hunter`,
+  `~/.codex/skills`, `~/.openclaw/skills`, "177 passed", root `scripts/` and `references/`);
+  SUPPORT.md called interview prep out of scope; GitHub's Latest release was v5.2.0. (3) A
+  public `v6.0.0` tag already existed at `9642fe0` (2026-05-28 split, 6 members, never
+  released). (4) `job-hunter/docs/continuity/`, shipped in every install, stopped at
+  2026-05-28 ("not yet merged").
+- `cdb2651`: repo-root `.claude-plugin/marketplace.json` (source `./`) and `plugin.json`
+  whose `skills` lists the 8 member dirs, so no generated copy is needed.
+  `tools/test_plugin_manifest.py`: 7 tests, all failed before the root manifest existed; 6/6
+  mutants killed. Clean-clone install in a throwaway `CLAUDE_CONFIG_DIR`: Skills (8).
+- `91c52e8`: README, `install/*.md`, CONTRIBUTING, PR template, SUPPORT, SECURITY, a dated
+  note in CUTOVER, `.gitignore` test paths, CHANGELOG.
+- Owner chose on 2026-10-21: fix the plugin, then document; publish a release; release the
+  family as a new tag `v6.1.0` rather than move the public `v6.0.0` tag.
+- `ced9fcc`: family 6.0.0 -> 6.1.0 (orchestrator `_meta.json`, both `plugin.json`, zip names in
+  docs and installer comments); a "Frozen 2026-05-28" note on each file of the orchestrator
+  continuity copy; member stubs point to this stack. Member versions unchanged.
+- Checks: CI command 455 passed; CI runs 39626106947 (`91c52e8`) and 39655885628 (`ced9fcc`)
+  green; `validate.py job-hunter` 0 errors (3 old warnings; one new warning from the README
+  rewrite was fixed); `claude plugin validate` passes for the root, its plugin.json and
+  `plugin/`. After push, GitHub install in a throwaway config: 6.1.0, Skills (8).
+- Deploy `ced9fcc` (clean clone `E:\tmp\jh-v610\deploy-src`; `E:\tmp\jh-v610\deploy_installs.py`
+  and `reship_q.py` are the runbook scripts with SRC repointed, plus v6.1.0 zip names and
+  `E:\tmp\jh-v610\qdocs`): installs rollback `E:\Git\job-hunter-installs-pre-ced9fcc.zip`
+  (309 entries); 309 files byte-match across 24 installs; orchestrator `_meta` 6.1.0 in all 3
+  roots; 0 caches. Q: re-shipped from `91c52e8` first (rollback
+  `E:\Git\job-hunter-q-catalog-pre-91c52e8.zip`), then from `ced9fcc` (rollback
+  `E:\Git\job-hunter-q-catalog-pre-ced9fcc.zip`): 34 v6.1.0 zips, 761 entries byte-verified;
+  the 34 old v6.0.0 zips removed after each was byte-checked inside that rollback archive;
+  skill.json `current_version` v6.1.0, `family_source_commit` ced9fcc; Q README, INSTALL.md
+  and NOTE at v6.1.0; catalog refreshed (job-hunter v6.1.0 at ced9fcc, 34 zips).
+- Release: annotated tag `v6.1.0` at `ced9fcc`; GitHub release "v6.1.0: job-hunter is now an
+  8-skill family", Latest, 34 assets; `/releases/latest` redirects to it; the FAMILY and
+  PLUGIN assets downloaded back are byte-equal to Q.
+- Not done: no member behavior or description change, so no trigger or routing evals were
+  re-run. The `v6.0.0` tag is left as is. The `plugin/` marketplace stays (it builds the
+  plugin zip). The orchestrator continuity copy is marked frozen, not rewritten. The two
+  catalog warnings (self-improving-skills, social-media-plugin) are older and about other
+  skills.
 
 ## 2026-10-20 gate: new Title Case lines without a section word (`cc7ac5c`), deployed
 
