@@ -23,6 +23,7 @@ Run from skill root:
 """
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -324,6 +325,73 @@ def test_cli_stdin_original(tmp_path: Path):
     assert result.returncode == 0, f"stderr: {result.stderr}"
     payload = json.loads(result.stdout)
     assert any("Pinecone" in n["token"] for n in payload["new_proper_nouns"])
+
+
+# Windows pipes use the console code page (cp1252), not UTF-8. Before 1.1.6
+# stdout JSON came out in cp1252 (an em dash as byte 0x97, a check mark
+# crashed) and piped stdin UTF-8 was read as cp1252 mojibake.
+_CP1252_PIPE = dict(os.environ, PYTHONIOENCODING="cp1252")
+
+
+def test_cli_stdout_is_ascii_json_on_a_cp1252_pipe(tmp_path: Path):
+    original = tmp_path / "original.txt"
+    proposed = tmp_path / "proposed.txt"
+    original.write_text("Built apps.", encoding="utf-8")
+    proposed.write_text("Built apps \u2014 now on Pinecone \u2713 today.", encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--original", str(original), "--proposed", str(proposed)],
+        capture_output=True, env=_CP1252_PIPE,
+    )
+    assert result.returncode == 0, result.stderr
+    text = result.stdout.decode("ascii")
+    payload = json.loads(text)
+    context = payload["new_proper_nouns"][0]["context"]
+    assert "\u2014" in context and "\u2713" in context
+
+
+def test_cli_out_file_keeps_real_utf8_characters(tmp_path: Path):
+    original = tmp_path / "original.txt"
+    proposed = tmp_path / "proposed.txt"
+    out = tmp_path / "report.json"
+    original.write_text("Built apps.", encoding="utf-8")
+    proposed.write_text("Built apps \u2014 now on Pinecone.", encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--original", str(original), "--proposed", str(proposed),
+         "--out", str(out)],
+        capture_output=True, env=_CP1252_PIPE,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "\u2014" in out.read_text(encoding="utf-8")
+
+
+def test_cli_stdin_is_read_as_utf8_on_a_cp1252_pipe(tmp_path: Path):
+    original = tmp_path / "original.txt"
+    original.write_text("Built apps.", encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--original", str(original), "--proposed-stdin"],
+        input="Built apps \u2014 now on Pinecone.".encode("utf-8"),
+        capture_output=True, env=_CP1252_PIPE,
+    )
+    assert result.returncode == 0, result.stderr
+    context = json.loads(result.stdout.decode("ascii"))["new_proper_nouns"][0]["context"]
+    assert "\u2014" in context
+    assert "\u00e2" not in context
+
+
+def test_cli_original_stdin_is_read_as_utf8_on_a_cp1252_pipe(tmp_path: Path):
+    """The gate must see the same original text a file would give it: one em
+    dash is one character, not the three of its cp1252 mojibake."""
+    text = "Built apps \u2014 now on Pinecone."
+    proposed = tmp_path / "proposed.txt"
+    proposed.write_text(text, encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--original-stdin", "--proposed", str(proposed)],
+        input=text.encode("utf-8"), capture_output=True, env=_CP1252_PIPE,
+    )
+    assert result.returncode == 0, result.stderr
+    payload = json.loads(result.stdout.decode("ascii"))
+    assert payload["original_chars"] == len(text)
+    assert payload["summary"]["verdict"] == "clean"
 
 
 def test_cli_missing_args_errors():

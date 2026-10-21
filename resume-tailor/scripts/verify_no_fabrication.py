@@ -439,24 +439,27 @@ def main(argv: list[str] | None = None) -> int:
         print("error: --proposed or --proposed-stdin required", file=sys.stderr)
         return 2
 
+    # Stdin is read as UTF-8 bytes, like the files: on Windows a pipe would
+    # otherwise be decoded with the console code page (cp1252) into mojibake.
     if args.original_stdin:
-        original = sys.stdin.read()
+        original = sys.stdin.buffer.read().decode("utf-8")
     else:
         original = args.original.read_text(encoding="utf-8")
     if args.proposed_stdin:
-        proposed = sys.stdin.read()
+        proposed = sys.stdin.buffer.read().decode("utf-8")
     else:
         proposed = args.proposed.read_text(encoding="utf-8")
 
     report = verify(original, proposed, phrase_run_length=args.phrase_run_length)
-    payload = json.dumps(report, indent=2, ensure_ascii=False)
 
     if args.out:
-        args.out.write_text(payload, encoding="utf-8")
+        args.out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
         verdict = report["summary"]["verdict"]
         print(f"wrote report to {args.out} (verdict: {verdict})", file=sys.stderr)
     else:
-        print(payload)
+        # Stdout JSON is pure ASCII (\u escapes), so it reads the same whatever
+        # the console encoding; json.loads restores the characters.
+        print(json.dumps(report, indent=2, ensure_ascii=True))
     return 0
 
 

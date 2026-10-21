@@ -1,5 +1,9 @@
 # Changelog - interview-prep
 
+## v1.2.3 (2026-10-20)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.6): verify_no_fabrication.py: on Windows a pipe uses the console code page (cp1252), so the printed JSON report came out in cp1252 (an em dash as byte 0x97, which a UTF-8 reader rejects; a check mark crashed the script with UnicodeEncodeError), and `--original-stdin` / `--proposed-stdin` read UTF-8 input as cp1252 mojibake. Stdin is now read as UTF-8 bytes, like the files; the printed JSON is pure ASCII (\u escapes, restored by any JSON parser); the `--out` file stays UTF-8 with the real characters.
+
 ## v1.2.2 (2026-10-20)
 
 - Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.5): verify_no_fabrication.py: a capital letter inside a word was read as the start of a new proper noun, so `iOS` gave `OS` and `vCard` gave `Card`: fragments the source never has, flagged as new (found finalizing the owner's resume, 2026-10-20). Candidates are now whole words: a lowercase-first word with an inner capital (iOS, vCard, eBay, iPhone) is checked as a whole and is never skipped as a sentence start; its hyphen parts are still checked one by one, so "non-GAAP" still gives "GAAP" and "mid-May" stays quiet.

@@ -2,6 +2,22 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Gate: UTF-8 stdin, ASCII stdout JSON (2026-10-20, family v6.0.0 line)
+
+Signal: reading the gate's printed report through a Windows pipe failed with
+`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x97` (an em dash in a context string,
+encoded in the console code page cp1252); a check mark crashed the script outright. Piped
+input had the mirror problem: UTF-8 read as cp1252 mojibake.
+
+What shipped (`verify_no_fabrication.py`, canonical in resume-tailor, byte-identical in
+cover-letter and interview-prep):
+- `--original-stdin` / `--proposed-stdin` read UTF-8 bytes, like the file inputs.
+- The printed JSON is pure ASCII (`\u` escapes that any JSON parser restores); the `--out`
+  file stays UTF-8 with the real characters.
+- 4 tests simulate a cp1252 pipe (`PYTHONIOENCODING=cp1252`); 3 failed before the fix, 1
+  guard (the `--out` file). 5 mutants killed. resume-tailor 1.1.6, cover-letter 1.2.5,
+  interview-prep 1.2.3.
+
 ## Gate: whole-word proper nouns (iOS / vCard noise) (2026-10-20, family v6.0.0 line)
 
 Signal: finalizing the owner's resume, the 1.1.4 gate flagged `OS` (from "iOS") and `Card`

@@ -7,7 +7,9 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ### Gate stdout JSON is written in the Windows console encoding
 
-**Status (2026-10-20):** `verify_no_fabrication.py` prints its report with
+**Resolved (2026-10-20, gate 1.1.6):** stdin read as UTF-8, printed JSON pure ASCII, `--out` file UTF-8; see session-state.md.
+
+**Original status (2026-10-20):** `verify_no_fabrication.py` prints its report with
 `ensure_ascii=False`; on Windows, piped stdout uses cp1252, so an em dash in a context string
 arrives as byte 0x97 and a UTF-8 reader fails (`UnicodeDecodeError ... byte 0x97`), and a
 character cp1252 lacks would raise. `--out <file>` writes UTF-8 and is unaffected. Fix
