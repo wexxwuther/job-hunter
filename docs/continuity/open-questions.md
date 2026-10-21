@@ -5,6 +5,17 @@ answer it. Move to "Closed" with the answer + date once resolved.
 
 ## Active (2026-10-20)
 
+### Gate stdout JSON is written in the Windows console encoding
+
+**Status (2026-10-20):** `verify_no_fabrication.py` prints its report with
+`ensure_ascii=False`; on Windows, piped stdout uses cp1252, so an em dash in a context string
+arrives as byte 0x97 and a UTF-8 reader fails (`UnicodeDecodeError ... byte 0x97`), and a
+character cp1252 lacks would raise. `--out <file>` writes UTF-8 and is unaffected. Fix
+options: reconfigure stdout to UTF-8 in `main()`, or print with `ensure_ascii=True`.
+
+**To answer:** owner chose to fix only the iOS/vCard noise on 2026-10-20; pick this up when
+the gate is next touched.
+
 ### Gate misses a Title Case heading with no section word; line counting is coarse
 
 **Status (2026-10-20, `110b182`):** a DOCX heading in Normal style is detected only when it

@@ -2,7 +2,35 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-**Last updated:** 2026-10-20 (gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+**Last updated:** 2026-10-20 (gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
+
+## 2026-10-20 gate: whole-word proper nouns, no iOS/vCard fragments (`2af0b57`), deployed
+
+- Signal: while finalizing the owner's October resume (new Projects lines for Tavira, GDK
+  Nexus, Pitch Please), the installed 1.1.4 gate flagged `OS` (from "iOS") and `Card` (from
+  "vCard"). `_proper_noun_set` matched `[A-Z]...` anywhere, even inside a word, so a
+  lowercase-first brand gave a fragment the source never has.
+- Fix: the scan walks whole words. A lowercase-first word with an inner capital (iOS, vCard,
+  eBay, iPhone) is a candidate as a whole and never gets the sentence-start skip; its hyphen
+  parts are still checked one by one (`non-GAAP` -> `GAAP`, `mid-May` quiet as a month).
+- Tests first, invented fixtures: 7 new; 4 failed before the fix; 3 guards (hyphen parts,
+  hyphen stopword, digit-led `3Dprint` -> `Dprint`) pass on both. Mutation check
+  (`mutate_gate_1_1_5.py`, side-session notes folder): 7/7 killed. A first draft had a
+  no-alnum lookbehind; the mutation run showed it was redundant except that it dropped
+  digit-led words, so it was removed and pinned by the `3Dprint` guard.
+- Real edit (pre-projects vs final resume, text in a temp folder, deleted): 1.1.4 flagged
+  `Card`, `OS`; 1.1.5 flags `iOS`, `vCard` (both truly new to the resume). CI command 438
+  passed; CI run 39521038100 green on `2af0b57`.
+- Deploy `2af0b57` (clean clone `E:\tmp\jh-gate114\deploy-src`, same scripts): installs
+  rollback `E:\Git\job-hunter-installs-pre-2af0b57.zip`, 309 files byte-match across 24
+  installs, 0 caches; 9 installed gates equal the repo, pass the gate tests (60 x 9) and a
+  runtime check (known iOS/vCard quiet, new eBay flagged). Q rollback
+  `E:\Git\job-hunter-q-catalog-pre-2af0b57.zip`; 34 zips / 761 entries byte-verified, 18
+  gate copies equal the repo, skill.json `family_source_commit` 2af0b57; catalog refreshed.
+- Not done: the gate's stdout JSON uses the console encoding on Windows (open question).
+- Owner resume finalized in the same session (outside the repo): October DOCX on the Desktop
+  rewritten per owner-confirmed lines, PDF exported, backups in
+  `E:\tmp\resume-final-2026-10-20\`.
 
 ## 2026-10-20 four description fixes shipped together (`63640df`)
 
