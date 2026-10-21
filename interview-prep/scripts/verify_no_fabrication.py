@@ -168,11 +168,21 @@ def _proper_noun_set(text: str) -> set[str]:
     Proper noun = starts uppercase, len >= 2, not in stopword set,
     not at the start of a sentence (we approximate by checking the prior char).
     A word that starts a line is a candidate unless the text before it ends a
-    sentence, so a new item on its own line in a one-per-line list is caught."""
+    sentence, so a new item on its own line in a one-per-line list is caught.
+    Whole words only: a lowercase-first word with an inner capital (iOS, vCard,
+    eBay) is a candidate as a whole, never as a fragment ("OS", "Card"), and is
+    never a sentence start. Its hyphen parts are checked one by one, so
+    "non-GAAP" still gives "GAAP"."""
     out = set()
     # Walk character-by-character so we know what precedes each token
-    for match in re.finditer(r"[A-Z][A-Za-z0-9\-\']+", text):
+    for match in re.finditer(r"[A-Za-z][A-Za-z0-9\-\']*", text):
         token = match.group(0)
+        if token[0].islower():
+            for part in token.split("-"):
+                if (len(part) >= 2 and any(c.isupper() for c in part)
+                        and part not in _PROPER_NOUN_STOPWORDS):
+                    out.add(part)
+            continue
         if token in _PROPER_NOUN_STOPWORDS:
             continue
         if len(token) < 2:

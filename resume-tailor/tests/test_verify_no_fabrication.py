@@ -769,3 +769,68 @@ def test_marker_mode_unchanged_when_both_documents_have_markers():
         "- Coordinated deliveries across three depots.\n"
     )
     assert verify(original, proposed)["new_bullets"] == {}
+
+
+# ---- Words with an inner capital (owner run 2026-10-20) --------------------
+# Before 1.1.5 the scan matched a capital anywhere, so "iOS" gave "OS" and
+# "vCard" gave "Card": fragments the source never has, flagged as new.
+
+
+def test_known_inner_capital_word_does_not_flag_a_fragment():
+    original = "Shipped the iOS app with vCard export."
+    proposed = "Shipped vCard export in the iOS app."
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert nouns == []
+
+
+def test_new_inner_capital_brand_flagged_as_whole_word():
+    original = "Built mobile apps for local sellers."
+    proposed = "Built iOS apps for eBay sellers."
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert "iOS" in nouns
+    assert "eBay" in nouns
+    assert "OS" not in nouns
+    assert "Bay" not in nouns
+
+
+def test_inner_capital_brand_flagged_even_after_a_full_stop():
+    """A lowercase-first word is never a sentence start, so the sentence-start
+    skip must not hide it."""
+    original = "Built mobile apps."
+    proposed = "Built mobile apps. iPhone support shipped."
+    nouns = [n["token"] for n in verify(original, proposed)["new_proper_nouns"]]
+    assert nouns == ["iPhone"]
+
+
+def test_inner_capital_context_shows_the_whole_word():
+    filler = "Kept every depot inspection on schedule for the full contract. " * 3
+    original = "Earned the OSHA 30 card.\n" + filler
+    proposed = original + "Shipped the iOS app."
+    new = verify(original, proposed)["new_proper_nouns"]
+    assert [n["token"] for n in new] == ["iOS"]
+    assert "Shipped the iOS app" in new[0]["context"]
+    assert "OSHA" not in new[0]["context"]
+
+
+def test_capital_after_a_hyphen_still_checked_as_before():
+    """"non-GAAP" keeps its old reading: the capitalized part is the candidate,
+    so a known "GAAP" stays quiet and a new "Salesforce" part still flags."""
+    original = "Prepared GAAP reports."
+    assert verify(original, "Prepared non-GAAP reports.")["new_proper_nouns"] == []
+    nouns = [n["token"] for n in
+             verify(original, "Prepared GAAP reports in pre-Salesforce days.")["new_proper_nouns"]]
+    assert nouns == ["Salesforce"]
+
+
+def test_stopword_after_a_hyphen_still_skipped():
+    """"mid-May" gave the month "May", a stopword, before 1.1.5; it must stay
+    quiet now that hyphen parts are checked one by one."""
+    original = "Started the build in spring."
+    proposed = "Started the build mid-May."
+    assert verify(original, proposed)["new_proper_nouns"] == []
+
+
+def test_word_after_a_digit_still_a_candidate():
+    """"3Dprint" read as "Dprint" before 1.1.5 and still does."""
+    report = verify("Built frames.", "Built 3Dprint frames.")
+    assert [n["token"] for n in report["new_proper_nouns"]] == ["Dprint"]

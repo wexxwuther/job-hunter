@@ -2,6 +2,22 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Gate: whole-word proper nouns (iOS / vCard noise) (2026-10-20, family v6.0.0 line)
+
+Signal: finalizing the owner's resume, the 1.1.4 gate flagged `OS` (from "iOS") and `Card`
+(from "vCard") as new proper nouns. The scan matched a capital letter anywhere, even inside a
+word, so a lowercase-first brand gave a fragment the source never has.
+
+What shipped (`verify_no_fabrication.py`, canonical in resume-tailor, byte-identical in
+cover-letter and interview-prep):
+- Candidates are whole words. A lowercase-first word with an inner capital (iOS, vCard, eBay,
+  iPhone) is checked as a whole and is never skipped as a sentence start, so a new one still
+  flags, now under its real name. Hyphen parts are still checked one by one ("non-GAAP" gives
+  "GAAP"; "mid-May" stays quiet).
+- 7 tests on invented fixtures; 4 failed before the fix, 3 guards pin old behavior. 7 mutants
+  killed. On the owner's real edit: `OS`, `Card` -> `iOS`, `vCard`. resume-tailor 1.1.5,
+  cover-letter 1.2.4, interview-prep 1.2.2.
+
 ## Gate: DOCX headings and markerless bullets (2026-10-20, family v6.0.0 line)
 
 Signal: the owner's resume reassessment (2026-10-20) ran the installed resume-tailor 1.1.1

@@ -1,5 +1,9 @@
 # Changelog — cover-letter
 
+## v1.2.4 (2026-10-20)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.5): verify_no_fabrication.py: a capital letter inside a word was read as the start of a new proper noun, so `iOS` gave `OS` and `vCard` gave `Card`: fragments the source never has, flagged as new (found finalizing the owner's resume, 2026-10-20). Candidates are now whole words: a lowercase-first word with an inner capital (iOS, vCard, eBay, iPhone) is checked as a whole and is never skipped as a sentence start; its hyphen parts are still checked one by one, so "non-GAAP" still gives "GAAP" and "mid-May" stays quiet.
+
 ## v1.2.3 (2026-10-20)
 
 - Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.4): verify_no_fabrication.py, DOCX-shaped text (python-docx paragraph text has no bullet markers, and headings are plain Title Case lines in Normal style). (1) A new Title Case heading (`Earlier Experience`) was not reported: only markdown and ALL CAPS headings were. A short Title Case line (1-5 words, optional colon) with a resume-section word (Experience, Education, Skills, ...) now counts as a heading, and is new only if no source line has the same text in any case. Job-title, employer and skill lines are not headings; a heading with no section word is still missed. (2) `new_bullets` counted only lines that start with a marker, so a new markerless bullet was never counted. When either document has no markers, every non-blank line under a heading now counts in both; lines before the first heading do not, so a headingless letter or claims list stays quiet. Found by the owner's resume reassessment (2026-10-20).
