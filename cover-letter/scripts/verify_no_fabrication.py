@@ -28,8 +28,14 @@ Detection categories:
                             ("Earlier Experience", "Volunteer Work"), the
                             shape of a DOCX heading in Normal style; those
                             count as new only if no original line has the
-                            same text in any case. A Title Case heading with
-                            no section word is not detected.
+                            same text in any case. In a document with such
+                            headings, any other short Title Case line
+                            ("Leadership", a new or changed job title,
+                            employer or one-per-line skill) is listed too,
+                            unless the original has it as a whole line or as
+                            one piece of a line joined by | , ; / or a dash.
+                            A letter or claims list has no such headings, so
+                            its address block is not listed.
   - new_bullets           : count delta of bullet lines per detected section.
                             Catches whole-new-bullet additions. When either
                             document has no "-", "*" or bullet-glyph markers
@@ -153,6 +159,11 @@ _SECTION_WORDS = {
     "affiliations", "memberships", "activities", "interests", "languages",
     "coursework",
 }
+
+# Separators that join several items on one source line ("Title | Employer",
+# "Dispatcher, Bay Road Transit", "Manager / Lead", "Lead - Builders"). A
+# proposed line equal to one piece is a split, not a new line.
+_LINE_SEGMENT_SPLIT = re.compile(r"\s*(?:\||\u2022|\u00b7|,|;|/|\s[-\u2013\u2014]\s)\s*")
 
 # -, *, bullet (U+2022) or triangle (U+25B8), then whitespace.
 _BULLET_LINE = re.compile(r"^[-*\u2022\u25b8]\s")
@@ -346,6 +357,24 @@ def verify(original: str, proposed: str, phrase_run_length: int = 5) -> dict:
     orig_lines = {_normalized_line(line) for line in original.splitlines()}
     for h in _title_case_headings(proposed):
         if _normalized_line(h) not in orig_lines and h not in seen:
+            new_sections.append(h)
+            seen.add(h)
+    # In a document laid out with Title Case headings (DOCX resume text), any
+    # other short Title Case line may be a heading with no section word
+    # ("Leadership"), or a new or changed job title, employer or skill line.
+    # It is new unless the source has it as a whole line or as one piece of a
+    # joined line, so splitting "Title | Employer" stays quiet. A letter or a
+    # claims list has no such headings, so its address block is not listed.
+    title_case_layout = any(_is_title_case_heading(line) for line in proposed.splitlines())
+    orig_segments = orig_lines | {
+        _normalized_line(seg)
+        for line in original.splitlines()
+        for seg in _LINE_SEGMENT_SPLIT.split(line)
+    }
+    for line in proposed.splitlines():
+        h = line.strip()
+        if (title_case_layout and _TITLE_CASE_HEADING_PATTERN.fullmatch(h)
+                and _normalized_line(h) not in orig_segments and h not in seen):
             new_sections.append(h)
             seen.add(h)
 

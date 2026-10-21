@@ -2,6 +2,25 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Gate: Title Case headings without a section word (2026-10-20, family v6.0.0 line)
+
+Signal: the residual logged with 1.1.4. In DOCX resume text a heading is a plain Title Case
+line, and 1.1.4 only recognized one with a resume-section word, so a new "Leadership" heading
+was not reported. A job title changed using only words already in the resume was not flagged
+anywhere either.
+
+What shipped (`verify_no_fabrication.py`, canonical in resume-tailor, byte-identical in
+cover-letter and interview-prep):
+- In a document laid out with Title Case section headings, `new_sections` also lists any
+  other new short Title Case line, unless the source has it as a whole line or as one piece
+  of a line joined by | , ; / or a spaced dash. A new or changed job title, employer or skill
+  line is listed there too.
+- Letters and claims lists have no such headings, so an address block is not listed (checked
+  on a drafted cover letter: same flags as 1.1.6). Bullet counting is unchanged.
+- 8 tests; 4 failed before the fix; 1 earlier test that pinned the old rule changed on
+  purpose. 9 mutants killed. Owner's real resume pairs: no new flags. resume-tailor 1.1.7,
+  cover-letter 1.2.6, interview-prep 1.2.4.
+
 ## Gate: UTF-8 stdin, ASCII stdout JSON (2026-10-20, family v6.0.0 line)
 
 Signal: reading the gate's printed report through a Windows pipe failed with

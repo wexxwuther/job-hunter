@@ -1,5 +1,9 @@
 # Changelog — cover-letter
 
+## v1.2.6 (2026-10-20)
+
+- Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.7): verify_no_fabrication.py: a new Title Case heading with no resume-section word ("Leadership", "Military Service") was not reported, and a job title changed using only words already in the resume ("Operations Manager" for "Operations Coordinator") was not flagged anywhere. In a document laid out with Title Case section headings (DOCX resume text), `new_sections` now also lists any other new short Title Case line, unless the source has it as a whole line or as one piece of a line joined by | , ; / or a spaced dash (so splitting "Title | Employer" stays quiet). A new or changed job title, employer or one-per-line skill line is listed there too. Letters and claims lists have no such headings, so their address blocks are not listed. Bullet counting still uses section-word headings only.
+
 ## v1.2.5 (2026-10-20)
 
 - Gate fix (bundled copy, re-synced byte-identical from resume-tailor 1.1.6): verify_no_fabrication.py: on Windows a pipe uses the console code page (cp1252), so the printed JSON report came out in cp1252 (an em dash as byte 0x97, which a UTF-8 reader rejects; a check mark crashed the script with UnicodeEncodeError), and `--original-stdin` / `--proposed-stdin` read UTF-8 input as cp1252 mojibake. Stdin is now read as UTF-8 bytes, like the files; the printed JSON is pure ASCII (\u escapes, restored by any JSON parser); the `--out` file stays UTF-8 with the real characters.

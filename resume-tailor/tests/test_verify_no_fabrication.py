@@ -743,17 +743,98 @@ def test_title_case_heading_text_only_inside_a_sentence_is_still_new():
     assert verify(original, proposed)["new_sections"] == ["Earlier Experience"]
 
 
-def test_title_case_heading_needs_a_section_word():
-    """Short Title Case lines without a resume-section word (job titles,
-    employers, names, skills) are not headings, so they are never reported
-    as sections. New ones are still flagged as proper nouns."""
+def test_new_title_and_employer_lines_listed_but_do_not_split_bullets():
+    """Changed 2026-10-20 (1.1.7): a new short Title Case line with no section
+    word is listed in new_sections (it may be a heading), but only
+    section-word headings start a bullet section, so job lines do not."""
     proposed = _DOCX_ORIGINAL.replace(
         "Dispatcher\n", "Route Planner\nNorthwind Logistics\n"
     )
     report = verify(_DOCX_ORIGINAL, proposed)
-    assert report["new_sections"] == []
+    assert report["new_sections"] == ["Route Planner", "Northwind Logistics"]
+    # One line became two: +1 item under Experience, not new bullet sections.
+    assert report["new_bullets"] == {"Experience": 1}
     nouns = [n["token"] for n in report["new_proper_nouns"]]
     assert "Northwind" in nouns
+
+
+# ---- Title Case heading with no section word (gap closed 2026-10-20) ------
+
+
+def test_new_heading_without_a_section_word_flagged():
+    """"Leadership" is new as a line even though "Team Leadership" is in the
+    source: only a whole line or a separated segment counts as known."""
+    original = _DOCX_ORIGINAL.replace("Fleet Safety\n", "Fleet Safety\nTeam Leadership\n")
+    proposed = original.replace("Dispatcher\n", "Leadership\nDispatcher\n")
+    report = verify(original, proposed)
+    assert report["new_sections"] == ["Leadership"]
+    assert report["summary"]["verdict"] == "review_required"
+
+
+def test_new_heading_without_a_section_word_flagged_crlf_and_colon():
+    original = _DOCX_ORIGINAL.replace("\n", "\r\n")
+    proposed = _DOCX_ORIGINAL.replace(
+        "Dispatcher\n", "Military Service:\nDispatcher\n"
+    ).replace("\n", "\r\n")
+    assert verify(original, proposed)["new_sections"] == ["Military Service:"]
+
+
+def test_changed_job_title_from_known_words_flagged():
+    """Every word is already in the source, so no proper noun flags; the
+    changed title line is still a new line."""
+    original = _DOCX_ORIGINAL.replace("Fleet Safety\n", "Fleet Safety\nFleet Manager\n")
+    proposed = original.replace(
+        "Operations Coordinator\nHarbor Lane Freight\n",
+        "Operations Manager\nHarbor Lane Freight\n",
+    )
+    report = verify(original, proposed)
+    assert report["new_proper_nouns"] == []
+    assert report["new_sections"] == ["Operations Manager"]
+
+
+def test_split_title_and_employer_line_not_flagged():
+    """Splitting "Title | Employer" (or a comma, slash or dash join) onto
+    separate lines is formatting: each piece is a segment of a source line."""
+    original = (
+        "Experience\n"
+        "Operations Coordinator | Harbor Lane Freight\n"
+        "Dispatcher, Bay Road Transit\n"
+        "Project Manager / Quality Manager\n"
+        "Site Lead - Coastal Builders\n"
+    )
+    proposed = (
+        "Experience\n"
+        "Operations Coordinator\nHarbor Lane Freight\n"
+        "Dispatcher\nBay Road Transit\n"
+        "Project Manager\nQuality Manager\n"
+        "Site Lead\nCoastal Builders\n"
+    )
+    assert verify(original, proposed)["new_sections"] == []
+
+
+def test_letter_address_block_not_listed_as_sections():
+    """cover-letter runs the same gate. A letter has no Title Case section
+    headings, so its address-block lines are not listed as sections (their
+    new words are still proper-noun flags)."""
+    letter = (
+        "Hiring Team\n"
+        "Globex Corporation\n"
+        "Springfield Office\n"
+        "\n"
+        "Dear Hiring Team,\n"
+        "I coordinated deliveries across three depots at Harbor Lane Freight.\n"
+        "Sincerely,\n"
+        "Jordan Avery\n"
+    )
+    report = verify(_DOCX_ORIGINAL, letter)
+    assert report["new_sections"] == []
+    assert "Globex" in [n["token"] for n in report["new_proper_nouns"]]
+
+
+def test_reordered_or_recased_lines_without_section_words_not_flagged():
+    original = "Skills\nVendor Relations\nFleet Safety\n"
+    proposed = "Skills\nFleet Safety\nVendor Relations\nFleet Safety:\nfleet safety\n"
+    assert verify(original, proposed)["new_sections"] == []
 
 
 def test_new_markerless_bullet_counted_in_its_section():
