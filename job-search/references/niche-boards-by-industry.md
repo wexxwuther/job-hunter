@@ -95,6 +95,18 @@ This list is not exhaustive, when the user's industry isn't here, search:
 | Indeed + Glassdoor with role+location | Highest volume for trades | Per BLS, electricians/plumbers/HVAC have 4-9% projected growth through 2034, these aggregators index most postings |
 | SkillBridge (DoD) | Military-to-trades transition | For service members exiting active duty |
 
+## Construction / Construction Management
+
+For project managers, construction managers, superintendents, estimators and project
+executives (`--industry construction`). Each domain was checked live on 2026-10-21.
+
+| Board | Strengths | Notes |
+|---|---|---|
+| ConstructionJobs.com (constructionjobs.com) | Construction-only board: management, engineering, trades | Browse by function, company or metro |
+| iHireConstruction (ihireconstruction.com) | Construction trades + management | Part of iHire network; blocks automated fetches |
+| AGC Construction Careers (careers.agc.org) | Associated General Contractors of America career center | Contractor employers |
+| CMAA CareerHQ (careerhq.cmaanet.org) | Construction Management Association of America career center | Construction and program management, owner-side roles |
+
 ## Legal
 
 | Board | Strengths | Notes |

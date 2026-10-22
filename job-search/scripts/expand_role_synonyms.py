@@ -25,6 +25,11 @@ import sys
 
 # Each entry: canonical key -> list of synonyms / alternate titles
 # Adjacent roles (stepping-stone or natural pivots) live in ADJACENT.
+# Rule: every entry must be a title that postings actually use, because each one becomes a
+# search query. Never list a certification or credential that is not itself a job title
+# (PMP, CAPM, PE, CPA, ...): the query then finds the credential, not the job. Licenses that
+# postings use as the title itself (RN, LPN, NP, PA, ...) are fine.
+# Guarded by tests/test_expand_role_synonyms.py.
 SYNONYMS: dict[str, list[str]] = {
     # Tech - engineering
     "software engineer": ["software developer", "SWE", "backend engineer", "frontend engineer",
@@ -75,7 +80,7 @@ SYNONYMS: dict[str, list[str]] = {
     "physical therapist": ["PT", "DPT", "rehabilitation therapist"],
 
     # Finance / accounting
-    "accountant": ["staff accountant", "senior accountant", "CPA", "accounting analyst"],
+    "accountant": ["staff accountant", "senior accountant", "accounting analyst"],
     "financial analyst": ["finance analyst", "FP&A analyst", "investment analyst",
                           "corporate finance analyst"],
     "controller": ["financial controller", "assistant controller", "accounting manager"],
@@ -96,7 +101,7 @@ SYNONYMS: dict[str, list[str]] = {
 
     # Operations
     "operations manager": ["ops manager", "operations lead", "business operations manager"],
-    "project manager": ["program manager", "PMP", "PgM", "project coordinator"],
+    "project manager": ["program manager", "project coordinator"],
     "program manager": ["TPM", "technical program manager", "senior program manager"],
     "supply chain analyst": ["logistics analyst", "supply chain manager", "procurement analyst"],
     "office manager": ["office administrator", "administrative manager", "facilities manager"],
@@ -116,6 +121,11 @@ SYNONYMS: dict[str, list[str]] = {
     "carpenter": ["construction carpenter", "finish carpenter", "framing carpenter"],
     "construction superintendent": ["site superintendent", "general superintendent",
                                     "construction manager"],
+    "construction project manager": ["construction manager", "senior construction project manager",
+                                     "field project manager", "project executive",
+                                     "owner's representative"],
+    "construction manager": ["construction project manager", "senior construction manager",
+                             "construction site manager", "project executive"],
     "truck driver": ["CDL driver", "OTR driver", "delivery driver", "long-haul driver"],
     "machinist": ["CNC machinist", "tool and die maker", "manual machinist"],
 
@@ -153,24 +163,35 @@ ADJACENT: dict[str, list[str]] = {
     "accountant": ["financial analyst", "controller", "auditor"],
     "marketing manager": ["growth marketer", "content marketer", "product marketing manager"],
     "project manager": ["program manager", "TPM", "operations manager"],
+    "construction project manager": ["construction superintendent", "preconstruction manager",
+                                     "estimator", "facilities project manager",
+                                     "operations manager"],
     "designer": ["product designer", "UX researcher", "frontend engineer"],
 }
 
 
 def _normalize(role: str) -> str:
     role = role.lower().strip()
+    role = role.replace("\u2019", "'").replace("\u2018", "'")  # typographic apostrophes
     role = re.sub(r"\s+", " ", role)
     return role
 
 
+def _match_key(role: str) -> str:
+    # Apostrophes are optional when matching: postings write both "Owner's Representative"
+    # and "Owners Representative".
+    return _normalize(role).replace("'", "")
+
+
 def expand(role: str, include_adjacent: bool = False) -> dict:
     norm = _normalize(role)
+    match = _match_key(role)
     direct: list[str] = SYNONYMS.get(norm, []).copy()
 
     if not direct:
         for key, syns in SYNONYMS.items():
-            if norm in syns or any(_normalize(s) == norm for s in syns):
-                direct = [key] + [s for s in syns if _normalize(s) != norm]
+            if any(_match_key(s) == match for s in syns):
+                direct = [key] + [s for s in syns if _match_key(s) != match]
                 norm = key
                 break
 

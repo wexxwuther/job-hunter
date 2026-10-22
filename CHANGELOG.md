@@ -26,6 +26,25 @@ Signal: the catalog had no ChatGPT upload and the orchestrator required Claude's
   the default export's scope and separately saved outputs are explicit.
 - Compatibility ZIPs are built from source, not added to the v6.1.0 release.
 
+## job-search 1.1.1: construction roles and boards; no certifications as synonyms (2026-10-21, family v6.1.0 line)
+
+Signal: a construction project manager's live search (Benton Harbor, MI, $120k+). Role
+expansion turned "project manager" into a search for PMP (a certification) and PgM, had no
+construction project-management titles, and `--industry construction` fell back to one
+generic Tier 2 query.
+
+What shipped (job-search 1.1.0 -> 1.1.1, no description change):
+- `expand_role_synonyms.py`: PMP, PgM and CPA removed; construction project manager and
+  construction manager titles plus adjacent roles added (checked against live posting
+  titles); apostrophe-tolerant lookup ("Owners Representative").
+- `build_search_queries.py` and `niche-boards-by-industry.md`: a `construction` industry
+  with ConstructionJobs.com, iHireConstruction, AGC Construction Careers and CMAA CareerHQ,
+  each domain checked live.
+- New `job-search/references/board-access-notes.md` (linked from SKILL.md): what the live run
+  showed about LinkedIn guest filters, aggregator blocking, public ATS feeds, and labeling
+  aggregator-only pay with its source.
+- 18 new tests (15 failed before the fix); 13/13 mutants killed.
+
 ## v6.1.0: first GitHub release of the 8-skill family; GitHub plugin install fixed; docs brought current (2026-10-21)
 
 Signal: the documented Claude Code install `/plugin marketplace add wexxwuther/job-hunter`
@@ -300,7 +319,7 @@ The big one: job-hunter is now a **skill family**, not a single monolith.
 Why: as the skill grew (Phases 0-5, 16 scripts, a 681-line SKILL.md), a single coarse trigger surface meant "just tighten my resume" loaded the whole job-hunt machine, and the file was getting hard to evolve. The fix is the orchestrator-template pattern proven by other skill families: one **orchestrator** (`job-hunter`) that reads your request and routes to the right **member skills**, each a focused job-to-be-done that also works standalone.
 
 What shipped:
-- **6 skills:** `job-hunter` (orchestrator — owns the `.job-hunter/` workspace + routing + the anti-fabrication invariant) + `career-profile` (profile-intake), `job-search` (search), `resume-tailor` (resume-tailor), `application-tracker` (tracker), `outcome-learning` (learning-loop).
+- **6 skills:** `job-hunter` (orchestrator â€” owns the `.job-hunter/` workspace + routing + the anti-fabrication invariant) + `career-profile` (profile-intake), `job-search` (search), `resume-tailor` (resume-tailor), `application-tracker` (tracker), `outcome-learning` (learning-loop).
 - **Typed artifact hand-offs:** members read/write the shared `.job-hunter/` workspace per `job-hunter/references/workspace-contract.md`; each degrades gracefully when run alone.
 - **The anti-fabrication gate moved intact:** `verify_no_fabrication.py` lives in `resume-tailor` with all 5 of its load-bearing safety tests preserved, and the orchestrator enforces it as a family-wide invariant (no member writes resume/profile content without passing through it). The v5.2.0 fabrication fix is fully retained.
 - **Family installer:** `install/install.sh` + `install/install.ps1` install all 6 members across `~/.claude`, `~/.agents` (Codex + OpenClaw), and `~/.hermes`, cross-OS.
@@ -442,7 +461,7 @@ The agent surfaces a suggestion, you say yes or no, and only confirmed lessons g
 5. **Plain markdown.** Every file is readable, editable, deletable. No black-box weights.
 6. **Local-only.** No telemetry. No phone-home. No required API keys. `.job-hunter/` lives in your workspace.
 
-The architecture is adapted from the proven harvest → propose → apply pattern in the `self-improving-skills` builder. Different artifacts (per-user data instead of skill-iteration edits), same discipline.
+The architecture is adapted from the proven harvest â†’ propose â†’ apply pattern in the `self-improving-skills` builder. Different artifacts (per-user data instead of skill-iteration edits), same discipline.
 
 **SKILL.md changes:**
 - New Phase 0: read the four files at the start of every session
@@ -490,7 +509,7 @@ On the first session, the agent walks you through them. On subsequent sessions, 
 
 - **Signal:** Ran v2 evals through `run_evals.py --runner mock`. Result: **66.7% trigger accuracy (16/24)**. `optimize_skill.py` surfaced 5 false negatives (queries that should have triggered but didn't: #1 Seattle backend, #7 Stripe tailor, #8 cover letter, #9 ATS, #11 remote DevOps) and 3 false positives (queries that triggered but shouldn't have: #20 generic resume review, #21 career-path question, #24 post-layoff support). Dogfood inspection of v2 also surfaced 4 capability gaps: (a) resume reading depended on sibling docx/pdf skills, violating the standalone contract; (b) Phase 2 instructed "try synonyms" with no helper; (c) Phase 4 Application Tracker had no generator; (d) salary strings weren't normalized for comp-floor filtering.
 - **Changes (each anchored in evidence):**
-  - **Description rewrite (single largest leverage point):** Replaced v2's narrow "Trigger on…" phrase list with a Use-when clause packed with high-overlap natural-language vocabulary, `find jobs`, `find a job`, `find openings`, `find work`, `find positions`, `apply`, `tailor`, `optimize`, `search local/remote jobs`, `find companies hiring`, plus specific role types (engineers, managers, nurses, designers, analysts, freelance, contract, backend, frontend, data, product, graphic). Added explicit "Do not use for…" clause that filters career-coaching, generic-review, salary-negotiation, interview-prep, and post-layoff queries. Tuned through 7 iterations (3a–3g) of the mock runner; final description is exactly 1024 chars (spec max). Frozen-v1 cohort (5 trigger entries) **holds at 5/5**, no regression on the immutable held-out set.
+  - **Description rewrite (single largest leverage point):** Replaced v2's narrow "Trigger onâ€¦" phrase list with a Use-when clause packed with high-overlap natural-language vocabulary, `find jobs`, `find a job`, `find openings`, `find work`, `find positions`, `apply`, `tailor`, `optimize`, `search local/remote jobs`, `find companies hiring`, plus specific role types (engineers, managers, nurses, designers, analysts, freelance, contract, backend, frontend, data, product, graphic). Added explicit "Do not use forâ€¦" clause that filters career-coaching, generic-review, salary-negotiation, interview-prep, and post-layoff queries. Tuned through 7 iterations (3aâ€“3g) of the mock runner; final description is exactly 1024 chars (spec max). Frozen-v1 cohort (5 trigger entries) **holds at 5/5**, no regression on the immutable held-out set.
   - **New `scripts/parse_resume.py`:** Reads DOCX (python-docx), PDF (pypdf), MD/TXT/HTML (stdlib) into plain text or structured JSON with auto-detected section breakdown (summary/experience/education/skills/certs/projects). Uses PEP 723 inline metadata, runs with `uv run`. Removes sibling-skill dependency for resume parsing, satisfying the standalone contract.
   - **New `scripts/expand_role_synonyms.py`:** 80+ roles across tech, healthcare, finance, marketing, operations, education, trades, legal, and sales with same-job synonyms and (optional) adjacent step-up/step-down roles. Handles bidirectional lookup (input "RN" returns canonical "nurse" + synonyms). Replaces the inlined 8-role table that lived in `build_search_queries.py`.
   - **New `scripts/generate_tracker_html.py`:** Renders Phase 4 Application Tracker from a `tracker.json` file the agent maintains over time. Self-contained inline CSS, color-coded status badges (to-apply/applied/interviewing/offer/rejected/withdrawn) and match-strength tags, totals-by-status pills, sortable table layout. Replaces the "regenerate HTML from scratch every time" pattern flagged as repeated-work.
@@ -522,7 +541,7 @@ On the first session, the agent walks you through them. On subsequent sessions, 
     - `scripts/extract_ats_keywords.py`, keyword-gap analysis between a JD and a resume. Emits the three-category breakdown (present / matchable / missing) the SKILL.md Phase 3 specifies. Has an adjacency map so "AWS" matches when the resume says "Amazon Web Services", "Kubernetes" matches "K8s", etc. Punctuation-stripping bug surfaced during dogfooding and fixed in the same iteration.
   - **SKILL.md rewiring:** the inlined Tier 1-4 lists in Phase 2 and the inlined keyword-gap explanation in Phase 3 were replaced with short narrative + pointers to the references and scripts. Net effect: SKILL.md gets shorter, but capability *increases* because the scripts make the agent's behavior deterministic and the references can be loaded on demand.
   - **frozen-v1 cohort snapshotted:** `evals/frozen-v1.json` has 5 trigger + 1 outcome entries from the live set, immutable cross-iteration regression detector.
-- **Audit score:** 2/15 → 14/15 (remaining: info-level frozen-v1 finding which is now resolved; will re-audit).
+- **Audit score:** 2/15 â†’ 14/15 (remaining: info-level frozen-v1 finding which is now resolved; will re-audit).
 - **Files produced:** 3 references + 3 scripts + frozen-v1.json + updated SKILL.md + this CHANGELOG entry.
 
 ## v1 (2026-05-11) (retrofit baseline)
