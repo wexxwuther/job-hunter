@@ -2,9 +2,23 @@
 
 ## Latest local work: 2026-10-21 compatibility adapters
 
+ChatGPT Work upload and synthetic workflow passed, including a fresh conversation
+restoring all 21 exported payload files by bytes and SHA-256. Evidence and exact
+scope are in `docs/evals/runtime-acceptance-2026-10-21.md`. Local UI/download
+evidence is under `E:/tmp/job-hunter-chatgpt-acceptance-2026-10-21/`; synthetic
+reports are committed with the acceptance record. No real candidate data used.
+
+User approved isolated OpenClaw 2026.10.5 / Node 24.16.0 and ONE synthetic run
+through the existing signed-in Codex app-server, without auth copying. Runtime
+test root: `E:/tmp/job-hunter-openclaw-test-2026-10-21/`. CLI version and Linux
+helper smoke pass; discovery and model run are in progress. Native Windows host
+is being prepared for Windows Codex path/auth compatibility. Main loop owns the
+single model call; the runtime delegate prepares credential-free configuration.
+
 Read [compatibility-2026-10-21.md](compatibility-2026-10-21.md). Local builder,
 ChatGPT single-skill family upload and OpenClaw eight-skill archive implemented;
-461 tests pass. No host acceptance or release/install deployment claimed.
+461 tests pass. ChatGPT host acceptance is bounded to the recorded cases; no new
+GitHub release or global family installation is being performed.
 Elsie MCP and vault unavailable; ledger writes and credential verification pending.
 
 **Updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging; repo PUBLIC). Prior milestone: 2026-05-28 v6.0.0 family split shipped + redeployed.

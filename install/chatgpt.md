@@ -12,10 +12,21 @@ references and templates, the MIT license, and a SHA-256 inventory in `bundle.js
 No separate member uploads, Claude plugin, API key, or local installer are needed.
 The builder refuses an existing output archive; use `--out <new-directory>` to rebuild.
 
-In ChatGPT, open **Plugins > Skills > Create > Upload from your computer** and
+In ChatGPT, open **Plugins > Skills > Add > Upload from your computer** and
 select that ZIP. Availability depends on account/workspace settings; review any
 upload scan result before installing. See [OpenAI's skills guide](https://help.openai.com/en/articles/20001066-skills-in-chatgpt).
-This is a local compatibility build, not an asset of the existing GitHub release.
+This is a source-built compatibility package, not an asset of the existing GitHub release.
+
+The upload and synthetic workflow were tested in **ChatGPT Work** on 2026-10-21:
+the skill loaded its bundled member files and executed profile parsing, scoring,
+fabrication checks, tracker rendering, export and clean-directory restore.
+See the [acceptance record](../docs/evals/runtime-acceptance-2026-10-21.md) for the
+scope and evidence. This does not establish availability on every plan or ChatGPT surface.
+
+When automating upload through the ChatGPT Chrome extension, that extension needs
+**Allow access to file URLs** in its Details page at `chrome://extensions`.
+This extension setting is not a requirement for a person using the website's
+file chooser directly. It does not replace the upload scan or installation check.
 
 Start with: "Use job-hunter to set up my profile and help me find suitable roles."
 Provide a resume or source text and your target role/location. The skill checks

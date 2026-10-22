@@ -1,0 +1,202 @@
+{
+  "archive_sha256": "be422681ae2353eb9dca02edd733be3ebee8789c1e17f8b4cb9f4056826c26d4",
+  "destination_was_new_and_empty": true,
+  "import_exit_code": 0,
+  "manifest_treatment": "metadata, excluded from payload comparisons",
+  "payload_count": 21,
+  "files": [
+    {
+      "path": ".job-hunter-profile.md",
+      "archive_size": 1797,
+      "restored_size": 1797,
+      "archive_sha256": "3cf19d846bee480134d7e89861628fab65493daf7c039c784d6da7f37f10847b",
+      "restored_sha256": "3cf19d846bee480134d7e89861628fab65493daf7c039c784d6da7f37f10847b",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/ApplicationTracker.html",
+      "archive_size": 10316,
+      "restored_size": 10316,
+      "archive_sha256": "9e609d32d1cd33466e25828601719833603de18bffc876324465b72fe19fe22e",
+      "restored_sha256": "9e609d32d1cd33466e25828601719833603de18bffc876324465b72fe19fe22e",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/DECISIONS.md",
+      "archive_size": 1069,
+      "restored_size": 1069,
+      "archive_sha256": "7cd88cb920107403ecc2a5d6ae2342a447cef21715d2bd426c31726c6aef7c59",
+      "restored_sha256": "7cd88cb920107403ecc2a5d6ae2342a447cef21715d2bd426c31726c6aef7c59",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/LESSONS.md",
+      "archive_size": 1612,
+      "restored_size": 1612,
+      "archive_sha256": "6a2fa8944d865a834fc773e1f8976b6cf0cdb49a52d9c72f4830ae81d83a4e86",
+      "restored_sha256": "6a2fa8944d865a834fc773e1f8976b6cf0cdb49a52d9c72f4830ae81d83a4e86",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/OUTCOMES.md",
+      "archive_size": 1798,
+      "restored_size": 1798,
+      "archive_sha256": "40a28402ee074047bc4bb77b89838248e21c1d8765b627ea42fc4559e4d22089",
+      "restored_sha256": "40a28402ee074047bc4bb77b89838248e21c1d8765b627ea42fc4559e4d22089",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/REJECTED_IDEAS.md",
+      "archive_size": 1591,
+      "restored_size": 1591,
+      "archive_sha256": "0b04aeec964f20211c94c64c3784768f0b4627e5d13ee8345e63c672c53cfc74",
+      "restored_sha256": "0b04aeec964f20211c94c64c3784768f0b4627e5d13ee8345e63c672c53cfc74",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/gate-invented.json",
+      "archive_size": 764,
+      "restored_size": 764,
+      "archive_sha256": "b745c55d6adcd90c4cbb6b2f7517085615c491961d9d1ed2faf68ac234885b99",
+      "restored_sha256": "b745c55d6adcd90c4cbb6b2f7517085615c491961d9d1ed2faf68ac234885b99",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/gate-unchanged.json",
+      "archive_size": 291,
+      "restored_size": 291,
+      "archive_sha256": "631b4f86e91d95d540dd32f1fe56bd72180b44ab5cdd0d8e6362bc61c5cb4c48",
+      "restored_sha256": "631b4f86e91d95d540dd32f1fe56bd72180b44ab5cdd0d8e6362bc61c5cb4c48",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/parsed-resume.json",
+      "archive_size": 380,
+      "restored_size": 380,
+      "archive_sha256": "9ff55da657a896b348ffa7a10844ae8ce19dc1296c2ca3f18a0054fd6425388d",
+      "restored_sha256": "9ff55da657a896b348ffa7a10844ae8ce19dc1296c2ca3f18a0054fd6425388d",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/posting.txt",
+      "archive_size": 262,
+      "restored_size": 262,
+      "archive_sha256": "4e7669b92b71496fb39a83a19b6716bf4cb85e62c9a197756308629800cb428f",
+      "restored_sha256": "4e7669b92b71496fb39a83a19b6716bf4cb85e62c9a197756308629800cb428f",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/postings.json",
+      "archive_size": 867,
+      "restored_size": 867,
+      "archive_sha256": "a91263cf9bfdca548d806ba3edc977b62082d9080108a9f5c80c8ac5b2dec185",
+      "restored_sha256": "a91263cf9bfdca548d806ba3edc977b62082d9080108a9f5c80c8ac5b2dec185",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/profile-read.json",
+      "archive_size": 523,
+      "restored_size": 523,
+      "archive_sha256": "fa5ec16d6e950cab6e4552b114ff7afdd29c942a292cb919ff16571c8a247b98",
+      "restored_sha256": "fa5ec16d6e950cab6e4552b114ff7afdd29c942a292cb919ff16571c8a247b98",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/proposed-invented-REJECTED-test-input.txt",
+      "archive_size": 207,
+      "restored_size": 207,
+      "archive_sha256": "e8ee5c34516f28b6aab5862f476323ea3e3c1c03825dac61482133f033c1026b",
+      "restored_sha256": "e8ee5c34516f28b6aab5862f476323ea3e3c1c03825dac61482133f033c1026b",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/proposed-unchanged.txt",
+      "archive_size": 182,
+      "restored_size": 182,
+      "archive_sha256": "81013039a958bef4175c574c55e2daadc74b1574302e6b8ac5be61a79117f6a4",
+      "restored_sha256": "81013039a958bef4175c574c55e2daadc74b1574302e6b8ac5be61a79117f6a4",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/salary-normalized.json",
+      "archive_size": 333,
+      "restored_size": 333,
+      "archive_sha256": "e4238bd553bd024f20c35236fc98a5e57d087e7e94f2f3d0638d2fb3f94c024c",
+      "restored_sha256": "e4238bd553bd024f20c35236fc98a5e57d087e7e94f2f3d0638d2fb3f94c024c",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/score-rationale.json",
+      "archive_size": 869,
+      "restored_size": 869,
+      "archive_sha256": "519da6c7668eb231b25a4dc15221103a69435a7d0f9f18a573f49efdaa0b1ba3",
+      "restored_sha256": "519da6c7668eb231b25a4dc15221103a69435a7d0f9f18a573f49efdaa0b1ba3",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/score.json",
+      "archive_size": 201,
+      "restored_size": 201,
+      "archive_sha256": "cd0b9bca24b55107a9ab88961dd22dd5abc30d63c2d99edbf70aff2f57d6340f",
+      "restored_sha256": "cd0b9bca24b55107a9ab88961dd22dd5abc30d63c2d99edbf70aff2f57d6340f",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/source-resume.txt",
+      "archive_size": 182,
+      "restored_size": 182,
+      "archive_sha256": "81013039a958bef4175c574c55e2daadc74b1574302e6b8ac5be61a79117f6a4",
+      "restored_sha256": "81013039a958bef4175c574c55e2daadc74b1574302e6b8ac5be61a79117f6a4",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/sub-scores.json",
+      "archive_size": 122,
+      "restored_size": 122,
+      "archive_sha256": "d6db629524877f543bfbdda172e55612c87122412ed8e6c720508045a0d6baeb",
+      "restored_sha256": "d6db629524877f543bfbdda172e55612c87122412ed8e6c720508045a0d6baeb",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/tracker.json",
+      "archive_size": 867,
+      "restored_size": 867,
+      "archive_sha256": "a91263cf9bfdca548d806ba3edc977b62082d9080108a9f5c80c8ac5b2dec185",
+      "restored_sha256": "a91263cf9bfdca548d806ba3edc977b62082d9080108a9f5c80c8ac5b2dec185",
+      "bytes_equal": true,
+      "sha256_equal": true
+    },
+    {
+      "path": ".job-hunter/workspace-status.json",
+      "archive_size": 338,
+      "restored_size": 338,
+      "archive_sha256": "8df93cd34ee74885a0cd65d5cda0281aa208f200b6a8193b960f3ffb496e8ce3",
+      "restored_sha256": "8df93cd34ee74885a0cd65d5cda0281aa208f200b6a8193b960f3ffb496e8ce3",
+      "bytes_equal": true,
+      "sha256_equal": true
+    }
+  ],
+  "unexpected_files": [],
+  "all_checks_passed": true,
+  "failed_checks": [],
+  "gate_checks": "Recovered archived verdicts only; gates were not rerun; no claims approved and no career document finalized."
+}

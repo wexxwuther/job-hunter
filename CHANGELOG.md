@@ -17,7 +17,14 @@ Signal: the catalog had no ChatGPT upload and the orchestrator required Claude's
   discovery. Add ChatGPT upload instructions and acceptance checks.
 - Local tests exercise ZIP contents, links, gate parity, extracted execution,
   workspace export/restore, reproducibility and refusal to overwrite.
-- Live host acceptance remains pending. No global installs, publishing or release.
+- ChatGPT Work live acceptance passed: uploaded the built skill, exercised a
+  synthetic profile/posting, scoring, fabrication checks, tracker and export;
+  a fresh conversation restored all 21 payload files with matching hashes.
+- Public synthetic evidence and a dated acceptance record distinguish tested
+  capabilities from the remaining OpenClaw verification and untested workflows.
+- Privacy guidance now distinguishes network-free helpers from AI-host processing;
+  the default export's scope and separately saved outputs are explicit.
+- Compatibility ZIPs are built from source, not added to the v6.1.0 release.
 
 ## v6.1.0: first GitHub release of the 8-skill family; GitHub plugin install fixed; docs brought current (2026-10-21)
 

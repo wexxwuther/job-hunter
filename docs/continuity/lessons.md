@@ -4,6 +4,16 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-21, Hosted acceptance needs downloadable execution evidence
+
+ChatGPT Work successfully ran the uploaded family package. A displayed result
+alone was insufficient: the downloaded workspace reports were independently
+checked, then another conversation imported the archive and verified all 21
+payload files by bytes and SHA-256. Put acceptance evidence inside an exported
+state path when it needs to travel with the archive. Save other outputs separately:
+the default exporter does not include every Markdown, HTML or interview file.
+Network-free Python helpers do not imply that an AI host processes data locally.
+
 ## 2026-10-21, A local-path plugin install does not prove the GitHub install
 
 **What happened:** since 2026-05-29 the docs recommended `/plugin marketplace add

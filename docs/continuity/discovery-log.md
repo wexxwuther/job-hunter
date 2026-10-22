@@ -3,6 +3,19 @@
 Where things live on disk + which files are load-bearing for which questions. A future session
 looking for "where is X?" should find the answer here before grepping.
 
+## 2026-10-21 compatibility acceptance evidence
+
+- Builder: `tools/build_runtime_packages.py`; host guides: `install/chatgpt.md`,
+  `install/openclaw.md`, `install/runtime-guide.md`.
+- Tested package hashes, fixture and host boundaries:
+  `docs/evals/runtime-acceptance-2026-10-21.md`.
+- Public synthetic reports: `docs/evals/runtime-acceptance-2026-10-21/`.
+- Local ChatGPT download/UI proof: `E:/tmp/job-hunter-chatgpt-acceptance-2026-10-21/`.
+- Isolated OpenClaw runtime/setup evidence:
+  `E:/tmp/job-hunter-openclaw-test-2026-10-21/`.
+- Source compatibility implementation commit: `070a49c`; existing v6.1.0 release
+  assets remain separate from the source-built compatibility ZIPs.
+
 ## ⚠ THIS is the v5+/v6 source-of-truth repo — FAMILY MONOREPO, 8 skills (v6.1.0, updated 2026-10-21)
 
 job-hunter is developed in THIS repo, `E:\Git\job-hunter-public\` (remote `https://github.com/wexxwuther/job-hunter`, **PUBLIC** as of 2026-05-29). The `skill-builder-workdir/job-hunter/` copy is the frozen v4 ancestor (separate git history, no merge path). See `session-state.md` and `decisions.md` for the full rationale. **Current version: v6.0.0 family, 8 skills (orchestrator + 7 members; interview-prep added 2026-10-18, head `c01d73c`).**

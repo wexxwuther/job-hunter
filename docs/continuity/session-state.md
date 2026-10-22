@@ -4,12 +4,21 @@
 
 ## 2026-10-21 local ChatGPT / OpenClaw compatibility work
 
+ChatGPT Work live acceptance passed: actual skill upload, synthetic profile and
+posting workflow, scoring, unchanged/invented fabrication checks, tracker HTML,
+export, and a second fresh conversation's byte-verified restore of 21 files.
+See the [acceptance record](../evals/runtime-acceptance-2026-10-21.md) and public
+synthetic JSON evidence. User enabled Chrome file URL access and approved isolated
+OpenClaw 2026.10.5 / Node 24.16.0 plus one synthetic run using the existing Codex
+sign-in. The CLI version and Linux helpers pass; skill discovery and the agent run
+are in progress. Do not repeat approval requests or call discovery a model run.
+
 New local ZIP builder and runtime adapters are tested (461 tests; all generated
 headers parse). ChatGPT bundles the whole family in one skill; OpenClaw gets eight
 skills. Corrected workspace paths, sequential execution and missing-member fallback.
 See [compatibility handoff](compatibility-2026-10-21.md) for sources, exact scope,
 tests, local artifact paths and service blockers. These builds are unreleased;
-live host acceptance and Elsie closeout are pending. Existing release/install
+OpenClaw acceptance and Elsie closeout are pending. Existing release/install
 state below remains historical release evidence, not deployment of this change.
 
 **Last updated:** 2026-10-21 (v6.1.0 released: GitHub plugin install fixed `cdb2651`, public docs brought current `91c52e8`, family 6.1.0 `ced9fcc`, deployed to 24 installs + Q, GitHub release v6.1.0 Latest; earlier: 2026-10-20 gate 1.1.7 new Title Case lines without a section word `cc7ac5c` (resume-tailor 1.1.7, cover-letter 1.2.6, interview-prep 1.2.4), deployed to 24 installs + Q; gate 1.1.6 UTF-8 stdin + ASCII stdout JSON `e55f63e` (resume-tailor 1.1.6, cover-letter 1.2.5, interview-prep 1.2.3), deployed to 24 installs + Q; gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)

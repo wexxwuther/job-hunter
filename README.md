@@ -2,12 +2,12 @@
 
 > **Stop applying to ghost jobs.**
 > A free, open-source AI agent **skill family** that searches LinkedIn, Indeed, and state job boards, scores each posting **1-5** for legitimacy and CV-fit, and outputs a **tailored, ATS-ready resume + cover letter** per role.
-> Built for every career: nurses, welders, teachers, engineers. Runs cross-OS (Windows / macOS / Linux) in **Claude Code**, **OpenAI Codex**, **OpenClaw**, **Hermes Agent**, and any [agentskills.io](https://agentskills.io)-compatible agent.
+> Built for every career: nurses, welders, teachers, engineers. Runs cross-OS (Windows / macOS / Linux) in **Claude Code**, **OpenAI Codex**, **OpenClaw**, **Hermes Agent**, and any [agentskills.io](https://agentskills.io)-compatible agent. A single-upload family package is also available for **ChatGPT Skills**; see the [tested capabilities](docs/evals/runtime-acceptance-2026-10-21.md).
 
 [![Tests](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml/badge.svg)](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/agentskills.io-open_standard-blue)](https://agentskills.io)
-[![Unit tests](https://img.shields.io/badge/unit_tests-455%2F455-brightgreen)](.)
+[![Unit tests](https://img.shields.io/badge/unit_tests-461%2F461-brightgreen)](.)
 
 > **job-hunter is a skill family (since v6.0.0; first released as v6.1.0).** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to seven focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
 >
@@ -36,7 +36,7 @@ People are looking for jobs and changing career paths all the time. The job sear
 
 I also believe agent skills are the next big breakthrough in agentic AI. Small, focused, composable capabilities you bolt onto whatever agent you're already using. Combining the two was the obvious move.
 
-This is what job-hunting looks like when an AI agent actually does the boring parts. Free, open-source, runs locally, never uploads your resume.
+This is what job-hunting looks like when an AI agent actually does the boring parts. Free and open-source. The bundled Python helpers make no network calls; your chosen AI host determines where chat and resume data are processed.
 
 ---
 
@@ -56,7 +56,7 @@ Here's my resume, what nurse practitioner jobs near Austin would I be a strong f
 Tailor my resume for this posting: [URL]
 ```
 
-The skill auto-activates, walks you through 5 quick profile questions on first use (saved to `.job-hunter-profile.md` in your workspace, **never** sent anywhere), then runs the full pipeline:
+The skill auto-activates, walks you through 5 quick profile questions on first use (saved to `.job-hunter-profile.md` in the agent's workspace), then runs the full pipeline:
 
 1. **Understand the user**, North-Star profile (5 questions) + resume parsing
 2. **Search**, LinkedIn, Indeed, Glassdoor, ZipRecruiter, Dice, Wellfound, USAJobs, 50-state workforce commissions, and company career pages
@@ -80,16 +80,18 @@ job-hunter is a family of 8 skills. Install all 8; the orchestrator routes betwe
 | **OpenClaw** | `~/.agents/skills/<skill>/` (shared with Codex) | [install/openclaw.md](install/openclaw.md) |
 | **Hermes Agent** | `~/.hermes/skills/<skill>/` | [install/hermes.md](install/hermes.md) |
 
-### ChatGPT and OpenClaw compatibility builds (local, unreleased)
+### ChatGPT and OpenClaw compatibility builds (build from source)
 
 Run `python tools/build_runtime_packages.py` to generate target ZIPs in
 `dist/compatibility/`. ChatGPT gets one skill containing all member workflows;
 OpenClaw gets eight standalone skill directories. These adapters use the host's
 available tools, support sequential work without Claude's `Task` tool, and explain
-session storage and missing-capability behavior. Local archive/script tests are
-available; live ChatGPT upload and OpenClaw session acceptance remain pending.
+session storage and missing-capability behavior. The ChatGPT upload and synthetic
+workflow were tested in **ChatGPT Work**: profile parsing, scoring, both fabrication
+gate cases, tracker HTML, export and restore. See the [dated acceptance record](docs/evals/runtime-acceptance-2026-10-21.md)
+for exact evidence and the separate OpenClaw verification status. These ZIPs are
+generated from source; they are not assets of the existing v6.1.0 release.
 
-The local-only privacy claims elsewhere in this README describe local agents.
 Files supplied to ChatGPT are processed under that product's account/workspace
 settings; download state and outputs before ending a hosted session.
 
@@ -165,13 +167,15 @@ tools/                                # routing, trigger, and outcome eval runne
 docs/                                 # continuity notes and eval evidence
 ```
 
-No API keys required. No telemetry. No phoning home. Your `.job-hunter-profile.md` stays in **your** workspace.
+The skill's helpers need no API keys and send no telemetry. Your agent host may
+require a model account or API access. Your `.job-hunter-profile.md` is saved in
+the agent's workspace; hosted processing follows that product's settings.
 
 ---
 
 ## The learning loop (v5+)
 
-Job-hunter keeps a small, per-user memory of decisions, outcomes, and confirmed lessons, all in plain-markdown files in your workspace, never sent anywhere.
+Job-hunter keeps a small, per-user memory of decisions, outcomes, and confirmed lessons in plain-markdown workspace files. With a hosted agent, download these files to preserve state between sessions.
 
 | File (lives in `<your-workspace>/.job-hunter/`) | What it captures |
 |---|---|
@@ -188,7 +192,7 @@ The cycle: as you apply and outcomes land, `outcome-learning/scripts/harvest_out
 3. **Deterministic translation**: same input → same suggestion; reasons are anchored in evidence, not paraphrased
 4. **Bounded influence**: lessons adjust how sub-scores are *graded* for you; the scoring weights in `job-search/scripts/score_posting.py` stay constant for all users
 5. **Plain markdown**: every file is readable, editable, deletable by you, no black-box weights
-6. **Local-only**: no telemetry, no phone-home, no upload
+6. **File-based state**: the helpers save workspace files without telemetry or network calls; the host's processing and privacy settings still apply
 
 Delete `.job-hunter/` to start over. The skill re-initializes it on next run. See `outcome-learning/references/learning-loop-guide.md` for the full design and trust model.
 
@@ -202,7 +206,7 @@ python -m pytest --import-mode=importlib \
   job-hunter/tests career-profile/tests job-search/tests resume-tailor/tests \
   cover-letter/tests application-tracker/tests outcome-learning/tests \
   interview-prep/tests install tools
-# 455 passed
+# 461 passed
 ```
 
 CI ([.github/workflows/test.yml](.github/workflows/test.yml)) runs the same command on every push across Python 3.10/3.11/3.12 on Ubuntu, macOS, and Windows. Routing, trigger, and outcome eval results live in [docs/evals/](docs/evals/).
@@ -221,13 +225,13 @@ The skill will flag that before tailoring rather than producing 10 weak tailored
 No. It produces the tailored resume + cover letter + application tracker. You submit. That's a deliberate boundary, auto-submission is a different trust model and out of scope for this skill.
 
 **Does it send my resume or profile anywhere?**
-No. Your resume, your `.job-hunter-profile.md`, and every tailored output live in your workspace. The skill has no telemetry, no phone-home, no required API keys, and no required network calls beyond what your agent already does to search the web. See [SECURITY.md](SECURITY.md) for the full trust model.
+The bundled Python helpers read and write workspace files without network calls or telemetry. The AI host still processes the resume/profile content you supply under its own account and workspace settings. A hosted ChatGPT run is not device-only processing. See [SECURITY.md](SECURITY.md) for the trust model.
 
 **Does it help me prepare for interviews?**
 Yes, since 2026-10-18, through the separate `interview-prep` member. When an application reaches the interview stage, it reads the tracker entry plus the resume and cover letter you actually sent, and builds a prep pack for that stage (recruiter screen, hiring manager, skills test, panel, case, final round): likely questions mapped to your real examples in STAR form, honest answers for gaps (it will not script experience you do not have), questions to ask, and an optional mock interview. Every answer goes through the same `verify_no_fabrication.py` gate as your resume. It is for candidates; it does not write interview plans for hiring managers.
 
 **Does the skill learn from my interactions?**
-Yes, but entirely locally and opt-in. After 5+ closed-loop application outcomes, the skill surfaces patterns it noticed (e.g., "4 of 5 rejections cite comp, want me to remember this?") and asks you to confirm before adding any lesson. Confirmed lessons live in `<your-workspace>/.job-hunter/LESSONS.md` and adjust how sub-scores are graded for you. The scoring weights themselves stay constant. Nothing is uploaded or used for training. See the [learning loop](#the-learning-loop-v5) section above and `outcome-learning/references/learning-loop-guide.md`.
+Yes, through an opt-in workspace learning loop. After 5+ closed-loop application outcomes, the skill surfaces patterns it noticed (e.g., "4 of 5 rejections cite comp, want me to remember this?") and asks you to confirm before adding any lesson. Confirmed lessons live in `<your-workspace>/.job-hunter/LESSONS.md` and adjust how sub-scores are graded for you. The scoring weights themselves stay constant. The helpers do not train a model; the host's data-processing and training settings apply independently. See the [learning loop](#the-learning-loop-v5) section above and `outcome-learning/references/learning-loop-guide.md`.
 
 **Can I reset what the skill has learned about me?**
 Yes, delete `<your-workspace>/.job-hunter/`. The next run will re-initialize empty templates. You can also edit any of the four files directly (LESSONS.md, DECISIONS.md, OUTCOMES.md, REJECTED_IDEAS.md) since they're plain markdown.
@@ -236,7 +240,7 @@ Yes, delete `<your-workspace>/.job-hunter/`. The next run will re-initialize emp
 Yes. The `application-tracker` member's `scripts/draft_followup.py` has two templates: `check_in` (7-10 days after applying with no response) and `thank_you` (24-48 hours after an interview). The skill scans your `tracker.json` for applications stale at `status=applied` for 7+ days and offers to draft polite check-in emails. It also drafts thank-you notes after you report an interview. **The skill never sends the email**, that's by design, and a load-bearing safety test enforces it. You copy-paste. See `application-tracker/references/followup-templates.md` for the patterns and cited sources.
 
 **Can I move my job-hunter state to a different machine?**
-Yes. The orchestrator's `job-hunter/scripts/export_workspace.py` bundles your profile + `.job-hunter/` learning loop + `tracker.json` (and optionally your tailored DOCX outputs) into a single zip. `job-hunter/scripts/import_workspace.py` restores them on a new machine. The export refuses to write to cloud-sync directories (Dropbox, OneDrive, iCloud) by default; pass `--allow-cloud` if you intentionally want that. Roundtrip preserves all files byte-for-byte. The import path-sanitizes the archive to reject any traversal payloads.
+Yes. The orchestrator's `job-hunter/scripts/export_workspace.py` bundles your profile + direct `.job-hunter/` files + root `tracker.json` (and optionally matching tailored DOCX/PDF outputs) into a single zip. `job-hunter/scripts/import_workspace.py` restores those files. Save top-level postings, Markdown letters, interview packs and tracker HTML separately; the default export does not include every normal output. The export refuses common cloud-sync directory names by default; pass `--allow-cloud` when that is intentional. This path-name check does not detect hosted processing. The import rejects path traversal; the tested payloads round-trip byte-for-byte. See the [runtime guide](install/runtime-guide.md).
 
 **Does this work for non-tech careers?**
 Yes, this is the explicit design goal. `job-search/references/niche-boards-by-industry.md` includes verified entries for healthcare (Vivian Health, Nurse.com, Health eCareers, AlliedTravelCareers, state nursing board portals), trades (iHireConstruction, AllTrucking, IBEW/UA local hall search patterns, SkillBridge for military-to-trades), legal (LawCrossing, BCG Attorney Search, state bar career pages), education (HigherEdJobs, SchoolSpring, K12JobSpot), government (USAJobs, GovernmentJobs.com, NEOGOV-hosted municipal portals, state civil-service exams), and more. The agent picks the right tier-2 boards based on your role.

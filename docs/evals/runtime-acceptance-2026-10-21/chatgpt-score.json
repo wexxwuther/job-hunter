@@ -1,0 +1,10 @@
+{
+  "cv_match": 5.0,
+  "comp_vs_target": 5.0,
+  "cultural_signals": 3.0,
+  "posting_legitimacy": 2.5,
+  "red_flags_penalty": 0.0,
+  "weighted_global": 4.1,
+  "recommendation": "apply",
+  "notes": []
+}

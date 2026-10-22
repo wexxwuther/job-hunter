@@ -1,0 +1,151 @@
+{
+  "runtime": "OpenClaw 2026.10.5",
+  "node": "24.16.0",
+  "platform": "WSL Ubuntu Linux x64",
+  "bundle_sha256": "b8a63be9cc36205cb4806b24232d37a635b0930daf5163d4be2b41a8d0772946",
+  "checks": [
+    {
+      "name": "version",
+      "exit_code": 0
+    },
+    {
+      "name": "skills-list",
+      "exit_code": 0
+    },
+    {
+      "name": "skills-info-job-hunter",
+      "exit_code": 0
+    },
+    {
+      "name": "skills-check",
+      "exit_code": 0
+    },
+    {
+      "name": "agent-help",
+      "exit_code": 0
+    },
+    {
+      "name": "agent-exec-help",
+      "exit_code": 0
+    }
+  ],
+  "skills": [
+    {
+      "name": "application-tracker",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    },
+    {
+      "name": "career-profile",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    },
+    {
+      "name": "cover-letter",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    },
+    {
+      "name": "interview-prep",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    },
+    {
+      "name": "job-hunter",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    },
+    {
+      "name": "job-search",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    },
+    {
+      "name": "outcome-learning",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    },
+    {
+      "name": "resume-tailor",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace",
+      "missing": {
+        "bins": [],
+        "anyBins": [],
+        "env": [],
+        "config": [],
+        "os": []
+      }
+    }
+  ],
+  "excluded_attempt": {
+    "platform": "WSL on E: mounted prefix",
+    "skills_list_exit": 137,
+    "counted_as_passed": false
+  }
+}

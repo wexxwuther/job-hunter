@@ -1,0 +1,14 @@
+{
+  "cv_match": "All three supplied requirements supported by source facts; no extra qualifications inferred.",
+  "comp_vs_target": "75,000-85,000 entirely within 70,000-90,000 annual USD target; both midpoints 80,000.",
+  "cultural_signals": "Neutral 3: remote US fits; mission, stability, on-call and travel unknown.",
+  "posting_legitimacy": "2.5 caution placeholder for unverified fictional fixture; no scam inferred and no live validation performed.",
+  "red_flags_penalty": "0: no supplied disqualifying requirement; on-call/travel still unresolved.",
+  "decision": "Synthetic arithmetic recommendation only, not authorization to apply. Mission tradeoff unavailable. Confirm on-call/travel and legitimacy before real consideration.",
+  "weights": {
+    "cv_match": 0.35,
+    "comp_vs_target": 0.25,
+    "cultural_signals": 0.2,
+    "posting_legitimacy": 0.2
+  }
+}
