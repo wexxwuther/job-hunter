@@ -25,9 +25,14 @@ headers parse). ChatGPT bundles the whole family in one skill; OpenClaw gets eig
 skills. Corrected workspace paths, sequential execution and missing-member fallback.
 See [compatibility handoff](compatibility-2026-10-21.md) for sources, exact scope,
 tests, local artifact paths and service blockers. These builds are unreleased;
-GitHub documentation publication and Elsie closeout are in progress. OpenClaw
-clean-run acceptance remains open because of runtime cleanup. Elsie MCP was recovered
-with its documented start command; scoped doctor passes. Vault stays unverified.
+source and acceptance documentation were published in `50264fc`. Its exact GitHub
+CI run [39706919631](https://github.com/wexxwuther/job-hunter/actions/runs/39706919631)
+passed all nine OS/Python jobs. Elsie closeout `JOBHUNTE-28` is complete with a
+verified handoff and lifecycle `ready_for_next_agent`; the owned claim was released.
+OpenClaw clean-run acceptance remains open because of runtime cleanup. Read-only
+diagnosis found no surviving test-owned Node/Codex process; no kill or second model
+run was needed. Elsie MCP was recovered with its documented start command; scoped
+doctor passes. Vault stays unverified.
 Existing release/install
 state below remains historical release evidence, not deployment of this change.
 

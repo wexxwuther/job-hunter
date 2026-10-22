@@ -29,9 +29,11 @@ main verifier: `verify-agent-outputs.py`, public synthetic reports in the dated
 evidence directory. Actual Python execution used node_repl/child_process after
 unverified direct-exec probes and unavailable terminal. This is workflow completion
 with a remaining CLI cleanup error, not an unqualified host pass. Do not rerun
-inference under the consumed one-run approval. The runtime delegate is diagnosing
-cleanup read-only while main publishes accurate docs, verifies exact CI, closes
-the ledger and updates existing memory. Credentials are not read/copied.
+inference under the consumed one-run approval. Read-only cleanup diagnosis is
+complete: the runtime's native-execution flag can conservatively make one-shot
+cleanup uncertain, but the sole cause is not proven. No surviving test-owned
+Node/Codex process was observed; no kill or second model run was needed.
+Credentials were not read/copied.
 
 Read [compatibility-2026-10-21.md](compatibility-2026-10-21.md). Local builder,
 ChatGPT single-skill family upload and OpenClaw eight-skill archive implemented;
@@ -39,7 +41,9 @@ Merged source passes 479 tests, preserving concurrent job-search 1.1.1 changes.
 Host archives stay pinned to `070a49c`. ChatGPT acceptance is bounded; no new
 GitHub release or global family installation is being performed.
 Elsie's documented start command recovered MCP without migrations/API restart;
-scoped runtime doctor passes. Acceptance/closeout work is claimed in the ledger.
+scoped runtime doctor passes. Published source/evidence commit `50264fc` passed
+all nine GitHub CI jobs in run `39706919631`. Elsie closeout `JOBHUNTE-28` is
+complete, its owned claim released, and lifecycle verified `ready_for_next_agent`.
 Vault remains unverified; no unlock/import/credential replacement performed.
 
 **Updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging; repo PUBLIC). Prior milestone: 2026-05-28 v6.0.0 family split shipped + redeployed.

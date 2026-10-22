@@ -166,6 +166,20 @@ Public proof: `openclaw-agent-summary.json`, score and gate reports, and
 under `E:/tmp/job-hunter-openclaw-test-2026-10-21/`. The cleanup issue is a remaining
 runtime limitation; the successful workflow outputs do not erase that failure.
 
+Read-only diagnosis found that the exact plugin conservatively marks cleanup
+uncertain after native execution; this can explain the cleanup guard result,
+but it is not a confirmed sole cause or an upstream-confirmed bug. A scoped
+process snapshot found no surviving test-owned Node/Codex process. No process
+termination or additional model run was needed.
+
+## Publication verification
+
+Source and evidence commit `50264fc` was pushed to the public repository. Its
+[exact CI run](https://github.com/wexxwuther/job-hunter/actions/runs/39706919631)
+passed all nine jobs: Ubuntu, macOS and Windows with Python 3.10, 3.11 and 3.12.
+The acceptance record was read back from GitHub at that exact commit. This is
+source/documentation publication; no compatibility release assets were created.
+
 ## Operational constraints
 
 - Elsie's missing MCP service was recovered with the documented runtime start
