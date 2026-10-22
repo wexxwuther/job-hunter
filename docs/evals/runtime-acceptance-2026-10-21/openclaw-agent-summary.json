@@ -1,0 +1,190 @@
+{
+  "test": "Installed job-hunter synthetic acceptance",
+  "synthetic": true,
+  "resources_read": [
+    "skills/job-hunter/SKILL.md",
+    "skills/job-hunter/references/runtime-guide.md",
+    "skills/job-hunter/references/workspace-contract.md",
+    "skills/career-profile/SKILL.md",
+    "skills/career-profile/references/runtime-guide.md",
+    "skills/career-profile/references/profile-questions.md",
+    "skills/job-search/SKILL.md",
+    "skills/job-search/references/runtime-guide.md",
+    "skills/resume-tailor/SKILL.md",
+    "skills/resume-tailor/references/runtime-guide.md",
+    "skills/application-tracker/SKILL.md",
+    "skills/application-tracker/references/runtime-guide.md",
+    "skills/job-hunter/scripts/export_workspace.py",
+    "skills/job-hunter/scripts/import_workspace.py"
+  ],
+  "steps_actually_completed": [
+    "Bundled init_workspace.py init",
+    "Bundled init_profile.py absence check, init and readback after supplied-answer fill",
+    "Bundled parse_resume.py TXT JSON extraction",
+    "Bundled normalize_salary.py",
+    "Bundled score_posting.py with explicit supplied sub-scores",
+    "Bundled fabrication gate on byte-identical unchanged copy",
+    "Bundled fabrication gate on added invented sentence; not approved",
+    "Synthetic tracker with to apply status and bundled HTML renderer",
+    "Default bundled export_workspace.py",
+    "Bundled import_workspace.py into new empty directory",
+    "Independent byte and SHA-256 verification of every ZIP payload; manifest excluded"
+  ],
+  "score": {
+    "cv_match": 4,
+    "comp_vs_target": 4,
+    "cultural_signals": 4,
+    "posting_legitimacy": 4,
+    "red_flags_penalty": 0,
+    "weighted_global": 4,
+    "recommendation": "apply",
+    "notes": []
+  },
+  "gate_unchanged": {
+    "verdict": "clean",
+    "auto_approved": false,
+    "flags": {
+      "original_chars": 206,
+      "proposed_chars": 206,
+      "new_proper_nouns": [],
+      "new_numbers": [],
+      "new_sections": [],
+      "new_bullets": {},
+      "new_phrase_runs": [],
+      "summary": {
+        "total_new_claims": 0,
+        "highest_risk": "none",
+        "verdict": "clean"
+      },
+      "auto_approved": false
+    }
+  },
+  "gate_invented": {
+    "verdict": "review_required",
+    "auto_approved": false,
+    "invented_sentence_approved": false,
+    "flags": {
+      "original_chars": 206,
+      "proposed_chars": 231,
+      "new_proper_nouns": [
+        {
+          "token": "Globex",
+          "context": "...- Collaborated with operations. Won 12 awards at Globex...."
+        }
+      ],
+      "new_numbers": [
+        {
+          "token": "12",
+          "context": "...heet reports. - Collaborated with operations. Won 12 awards at Globex...."
+        }
+      ],
+      "new_sections": [],
+      "new_bullets": {},
+      "new_phrase_runs": [
+        "collaborated with operations won 12",
+        "operations won 12 awards at",
+        "reports collaborated with operations won",
+        "with operations won 12 awards",
+        "won 12 awards at globex"
+      ],
+      "summary": {
+        "total_new_claims": 7,
+        "highest_risk": "new_proper_nouns",
+        "verdict": "review_required"
+      },
+      "auto_approved": false
+    }
+  },
+  "tracker_status": "to apply",
+  "applied_date": null,
+  "html_exists": true,
+  "html_contains_company": true,
+  "html_contains_to_apply": true,
+  "payload_count": 18,
+  "all_hashes_match": true,
+  "all_bytes_match": true,
+  "manifest_counted_as_payload": false,
+  "restore_was_new_and_empty": true,
+  "capability_errors_recovered": [
+    {
+      "tool": "openclaw_direct.exec",
+      "exit_code": null,
+      "result": "(no output); execution unverified"
+    },
+    {
+      "tool": "openclaw_direct.exec",
+      "exit_code": null,
+      "result": "(no output); execution unverified"
+    },
+    {
+      "tool": "openclaw_direct.exec",
+      "exit_code": null,
+      "result": "(no output); evidence file absent"
+    },
+    {
+      "tool": "openclaw.terminal",
+      "exit_code": null,
+      "result": "terminal unavailable"
+    },
+    {
+      "tool": "node_repl",
+      "exit_code": null,
+      "result": "First runner definition referenced unavailable process global; failed before spawning a command. Fixed by omitting environment override."
+    }
+  ],
+  "limitations": [
+    "No live browsing, employer verification, job-site account connections, submissions or messaging performed. Legitimacy sub-score is supplied synthetic input.",
+    "TXT parser extracted text but returned empty sections object for this Markdown-style heading fixture. DOCX/PDF parsing not tested.",
+    "HTML file existence/content checked; interactive browser behavior not tested.",
+    "Direct exec/terminal unavailable; actual Python execution succeeded through local Node child_process. Initial tool probes have unknown exit codes, not invented zero values.",
+    "Archive contains pre-export command-log snapshot; final command log and post-restore summary/verification are separate retained artifacts.",
+    "Default exporter includes immediate files in .job-hunter/, not arbitrary nested evidence directories."
+  ],
+  "reports": {
+    "summary": "acceptance-summary.json",
+    "commands": "commands-and-exit-codes.json",
+    "parser": "test-user/.job-hunter/parser-report.json",
+    "profile": "test-user/.job-hunter/profile-readback.json",
+    "salary": "test-user/.job-hunter/salary-report.json",
+    "score": "test-user/.job-hunter/score-report.json",
+    "gate_unchanged": "test-user/.job-hunter/gate-unchanged.json",
+    "gate_invented": "test-user/.job-hunter/gate-invented.json",
+    "tracker": "test-user/.job-hunter/tracker.json",
+    "html": "test-user/.job-hunter/ApplicationTracker.html",
+    "archive": "job-hunter-synthetic.zip",
+    "export": "export-report.json",
+    "import": "import-report.json",
+    "restore_verification": "restore-verification.json",
+    "verification_script": "verify_restore.py"
+  },
+  "workflow_status": "passed_with_limitations",
+  "workflow_errors": [],
+  "status": "workflow_completed_cli_cleanup_failed",
+  "errors": [
+    {
+      "message": "Agent exec cleanup failed: Agent runtime cleanup did not settle; state ownership retained until this process exits",
+      "kind": "cleanup"
+    }
+  ],
+  "overall_status": "workflow_completed_cli_cleanup_failed",
+  "runtime_receipt": {
+    "model": "gpt-6.1-sol",
+    "provider": "openai",
+    "cli_exit_code": 1,
+    "error": {
+      "message": "Agent exec cleanup failed: Agent runtime cleanup did not settle; state ownership retained until this process exits",
+      "kind": "cleanup"
+    },
+    "tool_summary": {
+      "calls": 24,
+      "tools": [
+        "exec",
+        "read",
+        "terminal",
+        "ls",
+        "node_repl.js"
+      ],
+      "failures": 3
+    }
+  }
+}

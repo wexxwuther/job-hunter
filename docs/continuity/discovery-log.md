@@ -10,6 +10,10 @@ looking for "where is X?" should find the answer here before grepping.
 - Tested package hashes, fixture and host boundaries:
   `docs/evals/runtime-acceptance-2026-10-21.md`.
 - Public synthetic reports: `docs/evals/runtime-acceptance-2026-10-21/`.
+- ChatGPT Work upload/workflow plus fresh-session 21-file restore passed.
+  OpenClaw discovered all eight skills and completed the synthetic workflow with
+  an independently checked 18-file restore, but CLI cleanup exited 1. Read the
+  acceptance record before making any overall pass claim.
 - Local ChatGPT download/UI proof: `E:/tmp/job-hunter-chatgpt-acceptance-2026-10-21/`.
 - Isolated OpenClaw runtime/setup evidence:
   `E:/tmp/job-hunter-openclaw-test-2026-10-21/`.

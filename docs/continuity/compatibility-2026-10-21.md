@@ -1,5 +1,11 @@
 # ChatGPT / OpenClaw compatibility handoff, 2026-10-21
 
+This records the initial implementation checkpoint. For subsequent live ChatGPT
+acceptance, OpenClaw discovery/execution, approvals and publication status, read
+[the runtime acceptance record](../evals/runtime-acceptance-2026-10-21.md) and the
+latest sections of `session-state.md` / `compaction-handoff.md` first. Pending-host
+statements below describe that earlier checkpoint.
+
 Goal: provide versions of the current job-hunter family for ChatGPT and OpenClaw.
 Source: `E:/Git/job-hunter-public`, starting HEAD `b1d3431` (clean). Q is a
 distribution catalog, not the source. Latest upstream release checked 2026-10-21:

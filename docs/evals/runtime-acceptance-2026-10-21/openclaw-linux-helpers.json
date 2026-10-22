@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "execution": "Linux Python helpers from extracted OpenClaw archive; no model or provider",
+  "score": {
+    "cv_match": 4.0,
+    "comp_vs_target": 4.0,
+    "cultural_signals": 4.0,
+    "posting_legitimacy": 4.0,
+    "red_flags_penalty": 0.0,
+    "weighted_global": 4.0,
+    "recommendation": "apply",
+    "notes": []
+  },
+  "gate_auto_approved": false,
+  "restore_verified": true,
+  "bundle_sha256": "b8a63be9cc36205cb4806b24232d37a635b0930daf5163d4be2b41a8d0772946",
+  "command_exit_codes": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

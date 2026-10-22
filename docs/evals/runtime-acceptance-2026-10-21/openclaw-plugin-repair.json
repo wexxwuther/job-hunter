@@ -1,0 +1,27 @@
+{
+  "initial_plugin_origin": "config",
+  "initial_trust_reason": "record-missing",
+  "initial_agent_harness_ids": [],
+  "initial_diagnostics": [
+    {
+      "level": "error",
+      "message": "native compaction requires the registry-owned \"codex\" harness"
+    },
+    {
+      "level": "error",
+      "message": "only bundled plugins can claim reserved command ownership: codex"
+    }
+  ],
+  "source_package": "@openclaw/codex@2026.10.5",
+  "installed_package_files_match_verified_archive": 177,
+  "repair": "Official managed npm registry install of npm:@openclaw/codex@2026.10.5",
+  "managed_install_exit": 0,
+  "path_link_outcome": "Managed path link also retained config origin and could not register Codex",
+  "registry_install_exit": 0,
+  "final_origin": "global",
+  "final_trust": "trusted-official",
+  "final_agent_harness_ids": [
+    "codex"
+  ],
+  "final_diagnostics": []
+}

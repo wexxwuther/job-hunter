@@ -1,0 +1,31 @@
+{
+  "original_chars": 206,
+  "proposed_chars": 231,
+  "new_proper_nouns": [
+    {
+      "token": "Globex",
+      "context": "...- Collaborated with operations. Won 12 awards at Globex...."
+    }
+  ],
+  "new_numbers": [
+    {
+      "token": "12",
+      "context": "...heet reports. - Collaborated with operations. Won 12 awards at Globex...."
+    }
+  ],
+  "new_sections": [],
+  "new_bullets": {},
+  "new_phrase_runs": [
+    "collaborated with operations won 12",
+    "operations won 12 awards at",
+    "reports collaborated with operations won",
+    "with operations won 12 awards",
+    "won 12 awards at globex"
+  ],
+  "summary": {
+    "total_new_claims": 7,
+    "highest_risk": "new_proper_nouns",
+    "verdict": "review_required"
+  },
+  "auto_approved": false
+}

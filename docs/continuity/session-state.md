@@ -10,15 +10,25 @@ export, and a second fresh conversation's byte-verified restore of 21 files.
 See the [acceptance record](../evals/runtime-acceptance-2026-10-21.md) and public
 synthetic JSON evidence. User enabled Chrome file URL access and approved isolated
 OpenClaw 2026.10.5 / Node 24.16.0 plus one synthetic run using the existing Codex
-sign-in. The CLI version and Linux helpers pass; skill discovery and the agent run
-are in progress. Do not repeat approval requests or call discovery a model run.
+sign-in. Linux and Windows CLI discovery passed for all eight skills. After fixing
+official Codex plugin provenance with its managed npm registry install, the ONE
+approved model run completed the requested synthetic workflow. Main independently
+verified score 4.0, clean/invented gate cases, tracker and 18 restored payloads.
+The overall CLI exited 1 on Codex one-shot client cleanup after the final answer;
+this is not a clean overall pass. Direct exec/terminal probes failed; Node
+child_process successfully ran Python. No additional model run is authorized by
+that consumed one-run approval. See exact evidence and limits in the record.
 
-New local ZIP builder and runtime adapters are tested (461 tests; all generated
+New local ZIP builder and runtime adapters are tested (479 merged-source tests;
+461 at the host-tested archive source `070a49c`; all generated
 headers parse). ChatGPT bundles the whole family in one skill; OpenClaw gets eight
 skills. Corrected workspace paths, sequential execution and missing-member fallback.
 See [compatibility handoff](compatibility-2026-10-21.md) for sources, exact scope,
 tests, local artifact paths and service blockers. These builds are unreleased;
-OpenClaw acceptance and Elsie closeout are pending. Existing release/install
+GitHub documentation publication and Elsie closeout are in progress. OpenClaw
+clean-run acceptance remains open because of runtime cleanup. Elsie MCP was recovered
+with its documented start command; scoped doctor passes. Vault stays unverified.
+Existing release/install
 state below remains historical release evidence, not deployment of this change.
 
 **Last updated:** 2026-10-21 (v6.1.0 released: GitHub plugin install fixed `cdb2651`, public docs brought current `91c52e8`, family 6.1.0 `ced9fcc`, deployed to 24 installs + Q, GitHub release v6.1.0 Latest; earlier: 2026-10-20 gate 1.1.7 new Title Case lines without a section word `cc7ac5c` (resume-tailor 1.1.7, cover-letter 1.2.6, interview-prep 1.2.4), deployed to 24 installs + Q; gate 1.1.6 UTF-8 stdin + ASCII stdout JSON `e55f63e` (resume-tailor 1.1.6, cover-letter 1.2.5, interview-prep 1.2.3), deployed to 24 installs + Q; gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)

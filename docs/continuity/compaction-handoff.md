@@ -10,16 +10,37 @@ reports are committed with the acceptance record. No real candidate data used.
 
 User approved isolated OpenClaw 2026.10.5 / Node 24.16.0 and ONE synthetic run
 through the existing signed-in Codex app-server, without auth copying. Runtime
-test root: `E:/tmp/job-hunter-openclaw-test-2026-10-21/`. CLI version and Linux
-helper smoke pass; discovery and model run are in progress. Native Windows host
-is being prepared for Windows Codex path/auth compatibility. Main loop owns the
-single model call; the runtime delegate prepares credential-free configuration.
+test root: `E:/tmp/job-hunter-openclaw-test-2026-10-21/`. CLI discovery passed on
+Linux and Windows; all eight skills are eligible/visible. Linux helpers pass.
+Native Windows OpenClaw/official Codex plugin 2026.10.5 and Node 24.16.0 are
+installed; config validation passed. The first agent launch failed before
+inference with `owner-plugin-degraded`: the plugin did not register its Codex
+harness (model/provider null). Result preserved; no actual model run consumed.
+Managed `--link` still produced config origin. Supported exact registry install
+`npm:@openclaw/codex@2026.10.5` fixed it: official inspector now reports global /
+trusted-official, harness codex, diagnostics empty; final config validate exit 0.
+Do not repeat bare load-path edits or spoof trust/origin in SQLite. All failed and
+passing inspections are retained under `windows/evidence/`. The guarded model run
+finished (session `47386`, exit 1, 630.29s). ONE approved model run is now consumed.
+It produced a final answer and all workflow outputs, then failed Codex client
+cleanup. Main independently verified 18 restored payloads, score 4.0, both gate
+cases and tracker. Raw evidence: `windows/workspace/synthetic-acceptance/`;
+main verifier: `verify-agent-outputs.py`, public synthetic reports in the dated
+evidence directory. Actual Python execution used node_repl/child_process after
+unverified direct-exec probes and unavailable terminal. This is workflow completion
+with a remaining CLI cleanup error, not an unqualified host pass. Do not rerun
+inference under the consumed one-run approval. The runtime delegate is diagnosing
+cleanup read-only while main publishes accurate docs, verifies exact CI, closes
+the ledger and updates existing memory. Credentials are not read/copied.
 
 Read [compatibility-2026-10-21.md](compatibility-2026-10-21.md). Local builder,
 ChatGPT single-skill family upload and OpenClaw eight-skill archive implemented;
-461 tests pass. ChatGPT host acceptance is bounded to the recorded cases; no new
+Merged source passes 479 tests, preserving concurrent job-search 1.1.1 changes.
+Host archives stay pinned to `070a49c`. ChatGPT acceptance is bounded; no new
 GitHub release or global family installation is being performed.
-Elsie MCP and vault unavailable; ledger writes and credential verification pending.
+Elsie's documented start command recovered MCP without migrations/API restart;
+scoped runtime doctor passes. Acceptance/closeout work is claimed in the ledger.
+Vault remains unverified; no unlock/import/credential replacement performed.
 
 **Updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging; repo PUBLIC). Prior milestone: 2026-05-28 v6.0.0 family split shipped + redeployed.
 

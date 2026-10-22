@@ -1,0 +1,91 @@
+{
+  "platform": "Windows x64",
+  "runtime": "OpenClaw 2026.10.5",
+  "node": "24.16.0",
+  "codex_plugin": "@openclaw/codex 2026.10.5",
+  "bundle_sha256": "b8a63be9cc36205cb4806b24232d37a635b0930daf5163d4be2b41a8d0772946",
+  "checks": [
+    {
+      "name": "node-version",
+      "exit_code": 0
+    },
+    {
+      "name": "version",
+      "exit_code": 0
+    },
+    {
+      "name": "skills-list",
+      "exit_code": 0
+    },
+    {
+      "name": "skills-info",
+      "exit_code": 0
+    },
+    {
+      "name": "skills-check",
+      "exit_code": 0
+    },
+    {
+      "name": "codex-config-validate",
+      "exit_code": 0
+    }
+  ],
+  "skills": [
+    {
+      "name": "application-tracker",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "career-profile",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "cover-letter",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "interview-prep",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "job-hunter",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "job-search",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "outcome-learning",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "resume-tailor",
+      "eligible": true,
+      "modelVisible": true,
+      "commandVisible": true,
+      "source": "openclaw-workspace"
+    }
+  ]
+}

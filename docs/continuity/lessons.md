@@ -4,6 +4,19 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-21, Validate the agent harness before launching acceptance
+
+OpenClaw 2026.10.5 accepted the config and discovered all eight skills, yet the
+first agent launch failed before inference. The official Codex plugin had been
+loaded through a bare config path, so it could not claim the registry-owned
+harness. `plugins inspect codex --runtime --json` exposed the empty
+`agentHarnessIds` and reserved-ownership errors. Check actual runtime registration,
+not only config validity, before launching a model test. A managed path link also
+failed to qualify; the documented `npm:@openclaw/codex@2026.10.5` registry install
+produced `global` / `trusted-official` provenance and a registered `codex` harness.
+Preserve diagnostics and use official installation records; never spoof trust in
+the database.
+
 ## 2026-10-21, Hosted acceptance needs downloadable execution evidence
 
 ChatGPT Work successfully ran the uploaded family package. A displayed result

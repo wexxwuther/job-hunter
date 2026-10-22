@@ -1,0 +1,129 @@
+{
+  "verified_by": "main loop, independently of agent-generated restore proof",
+  "archive_sha256": "fd7e7e51d93cda17bcb900e821e01565d033a9eaaca3f3b527f62a3c331e3807",
+  "payload_count": 18,
+  "all_payloads_byte_identical": true,
+  "manifest_excluded": true,
+  "score": 4.0,
+  "clean_verdict": "clean",
+  "invented_verdict": "review_required",
+  "auto_approved": false,
+  "tracker_status": "to apply",
+  "actual_python_commands": 24,
+  "expected_absence_exits": 2,
+  "other_command_exits_zero": true,
+  "cli_cleanup_error": {
+    "message": "Agent exec cleanup failed: Agent runtime cleanup did not settle; state ownership retained until this process exits",
+    "kind": "cleanup"
+  },
+  "files": [
+    {
+      "path": ".job-hunter-profile.md",
+      "size_bytes": 1865,
+      "sha256": "af2d9315465bd774e16aa52458048dcead12662bc908348107fde0ff93e68e85",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/ApplicationTracker.html",
+      "size_bytes": 10326,
+      "sha256": "0a0a652adb56136d0cf07d9d1730eecac260a4dc7d041baadd3e32122cdbe6da",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/commands-and-exit-codes.json",
+      "size_bytes": 33892,
+      "sha256": "e3062ae8b181da477b11cbebd7dfca3c0a1e07d357c93462e30277d59c212c25",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/DECISIONS.md",
+      "size_bytes": 1092,
+      "sha256": "00d751442895eb59b138dc8727769708797af37e245b70a5103b0b5bec3cb803",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/gate-invented.json",
+      "size_bytes": 793,
+      "sha256": "17ec81b40bea52b129c2a50e3a8cf47affaea227b750a235ab6421f496805b3b",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/gate-unchanged.json",
+      "size_bytes": 305,
+      "sha256": "5702fe746910254a356c18d9e77e2698e70b402b00b0048a24c32a56aaf31ecc",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/invented-resume-test-input.txt",
+      "size_bytes": 231,
+      "sha256": "5f0832a555d38e697a8d4e2b7e4244a8acd1f9351cc8ad48466f3efcb4b57cb3",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/LESSONS.md",
+      "size_bytes": 1637,
+      "sha256": "477415078236a05552440ec93f385ba79902485015c3acef2fe22584d9d5c931",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/original-resume.txt",
+      "size_bytes": 206,
+      "sha256": "856aa83493b07183a1984e9860395efdc547df27aacbc42d36c4271563fc3f4a",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/OUTCOMES.md",
+      "size_bytes": 1826,
+      "sha256": "852cbfc42f97d45bc5231f14edbe5bbb1e014d89eb4ae99d130fc7dfea55ab28",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/parser-report.json",
+      "size_bytes": 449,
+      "sha256": "77b3b2386b63a96857b743b0011ee15b7684cd7fd579902e1fd8890e674fabba",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/postings.json",
+      "size_bytes": 702,
+      "sha256": "bfd3a9ee5e29f34df29c497b61d5130ec5b882dbbfb1c1e0783f2dddfc65a0e1",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/profile-readback.json",
+      "size_bytes": 385,
+      "sha256": "0035f4b3a50c5aa635accc8e5aa6cfa1577f8bbe7dfa0e55e14a092d3d246aa5",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/REJECTED_IDEAS.md",
+      "size_bytes": 1616,
+      "sha256": "46215aa7a1971857b605ba54eae65006db5842d981679f128c839eac21dbedf0",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/resources-read.json",
+      "size_bytes": 1520,
+      "sha256": "ac49fb8a35c4e97ad266c8d4c8522c4a69025f6a14fad7879c0da9c9ab34e0a5",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/salary-report.json",
+      "size_bytes": 313,
+      "sha256": "4af66988c77ddd818a65f42508f3635be21fcd1f25f78141d9c3e33cb09eb46a",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/score-report.json",
+      "size_bytes": 211,
+      "sha256": "05f9c201eb8612b72c9170ffdcd2e750bb14a2dab72081780dd01bb084bcbc77",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/tracker.json",
+      "size_bytes": 938,
+      "sha256": "270c14af035347ea6dcacada94ba748afa8eb2277908daa8a4448b122d54eac7",
+      "bytes_match": true
+    }
+  ]
+}

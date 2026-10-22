@@ -1,0 +1,15 @@
+{
+  "ok": false,
+  "status": "error",
+  "final": "",
+  "payloads": [],
+  "model": null,
+  "provider": null,
+  "error": {
+    "message": "Agent harness runtime \"codex\" is unavailable. (reason=owner-plugin-degraded, ownerPluginId=codex). Run \"openclaw plugins inspect codex --runtime --json\". Owner plugin \"codex\" loaded but did not register agent harness \"codex\". Repair the reported plugin failure, restart the Gateway, then retry or select a model that does not require this runtime.",
+    "kind": "exception"
+  },
+  "attempt": "First native Windows launch",
+  "model_run_started": false,
+  "basis": "Runtime rejected before model/provider selection; no workflow output created."
+}

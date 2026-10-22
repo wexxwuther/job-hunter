@@ -7,7 +7,7 @@
 [![Tests](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml/badge.svg)](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/agentskills.io-open_standard-blue)](https://agentskills.io)
-[![Unit tests](https://img.shields.io/badge/unit_tests-461%2F461-brightgreen)](.)
+[![Unit tests](https://img.shields.io/badge/unit_tests-479%2F479-brightgreen)](.)
 
 > **job-hunter is a skill family (since v6.0.0; first released as v6.1.0).** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to seven focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
 >
@@ -89,7 +89,9 @@ available tools, support sequential work without Claude's `Task` tool, and expla
 session storage and missing-capability behavior. The ChatGPT upload and synthetic
 workflow were tested in **ChatGPT Work**: profile parsing, scoring, both fabrication
 gate cases, tracker HTML, export and restore. See the [dated acceptance record](docs/evals/runtime-acceptance-2026-10-21.md)
-for exact evidence and the separate OpenClaw verification status. These ZIPs are
+for exact evidence. OpenClaw 2026.10.5 discovered all eight skills and completed
+the synthetic workflow with verified outputs, but its Codex-backed CLI exited
+with a cleanup error; full clean-run acceptance remains open. These ZIPs are
 generated from source; they are not assets of the existing v6.1.0 release.
 
 Files supplied to ChatGPT are processed under that product's account/workspace
@@ -206,7 +208,7 @@ python -m pytest --import-mode=importlib \
   job-hunter/tests career-profile/tests job-search/tests resume-tailor/tests \
   cover-letter/tests application-tracker/tests outcome-learning/tests \
   interview-prep/tests install tools
-# 461 passed
+# 479 passed
 ```
 
 CI ([.github/workflows/test.yml](.github/workflows/test.yml)) runs the same command on every push across Python 3.10/3.11/3.12 on Ubuntu, macOS, and Windows. Routing, trigger, and outcome eval results live in [docs/evals/](docs/evals/).

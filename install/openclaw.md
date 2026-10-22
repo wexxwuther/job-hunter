@@ -55,6 +55,16 @@ the workspace. Python, file access and browsing depend on the active agent's too
 policy. Discovery alone does not prove the full workflow works. See the
 [runtime guide](runtime-guide.md) and [OpenClaw CLI reference](https://docs.openclaw.ai/cli/skills).
 
+The [dated acceptance record](../docs/evals/runtime-acceptance-2026-10-21.md)
+records the exact packages, runtime versions and tested capabilities. Our isolated
+host uses OpenClaw 2026.10.5 and Node 24.16.0. For the optional Codex backend,
+follow OpenClaw's [official Codex harness setup](https://docs.openclaw.ai/plugins/codex-harness).
+Use its managed npm registry installation; a bare npm install plus
+`plugins.load.paths`, or a local path link, did not establish the official
+provenance required to register that harness. Check
+`openclaw plugins inspect codex --runtime --json` before launching a test:
+`agentHarnessIds` must include `codex`, with no error diagnostics.
+
 ## Uninstall
 
 ```bash
