@@ -1,50 +1,44 @@
 # Compaction Handoff, job-hunter (PUBLIC REPO, v6 family active source of truth)
 
-## Latest local work: 2026-10-21 compatibility adapters
+## Latest local work: 2026-10-21 verified cleanup fix
 
-ChatGPT Work upload and synthetic workflow passed, including a fresh conversation
-restoring all 21 exported payload files by bytes and SHA-256. Evidence and exact
-scope are in `docs/evals/runtime-acceptance-2026-10-21.md`. Local UI/download
-evidence is under `E:/tmp/job-hunter-chatgpt-acceptance-2026-10-21/`; synthetic
-reports are committed with the acceptance record. No real candidate data used.
+ChatGPT Work passed upload, the synthetic workflow and a fresh conversation's
+21-file restore. The later OpenClaw **Linux / WSL2** workflow and fresh-session
+25-file restore both exited 0 with no cleanup error (260.59s and 121.76s).
+Main independently verified every restored payload, score4.0, unchanged clean /
+invented review_required, auto_approved=false and tracker to apply. The eight-skill
+discovery checks remain verified on Linux and Windows.
 
-User approved isolated OpenClaw 2026.10.5 / Node 24.16.0 and ONE synthetic run
-through the existing signed-in Codex app-server, without auth copying. Runtime
-test root: `E:/tmp/job-hunter-openclaw-test-2026-10-21/`. CLI discovery passed on
-Linux and Windows; all eight skills are eligible/visible. Linux helpers pass.
-Native Windows OpenClaw/official Codex plugin 2026.10.5 and Node 24.16.0 are
-installed; config validation passed. The first agent launch failed before
-inference with `owner-plugin-degraded`: the plugin did not register its Codex
-harness (model/provider null). Result preserved; no actual model run consumed.
-Managed `--link` still produced config origin. Supported exact registry install
-`npm:@openclaw/codex@2026.10.5` fixed it: official inspector now reports global /
-trusted-official, harness codex, diagnostics empty; final config validate exit 0.
-Do not repeat bare load-path edits or spoof trust/origin in SQLite. All failed and
-passing inspections are retained under `windows/evidence/`. The guarded model run
-finished (session `47386`, exit 1, 630.29s). ONE approved model run is now consumed.
-It produced a final answer and all workflow outputs, then failed Codex client
-cleanup. Main independently verified 18 restored payloads, score 4.0, both gate
-cases and tracker. Raw evidence: `windows/workspace/synthetic-acceptance/`;
-main verifier: `verify-agent-outputs.py`, public synthetic reports in the dated
-evidence directory. Actual Python execution used node_repl/child_process after
-unverified direct-exec probes and unavailable terminal. This is workflow completion
-with a remaining CLI cleanup error, not an unqualified host pass. Do not rerun
-inference under the consumed one-run approval. Read-only cleanup diagnosis is
-complete: the runtime's native-execution flag can conservatively make one-shot
-cleanup uncertain, but the sole cause is not proven. No surviving test-owned
-Node/Codex process was observed; no kill or second model run was needed.
-Credentials were not read/copied.
+The cleanup fix is supported configuration: a finite host-tool allowlist, direct
+OpenClaw-owned execution, clean native profile/SQLite, and appServer.command set
+to the official native Linux Codex0.160.0 binary. The npm launcher adds a child
+and mirrors its SIGKILL after POSIX containment. A real no-model comparison
+reproduced that failure and confirmed closed/exit0 for the native root. All177
+plugin files and both sessions'71 skill files remain byte-identical to their
+archives; no guard was weakened. Final process postflight observed no matching
+test-owned process and removed the test-created sign-in reference. No credential
+bytes were manually read/copied. Host exec mode full was authorized for the test;
+the tool list is not a filesystem sandbox. Historical Windows stdio uncertainty
+remains; do not claim the Windows native runtime was fixed.
 
-Read [compatibility-2026-10-21.md](compatibility-2026-10-21.md). Local builder,
-ChatGPT single-skill family upload and OpenClaw eight-skill archive implemented;
-Merged source passes 479 tests, preserving concurrent job-search 1.1.1 changes.
-Host archives stay pinned to `070a49c`. ChatGPT acceptance is bounded; no new
-GitHub release or global family installation is being performed.
-Elsie's documented start command recovered MCP without migrations/API restart;
-scoped runtime doctor passes. Published source/evidence commit `50264fc` passed
-all nine GitHub CI jobs in run `39706919631`. Elsie closeout `JOBHUNTE-28` is
-complete, its owned claim released, and lifecycle verified `ready_for_next_agent`.
-Vault remains unverified; no unlock/import/credential replacement performed.
+See docs/evals/runtime-acceptance-2026-10-21.md, the new openclaw-linux-* and
+openclaw-cleanup-regression.json proofs, and install/openclaw.md. Full local proof:
+E:/tmp/job-hunter-openclaw-test-2026-10-21/linux-native-evidence/,
+linux-native-workflow/, linux-fresh-restore-* and independent-native-*.json.
+Earlier failed Linux/Windows attempts are preserved separately. Persistent
+isolated Linux runtime prefix is in ext4-prefix.txt; no global family deployment.
+
+The host-tested ZIPs stay pinned to source070a49c; later job-search1.1.1 content
+is covered by the merged479-test suite, not these exact archive hashes. Source,
+guidance and sanitized evidence are published on GitHub main; there are no new
+release assets. Exact publication/CI and final handoff receipts belong to the
+local ledger run job-hunter-cleanup-fix-2026-10-21. Initial publication cb7c5e3
+already passed all nine CI jobs. Vault storage remains unverified: doctor/start
+failed; no unlock, import, lock deletion or credential replacement was performed.
+
+Recorded acceptance is complete for the specified supplied-posting workflow and
+fresh-session persistence. Live search, PDF/DOCX rendering and other family
+workflows remain outside this test scope.
 
 **Updated:** 2026-05-29 (7th member `cover-letter` added; resume-tailor "optimizer" triggers; Claude Code PLUGIN packaging; repo PUBLIC). Prior milestone: 2026-05-28 v6.0.0 family split shipped + redeployed.
 

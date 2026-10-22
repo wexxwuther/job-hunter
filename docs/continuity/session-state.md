@@ -2,39 +2,45 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
-## 2026-10-21 local ChatGPT / OpenClaw compatibility work
+## 2026-10-21 cleanup fix and clean runtime acceptance
 
-ChatGPT Work live acceptance passed: actual skill upload, synthetic profile and
-posting workflow, scoring, unchanged/invented fabrication checks, tracker HTML,
-export, and a second fresh conversation's byte-verified restore of 21 files.
-See the [acceptance record](../evals/runtime-acceptance-2026-10-21.md) and public
-synthetic JSON evidence. User enabled Chrome file URL access and approved isolated
-OpenClaw 2026.10.5 / Node 24.16.0 plus one synthetic run using the existing Codex
-sign-in. Linux and Windows CLI discovery passed for all eight skills. After fixing
-official Codex plugin provenance with its managed npm registry install, the ONE
-approved model run completed the requested synthetic workflow. Main independently
-verified score 4.0, clean/invented gate cases, tracker and 18 restored payloads.
-The overall CLI exited 1 on Codex one-shot client cleanup after the final answer;
-this is not a clean overall pass. Direct exec/terminal probes failed; Node
-child_process successfully ran Python. No additional model run is authorized by
-that consumed one-run approval. See exact evidence and limits in the record.
+ChatGPT Work passed upload, the synthetic workflow and a fresh conversation's
+21-file restore. The later OpenClaw **Linux / WSL2** workflow and fresh-session
+25-file restore both exited 0 with no cleanup error (260.59s and 121.76s).
+Main independently verified every restored payload, score4.0, unchanged clean /
+invented review_required, auto_approved=false and tracker to apply. The eight-skill
+discovery checks remain verified on Linux and Windows.
 
-New local ZIP builder and runtime adapters are tested (479 merged-source tests;
-461 at the host-tested archive source `070a49c`; all generated
-headers parse). ChatGPT bundles the whole family in one skill; OpenClaw gets eight
-skills. Corrected workspace paths, sequential execution and missing-member fallback.
-See [compatibility handoff](compatibility-2026-10-21.md) for sources, exact scope,
-tests, local artifact paths and service blockers. These builds are unreleased;
-source and acceptance documentation were published in `50264fc`. Its exact GitHub
-CI run [39706919631](https://github.com/wexxwuther/job-hunter/actions/runs/39706919631)
-passed all nine OS/Python jobs. Elsie closeout `JOBHUNTE-28` is complete with a
-verified handoff and lifecycle `ready_for_next_agent`; the owned claim was released.
-OpenClaw clean-run acceptance remains open because of runtime cleanup. Read-only
-diagnosis found no surviving test-owned Node/Codex process; no kill or second model
-run was needed. Elsie MCP was recovered with its documented start command; scoped
-doctor passes. Vault stays unverified.
-Existing release/install
-state below remains historical release evidence, not deployment of this change.
+The cleanup fix is supported configuration: a finite host-tool allowlist, direct
+OpenClaw-owned execution, clean native profile/SQLite, and appServer.command set
+to the official native Linux Codex0.160.0 binary. The npm launcher adds a child
+and mirrors its SIGKILL after POSIX containment. A real no-model comparison
+reproduced that failure and confirmed closed/exit0 for the native root. All177
+plugin files and both sessions'71 skill files remain byte-identical to their
+archives; no guard was weakened. Final process postflight observed no matching
+test-owned process and removed the test-created sign-in reference. No credential
+bytes were manually read/copied. Host exec mode full was authorized for the test;
+the tool list is not a filesystem sandbox. Historical Windows stdio uncertainty
+remains; do not claim the Windows native runtime was fixed.
+
+See docs/evals/runtime-acceptance-2026-10-21.md, the new openclaw-linux-* and
+openclaw-cleanup-regression.json proofs, and install/openclaw.md. Full local proof:
+E:/tmp/job-hunter-openclaw-test-2026-10-21/linux-native-evidence/,
+linux-native-workflow/, linux-fresh-restore-* and independent-native-*.json.
+Earlier failed Linux/Windows attempts are preserved separately. Persistent
+isolated Linux runtime prefix is in ext4-prefix.txt; no global family deployment.
+
+The host-tested ZIPs stay pinned to source070a49c; later job-search1.1.1 content
+is covered by the merged479-test suite, not these exact archive hashes. Source,
+guidance and sanitized evidence are published on GitHub main; there are no new
+release assets. Exact publication/CI and final handoff receipts belong to the
+local ledger run job-hunter-cleanup-fix-2026-10-21. Initial publication cb7c5e3
+already passed all nine CI jobs. Vault storage remains unverified: doctor/start
+failed; no unlock, import, lock deletion or credential replacement was performed.
+
+Recorded acceptance is complete for the specified supplied-posting workflow and
+fresh-session persistence. Live search, PDF/DOCX rendering and other family
+workflows remain outside this test scope.
 
 **Last updated:** 2026-10-21 (v6.1.0 released: GitHub plugin install fixed `cdb2651`, public docs brought current `91c52e8`, family 6.1.0 `ced9fcc`, deployed to 24 installs + Q, GitHub release v6.1.0 Latest; earlier: 2026-10-20 gate 1.1.7 new Title Case lines without a section word `cc7ac5c` (resume-tailor 1.1.7, cover-letter 1.2.6, interview-prep 1.2.4), deployed to 24 installs + Q; gate 1.1.6 UTF-8 stdin + ASCII stdout JSON `e55f63e` (resume-tailor 1.1.6, cover-letter 1.2.5, interview-prep 1.2.3), deployed to 24 installs + Q; gate 1.1.5 whole-word proper nouns `2af0b57` (resume-tailor 1.1.5, cover-letter 1.2.4, interview-prep 1.2.2), deployed to 24 installs + Q; gate 1.1.4 DOCX headings + markerless bullets `110b182` (resume-tailor 1.1.4, cover-letter 1.2.3, interview-prep 1.2.1), deployed with `81900da` to 24 installs + Q; four owner-approved description fixes `63640df` (interview-prep 1.2.0, career-profile 1.2.0, job-search 1.1.0, outcome-learning 1.1.0), joint sweep, deployed to 24 installs + Q together with gate fixes `26d7738`/`e02cd7e`; earlier: 2026-10-19 gate bare-line gap closed `e02cd7e`; gate reformat false positives fixed `26d7738`, not deployed; earlier: 2026-10-18 interview-prep case 2 miss traced to cover-letter 1.2.0, interview-prep draft v1 awaits owner approval `bd4185e`; three 2/3 trigger misses re-measured real, drafts await owner approval `a092751`; cover-letter 1.2.0 description fix `123bc51`, owner-approved, deployed to 24 installs + Q, post-deploy probe 24/24 + routing clean; case 3 re-measure `126e5ce`; outcome scenarios for the other 7 members + family-only trigger probe `4f21132`; natural-trigger probe promoted to `tools/run_trigger_probe.py` `bc34e94`; interview-prep 1.1.0 description change `854e29b`, owner-approved, deployed to 24 installs + Q; trigger probe + post-deploy routing `990a129`; earlier the same day: gate comma fix deployed from `3527358`, live outcome evals `f02767a`, gate fix `cec398d`, live routing 16/16, runner fix `24eea6a`, interview-prep v1.0.0 `c01d73c`)
 

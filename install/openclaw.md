@@ -65,6 +65,61 @@ provenance required to register that harness. Check
 `openclaw plugins inspect codex --runtime --json` before launching a test:
 `agentHarnessIds` must include `codex`, with no error diagnostics.
 
+### Codex one-shot cleanup: tested Linux / WSL configuration
+
+For OpenClaw / Codex plugin 2026.10.5, the clean one-shot test uses a Linux
+OpenClaw process and the official **native Linux Codex binary** as the stdio
+process root. Set `appServer.command` to that executable, rather than its npm
+`codex.js` launcher or a Windows `codex.exe`. The native binary ships inside the
+plugin's `@openai/codex-linux-x64` package; locate it in your actual managed install
+and verify `--version` (the tested pin is 0.160.0).
+
+Merge this fragment into your existing configuration, replacing the placeholder:
+
+```json
+{
+  "tools": {
+    "allow": ["read", "write", "edit", "apply_patch", "exec", "process"],
+    "exec": {"host": "gateway"}
+  },
+  "plugins": {
+    "entries": {
+      "codex": {
+        "config": {
+          "codexDynamicToolsLoading": "direct",
+          "codexDynamicToolsExclude": [],
+          "appServer": {
+            "transport": "stdio",
+            "command": "/absolute/path/to/native/Linux/codex",
+            "args": ["app-server", "--listen", "stdio://"]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+The finite allowlist disables native Codex execution and keeps the skill's Python
+commands on OpenClaw-owned tools. Permit those commands through your chosen exec
+approval policy; the authorized synthetic test used `tools.exec.mode: "full"` in
+its isolated configuration. That host execution mode is not a filesystem sandbox.
+Use a native profile with ready state; our test used clean configuration and
+SQLite directories, referencing the existing sign-in without manually copying
+credential bytes. Do not copy another machine's state database to bypass startup.
+
+Why the executable matters: the npm launcher spawns Codex as a child. OpenClaw's
+POSIX descendant cleanup kills that child, and the launcher mirrors its `SIGKILL`,
+preventing confirmation of graceful root shutdown. A real no-model comparison
+reproduced that failure and confirmed clean shutdown with the native binary.
+All cleanup guards and all 177 official plugin files remain unchanged. Native
+Windows stdio still reports uncertain cleanup in this exact host version; the
+tested Windows route runs Linux under WSL2.
+
+See the [acceptance evidence](../docs/evals/runtime-acceptance-2026-10-21.md) and
+OpenClaw's [transport reference](https://docs.openclaw.ai/plugins/codex-harness-reference/app-server-transport)
+and [restricted-turn policy](https://docs.openclaw.ai/plugins/codex-harness-reference/restricted-turns).
+
 ## Uninstall
 
 ```bash

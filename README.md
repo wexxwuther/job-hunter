@@ -89,9 +89,10 @@ available tools, support sequential work without Claude's `Task` tool, and expla
 session storage and missing-capability behavior. The ChatGPT upload and synthetic
 workflow were tested in **ChatGPT Work**: profile parsing, scoring, both fabrication
 gate cases, tracker HTML, export and restore. See the [dated acceptance record](docs/evals/runtime-acceptance-2026-10-21.md)
-for exact evidence. OpenClaw 2026.10.5 discovered all eight skills and completed
-the synthetic workflow with verified outputs, but its Codex-backed CLI exited
-with a cleanup error; full clean-run acceptance remains open. These ZIPs are
+for exact evidence. OpenClaw 2026.10.5 passed the synthetic workflow and a fresh
+session's 25-file restore on **Linux / WSL2**, with both CLI exits 0 and confirmed
+cleanup. Its Codex backend needs the [tested native-binary configuration](install/openclaw.md#codex-one-shot-cleanup-tested-linux--wsl-configuration);
+native Windows stdio still has a host cleanup limitation. These ZIPs are
 generated from source; they are not assets of the existing v6.1.0 release.
 
 Files supplied to ChatGPT are processed under that product's account/workspace

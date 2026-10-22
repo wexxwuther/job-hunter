@@ -24,6 +24,12 @@ Signal: the catalog had no ChatGPT upload and the orchestrator required Claude's
   synthetic workflow completed, including 18 byte-verified restored payloads;
   the CLI then exited 1 on client cleanup. Record the recovered execution-tool
   failures and cleanup limitation instead of claiming a clean overall pass.
+- Owner-requested cleanup fix: unchanged official Linux runtime, finite host-tool
+  allowlist, clean native state, and direct native Codex executable. A real
+  launcher/native comparison reproduced SIGKILL propagation through the npm
+  launcher and confirmed native cleanup. Full workflow and fresh-session restore
+  both exit 0; all 25 restored payloads match bytes and SHA-256. Preserve the
+  historical Windows limitation and publish the tested Linux / WSL configuration.
 - Public synthetic evidence and a dated acceptance record distinguish tested
   capabilities from remaining runtime issues and untested workflows.
 - Privacy guidance now distinguishes network-free helpers from AI-host processing;

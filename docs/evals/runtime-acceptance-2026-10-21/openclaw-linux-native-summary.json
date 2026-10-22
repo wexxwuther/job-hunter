@@ -1,0 +1,196 @@
+{
+  "status": "passed_specified_workflow",
+  "verified_by": "main loop independently of agent-generated acceptance/restore claims",
+  "runtime": {
+    "openclaw": "2026.10.5",
+    "codex_plugin": "2026.10.5",
+    "node": "24.16.0",
+    "codex": "0.160.0",
+    "platform": "Linux under WSL2",
+    "model": "gpt-6.1-sol",
+    "provider": "openai",
+    "cli_exit_code": 0,
+    "overall_ok": true,
+    "cleanup_error": null,
+    "elapsed_seconds": 260.59,
+    "tool_summary": {
+      "calls": 47,
+      "tools": [
+        "exec",
+        "read",
+        "write",
+        "edit"
+      ],
+      "failures": 1
+    }
+  },
+  "configuration": {
+    "direct_native_codex_binary": true,
+    "finite_host_tool_allowlist": true,
+    "direct_dynamic_tools": true,
+    "host_exec_policy": "full for this authorized isolated synthetic test; not an enforced filesystem sandbox",
+    "clean_native_profile_and_sqlite": true,
+    "existing_sign_in_referenced": true,
+    "credential_bytes_manually_read_or_copied": false
+  },
+  "workflow": {
+    "score": 4.0,
+    "unchanged_verdict": "clean",
+    "unchanged_claim_flags": 0,
+    "invented_verdict": "review_required",
+    "invented_claim_flags": 8,
+    "auto_approved": false,
+    "tracker_status": "to apply",
+    "applied_date": null,
+    "html_exists": true,
+    "normalized_salary": [
+      75000,
+      85000
+    ],
+    "payload_count": 25,
+    "all_payload_bytes_and_hashes_match": true
+  },
+  "command_evidence": {
+    "recorded_commands": 28,
+    "expected_absence_exits": 2,
+    "missing_rg_recovered_with_python": true,
+    "recovered_child_log_records": 7,
+    "child_records_match_actual_captured_stdout": true,
+    "remaining_unexpected_command_failures": 0
+  },
+  "archive_sha256": "e780674cb4d74eaa5c9876f1c360f648dd27bea9516d2bf364a1b7dfe54a7cb2",
+  "files": [
+    {
+      "path": ".job-hunter-profile.md",
+      "sha256": "c423564eafe3fcf2143eec0e8beed89f6f0fcd71bede49ff86e37be12741d442",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/ApplicationTracker.html",
+      "sha256": "2cc6d58b5ddd3812108e8c6db5a5cecdd0369ec64f3da5d1fc38fcb2b8710b2d",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/DECISIONS.md",
+      "sha256": "7cd88cb920107403ecc2a5d6ae2342a447cef21715d2bd426c31726c6aef7c59",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/LESSONS.md",
+      "sha256": "6a2fa8944d865a834fc773e1f8976b6cf0cdb49a52d9c72f4830ae81d83a4e86",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/OUTCOMES.md",
+      "sha256": "40a28402ee074047bc4bb77b89838248e21c1d8765b627ea42fc4559e4d22089",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/REJECTED_IDEAS.md",
+      "sha256": "0b04aeec964f20211c94c64c3784768f0b4627e5d13ee8345e63c672c53cfc74",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/commands-and-exit-codes.json",
+      "sha256": "4b977b68519b1653355978566275b4c0fe03952db003ac6b10e2348c29e068a4",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/evidence-execute_workflow.py",
+      "sha256": "b2e47cf149a092f97007ef6956b44e58da0cd0546924df3fbd69a4a1caf36f29",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/evidence-prepare_export.py",
+      "sha256": "2b686d375c7051012174441117299b013ae47048107fb78aa464646b5cb952b8",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/evidence-run_command.py",
+      "sha256": "8a7e08cc4810b079dea5998cc2cc278506228804e404d43bab6ec31f0bb8db4a",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/fictional-posting.txt",
+      "sha256": "799f0f0647d3d7b4e1cc15753a7fb3de3fc320f7d58bcbf03874096632fe6300",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/gate-invented.json",
+      "sha256": "165bc409f70c0586a374cbeac4c8594c9e6427573290f829682c238e462e8419",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/gate-unchanged.json",
+      "sha256": "6fa766a7b8add4cbd9e3bf6b4cc98fcb36e75451ac0cff7bc51487198c29e40b",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/invented-resume-negative-control.txt",
+      "sha256": "a905514d4790ed35a3ff40a3e28a530bbe250b0cbf9278b04529a4ae4b5e33b5",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/logging-note.json",
+      "sha256": "b77cb246a7736ece4676ffa91cf87e0c1ade6d3ba24dbdd6e7306960d9bf9501",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/normalized-salary.json",
+      "sha256": "e096a146774cb79b2a7fa23378900b7f496467b2c8b0d327e82ca9fcf2c84d13",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/original-resume.txt",
+      "sha256": "5af213e66c471ca3369df26dbd8fb004b09c435d970f63aec2ac93ffe5335781",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/parsed-resume.json",
+      "sha256": "c38e48f0842e25685edc1610e6259dffa08f116c061b8019d8613a953b9944c2",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/postings.json",
+      "sha256": "fda2b382149e46f50533928d5aea8748d88862c5efaf67f9a93a361f5f6a4717",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/profile-readback.json",
+      "sha256": "31b892d82f96d47216aa167bfcff2ca3b5c1e8612c9ad9e2e0a34d439b537605",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/resources-read.json",
+      "sha256": "cfc346407c935cf6f22cfde43c764c783bdaa9d4e776e4b246d185a1c8eb2001",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/score.json",
+      "sha256": "d140a3fe93c0aba15807ddb98751e3136e397f1633bfb76ad276ff594653428e",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/supplied-inputs.json",
+      "sha256": "2fee7a7cca1c0f8be616de4139ffc9a4e97c61ba514b32b7e7338580c265806d",
+      "bytes_match": true
+    },
+    {
+      "path": ".job-hunter/unchanged-resume.txt",
+      "sha256": "5af213e66c471ca3369df26dbd8fb004b09c435d970f63aec2ac93ffe5335781",
+      "bytes_match": true
+    },
+    {
+      "path": "tracker.json",
+      "sha256": "dfa607d305bc85c857d301478a8b099343cba6e4e724b402a8c200cb6a4bddff",
+      "bytes_match": true
+    }
+  ],
+  "limitations": [
+    "Supplied fictional posting and deterministic sub-scores; no live job verification or application.",
+    "TXT parsing and HTML content tested; PDF/DOCX rendering and broader family workflows not tested.",
+    "The salary helper used the supplied USD hint and default annual period.",
+    "The command-log overwrite was repaired using seven actual captured child receipts; archived log is a pre-export snapshot.",
+    "Native Windows stdio cleanup remains unsupported by this exact host version."
+  ]
+}

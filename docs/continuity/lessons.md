@@ -4,6 +4,19 @@ What we learned the hard way. Each entry is a specific failure mode or surprise 
 iteration, plus the rule we extracted from it. Write to this file every time something
 surprises you, even if the fix is obvious in retrospect.
 
+## 2026-10-21, Verify the process root as well as the cleanup guard
+
+The OpenClaw Codex npm launcher spawns native Codex as a child and mirrors its
+termination signal. POSIX containment kills that descendant before root shutdown,
+so the launcher re-emits SIGKILL and correctly fails the graceful-cleanup guard.
+A real no-model comparison returned uncertain/SIGKILL for the launcher and
+closed/exit0 for the direct native executable. Use supported appServer.command
+with native Linux Codex, a finite tool allowlist and OpenClaw-owned execution.
+The full workflow and a fresh-session restore then both exited0. Do not remove
+native-execution uncertainty checks or turn failed lifecycle receipts into passes.
+Clean native profile/SQLite state also avoids initialization blocked by state
+backfill; preserve sign-in sources and reference rather than manually copy them.
+
 ## 2026-10-21, Validate the agent harness before launching acceptance
 
 OpenClaw 2026.10.5 accepted the config and discovered all eight skills, yet the

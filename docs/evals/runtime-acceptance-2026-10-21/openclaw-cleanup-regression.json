@@ -1,0 +1,70 @@
+{
+  "real_codex_comparison": {
+    "results": [
+      {
+        "root": "npm-launcher",
+        "exited": true,
+        "cleanup": "uncertain",
+        "nativeExecutionObserved": false,
+        "exitCode": null,
+        "signalCode": "SIGKILL",
+        "modelTurnStarted": false
+      },
+      {
+        "root": "native-binary",
+        "exited": true,
+        "cleanup": "closed",
+        "nativeExecutionObserved": false,
+        "exitCode": 0,
+        "signalCode": null,
+        "modelTurnStarted": false
+      }
+    ]
+  },
+  "real_process_fixtures": {
+    "checks": [
+      {
+        "platform": "linux",
+        "nativeExecutionNotification": false,
+        "spawnedDescendant": false,
+        "exited": true,
+        "cleanup": "closed",
+        "expected": "closed",
+        "passed": true
+      },
+      {
+        "platform": "linux",
+        "nativeExecutionNotification": true,
+        "spawnedDescendant": false,
+        "exited": true,
+        "cleanup": "uncertain",
+        "expected": "uncertain",
+        "passed": true
+      },
+      {
+        "platform": "linux",
+        "nativeExecutionNotification": false,
+        "spawnedDescendant": true,
+        "exited": true,
+        "cleanup": "closed",
+        "expected": "closed",
+        "descendantNotAlive": true,
+        "passed": true
+      }
+    ],
+    "allPassed": true
+  },
+  "official_plugin_integrity": {
+    "package": "@openclaw/codex",
+    "version": "2026.10.5",
+    "official_archive_integrity_matches": true,
+    "all_177_package_files_byte_identical": true,
+    "cleanup_guard_source_patched": false,
+    "archive_sha256": "7b0726dcbce0708e23ad6e4b1133cd94a447dc6dc3bfe49a96189abaaeb53d90"
+  },
+  "skill_bundle_integrity": {
+    "archive_sha256": "b8a63be9cc36205cb4806b24232d37a635b0930daf5163d4be2b41a8d0772946",
+    "compared_files": 71,
+    "all_installed_skill_files_unchanged": true
+  }
+}

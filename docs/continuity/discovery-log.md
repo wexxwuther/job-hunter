@@ -11,9 +11,14 @@ looking for "where is X?" should find the answer here before grepping.
   `docs/evals/runtime-acceptance-2026-10-21.md`.
 - Public synthetic reports: `docs/evals/runtime-acceptance-2026-10-21/`.
 - ChatGPT Work upload/workflow plus fresh-session 21-file restore passed.
-  OpenClaw discovered all eight skills and completed the synthetic workflow with
-  an independently checked 18-file restore, but CLI cleanup exited 1. Read the
-  acceptance record before making any overall pass claim.
+  OpenClaw's later native Linux / WSL workflow and fresh-session 25-file restore
+  both exited0 with no cleanup error. The older native Windows failure remains
+  historical evidence; read the dated record and install configuration for scope.
+- Cleanup proof: openclaw-linux-native-summary.json,
+  openclaw-linux-fresh-restore.json and openclaw-cleanup-regression.json in the
+  dated public evidence directory. Local independent proofs and raw sanitized
+  fixture copies: linux-native-evidence/, linux-native-workflow/ and
+  linux-fresh-restore-* under the isolated evidence root below.
 - Local ChatGPT download/UI proof: `E:/tmp/job-hunter-chatgpt-acceptance-2026-10-21/`.
 - Isolated OpenClaw runtime/setup evidence:
   `E:/tmp/job-hunter-openclaw-test-2026-10-21/`.

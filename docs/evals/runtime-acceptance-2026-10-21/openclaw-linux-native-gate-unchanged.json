@@ -1,0 +1,15 @@
+{
+  "original_chars": 199,
+  "proposed_chars": 199,
+  "new_proper_nouns": [],
+  "new_numbers": [],
+  "new_sections": [],
+  "new_bullets": {},
+  "new_phrase_runs": [],
+  "summary": {
+    "total_new_claims": 0,
+    "highest_risk": "none",
+    "verdict": "clean"
+  },
+  "auto_approved": false
+}
