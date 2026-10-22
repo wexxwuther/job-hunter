@@ -17,6 +17,10 @@ Tier 2 fell back to one generic "job board" query.
   iHireConstruction, AGC Construction Careers (careers.agc.org), CMAA CareerHQ
   (careerhq.cmaanet.org), each domain checked live 2026-10-21. `trades` is unchanged.
 - `references/niche-boards-by-industry.md`: new Construction / Construction Management table.
+- New `references/board-access-notes.md`, linked from SKILL.md: LinkedIn's logged-out search
+  ignoring the salary and remote filters, which aggregators block automated fetches, public
+  ATS feeds (Workday cxs, Greenhouse, Lever, Ashby) for confirming a posting and its pay, and
+  labeling aggregator-only pay with its source.
 - Tests: `tests/test_expand_role_synonyms.py` and `tests/test_build_search_queries.py`, 18 new
   (15 failed before the fix); 13/13 mutants killed. No description change.
 

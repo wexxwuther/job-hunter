@@ -99,8 +99,8 @@ are blocked.
 The board to use depends on the user's industry. See
 [`references/niche-boards-by-industry.md`](references/niche-boards-by-industry.md)
 for the full registry across tech, healthcare, finance, marketing/media,
-government, nonprofits, education, trades, and legal. Only search the boards
-relevant to the user's field; don't pad with every board.
+government, nonprofits, education, trades, construction, and legal. Only search
+the boards relevant to the user's field; don't pad with every board.
 
 **Tier 3 — Local and regional sources:**
 This tier catches jobs that never reach national boards. Includes state
@@ -218,6 +218,9 @@ the user sees the breadth of the search.
   check different boards. Tell the user what you tried.
 - **Can't fetch a posting page:** some sites block scraping. Include the link so
   the user can read it, and note that scoring is best-effort without the full JD.
+  Which boards block, which filters are ignored when logged out, and how to
+  confirm a posting and its pay through the employer's ATS feed:
+  [`references/board-access-notes.md`](references/board-access-notes.md).
 - **Suspicious posting:** rate it low on `posting_legitimacy` (independent of
   match quality), cite the specific ghost-job signals, and recommend `skip` /
   proceed-with-caution rather than padding the result set.

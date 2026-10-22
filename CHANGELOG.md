@@ -16,6 +16,9 @@ What shipped (job-search 1.1.0 -> 1.1.1, no description change):
 - `build_search_queries.py` and `niche-boards-by-industry.md`: a `construction` industry
   with ConstructionJobs.com, iHireConstruction, AGC Construction Careers and CMAA CareerHQ,
   each domain checked live.
+- New `job-search/references/board-access-notes.md` (linked from SKILL.md): what the live run
+  showed about LinkedIn guest filters, aggregator blocking, public ATS feeds, and labeling
+  aggregator-only pay with its source.
 - 18 new tests (15 failed before the fix); 13/13 mutants killed.
 
 ## v6.1.0: first GitHub release of the 8-skill family; GitHub plugin install fixed; docs brought current (2026-10-21)
