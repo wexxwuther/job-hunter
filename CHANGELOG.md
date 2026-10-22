@@ -2,6 +2,22 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## job-search 1.1.1: construction roles and boards; no certifications as synonyms (2026-10-21, family v6.1.0 line)
+
+Signal: a construction project manager's live search (Benton Harbor, MI, $120k+). Role
+expansion turned "project manager" into a search for PMP (a certification) and PgM, had no
+construction project-management titles, and `--industry construction` fell back to one
+generic Tier 2 query.
+
+What shipped (job-search 1.1.0 -> 1.1.1, no description change):
+- `expand_role_synonyms.py`: PMP, PgM and CPA removed; construction project manager and
+  construction manager titles plus adjacent roles added (checked against live posting
+  titles); apostrophe-tolerant lookup ("Owners Representative").
+- `build_search_queries.py` and `niche-boards-by-industry.md`: a `construction` industry
+  with ConstructionJobs.com, iHireConstruction, AGC Construction Careers and CMAA CareerHQ,
+  each domain checked live.
+- 18 new tests (15 failed before the fix); 13/13 mutants killed.
+
 ## v6.1.0: first GitHub release of the 8-skill family; GitHub plugin install fixed; docs brought current (2026-10-21)
 
 Signal: the documented Claude Code install `/plugin marketplace add wexxwuther/job-hunter`

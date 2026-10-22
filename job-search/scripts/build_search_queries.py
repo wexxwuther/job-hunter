@@ -77,6 +77,13 @@ TIER_2_BY_INDUSTRY: dict[str, list[tuple[str, str]]] = {
         ("AllTrucking", "alltrucking.com"),
         ("ManufacturingJobs", "manufacturingjobs.com"),
     ],
+    # Construction and construction management (each domain checked live 2026-10-21).
+    "construction": [
+        ("ConstructionJobs.com", "constructionjobs.com"),
+        ("iHireConstruction", "ihireconstruction.com"),
+        ("AGC Construction Careers", "careers.agc.org"),
+        ("CMAA CareerHQ", "careerhq.cmaanet.org"),
+    ],
     "legal": [
         ("LawCrossing", "lawcrossing.com"),
         ("Law360 Jobs", "jobs.law360.com"),
@@ -241,7 +248,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--location", required=True, help='Location (e.g., "Austin, TX" or "remote")')
     parser.add_argument("--industry", default=None,
                         help="Optional industry: tech, healthcare, finance, marketing, government, "
-                             "nonprofit, education, trades, legal")
+                             "nonprofit, education, trades, construction, legal")
     parser.add_argument("--companies", default="",
                         help="Optional comma-separated target companies (e.g., 'stripe,anthropic')")
     parser.add_argument("--json", action="store_true", help="Emit JSON instead of text")

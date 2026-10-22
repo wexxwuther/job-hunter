@@ -1,5 +1,25 @@
 # Changelog - job-search
 
+## v1.1.1 (2026-10-21)
+
+Signal: a construction project manager's live search (Benton Harbor, MI, $120k+).
+`expand_role_synonyms.py "project manager"` returned PMP (a certification, so the queries
+searched for the credential) and PgM (rarely used in postings); there was no entry for
+construction project-management titles; `--industry construction` was not recognized, so
+Tier 2 fell back to one generic "job board" query.
+
+- `scripts/expand_role_synonyms.py`: removed PMP and PgM from "project manager" and CPA from
+  "accountant" (credentials, not titles; the rule is now a comment and a test). Added
+  "construction project manager" and "construction manager" synonyms plus adjacent roles for
+  construction project manager, using titles seen in live postings on 2026-10-21. Lookup now
+  treats typographic and missing apostrophes alike ("Owners Representative").
+- `scripts/build_search_queries.py`: new `construction` industry: ConstructionJobs.com,
+  iHireConstruction, AGC Construction Careers (careers.agc.org), CMAA CareerHQ
+  (careerhq.cmaanet.org), each domain checked live 2026-10-21. `trades` is unchanged.
+- `references/niche-boards-by-industry.md`: new Construction / Construction Management table.
+- Tests: `tests/test_expand_role_synonyms.py` and `tests/test_build_search_queries.py`, 18 new
+  (15 failed before the fix); 13/13 mutants killed. No description change.
+
 ## v1.1.0 (2026-10-20)
 
 - Description only (owner-approved 2026-10-20). Signal: a possible ghost-job posting (no apply button, no salary) loaded job-search 7/9 in a family-only install; misses answered without the legitimacy score. Draft v1: case 6 6/6; joint sweep 3/3 (+3/3). Evidence: docs/evals/trigger-2026-10-18-job-search-case6/.
