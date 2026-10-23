@@ -2,6 +2,64 @@
 
 **This file lives in `E:\Git\job-hunter-public\`, THE active source of truth for job-hunter.**
 
+## 2026-10-22 job-outreach joins as the 9th skill (family v6.2.0)
+
+Signal: in the owner's real job search, agent-drafted recruiter messages went out that he called
+"kind of cringy":
+- a 15-minute call ask;
+- a project-manager framing he is moving away from;
+- a LinkedIn connection note drafted for someone he was already connected to.
+
+Different agents wrote in different voices, and nothing checked a draft against how he writes.
+
+What changed:
+- New member `job-outreach` (role `outreach`, v1.0.0): recruiter, hiring-manager and contact
+  messages in the user's own voice. It reads the contact's history first. It drafts; the user
+  sends.
+- `job-outreach/scripts/check_voice.py`: a deterministic, person-neutral checker driven by the
+  user's own `voice/rules.json`.
+  - Rule types: chars, phrases, regex, opening, max_count.
+  - Supports per-channel levels, an allowlist for approved sentences, LinkedIn note and subject
+    length limits.
+  - Exit codes: 0 pass, 1 fail, 2 rules error.
+  - It never edits the draft.
+- `references/rules-starter.json` is person-neutral; a test forbids personal terms in it.
+- Wiring:
+  - every member list (build_plugin, runtime packages, routing evals, trigger probe, family tests,
+    installers, plugin manifests at 6.2.0);
+  - the orchestrator SKILL.md table and examples;
+  - the workspace contract (two new rows), copied byte-identical to all 9;
+  - sibling `sister_skills`, seven routing labels, CI, README/CONTRIBUTING/install guides;
+  - `tools/outcome-scenarios/job-outreach.json` (4 cases).
+- Orchestrator description: dropped "(for example on a new machine)" and shortened resume-tailor's
+  clause, which keeps it at 1019 characters with job-outreach listed.
+
+Verified:
+- Full CI command: 520 passed. job-outreach: 40 tests, including 29 for the checker; unhappy
+  paths are tested first.
+- `build_plugin.py` builds 9 skills, and `build_runtime_packages.py` builds v6.2.0 ChatGPT and
+  OpenClaw zips.
+- ruff is clean on new code. Five pre-existing findings in older files are untouched, including
+  the canonical gate's unused `Counter` import.
+
+What went wrong, kept for the next session:
+- A pattern written with one backslash, `\b`, in JSON is a backspace character. It compiles and
+  silently never matches. This happened in the owner's first real rules file, and a regression
+  sample caught it. The loader now rejects control characters in patterns
+  (test_json_backspace_in_pattern_is_rejected).
+- A rule was added that the owner never approved ("I'll keep this short" as a cheesy line). His
+  approved follow-up uses that phrase, so the regression sample caught it and the rule was
+  removed. Only rules with an owner source go in a user's rules file.
+- Live trigger probe and routing evals did NOT run. `claude auth status` reports
+  `loggedIn: false`, and every sample errored "Not logged in". The errored output folders were
+  deleted, not committed. Run both after the owner signs in to the CLI and after deploy (routing
+  reads the INSTALLED copies):
+  - `tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/job-outreach.json --family-only --samples 3`
+  - `tools/run_routing_evals.py`
+
+The owner's personal voice rules live outside this repo, in `G:/My Drive/Job_Search/voice/`
+(VOICE.md, rules.json, and test_rules.py with 28 regression samples).
+
 ## 2026-10-21 cleanup fix and clean runtime acceptance
 
 ChatGPT Work passed upload, the synthetic workflow and a fresh conversation's
