@@ -23,7 +23,8 @@ def test_description_fits_the_spec_limit_and_names_the_collision_guards():
     block = re.search(r"description: >\n(.*?)\nlicense:", text, re.S).group(1)
     desc = " ".join(line.strip() for line in block.splitlines())
     assert len(desc) <= 1024
-    for guard in ("cover-letter", "resume-tailor", "application-tracker", "interview-prep", "the user sends"):
+    for guard in ("cover-letter", "resume-tailor", "application-tracker", "interview-prep", "thank-you",
+                  "the user sends"):
         assert guard in desc, f"description lost its do-not-use clause for {guard}"
 
 

@@ -9,8 +9,8 @@ description: >
   to write, reply to, or follow up with a recruiter, hiring manager, or networking contact, or wants
   any draft checked against their voice or tone rules, even a short ask; load it rather than writing
   from general knowledge, which drifts from their voice. Do not use for cover letters (use
-  cover-letter), resume edits (use resume-tailor), application check-in timing or tracker updates
-  (use application-tracker), or interview prep (use interview-prep). It drafts; the user sends.
+  cover-letter), resume edits (use resume-tailor), application check-in timing, thank-you
+  notes after an interview, or tracker updates (use application-tracker), or interview prep (use interview-prep). It drafts; the user sends.
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. Works standalone or as the outreach member of the job-hunter family; reads the shared workspace (profile, parsed resume, tracker, contact records, voice profile) if present and degrades gracefully if absent.
 metadata:

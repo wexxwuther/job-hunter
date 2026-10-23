@@ -1,6 +1,6 @@
 {
   "skill_name": "job-outreach",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "family": "job-hunter",
   "family_role": "outreach",
@@ -33,5 +33,5 @@
     "test_gate_byte_identical_to_resume_tailor",
     "test_starter_rules_are_person_neutral"
   ],
-  "version_notes": "v1.0.0 (2026-10-22) adds job-outreach as the 9th job-hunter skill (8th member). It drafts recruiter, hiring-manager, and contact messages (email, LinkedIn connection notes and DMs, replies, follow-ups to those contacts) in the user's own voice. Before drafting it reads what was already sent to that person, so it never repeats an ask or requests a connection that exists. Every draft runs through scripts/check_voice.py (new: a deterministic, person-neutral checker that reads the USER'S voice/rules.json; nothing personal ships with the skill) and the family anti-fabrication gate (verify_no_fabrication.py, bundled byte-identical from resume-tailor). Built from a real owner's job search: agent-drafted recruiter messages the owner called 'kind of cringy' (a 15-minute call ask, a project-manager framing he does not want, a connection note to someone already connected) motivated the history read and the voice check. The rules loader rejects a JSON backspace in a regex (a single \\b), which compiles and silently never matches. Never sends."
+  "version_notes": "v1.0.1 (2026-10-22): description only. Live family routing after the v1.0.0 deploy sent 'Write a thank-you note to the panel I interviewed with yesterday' to job-outreach instead of application-tracker (1 sample, docs/evals/routing-2026-10-22-job-outreach). The do-not-use clause now names thank-you notes after an interview. v1.0.0 (2026-10-22) adds job-outreach as the 9th job-hunter skill (8th member). It drafts recruiter, hiring-manager, and contact messages (email, LinkedIn connection notes and DMs, replies, follow-ups to those contacts) in the user's own voice. Before drafting it reads what was already sent to that person, so it never repeats an ask or requests a connection that exists. Every draft runs through scripts/check_voice.py (new: a deterministic, person-neutral checker that reads the USER'S voice/rules.json; nothing personal ships with the skill) and the family anti-fabrication gate (verify_no_fabrication.py, bundled byte-identical from resume-tailor). Built from a real owner's job search: agent-drafted recruiter messages the owner called 'kind of cringy' (a 15-minute call ask, a project-manager framing he does not want, a connection note to someone already connected) motivated the history read and the voice check. The rules loader rejects a JSON backspace in a regex (a single \\b), which compiles and silently never matches. Never sends."
 }

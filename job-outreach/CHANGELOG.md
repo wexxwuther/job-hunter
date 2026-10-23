@@ -1,5 +1,10 @@
 # Changelog - job-outreach
 
+## v1.0.1 (2026-10-22)
+
+- Description only: the do-not-use clause names thank-you notes after an interview, which stay
+  with application-tracker. Live routing had sent one such query here.
+
 ## v1.0.0 (2026-10-22)
 
 - New member: recruiter, hiring-manager, and contact outreach (email, LinkedIn connection notes and
