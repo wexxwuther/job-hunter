@@ -1,0 +1,337 @@
+{
+  "query": "Find me some backend roles and tailor my resume for the best one",
+  "source": "job-hunter/evals/trigger-evals.json id 3",
+  "date": "2026-10-22",
+  "descriptions": {
+    "A_current": "Routes a job-search task to the right specialists in the job-hunter family, then owns the shared per-user workspace and merges member output into one coherent result. Use when the user wants to run a job search, find a job, find jobs, openings, positions, or work, manage an end-to-end job hunt, apply to roles and track applications, do several job-search steps at once (find jobs and tailor a resume and track applications), or export, import, back up, or restore their job-hunter workspace. Routes to career-profile (set up profile + parse resume), job-search (find + score postings), resume-tailor (tailor or tighten a resume, anti-fabrication gate), cover-letter (cover letters, same gate), application-tracker (track applications + follow-ups), interview-prep (prep for a scheduled interview, same gate), job-outreach (recruiter outreach, same gate), and outcome-learning (learn from outcomes). Do not use for a single isolated step that names its own skill (use that member directly) or for non-job-search tasks.",
+    "B_pretrim_plus_outreach": "Routes a job-search task to the right specialists in the job-hunter family, then owns the shared per-user workspace and merges member output into one coherent result. Use when the user wants to run a job search, find a job, find jobs, openings, positions, or work, manage an end-to-end job hunt, apply to roles and track applications, do several job-search steps at once (find jobs and tailor a resume and track applications), or export, import, back up, or restore their job-hunter workspace (for example on a new machine). Routes to career-profile (set up profile + parse resume), job-search (find + score postings), resume-tailor (tailor or tighten a resume with the anti-fabrication gate), cover-letter (cover letters, same gate), application-tracker (track applications + follow-ups), interview-prep (prep for a scheduled interview, same gate), job-outreach (recruiter outreach, same gate), and outcome-learning (learn from outcomes). Do not use for a single isolated step that names its own skill (use that member directly) or for non-job-search tasks."
+  },
+  "trigger_probe": {
+    "A_current_family": [
+      {
+        "sample": 1,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 2,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 3,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 4,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 5,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 6,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      }
+    ],
+    "B_pretrim_plus_outreach_family": [
+      {
+        "sample": 1,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 2,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 3,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 4,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 5,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 6,
+        "env": "family",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 22,
+        "model": "claude-opus-4-8[1m]"
+      }
+    ],
+    "A_current_full_install": [
+      {
+        "sample": 1,
+        "env": "full",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 320,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 2,
+        "env": "full",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 320,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 3,
+        "env": "full",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 320,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 4,
+        "env": "full",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 320,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 5,
+        "env": "full",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 320,
+        "model": "claude-opus-4-8[1m]"
+      },
+      {
+        "sample": 6,
+        "env": "full",
+        "outcome": "skill",
+        "skill": "job-hunter",
+        "n_skills_listed": 320,
+        "model": "claude-opus-4-8[1m]"
+      }
+    ]
+  },
+  "ts_judge_selector": [
+    {
+      "variant": "A_current",
+      "rep": 0,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": 1,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": 2,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "B_old_plus_outreach",
+      "rep": 0,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "B_old_plus_outreach",
+      "rep": 1,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "B_old_plus_outreach",
+      "rep": 2,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": 0,
+      "follow": true,
+      "family": "job-hunter"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": 1,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": 2,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "A_current",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    },
+    {
+      "variant": "C_no_job_outreach",
+      "rep": null,
+      "follow": true,
+      "family": "job-search"
+    }
+  ]
+}

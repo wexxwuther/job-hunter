@@ -80,10 +80,26 @@ What went wrong, kept for the next session:
   error_max_turns 3/3. The model loads Gmail tools to find the earlier email before picking a skill,
   and the eval allows 2 turns with Gmail permission ungranted. This is an eval limit more than a
   description fault; not changed.
-- Open, likely regression: "Find me some backend roles and tailor my resume for the best one" went to
-  job-search in 3 of 4 samples tonight. It went to job-hunter in all 4 earlier runs (10-12, 10-18 x2,
-  10-20). Suspect the orchestrator description trim made to fit job-outreach under 1024 characters.
-  Needs an A/B (old vs new orchestrator description) before changing anything.
+- Resolved, not a regression: "Find me some backend roles and tailor my resume for the best one" went
+  to job-search in 3 of 4 samples tonight. It went to job-hunter in all 4 earlier runs (10-12, 10-18 x2,
+  10-20; one sample each). The A/B shows the description trim did not cause it. No SKILL.md change.
+  Evidence: `docs/evals/routing-2026-10-22-orchestrator-ab/`.
+  - Hooks off, tools/run_trigger_probe.py, 6 samples each: current description family-only 6/6
+    job-hunter; pre-trim description plus the job-outreach clause (1058 chars, diagnostic only) 6/6;
+    current description in the full 320-skill install 6/6.
+  - Cause: the owner's ts-judge UserPromptSubmit hook. tools/run_routing_evals.py leaves user hooks
+    on. Live re-runs of ts-judge `select_skill` for this query gave `job-search` (follow it) 13/13 on
+    the current catalog, 3/3 with the pre-trim description swapped in, and 12/13 with job-outreach
+    removed. Two of the three job-search samples say "loading the job-search skill as directed".
+  - Why the trim cannot reach that layer: ts-judge stage 1 sees only the first clause of each
+    description cut to 60 characters. For job-hunter that clause is the same before and after the
+    trim. job-hunter loses the third shortlist slot to job-search (~0.25 vs ~0.2), so stage 2 never
+    reads its full description.
+  - Unknown: why the hook let job-hunter through in the earlier runs. ts-judge's code is unchanged
+    since 2026-10-08; a near-tie on a catalog that keeps changing is the likely reason.
+  - Candidate-fix variant not run: there was no description regression to fix. A routing miss with
+    "as directed" in the raw log is a ts-judge decision, not a description result. Re-run it with
+    hooks off first (same lesson as the 2026-10-20 PDF query).
 
 The owner's personal voice rules live outside this repo, in `G:/My Drive/Job_Search/voice/`
 (VOICE.md, rules.json, and test_rules.py with 28 regression samples).
