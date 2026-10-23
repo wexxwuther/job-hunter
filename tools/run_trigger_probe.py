@@ -23,7 +23,7 @@ Outcomes per sample:
 Environments:
   default        the machine's full install (every user skill, plugin and MCP)
   --family-only  --setting-sources project, cwd under a temp folder whose
-                 .claude/skills holds only the 8 git-tracked members (tests/
+                 .claude/skills holds only the 9 git-tracked members (tests/
                  excluded): those plus Claude Code's bundled skills load. The
                  closest model of a public install.
 
@@ -55,7 +55,7 @@ CAPPED = "error_max_turns"
 
 
 def family_files(repo: Path = REPO) -> list[str]:
-    """Git-tracked files of the 8 members, without each member's tests/."""
+    """Git-tracked files of the 9 members, without each member's tests/."""
     proc = subprocess.run(["git", "ls-files", "-z", "--", *MEMBERS], cwd=str(repo),
                           capture_output=True)
     if proc.returncode != 0:
@@ -169,7 +169,7 @@ def render_report(rows: list[dict], cases: list[dict], skill: str, env: str,
     listed = sorted({r["n_skills_listed"] for r in rows if not r["error"]})
     lines = [
         f"# {skill} natural-trigger probe (live claude -p)", "",
-        "- Environment: " + ("family-only (--setting-sources project; only the 8 members "
+        "- Environment: " + ("family-only (--setting-sources project; only the 9 members "
                              "plus Claude Code's bundled skills)" if env == "family"
                              else "full install (every user skill, plugin and MCP)")
         + "; user hooks disabled; normal tool set",
@@ -210,7 +210,7 @@ def main(argv: list[str] | None = None, user_skills_dir: Path | None = None) -> 
     ap.add_argument("--ids", help="only these eval ids, e.g. 2-4 or 1,5")
     ap.add_argument("--samples", type=int, default=3, help="fresh sessions per case")
     ap.add_argument("--family-only", action="store_true",
-                    help="load only the 8 git-tracked members (plus bundled skills)")
+                    help="load only the 9 git-tracked members (plus bundled skills)")
     ap.add_argument("--expect", help="skill that should load (default: the evals file's skill_name)")
     ap.add_argument("--timeout", type=int, default=600, help="seconds per sample")
     ap.add_argument("--max-budget-usd", type=float, default=1.5, help="per claude call")

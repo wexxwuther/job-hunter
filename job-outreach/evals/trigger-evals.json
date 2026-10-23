@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "query": "Write an email to the recruiter who posted that she has 60 open roofing roles",
+    "should_trigger": true,
+    "rationale": "Canonical cold recruiter email."
+  },
+  {
+    "id": 2,
+    "query": "Draft a LinkedIn connection note to the hiring manager for this operations role",
+    "should_trigger": true,
+    "rationale": "LinkedIn connection note to a hiring manager."
+  },
+  {
+    "id": 3,
+    "query": "Write a LinkedIn message to Caitlin, we're already connected, about her open roles",
+    "should_trigger": true,
+    "rationale": "LinkedIn DM to an existing connection."
+  },
+  {
+    "id": 4,
+    "query": "The recruiter replied asking what I'm looking for. Help me write back.",
+    "should_trigger": true,
+    "rationale": "Reply to a recruiter."
+  },
+  {
+    "id": 5,
+    "query": "Caitlin hasn't answered my email from last week, write her a short follow-up",
+    "should_trigger": true,
+    "rationale": "Follow-up to a recruiter contact, not an application check-in."
+  },
+  {
+    "id": 6,
+    "query": "Does this message to the recruiter sound like me? Check it against my voice rules.",
+    "should_trigger": true,
+    "rationale": "Voice check of a draft."
+  },
+  {
+    "id": 7,
+    "query": "I want to reach out to someone at Turner about their open roles, can you draft something",
+    "should_trigger": true,
+    "rationale": "Networking outreach to a company contact."
+  },
+  {
+    "id": 8,
+    "query": "Write a cover letter for this estimator posting",
+    "should_trigger": false,
+    "rationale": "Cover letters belong to cover-letter; negative control."
+  },
+  {
+    "id": 9,
+    "query": "Which of my applications are due for a check-in this week?",
+    "should_trigger": false,
+    "rationale": "Application check-in timing is application-tracker's job; negative control."
+  },
+  {
+    "id": 10,
+    "query": "Write a thank-you note to the panel I interviewed with yesterday",
+    "should_trigger": false,
+    "rationale": "Post-interview thank-you notes stay with application-tracker; negative control."
+  },
+  {
+    "id": 11,
+    "query": "Tighten the summary on my resume",
+    "should_trigger": false,
+    "rationale": "Resume edits belong to resume-tailor; negative control."
+  },
+  {
+    "id": 12,
+    "query": "Help me prepare for my phone screen with Acme on Thursday",
+    "should_trigger": false,
+    "rationale": "Interview prep belongs to interview-prep; negative control."
+  },
+  {
+    "id": 13,
+    "query": "Find me operations manager jobs near Benton Harbor",
+    "should_trigger": false,
+    "rationale": "Search belongs to job-search; negative control."
+  },
+  {
+    "id": 14,
+    "query": "Write an email to my landlord about the broken furnace",
+    "should_trigger": false,
+    "rationale": "Not job search at all; negative control."
+  }
+]

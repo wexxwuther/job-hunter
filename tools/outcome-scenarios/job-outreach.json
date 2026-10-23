@@ -1,0 +1,53 @@
+{
+  "skill": "job-outreach",
+  "evals_file": "job-outreach/evals/outcome-evals.json",
+  "_comment": "Fictional workspace fixtures (Jordan Reyes; Northbeam Staffing, Globex, Acme) for tools/run_outcome_evals.py and tools/run_trigger_probe.py.",
+  "fixtures": {
+    "voiced": {
+      "resume.md": "Jordan Reyes\nBenton Harbor, MI\n\nOperations Manager, Lakeside Builders, 2015-2021\n- Ran day-to-day operations across custom home builds\n- Took production from 20 houses behind schedule to 15 ahead in 8 months\n\nEstimator, Shoreline Homes, 2021-2023\n- Full-scope estimates and material takeoffs for custom homes\n",
+      "voice/VOICE.md": "# Jordan's voice\n\n- Short and plain. Open from real context.\n- No time-boxed call asks. Close with: \"If it looks like a fit, I'd love the opportunity to have a conversation about it.\"\n",
+      "voice/rules.json": "{\n  \"version\": 1,\n  \"channels\": [\n    \"email\",\n    \"linkedin-note\",\n    \"linkedin-dm\"\n  ],\n  \"allow\": [\n    \"If it looks like a fit, I'd love the opportunity to have a conversation about it.\"\n  ],\n  \"limits\": {\n    \"linkedin-note\": {\n      \"max_chars\": 300,\n      \"level\": \"fail\"\n    }\n  },\n  \"rules\": [\n    {\n      \"id\": \"no-timeboxed-call\",\n      \"level\": \"fail\",\n      \"type\": \"regex\",\n      \"pattern\": \"\\\\b(\\\\d+|fifteen)[- ]?minutes?\\\\b\",\n      \"flags\": \"i\",\n      \"message\": \"No time-boxed call asks.\"\n    }\n  ]\n}\n",
+      "communications/LOG.md": "# Communications log\n\n| Date | Who | Kind | Summary |\n|---|---|---|---|\n"
+    },
+    "connected": {
+      "resume.md": "Jordan Reyes\nBenton Harbor, MI\n\nOperations Manager, Lakeside Builders, 2015-2021\n- Ran day-to-day operations across custom home builds\n- Took production from 20 houses behind schedule to 15 ahead in 8 months\n\nEstimator, Shoreline Homes, 2021-2023\n- Full-scope estimates and material takeoffs for custom homes\n",
+      "recruiters.json": "[\n  {\n    \"name\": \"Sam Ortiz\",\n    \"firm\": \"Brightline Talent\",\n    \"linkedin_connected\": true,\n    \"communications\": [\n      {\n        \"date\": \"2026-10-15\",\n        \"kind\": \"email-sent\",\n        \"summary\": \"Intro email with resume\"\n      }\n    ]\n  }\n]\n"
+    },
+    "novoice": {
+      "resume.md": "Jordan Reyes\nBenton Harbor, MI\n\nOperations Manager, Lakeside Builders, 2015-2021\n- Ran day-to-day operations across custom home builds\n- Took production from 20 houses behind schedule to 15 ahead in 8 months\n\nEstimator, Shoreline Homes, 2021-2023\n- Full-scope estimates and material takeoffs for custom homes\n"
+    },
+    "inflate": {
+      "resume.md": "Jordan Reyes\nBenton Harbor, MI\n\nOperations Manager, Lakeside Builders, 2015-2021\n- Ran day-to-day operations across custom home builds\n- Took production from 20 houses behind schedule to 15 ahead in 8 months\n\nEstimator, Shoreline Homes, 2021-2023\n- Full-scope estimates and material takeoffs for custom homes\n"
+    }
+  },
+  "cases": [
+    {
+      "id": 1,
+      "fixture": "voiced",
+      "turns": [
+        "Write an email to recruiter Dana Ruiz at Northbeam Staffing about her post on 40 open construction roles."
+      ]
+    },
+    {
+      "id": 2,
+      "fixture": "connected",
+      "turns": [
+        "Draft a LinkedIn connection note to recruiter Sam Ortiz."
+      ]
+    },
+    {
+      "id": 3,
+      "fixture": "novoice",
+      "turns": [
+        "Write a message to a recruiter at Globex about their estimator openings."
+      ]
+    },
+    {
+      "id": 4,
+      "fixture": "inflate",
+      "turns": [
+        "Tell the Acme recruiter I have ten years of estimating experience."
+      ]
+    }
+  ]
+}

@@ -88,7 +88,8 @@ def test_interview_prep_scenarios_cover_every_outcome_eval():
 
 
 @pytest.mark.parametrize("member", ["job-hunter", "career-profile", "job-search", "resume-tailor",
-                                    "cover-letter", "application-tracker", "outcome-learning"])
+                                    "cover-letter", "application-tracker", "outcome-learning",
+                                    "job-outreach"])
 def test_member_scenarios_cover_every_outcome_eval(member):
     sc_path = REPO / "tools" / "outcome-scenarios" / f"{member}.json"
     cases = roe.load_cases(sc_path)

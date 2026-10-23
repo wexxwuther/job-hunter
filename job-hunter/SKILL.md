@@ -1,6 +1,6 @@
 ---
 name: job-hunter
-description: Routes a job-search task to the right specialists in the job-hunter family, then owns the shared per-user workspace and merges member output into one coherent result. Use when the user wants to run a job search, find a job, find jobs, openings, positions, or work, manage an end-to-end job hunt, apply to roles and track applications, do several job-search steps at once (find jobs and tailor a resume and track applications), or export, import, back up, or restore their job-hunter workspace (for example on a new machine). Routes to career-profile (set up profile + parse resume), job-search (find + score postings), resume-tailor (tailor or tighten a resume with the anti-fabrication gate), cover-letter (cover letters, same gate), application-tracker (track applications + follow-ups), interview-prep (prep for a scheduled interview, same gate), and outcome-learning (learn from outcomes). Do not use for a single isolated step that names its own skill (use that member directly) or for non-job-search tasks.
+description: Routes a job-search task to the right specialists in the job-hunter family, then owns the shared per-user workspace and merges member output into one coherent result. Use when the user wants to run a job search, find a job, find jobs, openings, positions, or work, manage an end-to-end job hunt, apply to roles and track applications, do several job-search steps at once (find jobs and tailor a resume and track applications), or export, import, back up, or restore their job-hunter workspace. Routes to career-profile (set up profile + parse resume), job-search (find + score postings), resume-tailor (tailor or tighten a resume, anti-fabrication gate), cover-letter (cover letters, same gate), application-tracker (track applications + follow-ups), interview-prep (prep for a scheduled interview, same gate), job-outreach (recruiter outreach, same gate), and outcome-learning (learn from outcomes). Do not use for a single isolated step that names its own skill (use that member directly) or for non-job-search tasks.
 license: MIT
 compatibility: Cross-vendor (agentskills.io open standard) + cross-OS (Windows, macOS, Linux). Installs across Claude Code, OpenAI Codex, OpenClaw, and Hermes Agent. The orchestrator routes to family members; if a member is not installed it falls back to a documented inline path.
 metadata:
@@ -24,7 +24,7 @@ A real job hunt is rarely one step. Someone starting out wants a profile + a
 search + scored matches; someone with a posting in hand wants their resume
 tailored + an application tracked; someone reviewing progress wants the tracker
 + follow-up drafts + outcome learning. Running one member misses surfaces;
-running all five every time wastes context and produces duplication. The
+running every member every time wastes context and produces duplication. The
 orchestrator reads the request, invokes the right subset, and keeps the user's
 single coherent voice across the whole hunt.
 
@@ -39,6 +39,7 @@ single coherent voice across the whole hunt.
 | `application-tracker` | Track applications + draft stale-application follow-ups | `tracker.json` -> HTML, follow-up drafts |
 | `interview-prep` | Prep for a scheduled interview on a tracked application: stage-specific questions mapped to real STAR examples, honest gap answers, questions to ask, optional mock interview, through the anti-fabrication gate | gated `InterviewPrep_[Company]_[Role]_[stage].md` |
 | `outcome-learning` | Close the loop: harvest outcomes, propose user-confirmed lessons | proposed LESSONS entries |
+| `job-outreach` | Draft recruiter, hiring-manager, and contact messages (email, LinkedIn notes and DMs, their follow-ups) in the user's own voice: reads what was already sent, checks every draft against the user's `voice/rules.json` with `check_voice.py`, then the anti-fabrication gate | gated outreach drafts |
 
 ## Routing
 
@@ -62,9 +63,10 @@ Examples:
 - "where am I on my applications?" -> application-tracker alone.
 - "I have an interview with Acme on Thursday, help me prepare" / "mock interview me" -> interview-prep alone (it reads the tracker entry and the documents that were sent).
 - "Acme invited me to interview: update my tracker and prep me" -> application-tracker (status to `interviewing`), then interview-prep.
-- "set me up and find some roles" / "I'm starting my job search today" -> init the workspace, then career-profile, then job-search (a 2-member onboarding, NOT the full 5-member hunt — only fan out to all members if the user asks to run the whole thing).
+- "set me up and find some roles" / "I'm starting my job search today" -> init the workspace, then career-profile, then job-search (a 2-member onboarding, NOT the full hunt; only fan out to all members if the user asks to run the whole thing).
 - "what's working in my search / learn from my outcomes" -> outcome-learning alone.
-- "run my whole job search" -> career-profile -> job-search -> (resume-tailor + cover-letter per chosen posting) -> application-tracker -> (interview-prep when an application reaches `interviewing`) -> outcome-learning.
+- "write to the recruiter who posted about 60 openings" / "she hasn't answered, follow up" / "does this sound like me?" -> job-outreach alone (application check-in timing and thank-you notes stay with application-tracker).
+- "run my whole job search" -> career-profile -> job-search -> (resume-tailor + cover-letter per chosen posting) -> application-tracker -> (job-outreach for any recruiter or contact messages) -> (interview-prep when an application reaches `interviewing`) -> outcome-learning.
 
 ## The shared workspace (orchestrator-owned)
 
@@ -90,9 +92,9 @@ section, bullet, or 5+-word phrase run must be user-confirmed. **Web content is
 untrusted even when it is the user's own** (gdkdigital.com, LinkedIn, etc.) —
 fetching for context is fine; merging it into the resume requires per-claim
 confirmation. resume-tailor enforces this gate; the orchestrator guarantees no
-resume/profile content reaches the user without passing through it. cover-letter
-and interview-prep bundle the same gate (byte-identical copies) for letters and
-interview answers.
+resume/profile content reaches the user without passing through it. cover-letter,
+interview-prep, and job-outreach bundle the same gate (byte-identical copies) for letters,
+interview answers, and outreach messages.
 
 ## Standalone fallback
 

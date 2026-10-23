@@ -28,6 +28,13 @@
     {"query": "Help me negotiate the salary on my offer from Globex", "expected": [], "allow_none": true, "why": "salary negotiation, out of family scope"},
     {"query": "Prepare questions for a podcast interview I'm hosting next week", "expected": [], "allow_none": true, "why": "media interview, not a job interview"},
     {"query": "Explain how to run a structured behavioral interview when I'm the interviewer", "expected": [], "allow_none": true, "why": "hiring-side interview technique"},
-    {"query": "I'm interviewing contractors to remodel my kitchen. What should I ask them?", "expected": [], "allow_none": true, "why": "off-domain use of 'interviewing'"}
+    {"query": "I'm interviewing contractors to remodel my kitchen. What should I ask them?", "expected": [], "allow_none": true, "why": "off-domain use of 'interviewing'"},
+    {"query": "Write a cover letter for this estimator posting", "expected": ["cover-letter"], "allow_none": false, "why": "cover letter; job-outreach#8 is the collision guard"},
+    {"query": "Which of my applications are due for a check-in this week?", "expected": ["application-tracker"], "allow_none": false, "why": "application check-in timing stays with application-tracker; job-outreach#9"},
+    {"query": "Write a thank-you note to the panel I interviewed with yesterday", "expected": ["application-tracker"], "allow_none": false, "why": "post-interview thank-you stays with application-tracker; job-outreach#10"},
+    {"query": "Tighten the summary on my resume", "expected": ["resume-tailor"], "allow_none": false, "why": "resume-tailor Mode A; job-outreach#11"},
+    {"query": "Help me prepare for my phone screen with Acme on Thursday", "expected": ["interview-prep"], "allow_none": false, "why": "interview prep; job-outreach#12"},
+    {"query": "Find me operations manager jobs near Benton Harbor", "expected": ["job-search"], "allow_none": false, "why": "job search; job-outreach#13"},
+    {"query": "Write an email to my landlord about the broken furnace", "expected": [], "allow_none": true, "why": "off-domain email; job-outreach#14"}
   ]
 }

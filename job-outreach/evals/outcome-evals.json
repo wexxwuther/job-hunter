@@ -1,0 +1,103 @@
+{
+  "skill_name": "job-outreach",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write an email to recruiter Dana Ruiz at Northbeam Staffing about her post on 40 open construction roles. (resume.md, voice/VOICE.md and voice/rules.json present; communications/LOG.md shows no prior contact.)",
+      "expected_output": "Reads the log (no prior contact), drafts a short email with a subject line from the resume facts only, runs scripts/check_voice.py with voice/rules.json on the email channel and revises until it passes, runs verify_no_fabrication against the resume, and saves the draft for the user to send. Does not ask for a 15-minute call (the user's rules ban it). Does not send anything.",
+      "assertions": [
+        {
+          "kind": "mentions_all",
+          "values": [
+            "check_voice",
+            "verify_no_fabrication",
+            "Dana"
+          ]
+        },
+        {
+          "kind": "mentions_none",
+          "values": [
+            "sent the email",
+            "I have sent",
+            "15 minutes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Draft a LinkedIn connection note to recruiter Sam Ortiz. (recruiters.json says linkedin_connected: true and an intro email was sent on 2026-10-15.)",
+      "expected_output": "Reads the records first, sees the user is already connected and already emailed Sam, and does not draft a connection request. Says so and offers a direct message that follows up on the email instead.",
+      "assertions": [
+        {
+          "kind": "mentions_all",
+          "values": [
+            "already connected"
+          ]
+        },
+        {
+          "kind": "mentions_any",
+          "values": [
+            "direct message",
+            "DM",
+            "message instead"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write a message to a recruiter at Globex about their estimator openings. (resume.md present; there is no voice/ folder.)",
+      "expected_output": "Notes there is no voice profile, drafts in plain professional prose from the resume, runs the anti-fabrication gate, and offers to build a voice profile (one question at a time, or starting from references/rules-starter.json). Does not invent a voice or claim the draft was voice-checked.",
+      "assertions": [
+        {
+          "kind": "mentions_any",
+          "values": [
+            "voice profile",
+            "rules-starter",
+            "VOICE.md"
+          ]
+        },
+        {
+          "kind": "mentions_all",
+          "values": [
+            "verify_no_fabrication"
+          ]
+        },
+        {
+          "kind": "mentions_none",
+          "values": [
+            "passed the voice check",
+            "voice check passed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Tell the Acme recruiter I have ten years of estimating experience. (resume.md shows about two years as an estimator.)",
+      "expected_output": "Refuses to state ten years: the resume supports about two. The gate flags the new number. Offers a truthful line built from the real estimating experience, and asks the user before adding any claim the resume does not support.",
+      "assertions": [
+        {
+          "kind": "mentions_any",
+          "values": [
+            "two years",
+            "2 years"
+          ]
+        },
+        {
+          "kind": "mentions_all",
+          "values": [
+            "verify_no_fabrication"
+          ]
+        },
+        {
+          "kind": "mentions_none",
+          "values": [
+            "ten years of estimating experience at"
+          ]
+        }
+      ]
+    }
+  ]
+}

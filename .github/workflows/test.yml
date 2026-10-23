@@ -35,4 +35,4 @@ jobs:
           python -m pytest --import-mode=importlib -v
           job-hunter/tests career-profile/tests job-search/tests resume-tailor/tests
           cover-letter/tests application-tracker/tests outcome-learning/tests
-          interview-prep/tests install tools
+          interview-prep/tests job-outreach/tests install tools

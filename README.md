@@ -7,9 +7,9 @@
 [![Tests](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml/badge.svg)](https://github.com/wexxwuther/job-hunter/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/agentskills.io-open_standard-blue)](https://agentskills.io)
-[![Unit tests](https://img.shields.io/badge/unit_tests-479%2F479-brightgreen)](.)
+[![Unit tests](https://img.shields.io/badge/unit_tests-520%2F520-brightgreen)](.)
 
-> **job-hunter is a skill family (since v6.0.0; first released as v6.1.0).** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to seven focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
+> **job-hunter is a skill family (since v6.0.0; first released as v6.1.0).** What used to be one large skill is an **orchestrator** (`job-hunter`) that routes to eight focused member skills, so "just tighten my resume" runs the resume skill alone, while "run my whole job search" fans out across all of them. The orchestrator owns the shared `.job-hunter/` workspace and the anti-fabrication safety gate, and decides which members each request needs.
 >
 > | Skill | Role | What it does |
 > |---|---|---|
@@ -21,8 +21,9 @@
 > | **application-tracker** | tracker | Tracks applications + drafts stale-application follow-ups |
 > | **interview-prep** | interview-prep | Preps you for a scheduled interview: stage questions, STAR answers from your real experience, gap answers, mock interview |
 > | **outcome-learning** | learning-loop | Learns from your outcomes; proposes opt-in lessons |
+> | **job-outreach** | outreach | Drafts recruiter, hiring-manager, and networking messages in your own voice, checked against your voice rules and the same gate; you send |
 >
-> Install all 8 together: the Claude Code plugin or the one-shot installer ([Install](#install) below). Each member also works on its own.
+> Install all 9 together: the Claude Code plugin or the one-shot installer ([Install](#install) below). Each member also works on its own.
 [![GitHub Release](https://img.shields.io/github/v/release/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/releases/latest)
 [![GitHub stars](https://img.shields.io/github/stars/wexxwuther/job-hunter?style=social)](https://github.com/wexxwuther/job-hunter/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/wexxwuther/job-hunter)](https://github.com/wexxwuther/job-hunter/commits/main)
@@ -70,7 +71,7 @@ The skill auto-activates, walks you through 5 quick profile questions on first u
 
 ## Install
 
-job-hunter is a family of 8 skills. Install all 8; the orchestrator routes between them.
+job-hunter is a family of 9 skills. Install all 9; the orchestrator routes between them.
 
 | Harness | Where the skills go | Install guide |
 |---|---|---|
@@ -84,7 +85,7 @@ job-hunter is a family of 8 skills. Install all 8; the orchestrator routes betwe
 
 Run `python tools/build_runtime_packages.py` to generate target ZIPs in
 `dist/compatibility/`. ChatGPT gets one skill containing all member workflows;
-OpenClaw gets eight standalone skill directories. These adapters use the host's
+OpenClaw gets nine standalone skill directories. These adapters use the host's
 available tools, support sequential work without Claude's `Task` tool, and explain
 session storage and missing-capability behavior. The ChatGPT upload and synthetic
 workflow were tested in **ChatGPT Work**: profile parsing, scoring, both fabrication
@@ -98,18 +99,18 @@ generated from source; they are not assets of the existing v6.1.0 release.
 Files supplied to ChatGPT are processed under that product's account/workspace
 settings; download state and outputs before ending a hosted session.
 
-### Claude Code: the plugin (all 8 in one step)
+### Claude Code: the plugin (all 9 in one step)
 
 ```
 /plugin marketplace add wexxwuther/job-hunter
 /plugin install job-hunter@gdk-skills
 ```
 
-You get `/job-hunter:job-hunter` (the orchestrator) plus `/job-hunter:career-profile`, `:job-search`, `:resume-tailor`, `:cover-letter`, `:application-tracker`, `:interview-prep`, and `:outcome-learning`.
+You get `/job-hunter:job-hunter` (the orchestrator) plus `/job-hunter:career-profile`, `:job-search`, `:resume-tailor`, `:cover-letter`, `:application-tracker`, `:interview-prep`, `:outcome-learning`, and `:job-outreach`.
 
 ### One-shot installers (every harness)
 
-Installs all 8 skills into `~/.claude/skills/`, `~/.agents/skills/` (Codex and OpenClaw), and `~/.hermes/skills/`:
+Installs all 9 skills into `~/.claude/skills/`, `~/.agents/skills/` (Codex and OpenClaw), and `~/.hermes/skills/`:
 
 ```bash
 # macOS / Linux
@@ -129,7 +130,7 @@ The [latest release](https://github.com/wexxwuther/job-hunter/releases/latest) h
 - `<skill>-v6.1.0-claude-code.zip` (8 files, the orchestrator is `job-hunter-orchestrator-...`): the Claude.ai / Desktop skill uploader takes one skill per zip, so upload all 8. `-codex`, `-cursor`, and `-portable` sets exist for those uploaders.
 - `job-hunter-PLUGIN-v6.1.0.zip`: the Claude Code plugin for `claude --plugin-dir`.
 
-Releases v4.0.0 to v5.2.0 are the retired single-skill version; v6.1.0 is the first release of the family.
+Releases v4.0.0 to v5.2.0 are the retired single-skill version; v6.1.0 is the first release of the family. `job-outreach` was added after v6.1.0, so these v6.1.0 assets do not include it; the plugin and the one-shot installers (which install from `main`) do.
 
 ---
 
@@ -154,7 +155,7 @@ A single severe red flag can take an otherwise-perfect posting from 5.0 to 1.0. 
 Each member is a self-contained skill folder (`SKILL.md`, `scripts/`, `references/`, `tests/`, `evals/`). Scripts are standard-library Python with no network calls; DOCX and PDF reading (`career-profile`, `interview-prep`) uses `python-docx` / `pypdf` when installed.
 
 ```
-.claude-plugin/                       # Claude Code marketplace + plugin manifest (lists the 8 dirs)
+.claude-plugin/                       # Claude Code marketplace + plugin manifest (lists the 9 dirs)
 job-hunter/                           # orchestrator: routing + the shared .job-hunter/ workspace
   scripts/                            #   init_workspace, export_workspace, import_workspace
 career-profile/scripts/               # init_profile (North-Star profile), parse_resume (DOCX/PDF/text)
@@ -165,6 +166,7 @@ cover-letter/scripts/                 # draft_cover_letter, review_pass, verify_
 application-tracker/scripts/          # generate_tracker_html, draft_followup (check-in + thank-you drafts)
 interview-prep/scripts/               # load_application, build_prep_pack, verify_no_fabrication (same gate)
 outcome-learning/scripts/             # harvest_outcomes, propose_lessons
+job-outreach/scripts/                 # check_voice (your voice rules), verify_no_fabrication (same gate)
 install/                              # one-shot installers (sh + ps1) and per-harness guides
 tools/                                # routing, trigger, and outcome eval runners; repo guards
 docs/                                 # continuity notes and eval evidence
@@ -208,8 +210,8 @@ pip install pytest python-docx pypdf
 python -m pytest --import-mode=importlib \
   job-hunter/tests career-profile/tests job-search/tests resume-tailor/tests \
   cover-letter/tests application-tracker/tests outcome-learning/tests \
-  interview-prep/tests install tools
-# 479 passed
+  interview-prep/tests job-outreach/tests install tools
+# 520 passed
 ```
 
 CI ([.github/workflows/test.yml](.github/workflows/test.yml)) runs the same command on every push across Python 3.10/3.11/3.12 on Ubuntu, macOS, and Windows. Routing, trigger, and outcome eval results live in [docs/evals/](docs/evals/).
@@ -242,6 +244,8 @@ Yes, delete `<your-workspace>/.job-hunter/`. The next run will re-initialize emp
 **Will the skill help me follow up on applications?**
 Yes. The `application-tracker` member's `scripts/draft_followup.py` has two templates: `check_in` (7-10 days after applying with no response) and `thank_you` (24-48 hours after an interview). The skill scans your `tracker.json` for applications stale at `status=applied` for 7+ days and offers to draft polite check-in emails. It also drafts thank-you notes after you report an interview. **The skill never sends the email**, that's by design, and a load-bearing safety test enforces it. You copy-paste. See `application-tracker/references/followup-templates.md` for the patterns and cited sources.
 
+The split: `application-tracker` owns application check-ins (which applications are stale and when to check in), thank-you notes after interviews, and the tracker itself. The `job-outreach` member owns messages to recruiters, hiring managers, and networking contacts (emails, LinkedIn connection notes and direct messages, replies), including follow-ups to those people. It reads what was already sent to that person first, checks every draft with `job-outreach/scripts/check_voice.py` against your own voice rules file (`voice/rules.json` in your workspace; nothing personal ships with the skill, and `job-outreach/references/rules-starter.json` is a person-neutral starter), and runs the same anti-fabrication gate. It also voice-checks any other draft you ask it to. It drafts; you send.
+
 **Can I move my job-hunter state to a different machine?**
 Yes. The orchestrator's `job-hunter/scripts/export_workspace.py` bundles your profile + direct `.job-hunter/` files + root `tracker.json` (and optionally matching tailored DOCX/PDF outputs) into a single zip. `job-hunter/scripts/import_workspace.py` restores those files. Save top-level postings, Markdown letters, interview packs and tracker HTML separately; the default export does not include every normal output. The export refuses common cloud-sync directory names by default; pass `--allow-cloud` when that is intentional. This path-name check does not detect hosted processing. The import rejects path traversal; the tested payloads round-trip byte-for-byte. See the [runtime guide](install/runtime-guide.md).
 
@@ -249,7 +253,7 @@ Yes. The orchestrator's `job-hunter/scripts/export_workspace.py` bundles your pr
 Yes, this is the explicit design goal. `job-search/references/niche-boards-by-industry.md` includes verified entries for healthcare (Vivian Health, Nurse.com, Health eCareers, AlliedTravelCareers, state nursing board portals), trades (iHireConstruction, AllTrucking, IBEW/UA local hall search patterns, SkillBridge for military-to-trades), legal (LawCrossing, BCG Attorney Search, state bar career pages), education (HigherEdJobs, SchoolSpring, K12JobSpot), government (USAJobs, GovernmentJobs.com, NEOGOV-hosted municipal portals, state civil-service exams), and more. The agent picks the right tier-2 boards based on your role.
 
 **I asked it to tighten my resume and it added things I didn't say. What went wrong?**
-That's a real bug we fixed in v5.2.0, and the fix lives on in the `resume-tailor` member. Earlier versions of Phase 3 had truth-preservation listed as a Key Principle near the bottom of the SKILL.md, while the actual phase instructions said things like "push for numbers and outcomes." LLMs follow active instructions over passive guardrails, so the skill added quantification and content the user hadn't given it. v5.2.0 splits Phase 3 into two explicit modes: **Mode A (Tighten/Copyedit)** is a zero-fabrication contract that may not add numbers, change job titles, or pull content from external websites, and **Mode B (Tailor for a posting)** runs a mandatory verification gate (`resume-tailor/scripts/verify_no_fabrication.py`, bundled byte-identical in `cover-letter` and `interview-prep`) that surfaces every new claim before any output file is written. If you ever see the skill add something you didn't say, that's still a bug; please open an issue.
+That's a real bug we fixed in v5.2.0, and the fix lives on in the `resume-tailor` member. Earlier versions of Phase 3 had truth-preservation listed as a Key Principle near the bottom of the SKILL.md, while the actual phase instructions said things like "push for numbers and outcomes." LLMs follow active instructions over passive guardrails, so the skill added quantification and content the user hadn't given it. v5.2.0 splits Phase 3 into two explicit modes: **Mode A (Tighten/Copyedit)** is a zero-fabrication contract that may not add numbers, change job titles, or pull content from external websites, and **Mode B (Tailor for a posting)** runs a mandatory verification gate (`resume-tailor/scripts/verify_no_fabrication.py`, bundled byte-identical in `cover-letter`, `interview-prep`, and `job-outreach`) that surfaces every new claim before any output file is written. If you ever see the skill add something you didn't say, that's still a bug; please open an issue.
 
 ---
 

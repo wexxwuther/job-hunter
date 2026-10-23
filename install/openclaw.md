@@ -1,7 +1,7 @@
 # Install: OpenClaw
 
-job-hunter is a family of 8 agentskills.io skills (the `job-hunter` orchestrator plus 7
-members); install all 8. The installer puts them in `~/.agents/skills/`, which OpenClaw
+job-hunter is a family of 9 agentskills.io skills (the `job-hunter` orchestrator plus 8
+members); install all 9. The installer puts them in `~/.agents/skills/`, which OpenClaw
 shares with Codex ([OpenClaw skills docs](https://docs.openclaw.ai/tools/skills)).
 
 ## Option 1, one-shot installer (recommended)
@@ -21,12 +21,13 @@ iwr https://raw.githubusercontent.com/wexxwuther/job-hunter/main/install/install
 Download `job-hunter-FAMILY-installer-only-v6.1.0.zip` from the
 [latest release](https://github.com/wexxwuther/job-hunter/releases/latest), unzip it, and run
 `bash job-hunter/install/install.sh` (Windows: `install\install.ps1` in the same folder).
+That v6.1.0 zip predates `job-outreach` and installs the other 8 skills; use Option 1 to get all 9.
 
 ## Project-scoped install
 
 OpenClaw reads workspace skills from `<workspace>/skills/` and project agent skills
 from `<workspace>/.agents/skills/`. To scope the family to one workspace, copy the
-8 skill folders into either supported root, preserving their names.
+9 skill folders into either supported root, preserving their names.
 
 For the compatibility build with Claude-only frontmatter removed:
 
@@ -34,7 +35,7 @@ For the compatibility build with Claude-only frontmatter removed:
 python tools/build_runtime_packages.py --target openclaw
 ```
 
-Extract the eight skill folders from `dist/compatibility/job-hunter-v6.1.0-openclaw.zip`
+Extract the nine skill folders from `dist/compatibility/job-hunter-v6.1.0-openclaw.zip`
 into `<workspace>/skills/` or the active state's managed `skills/` directory
 (`~/.openclaw/skills/` by default). The archive also includes a root `bundle.json`
 with file hashes; it is not a skill directory. This build is local, not an asset
@@ -48,7 +49,7 @@ use workspace skills or that state's managed directory instead. See
 ## Verify
 
 Run `openclaw skills list`, `openclaw skills info job-hunter`, and
-`openclaw skills check` in the intended profile. Check that all eight family names
+`openclaw skills check` in the intended profile. Check that all nine family names
 are eligible, then start a new session. Ask for profile intake and a supplied
 posting, exercise the fabrication gate with an invented claim, and export/restore
 the workspace. Python, file access and browsing depend on the active agent's tool
@@ -123,7 +124,7 @@ and [restricted-turn policy](https://docs.openclaw.ai/plugins/codex-harness-refe
 ## Uninstall
 
 ```bash
-for s in job-hunter career-profile job-search resume-tailor cover-letter application-tracker interview-prep outcome-learning; do rm -rf ~/.agents/skills/$s; done
+for s in job-hunter career-profile job-search resume-tailor cover-letter application-tracker interview-prep outcome-learning job-outreach; do rm -rf ~/.agents/skills/$s; done
 ```
 
 This also removes them from Codex, which shares `~/.agents/skills/`.

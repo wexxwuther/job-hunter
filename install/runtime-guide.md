@@ -26,7 +26,7 @@ qualify the local-workspace assumptions in the member workflows.
 
 ## ChatGPT
 
-The generated package contains one discoverable skill plus the seven member
+The generated package contains one discoverable skill plus the eight member
 workflows and their resources. Read only the workflows needed for the request.
 Use a writable session directory offered by the host and keep the same workspace
 throughout the run. No fixed `/mnt/data` path or shell tool is assumed.
@@ -48,14 +48,14 @@ was not saved. Treat all exports as personal data; do not publish them.
 
 ## OpenClaw
 
-Extract the family archive's eight skill directories into `<workspace>/skills/`
+Extract the family archive's nine skill directories into `<workspace>/skills/`
 for one workspace, or the active state's `skills/` directory for managed sharing
 (`~/.openclaw/skills/` by default). `~/.agents/skills/` is also supported in the
 default state and shared with Codex. A custom `OPENCLAW_STATE_DIR` excludes that
 home-scoped personal root. Do not use `<workspace>/.openclaw/skills/`.
 
 Run `openclaw skills list`, `openclaw skills info job-hunter`, and
-`openclaw skills check` in the intended profile; verify all eight names are loaded
+`openclaw skills check` in the intended profile; verify all nine names are loaded
 and eligible, then start a new session. Discovery is distinct from execution:
 Python, file access, and browsing must also be permitted by that agent's policy.
 Do not change gateway settings, allowlists, credentials, or messaging permissions

@@ -2,6 +2,29 @@
 
 One entry per accepted iteration. Lead with the *signal* that motivated the change, not just the change itself.
 
+## Unreleased: job-outreach member, family v6.2.0 (2026-10-22)
+
+Signal: in a real job search, agent-drafted recruiter messages went out that the owner called
+"kind of cringy": a 15-minute call ask he dislikes, a project-manager framing he is moving away
+from, and a LinkedIn connection note drafted for someone he was already connected to. Different
+agents drafted in different voices, and nothing checked a draft against how he actually writes.
+
+- New 9th skill, `job-outreach` (8th member, role `outreach`): recruiter, hiring-manager and contact
+  messages (email, LinkedIn notes and DMs, replies, follow-ups to those contacts) in the user's own
+  voice. It reads the contact's history first, so it never repeats an ask or requests a connection
+  that exists. It drafts; the user sends.
+- `job-outreach/scripts/check_voice.py`: a deterministic, person-neutral voice checker driven by the
+  user's own `voice/rules.json` (nothing personal ships). Same draft and rules give the same result
+  in every agent. The loader rejects a JSON backspace inside a regex (a single ``), which compiles
+  and silently never matches; that exact mistake happened while writing the first real rules file.
+- Bundles `verify_no_fabrication.py` byte-identical from resume-tailor; the workspace contract gains
+  rows for the user's voice profile and outreach drafts.
+- Routing: application check-in timing and thank-you notes stay with application-tracker; messages
+  to recruiters and contacts, and voice checks of any draft, go to job-outreach. Seven new routing
+  labels pin the negatives.
+- The orchestrator description drops "(for example on a new machine)" and shortens resume-tailor's
+  clause to stay under the 1024-character limit with the new member listed.
+
 ## Unreleased: ChatGPT and OpenClaw compatibility packages (2026-10-21)
 
 Signal: the catalog had no ChatGPT upload and the orchestrator required Claude's

@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "about": "Person-neutral starter rules for check_voice.py. Copy to voice/rules.json in your own workspace and grow it from your corrections: every time you reject a line, add a rule with your words as its source.",
+  "channels": [
+    "email",
+    "linkedin-note",
+    "linkedin-dm",
+    "cover-letter",
+    "resume"
+  ],
+  "allow": [],
+  "limits": {
+    "linkedin-note": {
+      "max_chars": 300,
+      "level": "fail"
+    },
+    "email-subject": {
+      "max_chars": 70,
+      "level": "warn"
+    }
+  },
+  "rules": [
+    {
+      "id": "typographic-chars",
+      "level": "warn",
+      "type": "chars",
+      "chars": [
+        "\u2014",
+        "\u2013",
+        "\u201c",
+        "\u201d",
+        "\u2018",
+        "\u2019",
+        "\u2026",
+        "\u00a0"
+      ],
+      "message": "Typographic characters (em dashes, smart quotes, ellipsis characters) can read as AI-written and break in some systems. Prefer plain ASCII.",
+      "source": "starter"
+    },
+    {
+      "id": "canned-openers",
+      "level": "fail",
+      "type": "phrases",
+      "phrases": [
+        "I hope this finds you well",
+        "I hope this email finds you well",
+        "I hope this message finds you well",
+        "I am writing to express my interest"
+      ],
+      "message": "Canned opener. Open from real context: their post, the role, a shared fact.",
+      "source": "starter"
+    },
+    {
+      "id": "inflated-words",
+      "level": "warn",
+      "type": "phrases",
+      "phrases": [
+        "pivotal",
+        "crucial",
+        "transformative",
+        "groundbreaking",
+        "testament",
+        "synergy",
+        "seamless"
+      ],
+      "message": "Inflated word. Say it plainly.",
+      "source": "starter"
+    },
+    {
+      "id": "recap-endings",
+      "level": "warn",
+      "type": "regex",
+      "pattern": "(^|[.!?]\\s+)(In conclusion|To summarize|In summary|Overall),",
+      "flags": "im",
+      "message": "Recap endings read as AI-written.",
+      "source": "starter"
+    },
+    {
+      "id": "negative-parallelism",
+      "level": "warn",
+      "type": "regex",
+      "pattern": "\\bit'?s not (just )?[^.\\n]{1,50}[,;] it'?s\\b",
+      "flags": "i",
+      "message": "'It's not X, it's Y' as a flourish is an AI tell.",
+      "source": "starter"
+    },
+    {
+      "id": "heavy-bold",
+      "level": "warn",
+      "type": "max_count",
+      "pattern": "\\*\\*[^*\\n]+\\*\\*",
+      "max": 2,
+      "message": "Heavy bold reads as a template.",
+      "source": "starter"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ def test_archive_inventory_hashes_and_resource_links(tmp_path, target):
         assert z.testzip() is None
         assert len(names) == len(set(names))
         skills = [n for n in names if n.endswith("/SKILL.md")]
-        assert len(skills) == (1 if target == "chatgpt" else 8)
+        assert len(skills) == (1 if target == "chatgpt" else 9)
         assert not any(part in {"__pycache__", ".pytest_cache", "tests", "docs", "evals"}
                        for n in names for part in Path(n).parts)
         assert not any(n.endswith((".pyc", ".pyo")) or ".." in Path(n).parts for n in names)
@@ -44,7 +44,7 @@ def test_archive_inventory_hashes_and_resource_links(tmp_path, target):
             for link in re.findall(r"\]\(([^)]+)\)", z.read(name).decode("utf-8")):
                 if link.startswith(("references/", "assets/", "members/")):
                     assert (Path(name).parent / link).as_posix() in names, (name, link)
-        for member in ("resume-tailor", "cover-letter", "interview-prep"):
+        for member in ("resume-tailor", "cover-letter", "interview-prep", "job-outreach"):
             base = member if target == "openclaw" else f"job-hunter/members/{member}"
             gate = f"{base}/scripts/verify_no_fabrication.py"
             assert z.read(gate) == (REPO / member / "scripts/verify_no_fabrication.py").read_bytes()

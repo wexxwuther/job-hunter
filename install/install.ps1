@@ -1,6 +1,6 @@
 # job-hunter family — one-shot installer for Windows (PowerShell 5+)
 #
-# Installs all 8 family skills (orchestrator + 7 members) into each supported
+# Installs all 9 family skills (orchestrator + 8 members) into each supported
 # agent-harness skills directory:
 #   $HOME\.claude\skills\<member>\     (Claude Code)
 #   $HOME\.agents\skills\<member>\     (OpenAI Codex AND OpenClaw - shared path)
@@ -8,9 +8,9 @@
 #
 # Members: job-hunter (orchestrator), career-profile, job-search,
 #          resume-tailor, cover-letter, application-tracker, outcome-learning,
-#          interview-prep.
+#          interview-prep, job-outreach.
 #
-# TWO WAYS TO RUN - both install all 8 skills into all harnesses:
+# TWO WAYS TO RUN - both install all 9 skills into all harnesses:
 #   1. OFFLINE (from the unzipped family bundle - no GitHub needed):
 #        Expand-Archive job-hunter-FAMILY-installer-only-v6.1.0.zip -DestinationPath .
 #        .\job-hunter\install\install.ps1
@@ -21,7 +21,7 @@ $ErrorActionPreference = 'Stop'
 
 $Repo    = 'wexxwuther/job-hunter'
 $Branch  = 'main'
-$Members = @('job-hunter','career-profile','job-search','resume-tailor','cover-letter','application-tracker','outcome-learning','interview-prep')
+$Members = @('job-hunter','career-profile','job-search','resume-tailor','cover-letter','application-tracker','outcome-learning','interview-prep','job-outreach')
 $Roots   = @('.claude','.agents','.hermes')
 $TmpDir  = Join-Path $env:TEMP ("job-hunter-install-" + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Force -Path $TmpDir | Out-Null
@@ -75,7 +75,7 @@ try {
     }
 
     Write-Host ""
-    Write-Host "Done. Installed the job-hunter family (8 skills) to ~/.claude, ~/.agents (Codex+OpenClaw), and ~/.hermes."
+    Write-Host "Done. Installed the job-hunter family (9 skills) to ~/.claude, ~/.agents (Codex+OpenClaw), and ~/.hermes."
     Write-Host 'Restart your agent and try: "Help me run my whole job search."'
 }
 finally {

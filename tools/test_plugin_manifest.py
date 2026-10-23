@@ -4,7 +4,7 @@
 `.claude-plugin/marketplace.json` at the REPO ROOT. Until 2026-10-21 that file only existed
 under `plugin/`, and the plugin's `skills/` tree there is generated and gitignored, so the
 documented GitHub install failed with "Marketplace file not found". The root manifest now
-lists the 8 member dirs directly. These tests keep it complete and in step with the
+lists the 9 member dirs directly. These tests keep it complete and in step with the
 `plugin/` manifest that `build_plugin.py` packages into the plugin zip.
 """
 import importlib.util

@@ -7,7 +7,7 @@ python tools/build_runtime_packages.py --target chatgpt
 ```
 
 This creates `dist/compatibility/job-hunter-v6.1.0-chatgpt.zip`. It contains one
-`job-hunter/SKILL.md`, all seven member workflows under `members/`, their scripts,
+`job-hunter/SKILL.md`, all eight member workflows under `members/`, their scripts,
 references and templates, the MIT license, and a SHA-256 inventory in `bundle.json`.
 No separate member uploads, Claude plugin, API key, or local installer are needed.
 The builder refuses an existing output archive; use `--out <new-directory>` to rebuild.

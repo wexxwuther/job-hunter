@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build local ChatGPT (one skill) and OpenClaw (eight skills) compatibility ZIPs.
+"""Build local ChatGPT (one skill) and OpenClaw (nine skills) compatibility ZIPs.
 
 No install, network, dependency changes, or user workspace data. Existing output
 archives are refused. Sources remain canonical; generated adapters omit Claude
@@ -15,12 +15,13 @@ import zipfile
 
 REPO = Path(__file__).resolve().parents[1]
 MEMBERS = ("job-hunter", "career-profile", "job-search", "resume-tailor",
-           "cover-letter", "application-tracker", "interview-prep", "outcome-learning")
+           "cover-letter", "application-tracker", "interview-prep", "outcome-learning",
+           "job-outreach")
 RESOURCE_DIRS = ("scripts", "references", "assets")
 DESCRIPTION = (
     "Manage a job hunt: build a career profile, find and score postings, tailor a "
-    "resume, draft cover letters, track applications, prepare for interviews, and "
-    "learn from outcomes. Use for one or several of these tasks, or to back up or "
+    "resume, draft cover letters, track applications, prepare for interviews, write "
+    "recruiter outreach in your own voice, and learn from outcomes. Use for one or several of these tasks, or to back up or "
     "restore a job-hunter workspace. Uses bundled workflows and mandatory "
     "anti-fabrication checks for career documents."
 )

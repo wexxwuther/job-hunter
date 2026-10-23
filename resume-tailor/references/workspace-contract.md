@@ -35,6 +35,8 @@ between members, not persisted by default).
 | `tracker.json` → HTML | **application-tracker** (`generate_tracker_html.py`, `draft_followup.py`) | outcome-learning (reads closed outcomes), interview-prep (reads one entry + its `resume_file` / `cover_letter_file`; never writes the tracker) | outcome-learning cold-start guard (needs ≥5 closed) |
 | proposed LESSONS entries | **outcome-learning** (`harvest_outcomes.py`, `propose_lessons.py`) | the user (opt-in confirmation), future career-profile/job-search runs, interview-prep (quotes confirmed lessons) | no-op below the cold-start threshold |
 | `InterviewPrep_[Company]_[Role]_[stage].md` (gated) | **interview-prep** (`load_application.py`, `build_prep_pack.py`, `verify_no_fabrication.py`) | the user (interview practice; nothing downstream reads it) | interview-prep works from a pasted posting + the resume the user sent if no tracker |
+| `voice/VOICE.md` + `voice/rules.json` (the user's voice profile) | **the user** (job-outreach helps build it from the user's own approved lines; it never ships with a skill) | job-outreach (`check_voice.py` on every draft); any member may voice-check its own draft | job-outreach drafts in plain professional prose and offers to build the profile |
+| outreach drafts (gated), e.g. `communications/drafts/<date>_<Channel>_<Name>_<Company>.md` | **job-outreach** (`check_voice.py`, `verify_no_fabrication.py`) | the user (sends it); the communications record after the user confirms it went out | job-outreach drafts from a pasted resume and the message being answered if no workspace |
 
 ## `postings.json` scored shape (produced by job-search/score_posting.py)
 
@@ -68,3 +70,7 @@ gate never auto-approves; every new proper noun / number / section / bullet /
 it is the user's own (gdkdigital.com, LinkedIn, etc.) — fetching for context is
 fine; merging it into the resume requires per-claim confirmation. This is the
 v5.2.0 fabrication-incident remediation and is non-negotiable across the family.
+
+The same gate checks every outreach message job-outreach drafts. Before drafting to a person,
+job-outreach reads what was already sent to them (tracker, contact records, communications log),
+so no member repeats an ask or requests a LinkedIn connection that already exists.

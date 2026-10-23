@@ -1,4 +1,4 @@
-"""The family installer must install all 8 members to all harness roots,
+"""The family installer must install all 9 members to all harness roots,
 cross-OS (no hardcoded drive letters in the posix installer; PowerShell derives
 from $HOME)."""
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 INSTALL = Path(__file__).resolve().parent
 MEMBERS = ["job-hunter", "career-profile", "job-search",
            "resume-tailor", "cover-letter", "application-tracker", "outcome-learning",
-           "interview-prep"]
+           "interview-prep", "job-outreach"]
 
 
 def test_sh_installs_all_members_to_all_harnesses():

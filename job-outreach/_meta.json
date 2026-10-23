@@ -1,0 +1,37 @@
+{
+  "skill_name": "job-outreach",
+  "version": "1.0.0",
+  "license": "MIT",
+  "family": "job-hunter",
+  "family_role": "outreach",
+  "sister_skills": [
+    "job-hunter",
+    "career-profile",
+    "job-search",
+    "resume-tailor",
+    "cover-letter",
+    "application-tracker",
+    "interview-prep",
+    "outcome-learning"
+  ],
+  "baseline_score": "100.0",
+  "current_score": "100.0",
+  "trigger_accuracy": 1.0,
+  "last_iteration": "2026-10-22",
+  "last_review_due": "2027-01-20",
+  "signals_observed": {
+    "trigger_misses": 0,
+    "trigger_overfires": 0,
+    "repeated_work": 0,
+    "dead_refs": 0
+  },
+  "load_bearing_safety_tests": [
+    "test_json_backspace_in_pattern_is_rejected",
+    "test_allowlisted_sentence_is_never_flagged",
+    "test_checker_never_writes_the_draft",
+    "test_fabrication_gate_is_bundled",
+    "test_gate_byte_identical_to_resume_tailor",
+    "test_starter_rules_are_person_neutral"
+  ],
+  "version_notes": "v1.0.0 (2026-10-22) adds job-outreach as the 9th job-hunter skill (8th member). It drafts recruiter, hiring-manager, and contact messages (email, LinkedIn connection notes and DMs, replies, follow-ups to those contacts) in the user's own voice. Before drafting it reads what was already sent to that person, so it never repeats an ask or requests a connection that exists. Every draft runs through scripts/check_voice.py (new: a deterministic, person-neutral checker that reads the USER'S voice/rules.json; nothing personal ships with the skill) and the family anti-fabrication gate (verify_no_fabrication.py, bundled byte-identical from resume-tailor). Built from a real owner's job search: agent-drafted recruiter messages the owner called 'kind of cringy' (a 15-minute call ask, a project-manager framing he does not want, a connection note to someone already connected) motivated the history read and the voice check. The rules loader rejects a JSON backspace in a regex (a single \\b), which compiles and silently never matches. Never sends."
+}
