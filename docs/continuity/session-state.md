@@ -50,12 +50,40 @@ What went wrong, kept for the next session:
 - A rule was added that the owner never approved ("I'll keep this short" as a cheesy line). His
   approved follow-up uses that phrase, so the regression sample caught it and the rule was
   removed. Only rules with an owner source go in a user's rules file.
-- Live trigger probe and routing evals did NOT run. `claude auth status` reports
-  `loggedIn: false`, and every sample errored "Not logged in". The errored output folders were
-  deleted, not committed. Run both after the owner signs in to the CLI and after deploy (routing
-  reads the INSTALLED copies):
-  - `tools/run_trigger_probe.py --scenarios tools/outcome-scenarios/job-outreach.json --family-only --samples 3`
-  - `tools/run_routing_evals.py`
+- Live evals first errored "Not logged in" (`claude auth status`: `loggedIn: false`). Those output
+  folders were deleted. The owner signed in and both runs were redone (see the deploy section below).
+
+### Deployed and measured the same night
+
+- Deployed `a38018b`, then `02f66c7` (job-outreach 1.0.1), from a GitHub-fetched clone:
+  - 27 installs (9 skills x 3 roots), byte-verified.
+  - Q catalog: 38 v6.2.0 zips; older v6.0.0 and v6.1.0 zips left in place.
+  - Drive OpenClaw bundle at `G:/My Drive/skills/job-hunter/skills/`: rebuilt, `verify_bundle.py`
+    reports 9 skills and 78 payloads.
+- Post-deploy check (`E:/tmp/jh-outreach/post_deploy_check.py`):
+  - versions are right;
+  - all four gate copies and `check_voice.py` are byte-equal per root;
+  - the owner's 28 voice regression samples pass with each installed checker.
+- Rollbacks:
+  - installs: `E:/Git/job-hunter-installs-pre-a38018b.zip`, `...-pre-02f66c7.zip`;
+  - Q catalog: `E:/Git/job-hunter-q-catalog-pre-a38018b.zip`, `...-pre-02f66c7.zip`;
+  - Drive bundle: `E:/tmp/jh-outreach/drive-bundle-backup-pre-a38018b.zip`, `...-pre-02f66c7.zip`.
+- GitHub CI: run 39889955161 green on the job-outreach commits.
+- Trigger probe (family-only, 3 x 4): job-outreach loaded 12/12.
+  Evidence: `docs/evals/trigger-2026-10-22-job-outreach/`.
+- Family routing, 100 queries:
+  - positive strict 79/85 (was 66/73 on 2026-10-20), negatives 14/14.
+  - New-member miss: "thank-you note to the panel" went to job-outreach. Fixed in 1.0.1; re-run
+    3/3 to application-tracker.
+  - Evidence: `docs/evals/routing-2026-10-22-job-outreach/` (the v1.0.0 run).
+- Open: "Caitlin hasn't answered my email from last week, write her a short follow-up" hits
+  error_max_turns 3/3. The model loads Gmail tools to find the earlier email before picking a skill,
+  and the eval allows 2 turns with Gmail permission ungranted. This is an eval limit more than a
+  description fault; not changed.
+- Open, likely regression: "Find me some backend roles and tailor my resume for the best one" went to
+  job-search in 3 of 4 samples tonight. It went to job-hunter in all 4 earlier runs (10-12, 10-18 x2,
+  10-20). Suspect the orchestrator description trim made to fit job-outreach under 1024 characters.
+  Needs an A/B (old vs new orchestrator description) before changing anything.
 
 The owner's personal voice rules live outside this repo, in `G:/My Drive/Job_Search/voice/`
 (VOICE.md, rules.json, and test_rules.py with 28 regression samples).
